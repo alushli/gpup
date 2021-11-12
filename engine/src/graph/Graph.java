@@ -6,7 +6,7 @@ import java.util.*;
 public class Graph {
     private String graphName;
     private String workingDirectory;
-    private Map<Target, List<Target>> map;
+    private Map<Target, Set<Target>> map;
 
     /* the function create new graph */
     public Graph(String name, String workingDirectory){
@@ -24,10 +24,10 @@ public class Graph {
     }
 
     /* the function duplicate the graph map */
-    private void duplicateMap(Map<Target, List<Target>> other){
-        for(Map.Entry<Target, List<Target>> entry : other.entrySet()){
+    private void duplicateMap(Map<Target, Set<Target>> other){
+        for(Map.Entry<Target, Set<Target>> entry : other.entrySet()){
             Target target = new Target(entry.getKey());
-            this.map.put(target, new ArrayList<>(target.getDependsOnList()));
+            this.map.put(target, new HashSet<>(target.getDependsOnList()));
         }
     }
 
@@ -42,7 +42,7 @@ public class Graph {
     }
 
     /* the function return the graph map */
-    public Map<Target, List<Target>> getGraphMap(){
+    public Map<Target, Set<Target>> getGraphMap(){
         return this.map;
     }
 
@@ -57,7 +57,7 @@ public class Graph {
 
     /* the function add the target to the graph map */
     public void addToGr(Target target){
-        this.map.put(target, target.getDependsOnList());
+        this.map.put(target, new HashSet<>(target.getDependsOnList()));
     }
 
     /* the function return true if graph map is empty and false else */
@@ -68,7 +68,7 @@ public class Graph {
     /* the function return all the targets that independents or leaves */
     public List<Target> getRunnableTargets(){
         List<Target> runnableTargetsList = new ArrayList<>();
-        for(Map.Entry<Target, List<Target>> entry: this.map.entrySet()){
+        for(Map.Entry<Target, Set<Target>> entry: this.map.entrySet()){
             if(entry.getValue().size() == 0){
                 runnableTargetsList.add(entry.getKey());
             }
@@ -190,7 +190,7 @@ public class Graph {
         List<Target> independents = new ArrayList<>();
 
         Map<Target, List<Target>> orderMap = new LinkedHashMap<>();
-        for (Map.Entry<Target, List<Target>> entry : this.map.entrySet()) {
+        for (Map.Entry<Target, Set<Target>> entry : this.map.entrySet()) {
             if(entry.getKey().getRequiredForList().size() == 0){
                 if(entry.getValue().size() == 0){
                     independents.add(entry.getKey());
@@ -219,7 +219,7 @@ public class Graph {
     }
 
     private void sortMapUtilRec(Map<Target, List<Target>> orderMap, Target root){
-        List<Target> dependsOnList = root.getDependsOnList();
+        Set<Target> dependsOnList = root.getDependsOnList();
         for (Target target : dependsOnList){
             sortMapUtilRec(orderMap, target);
         }

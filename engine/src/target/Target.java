@@ -3,25 +3,23 @@ package target;
 import graph.Graph;
 import scema.generated.GPUPTargetDependencies;
 import exceptions.XmlException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+
+import java.util.*;
 
 public class Target {
     private String name;
    // private TargetPosition position;
     private TargetRunStatus runStatus;
     private TargetStatus status;
-    private List<Target> dependsOnList;
-    private List<Target> requiredForList;
+    private Set<Target> dependsOnList;
+    private Set<Target> requiredForList;
     private String generalInfo;
 
     /* the function create new target */
     public Target(String name){
         this.name = name;
-        dependsOnList = new ArrayList<>();
-        requiredForList = new ArrayList<>();
+        dependsOnList = new HashSet<>();
+        requiredForList = new HashSet<>();
     }
 
     /* copy constructor */
@@ -35,7 +33,7 @@ public class Target {
     }
 
     /* the function duplicate dependsOn list of target */
-    private void duplicateDependsOnList(List<Target> other){
+    private void duplicateDependsOnList(Set<Target> other){
         for(Target target: other){
             Target targetToAdd = new Target(target);
             this.dependsOnList.add(targetToAdd);
@@ -43,7 +41,7 @@ public class Target {
     }
 
     /* the function duplicate RequiredFor list of target */
-    private void duplicateRequiredForList(List<Target> other){
+    private void duplicateRequiredForList(Set<Target> other){
         for(Target target: other){
             Target targetToAdd = new Target(target);
             this.requiredForList.add(targetToAdd);
@@ -152,12 +150,12 @@ public class Target {
     }
 
     /* the function return thr dependsOn list of target */
-    public List<Target> getDependsOnList() {
+    public Set<Target> getDependsOnList() {
         return dependsOnList;
     }
 
     /* the function return thr requiredFor list of target */
-    public List<Target> getRequiredForList() {
+    public Set<Target> getRequiredForList() {
         return requiredForList;
     }
 
@@ -192,4 +190,12 @@ public class Target {
     public void removeTargetFromDependsList(Target targetToRemove){
         this.dependsOnList.remove(targetToRemove);
     }
+
+    public boolean isInDependsOnList(Target target){
+        return dependsOnList.contains(target);
+    }
+    public boolean isInRequiredForList(Target target){
+        return requiredForList.contains(target);
+    }
+
 }

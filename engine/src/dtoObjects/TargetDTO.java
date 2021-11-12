@@ -4,15 +4,17 @@ import target.Target;
 import target.TargetRunStatus;
 import target.TargetStatus;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class TargetDTO {
     private String name;
     // private TargetPosition position;
     private TargetRunStatus runStatus;
     private TargetStatus status;
-    private List<TargetDTO> dependsOnList;
-    private List<TargetDTO> requiredForList;
+    private Set<TargetDTO> dependsOnList;
+    private Set<TargetDTO> requiredForList;
     private String generalInfo;
 
     /* constructor */
@@ -26,8 +28,8 @@ public class TargetDTO {
     }
 
     /* the function duplicate dependsOn list of target */
-    private List<TargetDTO> duplicateDependsOnList(List<Target> other){
-        List<TargetDTO> dependsOn = new ArrayList<>();
+    private Set<TargetDTO> duplicateDependsOnList(Set<Target> other){
+        Set<TargetDTO> dependsOn = new HashSet<>();
         for(Target target: other){
             TargetDTO targetToAdd = new TargetDTO(target);
             dependsOn.add(targetToAdd);
@@ -36,8 +38,8 @@ public class TargetDTO {
     }
 
     /* the function duplicate RequiredFor list of target */
-    private List<TargetDTO> duplicateRequiredForList(List<Target> other){
-        List<TargetDTO> requiredFor = new ArrayList<>();
+    private Set<TargetDTO> duplicateRequiredForList(Set<Target> other){
+        Set<TargetDTO> requiredFor = new HashSet<>();
         for(Target target: other){
             TargetDTO targetToAdd = new TargetDTO(target);
             requiredFor.add(targetToAdd);
@@ -61,12 +63,12 @@ public class TargetDTO {
     }
 
     /* the function return target DependsOn list */
-    public List<TargetDTO> getDependsOnList() {
+    public Set<TargetDTO> getDependsOnList() {
         return dependsOnList;
     }
 
     /* the function return target RequiredFor list */
-    public List<TargetDTO> getRequiredForList() {
+    public Set<TargetDTO> getRequiredForList() {
         return requiredForList;
     }
 

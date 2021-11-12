@@ -4,11 +4,12 @@ import graph.Graph;
 import target.Target;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class GraphDTO {
     private String graphName;
     private String workingDirectory;
-    private Map<TargetDTO, List<TargetDTO>> map;
+    private Map<TargetDTO, Set<TargetDTO>> map;
 
     /* constructor */
     public GraphDTO(Graph graph){
@@ -18,8 +19,8 @@ public class GraphDTO {
     }
 
     /* the function duplicate the graph map */
-    private void duplicateMap(Map<Target, List<Target>> other){
-        for(Map.Entry<Target, List<Target>> entry : other.entrySet()){
+    private void duplicateMap(Map<Target, Set<Target>> other){
+        for(Map.Entry<Target, Set<Target>> entry : other.entrySet()){
             TargetDTO target = new TargetDTO(entry.getKey());
             this.map.put(target, target.getDependsOnList());
         }
@@ -36,7 +37,7 @@ public class GraphDTO {
     }
 
     /* the function return graph map */
-    public Map<TargetDTO, List<TargetDTO>> getMap() {
+    public Map<TargetDTO, Set<TargetDTO>> getMap() {
         return map;
     }
 }
