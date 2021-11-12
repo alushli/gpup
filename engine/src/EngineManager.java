@@ -5,7 +5,7 @@ import scema.generated.GPUPTarget;
 import scema.generated.GPUPTargets;
 import target.Target;
 import xml.Xml;
-import xml.XmlException;
+import exceptions.XmlException;
 
 import java.util.HashSet;
 import java.util.Set;

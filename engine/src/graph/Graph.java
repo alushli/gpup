@@ -3,7 +3,6 @@ package graph;
 import target.Target;
 import java.util.*;
 
-
 public class Graph {
     private String graphName;
     private String workingDirectory;
@@ -16,7 +15,31 @@ public class Graph {
         this.map = new HashMap<>();
     }
 
-    public Graph(){};
+
+    /* copy constructor */
+    public Graph(Graph graph){
+        this.graphName = graph.getGraphName();
+        this.workingDirectory = graph.getWorkingDirectory();
+        duplicateMap(graph.getGraphMap());
+    }
+
+    /* the function duplicate the graph map */
+    private void duplicateMap(Map<Target, List<Target>> other){
+        for(Map.Entry<Target, List<Target>> entry : other.entrySet()){
+            Target target = new Target(entry.getKey());
+            this.map.put(target, new ArrayList<>(target.getDependsOnList()));
+        }
+    }
+
+    /* the function return graph name */
+    public String getGraphName() {
+        return graphName;
+    }
+
+    /* the function return graph working directory */
+    public String getWorkingDirectory() {
+        return workingDirectory;
+    }
 
     /* the function return the graph map */
     public Map<Target, List<Target>> getGraphMap(){
@@ -149,6 +172,10 @@ public class Graph {
                 }
             }
         }
+
+
+
+
 
     /* ******************************** */
     // handle sort graph - doesnt use

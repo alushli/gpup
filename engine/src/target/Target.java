@@ -2,8 +2,7 @@ package target;
 
 import graph.Graph;
 import scema.generated.GPUPTargetDependencies;
-import xml.XmlException;
-
+import exceptions.XmlException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -25,9 +24,50 @@ public class Target {
         requiredForList = new ArrayList<>();
     }
 
+    /* copy constructor */
+    public Target(Target other){
+        this.name = other.getName();
+        this.runStatus = other.getRunStatus();
+        this.status = other.getStatus();
+        this.generalInfo = other.getGeneralInfo();
+        duplicateDependsOnList(other.getDependsOnList());
+        duplicateRequiredForList(other.getRequiredForList());
+    }
+
+    /* the function duplicate dependsOn list of target */
+    private void duplicateDependsOnList(List<Target> other){
+        for(Target target: other){
+            Target targetToAdd = new Target(target);
+            this.dependsOnList.add(targetToAdd);
+        }
+    }
+
+    /* the function duplicate RequiredFor list of target */
+    private void duplicateRequiredForList(List<Target> other){
+        for(Target target: other){
+            Target targetToAdd = new Target(target);
+            this.requiredForList.add(targetToAdd);
+        }
+    }
+
     /* the function update the general info of target */
     public void updateGeneralInfo(String generalInfo){
         this.generalInfo = generalInfo;
+    }
+
+    /* the function return target run status */
+    public TargetRunStatus getRunStatus() {
+        return runStatus;
+    }
+
+    /* the function return target status */
+    public TargetStatus getStatus() {
+        return status;
+    }
+
+    /* the function return target general information */
+    public String getGeneralInfo() {
+        return generalInfo;
     }
 
     /* the function load the dependsOnList and requiredForList of the target */

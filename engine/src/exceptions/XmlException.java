@@ -1,6 +1,6 @@
-package xml;
+package exceptions;
 
-import exception.GeneralException;
+import exceptions.GeneralException;
 
 public class XmlException extends GeneralException {
 

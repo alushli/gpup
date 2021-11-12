@@ -1,4 +1,4 @@
-package exception;
+package exceptions;
 
 public class GeneralException extends Exception{
     protected String message;
