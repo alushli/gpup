@@ -1,41 +1,87 @@
 package graph;
 
-import sun.lwawt.macosx.CSystemTray;
 import target.Target;
-
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class Graph {
+    private String graphName;
+    private String workingDirectory;
     private Map<Target, List<Target>> map;
 
-    public Graph(){
+    /* the function create new graph */
+    public Graph(String name, String workingDirectory){
+        this.graphName = name;
+        this.workingDirectory = workingDirectory;
         this.map = new HashMap<>();
     }
 
 
+    /* copy constructor */
+    public Graph(Graph graph){
+        this.graphName = graph.getGraphName();
+        this.workingDirectory = graph.getWorkingDirectory();
+        duplicateMap(graph.getGraphMap());
+    }
+
+    /* the function duplicate the graph map */
+    private void duplicateMap(Map<Target, List<Target>> other){
+        for(Map.Entry<Target, List<Target>> entry : other.entrySet()){
+            Target target = new Target(entry.getKey());
+            this.map.put(target, new ArrayList<>(target.getDependsOnList()));
+        }
+    }
+
+    /* the function return graph name */
+    public String getGraphName() {
+        return graphName;
+    }
+
+    /* the function return graph working directory */
+    public String getWorkingDirectory() {
+        return workingDirectory;
+    }
+
+    /* the function return the graph map */
+    public Map<Target, List<Target>> getGraphMap(){
+        return this.map;
+    }
+
+    /* the function return the target from graph map according to target name */
+    public Target getTargetByName(String name){
+        for(Target target: map.keySet()){
+            if(target.getName().equals(name))
+                return target;
+        }
+        return null;
+    }
+
+    /* the function add the target to the graph map */
     public void addToGr(Target target){
         this.map.put(target, target.getDependsOnList());
     }
 
+    /* the function return true if graph map is empty and false else */
     public boolean isEmpty(){
         return this.map.isEmpty();
     }
 
+    /* the function return all the targets that independents or leaves */
     public List<Target> getRunnableTargets(){
-        List<Target> runableTargesList = new ArrayList<>();
+        List<Target> runnableTargetsList = new ArrayList<>();
         for(Map.Entry<Target, List<Target>> entry: this.map.entrySet()){
             if(entry.getValue().size() == 0){
-                runableTargesList.add(entry.getKey());
+                runnableTargetsList.add(entry.getKey());
             }
         }
-        return runableTargesList;
+        return runnableTargetsList;
     }
 
+    /* the function remove the target from graph map */
     public void removeTarget(Target target){
         this.map.remove(target);
     }
 
+    /* the function return the graph information */
     public String getGraphInfo(){
         int countRoots = 0, countMiddle = 0, countLeaf = 0, countIndependents = 0;
         String info = new String();
@@ -61,17 +107,19 @@ public class Graph {
         return info;
     }
 
-    public List<List<Target>> findAllPaths (Target src, Target dec){
+    /* the function return all the paths between target src to target des */
+    public List<List<Target>> findAllPaths (Target src, Target des){
         List<List<Target>> allPaths = new ArrayList<>();
         Set<Target> visited = new LinkedHashSet<>();
         allPaths.add(new ArrayList<>());
-        findAllPathsRec(src, dec, visited,allPaths);
+        findAllPathsRec(src, des, visited,allPaths);
         allPaths.remove(allPaths.size()-1);
         return allPaths;
     }
 
-    private void findAllPathsRec (Target src, Target dec, Set<Target> visited, List<List<Target>> allPaths){
-        if (src.equals(dec)) {
+    /* the function return all the paths between target src to target des - Recursion*/
+    private void findAllPathsRec (Target src, Target des, Set<Target> visited, List<List<Target>> allPaths){
+        if (src.equals(des)) {
             update(visited, allPaths.get(allPaths.size()-1));
             allPaths.get(allPaths.size()-1).add(src);
             allPaths.add(new ArrayList<>());
@@ -80,17 +128,19 @@ public class Graph {
         visited.add(src);
         for(Target target: src.getDependsOnList()){
             if(!visited.contains(target)){
-                findAllPathsRec(target, dec, visited, allPaths);
+                findAllPathsRec(target, des, visited, allPaths);
             }
         }
         visited.remove(src);
     }
 
+    /* the function add all the targets from visited set to path list */
     private void update( Set<Target> visited, List<Target> path){
         for (Target target:visited)
             path.add(target);
     }
 
+    /* the function return linkedHashSet of the circle that include the target */
     public LinkedHashSet<Target> findCircle(Target target){
         LinkedHashSet<Target> circle = new LinkedHashSet<>();
         for (Target target1: target.getDependsOnList()){
@@ -104,16 +154,17 @@ public class Graph {
         return circle;
     }
 
-    private void findCircleRec(Target src, Target dst, LinkedHashSet<Target> path){
-        if(src.equals(dst)){
+    /* the function find the circle that include the target - Recursion */
+    private void findCircleRec(Target src, Target dss, LinkedHashSet<Target> path){
+        if(src.equals(dss)){
             path.add(src);
             return;
         }
             path.add(src);
             for (Target target : src.getDependsOnList()) {
                 if (!path.contains(target)) {
-                    findCircleRec(target, dst, path);
-                    if(!path.contains(dst)){
+                    findCircleRec(target, dss, path);
+                    if(!path.contains(dss)){
                         path.remove(target);
                     }else{
                         return;
@@ -122,6 +173,11 @@ public class Graph {
             }
         }
 
+
+
+
+
+    /* ******************************** */
     // handle sort graph - doesnt use
     public void printOrderMap(Map<Target, List<Target>> map){
         for (Map.Entry<Target, List<Target>> entry : map.entrySet()){
