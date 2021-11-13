@@ -9,7 +9,9 @@ import java.util.Set;
 public class GraphDTO {
     private String graphName;
     private String workingDirectory;
-    private Map<TargetDTO, Set<TargetDTO>> map;
+    private int countRoots, countMiddles, countLeaves, countIndependents;
+//****************
+    private Map<String, Set<String>> map;
 
     /* constructor */
     public GraphDTO(Graph graph){
@@ -22,7 +24,7 @@ public class GraphDTO {
     private void duplicateMap(Map<Target, Set<Target>> other){
         for(Map.Entry<Target, Set<Target>> entry : other.entrySet()){
             TargetDTO target = new TargetDTO(entry.getKey());
-            this.map.put(target, target.getDependsOnList());
+            this.map.put(entry.getKey().getName(), target.getDependsOnList());
         }
     }
 
