@@ -1,14 +1,13 @@
 package exceptions;
 
-public class XmlException extends GeneralException {
-
+public class MenuOptionException extends GeneralException{
     /* the function return the error information */
     public String errorInfo(){
-        return "Error in file handling - ";
+        return "Error in menu - ";
     }
 
     /* the function create new xml exception */
-    public XmlException(String message){
+    public MenuOptionException(String message){
         super(message);
     }
 }

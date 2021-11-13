@@ -1,11 +1,14 @@
 package engineManaget;
 
+import Enums.DependencyTypes;
 import dtoObjects.GraphDTO;
 import dtoObjects.SimulationSummeryDTO;
 import dtoObjects.TargetDTO;
+import exceptions.GeneralException;
+import exceptions.MenuOptionException;
 import graph.Graph;
 import scema.generated.*;
-import target.SimulationEntryPoint;
+import Enums.SimulationEntryPoint;
 import target.Target;
 import xml.Xml;
 import exceptions.XmlException;
@@ -13,6 +16,7 @@ import exceptions.XmlException;
 import java.util.*;
 
 public class EngineManager implements EngineManagerInterface{
+    private Graph graph;
 
     @Override
     public void load(String filePath) throws XmlException {
@@ -20,24 +24,88 @@ public class EngineManager implements EngineManagerInterface{
 
     }
 
+
     @Override
-    public GraphDTO getGraphGeneralInfo() {
-        return null;
+    public GraphDTO getGraphGeneralInfo() throws MenuOptionException {
+        checkRunXml();
+        GraphDTO graphDTO = new GraphDTO(this.graph);
+        return graphDTO;
     }
 
     @Override
-    public TargetDTO getTargetInfo(String targetName) {
-        return null;
+    public TargetDTO getTargetInfo(String targetName) throws MenuOptionException{
+        checkRunXml();
+        Target target = this.graph.getTargetByName(targetName);
+        if(target == null)
+            throw new MenuOptionException("The target doesn't exist on the graph.");
+        else
+            return new TargetDTO(target);
     }
 
     @Override
-    public List<List<TargetDTO>> getTargetsPath(String src, String des, String typeOfConnection) {
-        return null;
+    public List<List<TargetDTO>> getTargetsPath(String src, String des, String typeOfConnection) throws MenuOptionException{
+        checkRunXml();
+        Target targetOne, targetTwo;
+        List<List<Target>> targetList;
+        targetOne = new Target(this.graph.getTargetByName(src));
+        targetTwo = new Target(this.graph.getTargetByName(des));
+        if(targetOne == null && targetTwo == null)
+            throw new MenuOptionException("Targets "+ src +" and "+ des+" doesn't exist on the graph.");
+        else if(targetOne == null)
+            throw new MenuOptionException("Target "+ src +" doesn't exist on the graph.");
+        else if(targetTwo == null)
+            throw new MenuOptionException("Target "+ des +" doesn't exist on the graph.");
+        if(typeOfConnection.equals(DependencyTypes.DEPENDS_ON.toString()))
+            targetList = this.graph.findAllPaths(targetOne,targetTwo);
+        else
+            targetList = this.graph.findAllPaths(targetTwo,targetOne);
+        return getTargetDTOPath(targetList);
+    }
+
+    /* the function return list of targetDTO list from list of target list */
+    private List<List<TargetDTO>> getTargetDTOPath(List<List<Target>> other){
+        List<List<TargetDTO>> listDTO = new ArrayList<>();
+        for(List<Target> lstTarget: other){
+            List<TargetDTO> lstTargetDTO = new ArrayList<>();
+            for(Target target: lstTarget){
+                TargetDTO targetDTO = new TargetDTO(target);
+                lstTargetDTO.add(targetDTO);
+            }
+            listDTO.add(lstTargetDTO);
+        }
+        return listDTO;
     }
 
     @Override
     public SimulationSummeryDTO runSimulate(SimulationEntryPoint entryPoint) {
         return null;
+    }
+
+    @Override
+    public LinkedHashSet<TargetDTO> getTargetCircle(String targetName) throws MenuOptionException {
+        checkRunXml();
+        Target target = new Target(graph.getTargetByName(targetName));
+        if(target == null)
+            throw new MenuOptionException("The target doesn't exist on the graph.");
+        LinkedHashSet<Target> linkedHashSet = this.graph.findCircle(target);
+        return getTargetDTOCircle(linkedHashSet);
+    }
+
+    /* the function return linked hash set of targetDTO from linked hash set of target */
+    private LinkedHashSet<TargetDTO> getTargetDTOCircle(LinkedHashSet<Target> other){
+        LinkedHashSet<TargetDTO> listDTO = new LinkedHashSet();
+        for(Target target: other){
+            TargetDTO targetDTO = new TargetDTO(target);
+            listDTO.add(targetDTO);
+        }
+        return listDTO;
+    }
+
+    /* the function throws menu exception if the xml doesn't upload */
+    private void checkRunXml() throws MenuOptionException{
+        if(this.graph == null){
+            throw new MenuOptionException("You need to load xml file first");
+        }
     }
 
     private Map<String, Target> getMapOfTargets(GPUPTargets targets, Set<String > errors){
@@ -105,24 +173,14 @@ public class EngineManager implements EngineManagerInterface{
                         }
                     }
                 }
-                graph.addToGr(target);
             }
+        }
+        for(Target target: targetsNames.values()){
+            graph.addToGr(target);
         }
         if(!errors.isEmpty()){
             throw new XmlException(errors.toString());
         }
         return graph;
-    }
-
-    /* the function return true if there is a target that doesn't exist on the file but
-     other target has type of dependencies with hem and false else */
-    private boolean compareValidTargetList(Set<String> validTargetUnique, Set<String> validTargetExist){
-        for(String name: validTargetUnique){
-            if(validTargetExist.contains(name))
-                validTargetExist.remove(name);
-        }
-        if(validTargetExist.isEmpty())
-            return true;
-        return false;
     }
 }

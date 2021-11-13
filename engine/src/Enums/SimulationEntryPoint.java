@@ -1,4 +1,4 @@
-package target;
+package Enums;
 
 public enum SimulationEntryPoint {
     FROM_SCRATCH ("From Scratch"),

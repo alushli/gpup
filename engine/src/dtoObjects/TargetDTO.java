@@ -1,16 +1,16 @@
 package dtoObjects;
 
+import Enums.TargetPosition;
 import target.Target;
-import target.TargetRunStatus;
-import target.TargetStatus;
-import java.util.ArrayList;
+import Enums.TargetRunStatus;
+import Enums.TargetStatus;
+
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class TargetDTO {
     private String name;
-    // private TargetPosition position;
+    private TargetPosition position;
     private TargetRunStatus runStatus;
     private TargetStatus status;
     private Set<String> dependsOnList;
@@ -20,6 +20,7 @@ public class TargetDTO {
     /* constructor */
     public TargetDTO(Target other){
         this.name = other.getName();
+        this.position = other.getPosition();
         this.runStatus = other.getRunStatus();
         this.status = other.getStatus();
         this.generalInfo = other.getGeneralInfo();
@@ -73,5 +74,10 @@ public class TargetDTO {
     /* the function return target general information */
     public String getGeneralInfo() {
         return generalInfo;
+    }
+
+    /* the function return target position */
+    public TargetPosition getPosition() {
+        return position;
     }
 }

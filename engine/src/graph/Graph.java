@@ -1,5 +1,6 @@
 package graph;
 
+import Enums.TargetPosition;
 import target.Target;
 import java.util.*;
 
@@ -14,7 +15,6 @@ public class Graph {
         this.workingDirectory = workingDirectory;
         this.map = new HashMap<>();
     }
-
 
     /* copy constructor */
     public Graph(Graph graph){
@@ -82,10 +82,9 @@ public class Graph {
     }
 
     /* the function return the graph information */
-    public String getGraphInfo(){
+    public Map<TargetPosition, Integer> getGraphInfo(){
         int countRoots = 0, countMiddle = 0, countLeaf = 0, countIndependents = 0;
-        String info = new String();
-        info += "There are " + map.size() +" targets on the graph. ";
+        Map<TargetPosition, Integer> targetMap = new HashMap<>();
         for(Target target: map.keySet()){
             switch (target.getPosition()){
                 case ROOT:
@@ -102,9 +101,11 @@ public class Graph {
                     break;
             }
         }
-        info += "There are " + countRoots + " Roots, " + countMiddle + " Middles, " + countLeaf + " Leafs, " + countIndependents
-                + " Indpendents targets on the graph.";
-        return info;
+        targetMap.put(TargetPosition.ROOT, countRoots);
+        targetMap.put(TargetPosition.MIDDLE, countMiddle);
+        targetMap.put(TargetPosition.LEAF, countLeaf);
+        targetMap.put(TargetPosition.INDEPENDENT, countIndependents);
+        return targetMap;
     }
 
     /* the function return all the paths between target src to target des */

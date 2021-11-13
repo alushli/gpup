@@ -1,4 +1,4 @@
-package target;
+package Enums;
 
 public enum TargetStatus {
     FROZEN ("frozen"),

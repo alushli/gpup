@@ -1,5 +1,9 @@
 package target;
 
+import Enums.DependencyTypes;
+import Enums.TargetPosition;
+import Enums.TargetRunStatus;
+import Enums.TargetStatus;
 import graph.Graph;
 import scema.generated.GPUPTargetDependencies;
 import exceptions.XmlException;
@@ -194,6 +198,7 @@ public class Target {
     public boolean isInDependsOnList(Target target){
         return dependsOnList.contains(target);
     }
+
     public boolean isInRequiredForList(Target target){
         return requiredForList.contains(target);
     }

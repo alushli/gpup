@@ -1,5 +1,7 @@
 package menu;
 
+import engineManaget.EngineManager;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -7,6 +9,15 @@ public class Menu {
     final int FIRST_OPTION = 1;
     final int LAST_OPTION = 6;
     final int EXIT_OPTION = 7;
+    private static EngineManager engineManager;
+
+    /* menu constructor */
+    public Menu(){
+        this.engineManager = new EngineManager();
+    }
+
+    /* the function return the engine manager */
+    public static EngineManager getEngineManager(){ return engineManager;}
 
     /* the function print the menu */
     public void printMenu(){
@@ -33,7 +44,7 @@ public class Menu {
                 new TargetInfoOption().start();
                 break;
             case 4:
-                new TargesPathsOption().start();
+                new TargetPathsOption().start();
                 break;
             case 5:
                 new RunTaskOption().start();

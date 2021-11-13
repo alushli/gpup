@@ -12,6 +12,7 @@ public class EngineMain {
         graph = engineManager.loadHelper(filePath);
         validGraph = graph;
         System.out.println(graph.getGraphInfo());
+        System.out.println(graph.findAllPaths(graph.getTargetByName("D"), graph.getTargetByName("A")).toString());
     } catch (GeneralException e) {
         System.out.println(e.errorInfo() + e.getMessage());
     }
