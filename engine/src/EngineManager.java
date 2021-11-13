@@ -46,15 +46,21 @@ public class EngineManager {
 //        return graph;
 //    }
 
-    private Map<String, Target> getSetOfTargetsNames(GPUPTargets targets, Set<String > errors){
+
+
+    private Map<String, Target> getMapOfTargets(GPUPTargets targets, Set<String > errors){
         Map<String, Target> map = new HashMap<>();
         for (GPUPTarget gpupTarget : targets.getGPUPTarget()){
             if(!map.keySet().contains(gpupTarget.getName())){
-                map.put(gpupTarget.getName(), new Target(gpupTarget.getName()));
+                Target target = new Target(gpupTarget.getName());
+                map.put(gpupTarget.getName(), target);
+                if(gpupTarget.getGPUPUserData() != null) {
+                    target.updateGeneralInfo(gpupTarget.getGPUPUserData());
+                }
             }else{
                 String error = new String();
                 error += "Target:" + gpupTarget.getName();
-                error+= " appears twice";
+                error+= " appears more than one";
                 errors.add(error);
             }
         }
@@ -64,32 +70,35 @@ public class EngineManager {
     private void addToTargetListByType(Target target, GPUPTargetDependencies.GPUGDependency dependency, Target targetToAdd,
                                        Set<String> errors){
         boolean error = false;
-        if(dependency.getType().equals("dependsOn")){
-            if(!targetToAdd.isInDependsOnList(target)){
-                target.addToDependsOnList(targetToAdd);
-                targetToAdd.addToRequiredForList(target);
+        if(target.equals(targetToAdd)){
+            errors.add(target.getName() + " cant be depends on itself");
+        }else {
+            if (dependency.getType().equals("dependsOn")) {
+                if (!targetToAdd.isInDependsOnList(target)) {
+                    target.addToDependsOnList(targetToAdd);
+                    targetToAdd.addToRequiredForList(target);
+                } else {
+                    error = true;
+                }
+            } else {
+                if (!targetToAdd.isInRequiredForList(target)) {
+                    target.addToRequiredForList(targetToAdd);
+                    targetToAdd.addToDependsOnList(target);
+                } else {
+                    error = true;
+                }
             }
-            else{
-                error = true;
+            if (error == true) {
+                String newError = "Invalid interdependence between " + target.getName() + " and " + targetToAdd.getName();
+                errors.add(newError);
             }
-        }else{
-            if(!targetToAdd.isInRequiredForList(target)){
-                target.addToRequiredForList(targetToAdd);
-                targetToAdd.addToDependsOnList(target);
-            }else{
-                error = true;
-            }
-        }
-        if(error == true){
-            String newError = "Invalid interdependence between " + target.getName() + " and " + targetToAdd.getName();
-            errors.add(newError);
         }
     }
 
     public Graph load2(String filePath) throws XmlException {
         GPUPDescriptor root = (GPUPDescriptor) Xml.readFromXml(filePath, new GPUPDescriptor());
         Set<String> errors = new HashSet<>();
-        Map<String, Target> targetsNames = getSetOfTargetsNames(root.getGPUPTargets(), errors);
+        Map<String, Target> targetsNames = getMapOfTargets(root.getGPUPTargets(), errors);
         Graph graph = new Graph(root.getGPUPConfiguration().getGPUPGraphName(), root.getGPUPConfiguration().getGPUPWorkingDirectory());
         if (errors.isEmpty()) {
             for (GPUPTarget gpupTarget : root.getGPUPTargets().getGPUPTarget()) {
