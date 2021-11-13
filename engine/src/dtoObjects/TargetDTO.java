@@ -13,8 +13,8 @@ public class TargetDTO {
     // private TargetPosition position;
     private TargetRunStatus runStatus;
     private TargetStatus status;
-    private Set<TargetDTO> dependsOnList;
-    private Set<TargetDTO> requiredForList;
+    private Set<String> dependsOnList;
+    private Set<String> requiredForList;
     private String generalInfo;
 
     /* constructor */
@@ -28,21 +28,19 @@ public class TargetDTO {
     }
 
     /* the function duplicate dependsOn list of target */
-    private Set<TargetDTO> duplicateDependsOnList(Set<Target> other){
-        Set<TargetDTO> dependsOn = new HashSet<>();
+    private Set<String> duplicateDependsOnList(Set<Target> other){
+        Set<String> dependsOn = new HashSet<>();
         for(Target target: other){
-            TargetDTO targetToAdd = new TargetDTO(target);
-            dependsOn.add(targetToAdd);
+            dependsOn.add(target.getName());
         }
         return dependsOn;
     }
 
     /* the function duplicate RequiredFor list of target */
-    private Set<TargetDTO> duplicateRequiredForList(Set<Target> other){
-        Set<TargetDTO> requiredFor = new HashSet<>();
+    private Set<String> duplicateRequiredForList(Set<Target> other){
+        Set<String> requiredFor = new HashSet<>();
         for(Target target: other){
-            TargetDTO targetToAdd = new TargetDTO(target);
-            requiredFor.add(targetToAdd);
+            requiredFor.add(target.getName());
         }
         return requiredFor;
     }
@@ -63,12 +61,12 @@ public class TargetDTO {
     }
 
     /* the function return target DependsOn list */
-    public Set<TargetDTO> getDependsOnList() {
+    public Set<String> getDependsOnList() {
         return dependsOnList;
     }
 
     /* the function return target RequiredFor list */
-    public Set<TargetDTO> getRequiredForList() {
+    public Set<String> getRequiredForList() {
         return requiredForList;
     }
 

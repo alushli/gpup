@@ -1,52 +1,44 @@
+package engineManaget;
+
+import dtoObjects.GraphDTO;
+import dtoObjects.SimulationSummeryDTO;
+import dtoObjects.TargetDTO;
 import graph.Graph;
 import scema.generated.*;
+import target.SimulationEntryPoint;
 import target.Target;
 import xml.Xml;
 import exceptions.XmlException;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-public class EngineManager {
+public class EngineManager implements EngineManagerInterface{
 
-//    /* the function load new graph from xml file */
-//    public Graph load(String filePath) throws XmlException {
-//        Set<String> validTargetUnique = new HashSet<>();
-//        Set<String> validTargetExist = new HashSet<>();
-//        Set<String> errorTargetsDependencies = new HashSet<>();
-//        Set<String> errorTargetsUnique = new HashSet<>();
-//        Object root = Xml.readFromXml(filePath, new GPUPDescriptor());
-//        GPUPConfiguration gpupConfiguration = ((GPUPDescriptor) root).getGPUPConfiguration();
-//        GPUPTargets gpupTargets = ((GPUPDescriptor) root).getGPUPTargets();
-//        Graph graph = new Graph(gpupConfiguration.getGPUPGraphName(), gpupConfiguration.getGPUPWorkingDirectory());
-//        for(GPUPTarget gpupTarget: gpupTargets.getGPUPTarget()){
-//            Target target;
-//            String targetName = gpupTarget.getName();
-//            if(validTargetUnique.contains(targetName))
-//                errorTargetsUnique.add(targetName);
-//            validTargetUnique.add(targetName);
-//            validTargetExist.add(targetName);
-//            if (!graph.getGraphMap().containsKey(gpupTarget))
-//                graph.addToGr(new Target(targetName));
-//            target = graph.getTargetByName(targetName);
-//            if(gpupTarget.getGPUPUserData() != null)
-//               target.updateGeneralInfo(gpupTarget.getGPUPUserData());
-//            if(gpupTarget.getGPUPTargetDependencies() != null)
-//                target.load(gpupTarget.getGPUPTargetDependencies(), graph, validTargetExist, errorTargetsDependencies);
-//        }
-//        if(!errorTargetsUnique.isEmpty())
-//            throw new XmlException("targets " + errorTargetsUnique.toString() + " already exist in this file");
-//        if(!compareValidTargetList(validTargetUnique, validTargetExist))
-//            throw new XmlException("targets " + validTargetExist.toString() + " not exist in this file but other targets dependsOn " +
-//                    "or requiredFor them");
-//        if(!errorTargetsDependencies.isEmpty())
-//            throw new XmlException(errorTargetsDependencies.toString());
-//        return graph;
-//    }
+    @Override
+    public void load(String filePath) throws XmlException {
+        GraphDTO graphDTO = new GraphDTO(loadHelper(filePath));
 
+    }
 
+    @Override
+    public GraphDTO getGraphGeneralInfo() {
+        return null;
+    }
+
+    @Override
+    public TargetDTO getTargetInfo(String targetName) {
+        return null;
+    }
+
+    @Override
+    public List<List<TargetDTO>> getTargetsPath(String src, String des, String typeOfConnection) {
+        return null;
+    }
+
+    @Override
+    public SimulationSummeryDTO runSimulate(SimulationEntryPoint entryPoint) {
+        return null;
+    }
 
     private Map<String, Target> getMapOfTargets(GPUPTargets targets, Set<String > errors){
         Map<String, Target> map = new HashMap<>();
@@ -95,7 +87,7 @@ public class EngineManager {
         }
     }
 
-    public Graph load2(String filePath) throws XmlException {
+    public Graph loadHelper(String filePath) throws XmlException {
         GPUPDescriptor root = (GPUPDescriptor) Xml.readFromXml(filePath, new GPUPDescriptor());
         Set<String> errors = new HashSet<>();
         Map<String, Target> targetsNames = getMapOfTargets(root.getGPUPTargets(), errors);
