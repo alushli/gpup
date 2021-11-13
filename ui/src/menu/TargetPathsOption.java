@@ -22,7 +22,7 @@ public class TargetPathsOption implements MenuOption{
                 System.out.println("Enter target des name: (if you want to go back to the menu, enter -1)");
                 desName = scanner.nextLine();
                 if(!desName.equals("-1")) {
-                    System.out.println("Enter dependency type (requiredFor or dependsOn): (if you want to go back to the menu, enter -1)");
+                    System.out.println("Enter dependency type (R for requiredFor or D for dependsOn): (if you want to go back to the menu, enter -1)");
                     dependency = scanner.nextLine();
                     if(!dependency.equals("-1")) {
                         list = engineManager.getTargetsPath(srcName, desName, dependency);

@@ -186,7 +186,7 @@ public class Target {
     }
 
     /* the function run target */
-    public boolean run(int time, double chance, boolean isRandom, SimulationSummeryDTO simulationSummeryDTO){
+    public boolean run(int time, double chanceSuccess, double chanceWarning,boolean isRandom, SimulationSummeryDTO simulationSummeryDTO){
         try{
             simulationSummeryDTO.addOutput("Target "+ name + " start run.");
             if(generalInfo != null){
@@ -194,17 +194,21 @@ public class Target {
             }
             this.status = TargetStatus.IN_PROCESS;
             Random random = new Random();
-            long chanceInt = Math.round(chance*10);
             if(isRandom){
-                chanceInt = random.nextInt((int)chanceInt);
+                time = random.nextInt(time);
             }
+            long chanceInt = Math.round(chanceSuccess*10);
             boolean isSuccess = (random.nextInt(9)<= chanceInt);
             simulationSummeryDTO.addOutput("Target "+ name+ " start sleep");
             Thread.sleep(time);
             simulationSummeryDTO.addOutput("Target "+ name+ " done sleep");
             this.status = TargetStatus.FINISHED;
             if(isSuccess){
-                this.runStatus = TargetRunStatus.SUCCESS;
+                if(random.nextInt(9)<= Math.round(chanceWarning*10)){
+                    this.runStatus = TargetRunStatus.WARNING;
+                }else{
+                    this.runStatus = TargetRunStatus.SUCCESS;
+                }
             }else{
                 this.runStatus = TargetRunStatus.FAILURE;
             }
