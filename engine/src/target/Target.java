@@ -1,6 +1,10 @@
 package target;
 
 import dtoObjects.SimulationSummeryDTO;
+import Enums.DependencyTypes;
+import Enums.TargetPosition;
+import Enums.TargetRunStatus;
+import Enums.TargetStatus;
 import graph.Graph;
 import scema.generated.GPUPTargetDependencies;
 import exceptions.XmlException;
@@ -11,7 +15,6 @@ import java.util.*;
 
 public class Target {
     private String name;
-   // private TargetPosition position;
     private TargetRunStatus runStatus;
     private TargetStatus status;
     private Set<Target> dependsOnList;
@@ -223,9 +226,12 @@ public class Target {
         this.dependsOnList.remove(targetToRemove);
     }
 
+    /* the function return true if target exist on dependsOn list */
     public boolean isInDependsOnList(Target target){
         return dependsOnList.contains(target);
     }
+
+    /* the function return true if target exist on requiredFor list */
     public boolean isInRequiredForList(Target target){
         return requiredForList.contains(target);
     }
