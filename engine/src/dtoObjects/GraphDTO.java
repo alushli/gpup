@@ -38,8 +38,5 @@ public class GraphDTO {
         return workingDirectory;
     }
 
-    /* the function return graph map */
-    public Map<TargetDTO, Set<TargetDTO>> getMap() {
-        return map;
-    }
+
 }
