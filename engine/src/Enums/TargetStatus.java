@@ -1,4 +1,4 @@
-package target;
+package Enums;
 
 public enum TargetStatus {
     FROZEN ("frozen"),
@@ -9,11 +9,13 @@ public enum TargetStatus {
 
     private String name;
 
+    /* constructor */
     TargetStatus(String name){
         this.name = name;
     }
 
     @Override
+    /* the function return toString of the enum */
     public String toString() {
         return name;
     }
