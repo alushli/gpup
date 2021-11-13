@@ -105,8 +105,10 @@ public class EngineManager implements EngineManagerInterface{
                         }
                     }
                 }
-                graph.addToGr(target);
             }
+        }
+        for (Target target : targetsNames.values()){
+            graph.addToGr(target);
         }
         if(!errors.isEmpty()){
             throw new XmlException(errors.toString());
