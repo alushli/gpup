@@ -1,7 +1,9 @@
+import dtoObjects.SimulationSummeryDTO;
 import engineManaget.EngineManager;
 import exceptions.GeneralException;
 import graph.Graph;
 import exceptions.XmlException;
+import task.SimulationTask;
 
 public class EngineMain {
     public static void main(String[] args) throws XmlException {
@@ -9,14 +11,19 @@ public class EngineMain {
 //        String filePath = "resources/ex1-small.xml";
 //        Graph validGraph, graph;
 //        EngineManager engineManager = new EngineManager();
-//        graph = engineManager.loadHelper(filePath);
-//        validGraph = graph;
-//        System.out.println(graph.getGraphInfo());
-//        System.out.println(graph.findAllPaths(graph.getTargetByName("D"), graph.getTargetByName("A")).toString());
+//        engineManager.load(filePath);
+//
+//
+//        SimulationTask simulationTask = new SimulationTask();
+//        SimulationSummeryDTO simulationSummeryDTO =simulationTask.run(engineManager.getGraph(),500,0.2,0.9,false);
+//        for (String out:simulationSummeryDTO.getOutputs()){
+//            System.out.println(out);
+//        }
+//        System.out.println(simulationSummeryDTO.getHMS());
 //    } catch (GeneralException e) {
 //        System.out.println(e.errorInfo() + e.getMessage());
 //    }
 //    }
 
-    }
-}
+    }}
+

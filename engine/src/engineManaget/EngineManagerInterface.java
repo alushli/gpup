@@ -26,7 +26,7 @@ public interface EngineManagerInterface {
     List<List<TargetDTO>> getTargetsPath(String src, String des, String typeOfConnection) throws MenuOptionException;
 
     /* the function return simulation info */
-    SimulationSummeryDTO runSimulate(SimulationEntryPoint entryPoint);
+    SimulationSummeryDTO runSimulate(int timePerTarget, double chancePerTarget,double chanceWarning, boolean isRandom, SimulationEntryPoint entryPoint);
 
     /* the function return target circle */
     LinkedHashSet<TargetDTO> getTargetCircle(String targetName) throws MenuOptionException;

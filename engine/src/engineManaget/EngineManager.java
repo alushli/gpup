@@ -9,6 +9,7 @@ import graph.Graph;
 import scema.generated.*;
 import Enums.SimulationEntryPoint;
 import target.Target;
+import task.SimulationTask;
 import xml.Xml;
 import exceptions.XmlException;
 
@@ -56,12 +57,12 @@ public class EngineManager implements EngineManagerInterface{
             throw new MenuOptionException("Target "+ src +" doesn't exist on the graph.");
         else if(targetTwo == null)
             throw new MenuOptionException("Target "+ des +" doesn't exist on the graph.");
-        if(typeOfConnection.equals(DependencyTypes.DEPENDS_ON.toString()))
+        if(typeOfConnection.equals("D"))
             targetList = this.graph.findAllPaths(targetOne,targetTwo);
-        else if(typeOfConnection.equals(DependencyTypes.REQUIRED_FOR.toString()))
+        else if(typeOfConnection.equals("R"))
             targetList = this.graph.findAllPaths(targetTwo,targetOne);
         else
-            throw new MenuOptionException("Please enter valid dependency type (requiredFor or dependsOn).");
+            throw new MenuOptionException("Please enter valid dependency type (R/D).");
         return getTargetDTOPath(targetList);
     }
 
@@ -81,8 +82,9 @@ public class EngineManager implements EngineManagerInterface{
 
     @Override
     /* the function return simulation info */
-    public SimulationSummeryDTO runSimulate(SimulationEntryPoint entryPoint) {
-        return null;
+    public SimulationSummeryDTO runSimulate(int processTime, double chanceTargetSuccess,double chanceTargetWarning, boolean isRandom, SimulationEntryPoint entryPoint) {
+        SimulationTask simulationTask = new SimulationTask();
+        return simulationTask.run(this.graph, processTime,chanceTargetSuccess, chanceTargetWarning, isRandom);
     }
 
     @Override
@@ -189,5 +191,17 @@ public class EngineManager implements EngineManagerInterface{
             throw new XmlException(errors.toString());
         }
         return graph;
+    }
+
+    /* the function return true if there is a target that doesn't exist on the file but
+     other target has type of dependencies with hem and false else */
+    private boolean compareValidTargetList(Set<String> validTargetUnique, Set<String> validTargetExist){
+        for(String name: validTargetUnique){
+            if(validTargetExist.contains(name))
+                validTargetExist.remove(name);
+        }
+        if(validTargetExist.isEmpty())
+            return true;
+        return false;
     }
 }

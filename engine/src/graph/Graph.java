@@ -206,6 +206,21 @@ public class Graph {
 
     }
 
+    //remove connection from target1 to target 2 in graph
+    public void removeConnection(Target target1, Target target2){
+        Set<Target> list = map.get(target1);
+        list.remove(target2);
+    }
+
+    //return if given target is runnable
+    public boolean isRunable(Target target){
+        return map.get(target).size()==0;
+    }
+
+    public void removeFromGraph(Target target){
+        //map.remove(target);
+    }
+
     private void insertListToOrderMap(Map<Target, List<Target>> orderMap, List<Target> listToAdd){
         for (Target target : listToAdd){
             List<Target> value = new ArrayList<>();

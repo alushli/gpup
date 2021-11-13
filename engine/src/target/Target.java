@@ -1,5 +1,6 @@
 package target;
 
+import dtoObjects.SimulationSummeryDTO;
 import Enums.DependencyTypes;
 import Enums.TargetPosition;
 import Enums.TargetRunStatus;
@@ -7,6 +8,9 @@ import Enums.TargetStatus;
 import graph.Graph;
 import scema.generated.GPUPTargetDependencies;
 import exceptions.XmlException;
+import java.util.Random;
+
+
 import java.util.*;
 
 public class Target {
@@ -16,6 +20,15 @@ public class Target {
     private Set<Target> dependsOnList;
     private Set<Target> requiredForList;
     private String generalInfo;
+
+
+    public void setRunStatus(TargetRunStatus runStatus) {
+        this.runStatus = runStatus;
+    }
+
+    public void setStatus(TargetStatus status) {
+        this.status = status;
+    }
 
     /* the function create new target */
     public Target(String name){
@@ -172,15 +185,38 @@ public class Target {
         this.requiredForList.add(targetToAdd);
     }
 
-    /* the function remove the target from required targets dependsOn list */
-    public void run(){
-        if(this.dependsOnList.size() == 0) {
-            for (Target target : this.requiredForList) {
-                target.removeTargetFromDependsList(this);
+    /* the function run target */
+    public boolean run(int time, double chanceSuccess, double chanceWarning,boolean isRandom, SimulationSummeryDTO simulationSummeryDTO){
+        try{
+            simulationSummeryDTO.addOutput("Target "+ name + " start run.");
+            if(generalInfo != null){
+                simulationSummeryDTO.addOutput("General info of the target: " + generalInfo);
             }
-        }else{
-            // need to throw exception
+            this.status = TargetStatus.IN_PROCESS;
+            Random random = new Random();
+            if(isRandom){
+                time = random.nextInt(time);
+            }
+            long chanceInt = Math.round(chanceSuccess*10);
+            boolean isSuccess = (random.nextInt(9)<= chanceInt);
+            simulationSummeryDTO.addOutput("Target "+ name+ " start sleep");
+            Thread.sleep(time);
+            simulationSummeryDTO.addOutput("Target "+ name+ " done sleep");
+            this.status = TargetStatus.FINISHED;
+            if(isSuccess){
+                if(random.nextInt(9)<= Math.round(chanceWarning*10)){
+                    this.runStatus = TargetRunStatus.WARNING;
+                }else{
+                    this.runStatus = TargetRunStatus.SUCCESS;
+                }
+            }else{
+                this.runStatus = TargetRunStatus.FAILURE;
+            }
+            simulationSummeryDTO.addOutput("Target "+ name+ " run done. run status: " + runStatus.toString());
+            return isSuccess;
+        }catch (Exception e){
         }
+        return false;
     }
 
     /* the function remove the target from requiredFor list */
