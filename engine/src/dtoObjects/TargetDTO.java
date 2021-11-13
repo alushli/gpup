@@ -4,7 +4,6 @@ import Enums.TargetPosition;
 import target.Target;
 import Enums.TargetRunStatus;
 import Enums.TargetStatus;
-
 import java.util.HashSet;
 import java.util.Set;
 

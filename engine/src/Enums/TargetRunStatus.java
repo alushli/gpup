@@ -8,11 +8,13 @@ public enum TargetRunStatus {
 
     private String name;
 
+    /* constructor */
     TargetRunStatus(String name){
         this.name = name;
     }
 
     @Override
+    /* the function return toString of the enum */
     public String toString() {
         return name;
     }
