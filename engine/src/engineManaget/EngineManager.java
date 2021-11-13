@@ -17,6 +17,10 @@ import java.util.*;
 public class EngineManager implements EngineManagerInterface{
     private Graph graph;
 
+    public Graph getGraph() {
+        return graph;
+    }
+
     @Override
     /* the function load the graph */
     public void load(String filePath) throws XmlException {

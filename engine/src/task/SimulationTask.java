@@ -3,8 +3,7 @@ package task;
 import dtoObjects.SimulationSummeryDTO;
 import graph.Graph;
 import target.Target;
-import target.TargetRunStatus;
-import target.TargetStatus;
+import Enums.TargetStatus;
 
 import java.util.HashSet;
 import java.util.List;
@@ -34,17 +33,7 @@ public class SimulationTask {
             }
         }
         long endTime = System.currentTimeMillis();
-        for (String out : simulationSummeryDTO.getOutputs()){
-            System.out.println(out);
-        }
-        System.out.println(convertMillisToHMS(endTime-startTime));
-        System.out.println(endTime-startTime);
-        System.out.println("skipped:");
-        System.out.println(skipped);
-        System.out.println("faild:");
-        System.out.println(failed);
-        System.out.println("succssed:");
-        System.out.println(succssed);
+        simulationSummeryDTO.setHMS(convertMillisToHMS(endTime-startTime));
         return simulationSummeryDTO;
     }
 

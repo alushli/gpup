@@ -202,7 +202,6 @@ public class Target {
             simulationSummeryDTO.addOutput("Target "+ name+ " start sleep");
             Thread.sleep(time);
             simulationSummeryDTO.addOutput("Target "+ name+ " done sleep");
-            System.out.println("Run " + name + isSuccess);
             this.status = TargetStatus.FINISHED;
             if(isSuccess){
                 this.runStatus = TargetRunStatus.SUCCESS;

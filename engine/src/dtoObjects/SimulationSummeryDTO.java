@@ -5,6 +5,7 @@ import java.util.List;
 
 public class SimulationSummeryDTO {
     private List<String> outputs;
+    private String HMS;
 
     public SimulationSummeryDTO(){
         this.outputs = new ArrayList<>();
@@ -19,6 +20,14 @@ public class SimulationSummeryDTO {
         return "SimulationSummeryDTO{" +
                 "outputs=" + outputs +
                 '}';
+    }
+
+    public String getHMS() {
+        return HMS;
+    }
+
+    public void setHMS(String HMS) {
+        this.HMS = HMS;
     }
 
     public List<String> getOutputs(){
