@@ -11,10 +11,12 @@ public class LoadFileOption implements MenuOption{
         Scanner scanner = new Scanner(System.in);
         EngineManager engineManager = Menu.getEngineManager();
         try {
-            System.out.println("Enter full path of xml - note that the previous file will be overwritten: ");
+            System.out.println("Enter full path of xml - note that the previous file will be overwritten: (if you want to go back to the menu, enter -1)");
             String xmlPath = scanner.nextLine();
-            engineManager.load(xmlPath);
-            System.out.println("The xml was uploaded successfully");
+            if(!xmlPath.equals("-1")) {
+                engineManager.load(xmlPath);
+                System.out.println("The xml was uploaded successfully");
+            }
         } catch (XmlException e){
             System.out.println(e.errorInfo() + e.getMessage());
             this.start();
