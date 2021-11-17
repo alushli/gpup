@@ -1,7 +1,7 @@
 package menu;
 
 import dtoObjects.TargetDTO;
-import engineManaget.EngineManager;
+import engineManager.EngineManager;
 import exceptions.MenuOptionException;
 import java.util.List;
 import java.util.Scanner;
@@ -16,13 +16,17 @@ public class TargetPathsOption implements MenuOption{
             engineManager.checkRunXml();
             String srcName, desName, dependency;
             List<List<TargetDTO>> list;
-            System.out.println("Enter target src name: (if you want to go back to the menu, enter -1)");
+            System.out.println("Enter target src name:");
+            System.out.println("If you want to go back to the menu, enter -1");
             srcName = scanner.nextLine();
             if(!srcName.equals("-1")) {
-                System.out.println("Enter target des name: (if you want to go back to the menu, enter -1)");
+                System.out.println("Enter target des name:");
+                System.out.println("If you want to go back to the menu, enter -1");
+
                 desName = scanner.nextLine();
                 if(!desName.equals("-1")) {
-                    System.out.println("Enter dependency type (R for requiredFor or D for dependsOn): (if you want to go back to the menu, enter -1)");
+                    System.out.println("Enter dependency type (R for requiredFor or D for dependsOn):");
+                    System.out.println("If you want to go back to the menu, enter -1");
                     dependency = scanner.nextLine();
                     if(!dependency.equals("-1")) {
                         list = engineManager.getTargetsPath(srcName, desName, dependency);

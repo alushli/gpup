@@ -75,4 +75,7 @@ public class GPUPTargets {
         return this.gpupTarget;
     }
 
+    public void setGpupTarget(List<GPUPTarget> gpupTarget) {
+        this.gpupTarget = gpupTarget;
+    }
 }

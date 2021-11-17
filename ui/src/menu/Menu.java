@@ -1,13 +1,13 @@
 package menu;
 
-import engineManaget.EngineManager;
+import engineManager.EngineManager;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Menu {
     final int FIRST_OPTION = 1;
-    final int LAST_OPTION = 6;
-    final int EXIT_OPTION = 7;
+    final int LAST_OPTION = 7;
+    final int EXIT_OPTION = 8;
     private static EngineManager engineManager;
 
     /* menu constructor */
@@ -20,14 +20,17 @@ public class Menu {
 
     /* the function print the menu */
     public void printMenu(){
-        System.out.println("Select option (press number 1-6):");
+        System.out.println("-------------------------------------------------");
+        System.out.println("Select option (press number " + FIRST_OPTION + "-" + EXIT_OPTION + "):");
         System.out.println("1. Load new file");
         System.out.println("2. Get general information about targets graph");
         System.out.println("3. Get information about target");
         System.out.println("4. Find all paths between 2 targets");
         System.out.println("5. Run task");
         System.out.println("6. Find circle that includes target");
-        System.out.println("7. Exit");
+        System.out.println("7. Save the system status to file");
+        System.out.println("8. Exit");
+        System.out.println("-------------------------------------------------");
     }
 
     /* the function load the specific option according to user input */
@@ -50,6 +53,8 @@ public class Menu {
                 break;
             case 6:
                 new TargetCircleOption().start();
+            case 7:
+                new SavaSystemStatus().start();
         }
     }
 
@@ -67,7 +72,7 @@ public class Menu {
                     System.out.println("please select a valid option");
                 }
             }catch (InputMismatchException e){
-                System.out.println("please enter a number (1-6)");
+                System.out.println("please enter a number (" + FIRST_OPTION + "-" + EXIT_OPTION + ")");
                 scanner.nextLine();
             }
         } while (choose != EXIT_OPTION);

@@ -1,9 +1,4 @@
-import dtoObjects.SimulationSummeryDTO;
-import engineManaget.EngineManager;
-import exceptions.GeneralException;
-import graph.Graph;
 import exceptions.XmlException;
-import task.SimulationTask;
 
 public class EngineMain {
     public static void main(String[] args) throws XmlException {

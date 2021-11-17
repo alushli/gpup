@@ -2,10 +2,8 @@ package menu;
 
 import Enums.SimulationEntryPoint;
 import dtoObjects.SimulationSummeryDTO;
-import dtoObjects.TargetDTO;
-import engineManaget.EngineManager;
+import engineManager.EngineManager;
 import exceptions.MenuOptionException;
-import exceptions.XmlException;
 
 import java.util.*;
 

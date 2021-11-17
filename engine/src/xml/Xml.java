@@ -2,9 +2,7 @@ package xml;
 
 import exceptions.XmlException;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.*;
 import java.io.File;
 
 public class Xml {
@@ -22,6 +20,20 @@ public class Xml {
             return root;
         } catch (JAXBException e) {
             return null;
+        }
+    }
+
+    /* the function reade from xml file and return the root object */
+    public static void writeToXml(String filePath, Object object) {
+        try {
+            File file = new File(filePath + ".xml");
+            JAXBContext jaxbContext = JAXBContext.newInstance(object.getClass());
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+            // output pretty printed
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            jaxbMarshaller.marshal(object, file);
+        } catch (JAXBException e) {
+            e.printStackTrace();
         }
     }
 }
