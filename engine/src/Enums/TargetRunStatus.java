@@ -4,6 +4,7 @@ public enum TargetRunStatus {
     SUCCESS ("success"),
     WARNING ("warning"),
     FAILURE ("failure"),
+    SKIPPED ("skipped"),
     NONE ("none");
 
     private String name;

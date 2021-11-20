@@ -1,40 +1,97 @@
 package task;
 
+import Enums.TargetRunStatus;
+import Enums.TasksName;
 import dtoObjects.SimulationSummeryDTO;
+import exceptions.TaskException;
 import graph.Graph;
 import target.Target;
 import Enums.TargetStatus;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.io.File;
+import java.io.FileWriter;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 public class SimulationTask {
-    public static Graph graphStatic;
+    public static Graph graphStatic;//save last graph(copy)
+    public static int count = 0;//how many simulations ran
 
-    //need to check if needed output during the run or only after.
-    public SimulationSummeryDTO run(Graph graph, int timePerTarget, double chancePerTarget,double chanceWarning, boolean isRandom){
+    private SimulationSummeryDTO summery;
+    private int processTime;
+    private boolean isRandom;
+    private double chanceSuccess ,chanceWarning;
+    private String folderPath, path;
+
+
+    public  SimulationTask(Graph graph, int timePerTarget, double chancePerTarget, double chanceWarning, boolean isRandom,
+                           boolean fromScratch, Consumer<String> consumer) throws TaskException {
+        if(fromScratch ){
+            graphStatic = new Graph(graph);
+            count = 0;
+        }else if(!fromScratch && graphStatic == null){
+            consumer.accept("Simulation has not run yet on the current graph so it will run from scratch.");
+            graphStatic = new Graph(graph);
+            count = 0;
+        }
+        else{
+            if(graphStatic.getGraphMap().size() == 0){
+                consumer.accept("The graph is empty, you can choose to run again from scratch.");
+            }
+            count++;
+        }
+        this.processTime = timePerTarget;
+        this.chanceSuccess = chancePerTarget;
+        this.chanceWarning = chanceWarning;
+        this.isRandom = isRandom;
+        this.summery = new SimulationSummeryDTO();
+        initGraph();
+        this.folderPath =saveSimulationFolder();
+        run(consumer);
+    }
+
+    private void initGraph(){
+        for (Target target : graphStatic.getGraphMap().keySet()){
+            target.setStatus(TargetStatus.FROZEN);
+        }
+    }
+    public void run(Consumer<String> consumer){
         long startTime = System.currentTimeMillis();
-        SimulationSummeryDTO simulationSummeryDTO = new SimulationSummeryDTO();
-        List<Target> runnableList = graph.getRunnableTargets();
+        List<Target> runnableList = graphStatic.getRunnableTargets();
         Set<Target> skipped = new HashSet<>();
         Set<Target> failed = new HashSet<>();
-        Set<Target> succssed = new HashSet<>();
+        Set<Target> succeed = new HashSet<>();
+        Set<Target> warnings = new HashSet<>();
+
+        Consumer<String> consumerFile = s ->printTargetToFile(s);
+        List<Consumer<String>> consumersList = new ArrayList<>();
+        consumersList.add(consumer);
+        consumersList.add(consumerFile);
         while (!runnableList.isEmpty()){
             Target target = runnableList.remove(runnableList.size()-1);
-            boolean isSucceed= target.run(timePerTarget, chancePerTarget, chanceWarning,isRandom, simulationSummeryDTO);
+            boolean isSucceed= runTarget(target,consumersList);
             if(isSucceed){
-                succssed.add(target);
-                handleSucceed(target, graph,runnableList,simulationSummeryDTO);
+                if(target.getRunStatus().equals(TargetRunStatus.WARNING)){
+                    warnings.add(target);
+                }else{
+                    succeed.add(target);
+                }
+                handleSucceed(target, graphStatic,runnableList,summery, consumer);
             }else{
                 failed.add(target);
-                handleFailure(target, graph, skipped,simulationSummeryDTO);
+                handleFailure(target, graphStatic, skipped,summery,consumer);
             }
         }
         long endTime = System.currentTimeMillis();
-        simulationSummeryDTO.setHMS(convertMillisToHMS(endTime-startTime));
-        return simulationSummeryDTO;
+        summery.setHMS(convertMillisToHMS(endTime-startTime));
+        summery.setCounts(skipped.size(), failed.size(),succeed.size(), warnings.size());
+    }
+
+
+    public SimulationSummeryDTO getSummery() {
+        return summery;
     }
 
     private String convertMillisToHMS(long millis){
@@ -44,34 +101,111 @@ public class SimulationTask {
         return hms;
     }
 
-    private void handleSucceed(Target target, Graph graph, List<Target> runnableList, SimulationSummeryDTO simulationSummeryDTO){
+    private void handleSucceed(Target target, Graph graph, List<Target> runnableList, SimulationSummeryDTO simulationSummeryDTO,
+                               Consumer<String> consumer){
         Set<Target> targetsReq = target.getRequiredForList();
         for(Target target1 : targetsReq){
             graph.removeConnection(target1, target);
             if(graph.isRunable(target1) && target1.getStatus() != TargetStatus.SKIPPED){
-                simulationSummeryDTO.addOutput("Target "+ target1.getName()+ " turned WAITING.");
+                consumer.accept("Target "+ target1.getName()+ " turned WAITING.");
                 target1.setStatus(TargetStatus.WAITING);
                 runnableList.add(target1);
             }
         }
+        graphStatic.removeFromGraph(target);
     }
 
-    private void handleFailure(Target target, Graph graph, Set<Target> skipped, SimulationSummeryDTO simulationSummeryDTO){
+    private void handleFailure(Target target, Graph graph, Set<Target> skipped, SimulationSummeryDTO simulationSummeryDTO,Consumer<String > consumer){
         for (Target target1 : target.getRequiredForList()){
-            handleFailureRec(target1, graph, skipped, simulationSummeryDTO);
+            handleFailureRec(target1, graph, skipped, simulationSummeryDTO,consumer);
         }
     }
-    private void handleFailureRec(Target target, Graph graph, Set<Target> skipped, SimulationSummeryDTO simulationSummeryDTO){
+    private void handleFailureRec(Target target, Graph graph, Set<Target> skipped, SimulationSummeryDTO simulationSummeryDTO
+    ,Consumer<String> consumer){
         skipped.add(target);
-        if(target.getStatus() != TargetStatus.SKIPPED){
-            simulationSummeryDTO.addOutput("Target: "+target.getName()+ " turned skipped");
-            target.setStatus(TargetStatus.SKIPPED);
-        }
-        graph.removeFromGraph(target);
+        consumer.accept("Target: "+target.getName()+ " turned skipped");
+        target.setRunStatus(TargetRunStatus.SKIPPED);
+        summery.addToTargets(target, "skipped");
         Set<Target> requireForTargets = target.getRequiredForList();
         for (Target target1 : requireForTargets){
-            handleFailureRec(target1, graph, skipped, simulationSummeryDTO);
+            handleFailureRec(target1, graph, skipped, simulationSummeryDTO,consumer);
         }
     }
 
+
+
+    public String saveSimulationFolder() throws TaskException {
+        Graph graph = graphStatic;
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd:MM:yyyy HH.mm.ss");
+        String strDate = simpleDateFormat.format(date);
+        File folder = new File(graph.getWorkingDirectory()+ "/" + TasksName.SIMULATION + "-" + strDate);
+        if(folder.mkdir())
+            return folder.getAbsolutePath();
+        else
+            throw new TaskException("The path doesn't exist or has invalid characters, please change the xml and upload again.");
+    }
+
+
+
+
+    /* the function run target */
+    public boolean runTarget(Target target, List<Consumer<String>> consumersList){
+        try{
+            this.path = createTargetFile(target.getName());
+            int time = this.processTime;
+            writeToConsumers(consumersList, "Target "+ target.getName() + " start run.");
+            if(target.getGeneralInfo() != null){
+                writeToConsumers(consumersList, "General info of the target: " + target.getGeneralInfo());
+            }
+            target.setStatus(TargetStatus.IN_PROCESS);
+            Random random = new Random();
+            if(isRandom){
+                time = random.nextInt(time);
+            }
+            long chanceInt = Math.round(chanceSuccess*10);
+            boolean isSuccess = (random.nextInt(9)<= chanceInt);
+            writeToConsumers(consumersList, "Target "+ target.getName()+ " start sleep");
+            Thread.sleep(time);
+            writeToConsumers(consumersList, "Target "+ target.getName()+ " done sleep");
+            target.setStatus(TargetStatus.FINISHED);
+            if(isSuccess){
+                if(random.nextInt(9)<= Math.round(chanceWarning*10)){
+                    target.setRunStatus(TargetRunStatus.WARNING);
+                }else{
+                    target.setRunStatus(TargetRunStatus.SUCCESS);
+                }
+            }else{
+                target.setRunStatus(TargetRunStatus.FAILURE);
+            }
+            this.summery.addToTargets(target, convertMillisToHMS(time));
+            writeToConsumers(consumersList, "Target "+ target.getName()+ " time: " + convertMillisToHMS(time));
+            return isSuccess;
+        }catch (Exception e){
+        }
+        return false;
+    }
+
+    private void writeToConsumers(List<Consumer<String>> consumersList, String str){
+        consumersList.get(0).accept(str);
+        consumersList.get(1).accept(str);
+    }
+
+    private String createTargetFile(String targetName){
+        try{
+        File file = new File(this.folderPath +"/" + targetName+".txt");
+        file.createNewFile();
+        return this.folderPath +"/" + targetName+".txt";
+        } catch (Exception e){
+            return null;
+        }
+    }
+
+    private void printTargetToFile(String str){
+        try {
+            FileWriter file = new FileWriter(this.path, true);
+            file.write(str + "\n\r");
+            file.close();
+        }catch (Exception e){}
+        }
 }

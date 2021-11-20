@@ -49,7 +49,7 @@ public class Graph {
     /* the function return the target from graph map according to target name */
     public Target getTargetByName(String name){
         for(Target target: map.keySet()){
-            if(target.getName().equals(name))
+            if(target.getName().equalsIgnoreCase(name))
                 return target;
         }
         return null;
@@ -218,7 +218,7 @@ public class Graph {
     }
 
     public void removeFromGraph(Target target){
-        //map.remove(target);
+        map.remove(target);
     }
 
     private void insertListToOrderMap(Map<Target, List<Target>> orderMap, List<Target> listToAdd){

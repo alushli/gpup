@@ -25,7 +25,6 @@ public class LoadFileOption implements MenuOption{
                 askFilePathForNew(scanner, engineManager);
             }
         }
-        engineManager.saveSimulationFolder();
     }
 
     private void askFilePathForSavedSystemStatus(Scanner scanner, EngineManager engineManager){

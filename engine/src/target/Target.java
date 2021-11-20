@@ -12,6 +12,7 @@ import java.util.Random;
 
 
 import java.util.*;
+import java.util.function.Consumer;
 
 public class Target {
     private String name;
@@ -60,7 +61,6 @@ public class Target {
             this.requiredForList.add(target);
         }
     }
-
     /* the function update the general info of target */
     public void updateGeneralInfo(String generalInfo){
         this.generalInfo = generalInfo;
@@ -183,39 +183,6 @@ public class Target {
         this.requiredForList.add(targetToAdd);
     }
 
-    /* the function run target */
-    public boolean run(int time, double chanceSuccess, double chanceWarning,boolean isRandom, SimulationSummeryDTO simulationSummeryDTO){
-        try{
-            simulationSummeryDTO.addOutput("Target "+ name + " start run.");
-            if(generalInfo != null){
-                simulationSummeryDTO.addOutput("General info of the target: " + generalInfo);
-            }
-            this.status = TargetStatus.IN_PROCESS;
-            Random random = new Random();
-            if(isRandom){
-                time = random.nextInt(time);
-            }
-            long chanceInt = Math.round(chanceSuccess*10);
-            boolean isSuccess = (random.nextInt(9)<= chanceInt);
-            simulationSummeryDTO.addOutput("Target "+ name+ " start sleep");
-            Thread.sleep(time);
-            simulationSummeryDTO.addOutput("Target "+ name+ " done sleep");
-            this.status = TargetStatus.FINISHED;
-            if(isSuccess){
-                if(random.nextInt(9)<= Math.round(chanceWarning*10)){
-                    this.runStatus = TargetRunStatus.WARNING;
-                }else{
-                    this.runStatus = TargetRunStatus.SUCCESS;
-                }
-            }else{
-                this.runStatus = TargetRunStatus.FAILURE;
-            }
-            simulationSummeryDTO.addOutput("Target "+ name+ " run done. run status: " + runStatus.toString());
-            return isSuccess;
-        }catch (Exception e){
-        }
-        return false;
-    }
 
     /* the function remove the target from requiredFor list */
     public void removeTargetFromRequiredList(Target targetToRemove){

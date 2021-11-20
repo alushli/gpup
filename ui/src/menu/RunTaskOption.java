@@ -4,14 +4,18 @@ import Enums.SimulationEntryPoint;
 import dtoObjects.SimulationSummeryDTO;
 import engineManager.EngineManager;
 import exceptions.MenuOptionException;
+import exceptions.TaskException;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 public class RunTaskOption implements MenuOption{
 
     @Override
     /* the function start the menu option */
     public void start() {
+        Consumer<String> consumer = s-> System.out.println(s);
+
         Scanner scanner = new Scanner(System.in);
         EngineManager engineManager = Menu.getEngineManager();
         try {
@@ -31,17 +35,19 @@ public class RunTaskOption implements MenuOption{
             if (isRandomString.equalsIgnoreCase("Y"))
                 isRandom = true;
             if (entryPointString.equalsIgnoreCase("Y"))
-            //************************
-                simulationSummeryDTO = engineManager.runSimulate(processTime, chanceTargetSuccess, chanceTargetWarning, isRandom, SimulationEntryPoint.FROM_SCRATCH);
+                simulationSummeryDTO = engineManager.runSimulate(processTime, chanceTargetSuccess, chanceTargetWarning, isRandom, SimulationEntryPoint.FROM_SCRATCH, consumer);
             else
-                simulationSummeryDTO = engineManager.runSimulate(processTime, chanceTargetSuccess, chanceTargetWarning, isRandom, SimulationEntryPoint.INCREMENTAL);
+                simulationSummeryDTO = engineManager.runSimulate(processTime, chanceTargetSuccess, chanceTargetWarning, isRandom, SimulationEntryPoint.INCREMENTAL,consumer);
 
             /* ********************** */
             System.out.println(simulationSummeryDTO.toString());
             /* ********************** */
-        } catch (MenuOptionException e){
+        } catch (MenuOptionException e) {
             System.out.println(e.errorInfo() + e.getMessage());
             continu(e.getMessage());
+        }
+            catch (TaskException e){
+                System.out.println(e.errorInfo() + e.getMessage());
         }
     }
 
