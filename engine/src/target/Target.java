@@ -12,6 +12,7 @@ import java.util.Random;
 
 
 import java.util.*;
+import java.util.function.Consumer;
 
 public class Target {
     private String name;
@@ -50,19 +51,16 @@ public class Target {
     /* the function duplicate dependsOn list of target */
     private void duplicateDependsOnList(Set<Target> other){
         for(Target target: other){
-            Target targetToAdd = new Target(target);
-            this.dependsOnList.add(targetToAdd);
+            this.dependsOnList.add(target);
         }
     }
 
     /* the function duplicate RequiredFor list of target */
     private void duplicateRequiredForList(Set<Target> other){
         for(Target target: other){
-            Target targetToAdd = new Target(target);
-            this.requiredForList.add(targetToAdd);
+            this.requiredForList.add(target);
         }
     }
-
     /* the function update the general info of target */
     public void updateGeneralInfo(String generalInfo){
         this.generalInfo = generalInfo;
@@ -186,10 +184,12 @@ public class Target {
     }
 
     /* the function run target */
-    public boolean run(int time, double chanceSuccess, double chanceWarning,boolean isRandom, SimulationSummeryDTO simulationSummeryDTO){
+    public boolean run(int time, double chanceSuccess, double chanceWarning, boolean isRandom, SimulationSummeryDTO simulationSummeryDTO, Consumer<String> consumer){
         try{
+            consumer.accept("Target "+ name + " start run.");
             simulationSummeryDTO.addOutput("Target "+ name + " start run.");
             if(generalInfo != null){
+                consumer.accept("General info of the target: " + generalInfo);
                 simulationSummeryDTO.addOutput("General info of the target: " + generalInfo);
             }
             this.status = TargetStatus.IN_PROCESS;
@@ -199,8 +199,10 @@ public class Target {
             }
             long chanceInt = Math.round(chanceSuccess*10);
             boolean isSuccess = (random.nextInt(9)<= chanceInt);
+            consumer.accept("Target "+ name+ " start sleep");
             simulationSummeryDTO.addOutput("Target "+ name+ " start sleep");
             Thread.sleep(time);
+            consumer.accept("Target "+ name+ " done sleep");
             simulationSummeryDTO.addOutput("Target "+ name+ " done sleep");
             this.status = TargetStatus.FINISHED;
             if(isSuccess){
@@ -212,6 +214,7 @@ public class Target {
             }else{
                 this.runStatus = TargetRunStatus.FAILURE;
             }
+            consumer.accept("Target "+ name+ " done sleep");
             simulationSummeryDTO.addOutput("Target "+ name+ " run done. run status: " + runStatus.toString());
             return isSuccess;
         }catch (Exception e){

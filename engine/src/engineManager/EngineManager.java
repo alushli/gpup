@@ -14,6 +14,7 @@ import xml.Xml;
 import exceptions.XmlException;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 public class EngineManager implements EngineManagerInterface{
     private Graph graph;
@@ -22,8 +23,9 @@ public class EngineManager implements EngineManagerInterface{
     /* the function load the graph */
     public void load(String filePath) throws XmlException {
         Graph graph = loadHelper(filePath);
-        if(graph != null)
+        if(graph != null){
             this.graph = graph;
+        }
     }
 
     @Override
@@ -143,9 +145,11 @@ public class EngineManager implements EngineManagerInterface{
 
     @Override
     /* the function return simulation info */
-    public SimulationSummeryDTO runSimulate(int processTime, double chanceTargetSuccess,double chanceTargetWarning, boolean isRandom, SimulationEntryPoint entryPoint) {
-        SimulationTask simulationTask = new SimulationTask();
-        return simulationTask.run(this.graph, processTime,chanceTargetSuccess, chanceTargetWarning, isRandom);
+    public SimulationSummeryDTO runSimulate(int processTime, double chanceTargetSuccess, double chanceTargetWarning, boolean isRandom,
+                                            SimulationEntryPoint entryPoint, Consumer<String> consumer) {
+        boolean fromScratch = entryPoint.equals(SimulationEntryPoint.FROM_SCRATCH);
+        SimulationTask simulationTask = new SimulationTask(this.graph,processTime,chanceTargetSuccess,chanceTargetWarning,isRandom,fromScratch, consumer);
+        return simulationTask.getSummery();
     }
 
     @Override

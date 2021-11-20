@@ -1,5 +1,6 @@
 package dtoObjects;
 
+import com.sun.org.apache.bcel.internal.generic.RET;
 import target.Target;
 
 import java.util.*;
@@ -22,9 +23,14 @@ public class SimulationSummeryDTO {
 
     @Override
     public String toString() {
-        return "SimulationSummeryDTO{" +
-                "outputs=" + outputs +
-                '}';
+        return "Outputs:\n "+outputs.toString()+ "\n" + "Skipped:"+skipped.toString()
+                +"\nSucceed:"+ success.toString()+"\nFailed:" + failed.toString();
+
+
+
+//        return "SimulationSummeryDTO{" +
+//                "outputs=" + outputs +
+//                '}';
     }
 
     public String getHMS() {

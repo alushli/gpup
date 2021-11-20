@@ -10,6 +10,7 @@ import scema.generated.GPUPDescriptor;
 
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.function.Consumer;
 
 public interface EngineManagerInterface {
 
@@ -32,7 +33,7 @@ public interface EngineManagerInterface {
     List<List<TargetDTO>> getTargetsPath(String src, String des, String typeOfConnection) throws MenuOptionException;
 
     /* the function return simulation info */
-    SimulationSummeryDTO runSimulate(int timePerTarget, double chancePerTarget,double chanceWarning, boolean isRandom, SimulationEntryPoint entryPoint);
+    SimulationSummeryDTO runSimulate(int timePerTarget, double chancePerTarget, double chanceWarning, boolean isRandom, SimulationEntryPoint entryPoint, Consumer<String> consumer);
 
     /* the function return target circle */
     LinkedHashSet<TargetDTO> getTargetCircle(String targetName) throws MenuOptionException;

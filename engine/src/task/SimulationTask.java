@@ -1,5 +1,6 @@
 package task;
 
+import Enums.TargetRunStatus;
 import dtoObjects.SimulationSummeryDTO;
 import graph.Graph;
 import target.Target;
@@ -8,42 +9,65 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 public class SimulationTask {
-    private static Graph graphStatic;
-    public static int count = 0;
-    private SimulationSummeryDTO summery;
+    private static Graph graphStatic;//save last graph(copy)
+    public static int count = 0;//how many simulations ran
 
-    public SimulationTask(){}
+    private SimulationSummeryDTO summery;
+    private int processTime;
+    private boolean isRandom;
+    private double chanceSuccess ,chanceWarning;
+
 
     public  SimulationTask(Graph graph, int timePerTarget, double chancePerTarget, double chanceWarning, boolean isRandom,
-                           boolean fromSkrach){
-        summery = new SimulationSummeryDTO();
+                           boolean fromScratch, Consumer<String> consumer){
+        if(fromScratch || (!fromScratch && graphStatic == null) ){
+            graphStatic = new Graph(graph);
+            count = 0;
+        }else{
+            count++;
+        }
+        this.processTime = timePerTarget;
+        this.chanceSuccess = chancePerTarget;
+        this.chanceWarning = chanceWarning;
+        this.isRandom = isRandom;
+        this.summery = new SimulationSummeryDTO();
+        initGraph();
+        run(consumer);
     }
 
-    //need to check if needed output during the run or only after.
-    public SimulationSummeryDTO run(Graph graph, int timePerTarget, double chancePerTarget,double chanceWarning, boolean isRandom){
+    private void initGraph(){
+        for (Target target : graphStatic.getGraphMap().keySet()){
+            target.setStatus(TargetStatus.FROZEN);
+        }
+    }
+    public void run(Consumer<String> consumer){
         long startTime = System.currentTimeMillis();
-        SimulationSummeryDTO simulationSummeryDTO = new SimulationSummeryDTO();
-        List<Target> runnableList = graph.getRunnableTargets();
+        List<Target> runnableList = graphStatic.getRunnableTargets();
         Set<Target> skipped = new HashSet<>();
         Set<Target> failed = new HashSet<>();
         Set<Target> succeed = new HashSet<>();
         while (!runnableList.isEmpty()){
             Target target = runnableList.remove(runnableList.size()-1);
-            boolean isSucceed= target.run(timePerTarget, chancePerTarget, chanceWarning,isRandom, simulationSummeryDTO);
+            boolean isSucceed= target.run(this.processTime,this.chanceSuccess,this.chanceWarning,this.isRandom,this.summery, consumer);
             if(isSucceed){
                 succeed.add(target);
-                handleSucceed(target, graph,runnableList,simulationSummeryDTO);
+                handleSucceed(target, graphStatic,runnableList,summery, consumer);
             }else{
                 failed.add(target);
-                handleFailure(target, graph, skipped,simulationSummeryDTO);
+                handleFailure(target, graphStatic, skipped,summery,consumer);
             }
         }
         long endTime = System.currentTimeMillis();
-        simulationSummeryDTO.setHMS(convertMillisToHMS(endTime-startTime));
-        simulationSummeryDTO.setCollections(failed,succeed,skipped);
-        return simulationSummeryDTO;
+        summery.setHMS(convertMillisToHMS(endTime-startTime));
+        summery.setCollections(failed,succeed,skipped);
+    }
+
+
+    public SimulationSummeryDTO getSummery() {
+        return summery;
     }
 
     private String convertMillisToHMS(long millis){
@@ -53,31 +77,35 @@ public class SimulationTask {
         return hms;
     }
 
-    private void handleSucceed(Target target, Graph graph, List<Target> runnableList, SimulationSummeryDTO simulationSummeryDTO){
+    private void handleSucceed(Target target, Graph graph, List<Target> runnableList, SimulationSummeryDTO simulationSummeryDTO,
+                               Consumer<String> consumer){
         Set<Target> targetsReq = target.getRequiredForList();
         for(Target target1 : targetsReq){
             graph.removeConnection(target1, target);
             if(graph.isRunable(target1) && target1.getStatus() != TargetStatus.SKIPPED){
+                consumer.accept("Target "+ target1.getName()+ " turned WAITING.");
                 simulationSummeryDTO.addOutput("Target "+ target1.getName()+ " turned WAITING.");
                 target1.setStatus(TargetStatus.WAITING);
                 runnableList.add(target1);
             }
         }
+        graphStatic.removeFromGraph(target);
     }
 
-    private void handleFailure(Target target, Graph graph, Set<Target> skipped, SimulationSummeryDTO simulationSummeryDTO){
+    private void handleFailure(Target target, Graph graph, Set<Target> skipped, SimulationSummeryDTO simulationSummeryDTO,Consumer<String > consumer){
         for (Target target1 : target.getRequiredForList()){
-            handleFailureRec(target1, graph, skipped, simulationSummeryDTO);
+            handleFailureRec(target1, graph, skipped, simulationSummeryDTO,consumer);
         }
     }
-    private void handleFailureRec(Target target, Graph graph, Set<Target> skipped, SimulationSummeryDTO simulationSummeryDTO){
+    private void handleFailureRec(Target target, Graph graph, Set<Target> skipped, SimulationSummeryDTO simulationSummeryDTO
+    ,Consumer<String > consumer){
         skipped.add(target);
+        consumer.accept("Target: "+target.getName()+ " turned skipped");
         simulationSummeryDTO.addOutput("Target: "+target.getName()+ " turned skipped");
         target.setStatus(TargetStatus.SKIPPED);
-        graph.removeFromGraph(target);
         Set<Target> requireForTargets = target.getRequiredForList();
         for (Target target1 : requireForTargets){
-            handleFailureRec(target1, graph, skipped, simulationSummeryDTO);
+            handleFailureRec(target1, graph, skipped, simulationSummeryDTO,consumer);
         }
     }
 

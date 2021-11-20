@@ -20,15 +20,15 @@ public class Graph {
     public Graph(Graph graph){
         this.graphName = graph.getGraphName();
         this.workingDirectory = graph.getWorkingDirectory();
+        this.map = new HashMap<>();
         duplicateMap(graph.getGraphMap());
     }
 
     /* the function duplicate the graph map */
     private void duplicateMap(Map<Target, Set<Target>> other){
-       this.map = new HashMap<>(other);
-       for(Set<Target> targets : this.map.values()){
-           targets = new HashSet<>(targets);
-       }
+        for(Map.Entry<Target, Set<Target>> entry : other.entrySet()){
+            this.map.put(entry.getKey(), new HashSet<>(entry.getValue()));
+        }
     }
 
     /* the function return graph name */
@@ -49,7 +49,7 @@ public class Graph {
     /* the function return the target from graph map according to target name */
     public Target getTargetByName(String name){
         for(Target target: map.keySet()){
-            if(target.getName().equals(name))
+            if(target.getName().equalsIgnoreCase(name))
                 return target;
         }
         return null;
@@ -218,7 +218,7 @@ public class Graph {
     }
 
     public void removeFromGraph(Target target){
-        //map.remove(target);
+        map.remove(target);
     }
 
     private void insertListToOrderMap(Map<Target, List<Target>> orderMap, List<Target> listToAdd){

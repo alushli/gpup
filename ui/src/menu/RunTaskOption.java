@@ -6,12 +6,14 @@ import engineManager.EngineManager;
 import exceptions.MenuOptionException;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 public class RunTaskOption implements MenuOption{
 
     @Override
     /* the function start the menu option */
     public void start() {
+        Consumer<String> consumer = s-> System.out.println(s);
         Scanner scanner = new Scanner(System.in);
         EngineManager engineManager = Menu.getEngineManager();
         try {
@@ -31,9 +33,9 @@ public class RunTaskOption implements MenuOption{
             if (isRandomString.equals("Y") || isRandomString.equals("y"))
                 isRandom = true;
             if (entryPointString.equals("Y") || entryPointString.equals("y"))
-                simulationSummeryDTO = engineManager.runSimulate(processTime, chanceTargetSuccess, chanceTargetWarning, isRandom, SimulationEntryPoint.FROM_SCRATCH);
+                simulationSummeryDTO = engineManager.runSimulate(processTime, chanceTargetSuccess, chanceTargetWarning, isRandom, SimulationEntryPoint.FROM_SCRATCH, consumer);
             else
-                simulationSummeryDTO = engineManager.runSimulate(processTime, chanceTargetSuccess, chanceTargetWarning, isRandom, SimulationEntryPoint.INCREMENTAL);
+                simulationSummeryDTO = engineManager.runSimulate(processTime, chanceTargetSuccess, chanceTargetWarning, isRandom, SimulationEntryPoint.INCREMENTAL,consumer);
 
             /* ********************** */
             System.out.println(simulationSummeryDTO.toString());

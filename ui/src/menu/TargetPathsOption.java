@@ -41,27 +41,32 @@ public class TargetPathsOption implements MenuOption{
         }
     }
 
-    /* the function print the paths */
-    private void printLists(List<List<TargetDTO>> list){
-        int i = 0;
-        if(list.size() == 0)
+
+    private void printLists(List<List<TargetDTO>> lists){
+        if(lists.isEmpty()){
             System.out.println("There is no path between the targets on the selected dependency.");
-        else{
-            while(!list.isEmpty()){
-                List<TargetDTO> targetDTOList = list.get(i);
-                System.out.print("The path is: ");
-                for(TargetDTO targetDTO: targetDTOList) {
-                    if (targetDTO.getName().equals(targetDTOList.get(0).getName()))
-                        System.out.print(targetDTO.getName());
-                    else
-                        System.out.print("->" + targetDTO.getName());
-                }
+        }else{
+            for (List<TargetDTO> list:lists){
+                printList(list);
                 System.out.println();
-                list.remove(targetDTOList);
-                i++;
             }
         }
     }
+
+    private void printList(List<TargetDTO> list){
+        System.out.print("The path is: ");
+        int i =1;
+        for (TargetDTO targetDTO:list){
+            if(i==list.size()){
+                System.out.print(targetDTO.getName());
+            }else{
+                System.out.print(targetDTO.getName()+"->");
+            }
+            i++;
+        }
+    }
+
+
 
     /* the function return to the start function */
     private void continu(String error){

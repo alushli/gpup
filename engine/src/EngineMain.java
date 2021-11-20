@@ -1,7 +1,11 @@
 import exceptions.XmlException;
 
+import java.util.function.Consumer;
+
 public class EngineMain {
-    public static void main(String[] args) throws XmlException {
+    public static void main(String[] args) {
+        Consumer<String> c = s-> System.out.println(s);
+
 //    try {
 //        String filePath = "resources/ex1-small.xml";
 //        Graph validGraph, graph;
