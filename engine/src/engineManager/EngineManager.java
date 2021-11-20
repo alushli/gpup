@@ -299,8 +299,9 @@ public class EngineManager implements EngineManagerInterface{
         Target target = map.get(gpupTarget.getName());
         if(gpupTarget.getGPUPTargetDependencies() != null){
             for (GPUPTargetDependencies.GPUGDependency dependency : gpupTarget.getGPUPTargetDependencies().getGPUGDependency()) {
-                if (map.keySet().contains(dependency.getValue())) {
-                    addToTargetListByType(target, dependency, map.get(dependency.getValue()), errors);
+                String name = dependency.getValue();
+                if (map.keySet().contains(name.trim())) {
+                    addToTargetListByType(target, dependency, map.get(dependency.getValue().trim()), errors);
                 } else {
                     String newError = target.getName() + " " + dependency.getType() + " " + dependency.getValue()
                             + "but" + dependency.getValue() + " not exist";

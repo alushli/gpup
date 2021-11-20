@@ -33,7 +33,7 @@ public class Target {
 
     /* the function create new target */
     public Target(String name){
-        this.name = name;
+        this.name = name.trim();
         dependsOnList = new HashSet<>();
         requiredForList = new HashSet<>();
     }
