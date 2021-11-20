@@ -1,7 +1,7 @@
 package exceptions;
 
 public class TaskException extends GeneralException {
-    private static String createFolderError = "You need to load xml file first";
+    private static String createFolderError = "can't create new folder";
 
     /* the function return xml load error */
     public static String getCreateFolderError() {

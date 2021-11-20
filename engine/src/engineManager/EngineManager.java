@@ -1,6 +1,7 @@
 package engineManager;
 
 import Enums.DependencyTypes;
+import Enums.TasksName;
 import dtoObjects.GraphDTO;
 import dtoObjects.SimulationSummeryDTO;
 import dtoObjects.TargetDTO;
@@ -15,6 +16,7 @@ import xml.Xml;
 import exceptions.XmlException;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class EngineManager implements EngineManagerInterface{
@@ -34,9 +36,13 @@ public class EngineManager implements EngineManagerInterface{
 
     public void saveSimulationFolder()  {
             Graph graph = SimulationTask.graphStatic;
-            File folder = new File(graph.getWorkingDirectory());
+            Date date = new Date();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd:MM:yyyy HH.mm.ss");
+            String strDate = simpleDateFormat.format(date);
+            File folder = new File(graph.getWorkingDirectory()+ "/" + TasksName.SIMULATION + "-" + strDate);
             if(folder.mkdir())
                 System.out.println("yes");
+            //******************
 
     }
 
