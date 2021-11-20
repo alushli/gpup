@@ -50,6 +50,8 @@ public class GPUPTarget {
     protected GPUPTargetDependencies gpupTargetDependencies;
     @XmlAttribute(name = "name", required = true)
     protected String name;
+    @XmlAttribute(name = "type")
+    protected String type;
 
     /**
      * Gets the value of the gpupUserData property.
@@ -123,4 +125,7 @@ public class GPUPTarget {
         this.name = value;
     }
 
+    public String getType() { return type; }
+
+    public void setType(String type) { this.type = type; }
 }

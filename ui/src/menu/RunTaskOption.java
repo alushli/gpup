@@ -31,6 +31,7 @@ public class RunTaskOption implements MenuOption{
             if (isRandomString.equals("Y") || isRandomString.equals("y"))
                 isRandom = true;
             if (entryPointString.equals("Y") || entryPointString.equals("y"))
+            //*****
                 simulationSummeryDTO = engineManager.runSimulate(processTime, chanceTargetSuccess, chanceTargetWarning, isRandom, SimulationEntryPoint.FROM_SCRATCH);
             else
                 simulationSummeryDTO = engineManager.runSimulate(processTime, chanceTargetSuccess, chanceTargetWarning, isRandom, SimulationEntryPoint.INCREMENTAL);

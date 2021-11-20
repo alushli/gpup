@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class SimulationTask {
-    private static Graph graphStatic;
+    public static Graph graphStatic;
 
     //need to check if needed output during the run or only after.
     public SimulationSummeryDTO run(Graph graph, int timePerTarget, double chancePerTarget,double chanceWarning, boolean isRandom){

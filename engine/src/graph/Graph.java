@@ -20,14 +20,14 @@ public class Graph {
     public Graph(Graph graph){
         this.graphName = graph.getGraphName();
         this.workingDirectory = graph.getWorkingDirectory();
+        this.map = new HashMap<>();
         duplicateMap(graph.getGraphMap());
     }
 
     /* the function duplicate the graph map */
     private void duplicateMap(Map<Target, Set<Target>> other){
         for(Map.Entry<Target, Set<Target>> entry : other.entrySet()){
-            Target target = new Target(entry.getKey());
-            this.map.put(target, new HashSet<>(target.getDependsOnList()));
+            this.map.put(entry.getKey(), new HashSet<>(entry.getValue()));
         }
     }
 
