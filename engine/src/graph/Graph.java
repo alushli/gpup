@@ -11,8 +11,8 @@ public class Graph {
 
     /* the function create new graph */
     public Graph(String name, String workingDirectory){
-        this.graphName = name;
-        this.workingDirectory = workingDirectory;
+        this.graphName = name.trim();
+        this.workingDirectory = workingDirectory.trim();
         this.map = new HashMap<>();
     }
 
