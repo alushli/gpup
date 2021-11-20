@@ -50,16 +50,14 @@ public class Target {
     /* the function duplicate dependsOn list of target */
     private void duplicateDependsOnList(Set<Target> other){
         for(Target target: other){
-            Target targetToAdd = new Target(target);
-            this.dependsOnList.add(targetToAdd);
+            this.dependsOnList.add(target);
         }
     }
 
     /* the function duplicate RequiredFor list of target */
     private void duplicateRequiredForList(Set<Target> other){
         for(Target target: other){
-            Target targetToAdd = new Target(target);
-            this.requiredForList.add(targetToAdd);
+            this.requiredForList.add(target);
         }
     }
 
