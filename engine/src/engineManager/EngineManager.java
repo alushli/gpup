@@ -1,4 +1,4 @@
-package engineManaget;
+package engineManager;
 
 import Enums.DependencyTypes;
 import dtoObjects.GraphDTO;
@@ -24,6 +24,68 @@ public class EngineManager implements EngineManagerInterface{
         Graph graph = loadHelper(filePath);
         if(graph != null)
             this.graph = graph;
+    }
+
+    @Override
+    /* the function load saved system status */
+    public void loadSavedSystemStatus(String filePath) throws XmlException {
+        filePath = filePath+".xml";
+        load(filePath);
+    }
+
+    @Override
+    /* the function save the system status to file */
+    public void saveSystemStatus(String filePath) {
+        GPUPDescriptor gpupDescriptor = new GPUPDescriptor();
+        if(graph != null) {
+            GPUPConfiguration gpupConfiguration = new GPUPConfiguration();
+            gpupConfiguration.setGPUPGraphName(this.graph.getGraphName());
+            gpupConfiguration.setGPUPWorkingDirectory(this.graph.getWorkingDirectory());
+            gpupDescriptor.setGPUPConfiguration(gpupConfiguration);
+            GPUPTargets gpupTargets = new GPUPTargets();
+            gpupTargets.setGpupTarget(setTargetListForFile());
+            gpupDescriptor.setGPUPTargets(gpupTargets);
+        }
+        saveSystemStatusHelper(gpupDescriptor, filePath);
+    }
+
+    private List<GPUPTarget> setTargetListForFile(){
+        List<GPUPTarget> gpupTargetList = new ArrayList<>();
+        for (Map.Entry<Target, Set<Target>> entry : this.graph.getGraphMap().entrySet()) {
+            Target target = entry.getKey();
+            GPUPTarget gpupTarget = new GPUPTarget();
+            gpupTarget.setName(target.getName());
+            if (target.getGeneralInfo() != null)
+                gpupTarget.setGPUPUserData(target.getGeneralInfo());
+            if (!target.getDependsOnList().isEmpty() || !target.getRequiredForList().isEmpty()) {
+                GPUPTargetDependencies gpupTargetDependencies = new GPUPTargetDependencies();
+                gpupTargetDependencies.setGpugDependency(setDependencyListForFile(target));
+                gpupTarget.setGPUPTargetDependencies(gpupTargetDependencies);
+            }
+            gpupTargetList.add(gpupTarget);
+        }
+        return gpupTargetList;
+    }
+
+    private List<GPUPTargetDependencies.GPUGDependency> setDependencyListForFile(Target target){
+        List<GPUPTargetDependencies.GPUGDependency> gpugDependencyList = new ArrayList<>();
+        for (Target dependTarget : target.getDependsOnList()) {
+            GPUPTargetDependencies.GPUGDependency gpugDependency = new GPUPTargetDependencies.GPUGDependency();
+            gpugDependency.setType(DependencyTypes.DEPENDS_ON.toString());
+            gpugDependency.setValue(dependTarget.getName());
+            gpugDependencyList.add(gpugDependency);
+        }
+        for (Target requiredTarget : target.getRequiredForList()) {
+            GPUPTargetDependencies.GPUGDependency gpugDependency = new GPUPTargetDependencies.GPUGDependency();
+            gpugDependency.setType(DependencyTypes.REQUIRED_FOR.toString());
+            gpugDependency.setValue(requiredTarget.getName());
+            gpugDependencyList.add(gpugDependency);
+        }
+        return gpugDependencyList;
+    }
+
+    private void saveSystemStatusHelper(GPUPDescriptor gpupDescriptor, String filePath) {
+        Xml.writeToXml(filePath, gpupDescriptor);
     }
 
     @Override
@@ -81,10 +143,8 @@ public class EngineManager implements EngineManagerInterface{
 
     @Override
     /* the function return simulation info */
-    public SimulationSummeryDTO runSimulate(int processTime, double chanceTargetSuccess,double chanceTargetWarning,
-                                            boolean isRandom, SimulationEntryPoint entryPoint) {
+    public SimulationSummeryDTO runSimulate(int processTime, double chanceTargetSuccess,double chanceTargetWarning, boolean isRandom, SimulationEntryPoint entryPoint) {
         SimulationTask simulationTask = new SimulationTask();
-
         return simulationTask.run(this.graph, processTime,chanceTargetSuccess, chanceTargetWarning, isRandom);
     }
 
@@ -163,6 +223,7 @@ public class EngineManager implements EngineManagerInterface{
             }
         }
     }
+
     /* the function return load the graph and return him */
     private Graph loadHelper(String filePath) throws XmlException {
         GPUPDescriptor root = (GPUPDescriptor) Xml.readFromXml(filePath, new GPUPDescriptor());

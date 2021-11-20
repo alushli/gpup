@@ -93,6 +93,10 @@ public class GPUPTargetDependencies {
     }
 
 
+    public void setGpugDependency(List<GPUGDependency> gpugDependency) {
+        this.gpugDependency = gpugDependency;
+    }
+
     /**
      * <p>Java class for anonymous complex type.
      * 

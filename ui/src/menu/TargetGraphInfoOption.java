@@ -1,7 +1,7 @@
 package menu;
 
 import dtoObjects.GraphDTO;
-import engineManaget.EngineManager;
+import engineManager.EngineManager;
 import exceptions.MenuOptionException;
 
 public class TargetGraphInfoOption implements MenuOption{
