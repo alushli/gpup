@@ -1,13 +1,17 @@
 package task;
 
 import Enums.TargetRunStatus;
+import Enums.TasksName;
 import dtoObjects.SimulationSummeryDTO;
+import exceptions.TaskException;
 import graph.Graph;
 import target.Target;
 import Enums.TargetStatus;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
@@ -19,14 +23,23 @@ public class SimulationTask {
     private int processTime;
     private boolean isRandom;
     private double chanceSuccess ,chanceWarning;
+    private String folderPath, path;
 
 
     public  SimulationTask(Graph graph, int timePerTarget, double chancePerTarget, double chanceWarning, boolean isRandom,
-                           boolean fromScratch, Consumer<String> consumer){
-        if(fromScratch || (!fromScratch && graphStatic == null) ){
+                           boolean fromScratch, Consumer<String> consumer) throws TaskException {
+        if(fromScratch ){
             graphStatic = new Graph(graph);
             count = 0;
-        }else{
+        }else if(!fromScratch && graphStatic == null){
+            consumer.accept("Simulation has not run yet on the current graph so it will run from scratch.");
+            graphStatic = new Graph(graph);
+            count = 0;
+        }
+        else{
+            if(graphStatic.getGraphMap().size() == 0){
+                consumer.accept("The graph is empty, you can choose to run again from scratch.");
+            }
             count++;
         }
         this.processTime = timePerTarget;
@@ -35,6 +48,7 @@ public class SimulationTask {
         this.isRandom = isRandom;
         this.summery = new SimulationSummeryDTO();
         initGraph();
+        this.folderPath =saveSimulationFolder();
         run(consumer);
     }
 
@@ -49,11 +63,21 @@ public class SimulationTask {
         Set<Target> skipped = new HashSet<>();
         Set<Target> failed = new HashSet<>();
         Set<Target> succeed = new HashSet<>();
+        Set<Target> warnings = new HashSet<>();
+
+        Consumer<String> consumerFile = s ->printTargetToFile(s);
+        List<Consumer<String>> consumersList = new ArrayList<>();
+        consumersList.add(consumer);
+        consumersList.add(consumerFile);
         while (!runnableList.isEmpty()){
             Target target = runnableList.remove(runnableList.size()-1);
-            boolean isSucceed= target.run(this.processTime,this.chanceSuccess,this.chanceWarning,this.isRandom,this.summery, consumer);
+            boolean isSucceed= runTarget(target,consumersList);
             if(isSucceed){
-                succeed.add(target);
+                if(target.getRunStatus().equals(TargetRunStatus.WARNING)){
+                    warnings.add(target);
+                }else{
+                    succeed.add(target);
+                }
                 handleSucceed(target, graphStatic,runnableList,summery, consumer);
             }else{
                 failed.add(target);
@@ -62,7 +86,7 @@ public class SimulationTask {
         }
         long endTime = System.currentTimeMillis();
         summery.setHMS(convertMillisToHMS(endTime-startTime));
-        summery.setCollections(failed,succeed,skipped);
+        summery.setCounts(skipped.size(), failed.size(),succeed.size(), warnings.size());
     }
 
 
@@ -84,7 +108,6 @@ public class SimulationTask {
             graph.removeConnection(target1, target);
             if(graph.isRunable(target1) && target1.getStatus() != TargetStatus.SKIPPED){
                 consumer.accept("Target "+ target1.getName()+ " turned WAITING.");
-                simulationSummeryDTO.addOutput("Target "+ target1.getName()+ " turned WAITING.");
                 target1.setStatus(TargetStatus.WAITING);
                 runnableList.add(target1);
             }
@@ -98,15 +121,91 @@ public class SimulationTask {
         }
     }
     private void handleFailureRec(Target target, Graph graph, Set<Target> skipped, SimulationSummeryDTO simulationSummeryDTO
-    ,Consumer<String > consumer){
+    ,Consumer<String> consumer){
         skipped.add(target);
         consumer.accept("Target: "+target.getName()+ " turned skipped");
-        simulationSummeryDTO.addOutput("Target: "+target.getName()+ " turned skipped");
-        target.setStatus(TargetStatus.SKIPPED);
+        target.setRunStatus(TargetRunStatus.SKIPPED);
+        summery.addToTargets(target, "skipped");
         Set<Target> requireForTargets = target.getRequiredForList();
         for (Target target1 : requireForTargets){
             handleFailureRec(target1, graph, skipped, simulationSummeryDTO,consumer);
         }
     }
 
+
+
+    public String saveSimulationFolder() throws TaskException {
+        Graph graph = graphStatic;
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd:MM:yyyy HH.mm.ss");
+        String strDate = simpleDateFormat.format(date);
+        File folder = new File(graph.getWorkingDirectory()+ "/" + TasksName.SIMULATION + "-" + strDate);
+        if(folder.mkdir())
+            return folder.getAbsolutePath();
+        else
+            throw new TaskException("The path doesn't exist or has invalid characters, please change the xml and upload again.");
+    }
+
+
+
+
+    /* the function run target */
+    public boolean runTarget(Target target, List<Consumer<String>> consumersList){
+        try{
+            this.path = createTargetFile(target.getName());
+            int time = this.processTime;
+            writeToConsumers(consumersList, "Target "+ target.getName() + " start run.");
+            if(target.getGeneralInfo() != null){
+                writeToConsumers(consumersList, "General info of the target: " + target.getGeneralInfo());
+            }
+            target.setStatus(TargetStatus.IN_PROCESS);
+            Random random = new Random();
+            if(isRandom){
+                time = random.nextInt(time);
+            }
+            long chanceInt = Math.round(chanceSuccess*10);
+            boolean isSuccess = (random.nextInt(9)<= chanceInt);
+            writeToConsumers(consumersList, "Target "+ target.getName()+ " start sleep");
+            Thread.sleep(time);
+            writeToConsumers(consumersList, "Target "+ target.getName()+ " done sleep");
+            target.setStatus(TargetStatus.FINISHED);
+            if(isSuccess){
+                if(random.nextInt(9)<= Math.round(chanceWarning*10)){
+                    target.setRunStatus(TargetRunStatus.WARNING);
+                }else{
+                    target.setRunStatus(TargetRunStatus.SUCCESS);
+                }
+            }else{
+                target.setRunStatus(TargetRunStatus.FAILURE);
+            }
+            this.summery.addToTargets(target, convertMillisToHMS(time));
+            writeToConsumers(consumersList, "Target "+ target.getName()+ " time: " + convertMillisToHMS(time));
+            return isSuccess;
+        }catch (Exception e){
+        }
+        return false;
+    }
+
+    private void writeToConsumers(List<Consumer<String>> consumersList, String str){
+        consumersList.get(0).accept(str);
+        consumersList.get(1).accept(str);
+    }
+
+    private String createTargetFile(String targetName){
+        try{
+        File file = new File(this.folderPath +"/" + targetName+".txt");
+        file.createNewFile();
+        return this.folderPath +"/" + targetName+".txt";
+        } catch (Exception e){
+            return null;
+        }
+    }
+
+    private void printTargetToFile(String str){
+        try {
+            FileWriter file = new FileWriter(this.path, true);
+            file.write(str + "\n\r");
+            file.close();
+        }catch (Exception e){}
+        }
 }

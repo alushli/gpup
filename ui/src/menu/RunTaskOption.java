@@ -4,6 +4,7 @@ import Enums.SimulationEntryPoint;
 import dtoObjects.SimulationSummeryDTO;
 import engineManager.EngineManager;
 import exceptions.MenuOptionException;
+import exceptions.TaskException;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -14,6 +15,7 @@ public class RunTaskOption implements MenuOption{
     /* the function start the menu option */
     public void start() {
         Consumer<String> consumer = s-> System.out.println(s);
+
         Scanner scanner = new Scanner(System.in);
         EngineManager engineManager = Menu.getEngineManager();
         try {
@@ -40,9 +42,12 @@ public class RunTaskOption implements MenuOption{
             /* ********************** */
             System.out.println(simulationSummeryDTO.toString());
             /* ********************** */
-        } catch (MenuOptionException e){
+        } catch (MenuOptionException e) {
             System.out.println(e.errorInfo() + e.getMessage());
             continu(e.getMessage());
+        }
+            catch (TaskException e){
+                System.out.println(e.errorInfo() + e.getMessage());
         }
     }
 

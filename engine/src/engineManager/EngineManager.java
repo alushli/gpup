@@ -35,17 +35,7 @@ public class EngineManager implements EngineManagerInterface{
             SimulationTask.graphStatic = graphIncremental;
     }
 
-    public void saveSimulationFolder()  {
-            Graph graph = SimulationTask.graphStatic;
-            Date date = new Date();
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd:MM:yyyy HH.mm.ss");
-            String strDate = simpleDateFormat.format(date);
-            File folder = new File(graph.getWorkingDirectory()+ "/" + TasksName.SIMULATION + "-" + strDate);
-            if(folder.mkdir())
-                System.out.println("yes");
-            //******************
 
-    }
 
     @Override
     /* the function load saved system status */
@@ -168,7 +158,7 @@ public class EngineManager implements EngineManagerInterface{
     @Override
     /* the function return simulation info */
     public SimulationSummeryDTO runSimulate(int processTime, double chanceTargetSuccess, double chanceTargetWarning, boolean isRandom,
-                                            SimulationEntryPoint entryPoint, Consumer<String> consumer) {
+                                            SimulationEntryPoint entryPoint, Consumer<String> consumer) throws TaskException {
         boolean fromScratch = entryPoint.equals(SimulationEntryPoint.FROM_SCRATCH);
         SimulationTask simulationTask = new SimulationTask(this.graph,processTime,chanceTargetSuccess,chanceTargetWarning,isRandom,fromScratch, consumer);
         return simulationTask.getSummery();

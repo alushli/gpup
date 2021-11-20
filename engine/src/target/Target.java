@@ -183,44 +183,6 @@ public class Target {
         this.requiredForList.add(targetToAdd);
     }
 
-    /* the function run target */
-    public boolean run(int time, double chanceSuccess, double chanceWarning, boolean isRandom, SimulationSummeryDTO simulationSummeryDTO, Consumer<String> consumer){
-        try{
-            consumer.accept("Target "+ name + " start run.");
-            simulationSummeryDTO.addOutput("Target "+ name + " start run.");
-            if(generalInfo != null){
-                consumer.accept("General info of the target: " + generalInfo);
-                simulationSummeryDTO.addOutput("General info of the target: " + generalInfo);
-            }
-            this.status = TargetStatus.IN_PROCESS;
-            Random random = new Random();
-            if(isRandom){
-                time = random.nextInt(time);
-            }
-            long chanceInt = Math.round(chanceSuccess*10);
-            boolean isSuccess = (random.nextInt(9)<= chanceInt);
-            consumer.accept("Target "+ name+ " start sleep");
-            simulationSummeryDTO.addOutput("Target "+ name+ " start sleep");
-            Thread.sleep(time);
-            consumer.accept("Target "+ name+ " done sleep");
-            simulationSummeryDTO.addOutput("Target "+ name+ " done sleep");
-            this.status = TargetStatus.FINISHED;
-            if(isSuccess){
-                if(random.nextInt(9)<= Math.round(chanceWarning*10)){
-                    this.runStatus = TargetRunStatus.WARNING;
-                }else{
-                    this.runStatus = TargetRunStatus.SUCCESS;
-                }
-            }else{
-                this.runStatus = TargetRunStatus.FAILURE;
-            }
-            consumer.accept("Target "+ name+ " done sleep");
-            simulationSummeryDTO.addOutput("Target "+ name+ " run done. run status: " + runStatus.toString());
-            return isSuccess;
-        }catch (Exception e){
-        }
-        return false;
-    }
 
     /* the function remove the target from requiredFor list */
     public void removeTargetFromRequiredList(Target targetToRemove){
