@@ -26,7 +26,6 @@ public class EngineManager implements EngineManagerInterface{
             this.graph = graph;
     }
 
-
     @Override
     /* the function return graph info */
     public GraphDTO getGraphGeneralInfo() throws MenuOptionException {
@@ -82,8 +81,10 @@ public class EngineManager implements EngineManagerInterface{
 
     @Override
     /* the function return simulation info */
-    public SimulationSummeryDTO runSimulate(int processTime, double chanceTargetSuccess,double chanceTargetWarning, boolean isRandom, SimulationEntryPoint entryPoint) {
+    public SimulationSummeryDTO runSimulate(int processTime, double chanceTargetSuccess,double chanceTargetWarning,
+                                            boolean isRandom, SimulationEntryPoint entryPoint) {
         SimulationTask simulationTask = new SimulationTask();
+
         return simulationTask.run(this.graph, processTime,chanceTargetSuccess, chanceTargetWarning, isRandom);
     }
 
@@ -162,7 +163,6 @@ public class EngineManager implements EngineManagerInterface{
             }
         }
     }
-
     /* the function return load the graph and return him */
     private Graph loadHelper(String filePath) throws XmlException {
         GPUPDescriptor root = (GPUPDescriptor) Xml.readFromXml(filePath, new GPUPDescriptor());

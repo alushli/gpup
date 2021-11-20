@@ -25,10 +25,10 @@ public class Graph {
 
     /* the function duplicate the graph map */
     private void duplicateMap(Map<Target, Set<Target>> other){
-        for(Map.Entry<Target, Set<Target>> entry : other.entrySet()){
-            Target target = new Target(entry.getKey());
-            this.map.put(target, new HashSet<>(target.getDependsOnList()));
-        }
+       this.map = new HashMap<>(other);
+       for(Set<Target> targets : this.map.values()){
+           targets = new HashSet<>(targets);
+       }
     }
 
     /* the function return graph name */

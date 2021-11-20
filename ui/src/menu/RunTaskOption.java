@@ -57,6 +57,9 @@ public class RunTaskOption implements MenuOption{
 
             /* ********************** */
             System.out.println(simulationSummeryDTO.getHMS());
+            for (String out : simulationSummeryDTO.getOutputs()){
+                System.out.println(out);
+            }
         /* ********************** */
 
         } catch (MenuOptionException e){

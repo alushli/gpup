@@ -4,7 +4,6 @@ import dtoObjects.SimulationSummeryDTO;
 import graph.Graph;
 import target.Target;
 import Enums.TargetStatus;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,6 +11,15 @@ import java.util.concurrent.TimeUnit;
 
 public class SimulationTask {
     private static Graph graphStatic;
+    public static int count = 0;
+    private SimulationSummeryDTO summery;
+
+    public SimulationTask(){}
+
+    public  SimulationTask(Graph graph, int timePerTarget, double chancePerTarget, double chanceWarning, boolean isRandom,
+                           boolean fromSkrach){
+        summery = new SimulationSummeryDTO();
+    }
 
     //need to check if needed output during the run or only after.
     public SimulationSummeryDTO run(Graph graph, int timePerTarget, double chancePerTarget,double chanceWarning, boolean isRandom){
@@ -20,12 +28,12 @@ public class SimulationTask {
         List<Target> runnableList = graph.getRunnableTargets();
         Set<Target> skipped = new HashSet<>();
         Set<Target> failed = new HashSet<>();
-        Set<Target> succssed = new HashSet<>();
+        Set<Target> succeed = new HashSet<>();
         while (!runnableList.isEmpty()){
             Target target = runnableList.remove(runnableList.size()-1);
             boolean isSucceed= target.run(timePerTarget, chancePerTarget, chanceWarning,isRandom, simulationSummeryDTO);
             if(isSucceed){
-                succssed.add(target);
+                succeed.add(target);
                 handleSucceed(target, graph,runnableList,simulationSummeryDTO);
             }else{
                 failed.add(target);
@@ -34,6 +42,7 @@ public class SimulationTask {
         }
         long endTime = System.currentTimeMillis();
         simulationSummeryDTO.setHMS(convertMillisToHMS(endTime-startTime));
+        simulationSummeryDTO.setCollections(failed,succeed,skipped);
         return simulationSummeryDTO;
     }
 
@@ -63,10 +72,8 @@ public class SimulationTask {
     }
     private void handleFailureRec(Target target, Graph graph, Set<Target> skipped, SimulationSummeryDTO simulationSummeryDTO){
         skipped.add(target);
-        if(target.getStatus() != TargetStatus.SKIPPED){
-            simulationSummeryDTO.addOutput("Target: "+target.getName()+ " turned skipped");
-            target.setStatus(TargetStatus.SKIPPED);
-        }
+        simulationSummeryDTO.addOutput("Target: "+target.getName()+ " turned skipped");
+        target.setStatus(TargetStatus.SKIPPED);
         graph.removeFromGraph(target);
         Set<Target> requireForTargets = target.getRequiredForList();
         for (Target target1 : requireForTargets){
