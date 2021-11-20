@@ -28,10 +28,10 @@ public class RunTaskOption implements MenuOption{
             chanceTargetWarning = askForChanceTargetWarning(scanner);
             scanner.nextLine();
             entryPointString = askForEntryPointString(scanner);
-            if (isRandomString.equals("Y") || isRandomString.equals("y"))
+            if (isRandomString.equalsIgnoreCase("Y"))
                 isRandom = true;
-            if (entryPointString.equals("Y") || entryPointString.equals("y"))
-            //*****
+            if (entryPointString.equalsIgnoreCase("Y"))
+            //************************
                 simulationSummeryDTO = engineManager.runSimulate(processTime, chanceTargetSuccess, chanceTargetWarning, isRandom, SimulationEntryPoint.FROM_SCRATCH);
             else
                 simulationSummeryDTO = engineManager.runSimulate(processTime, chanceTargetSuccess, chanceTargetWarning, isRandom, SimulationEntryPoint.INCREMENTAL);
@@ -60,7 +60,7 @@ public class RunTaskOption implements MenuOption{
         String isRandomString;
         System.out.println("Enter if processing time is random (Y/N):");
         isRandomString = scanner.nextLine();
-        while(!isRandomString.equals("Y") && !isRandomString.equals("N") && !isRandomString.equals("y") && !isRandomString.equals("n")){
+        while(!isRandomString.equalsIgnoreCase("Y") && !isRandomString.equalsIgnoreCase("N")){
             System.out.println("Please enter valid char for random process time (Y/N)");
             isRandomString = scanner.nextLine();
         }
@@ -101,7 +101,7 @@ public class RunTaskOption implements MenuOption{
         String entryPointString;
         System.out.println("Do you want to start running from scratch? (Y/N):");
         entryPointString = scanner.nextLine();
-        while(!entryPointString.equals("Y") && !entryPointString.equals("N") && !entryPointString.equals("y") && !entryPointString.equals("n")){
+        while(!entryPointString.equalsIgnoreCase("Y") && !entryPointString.equalsIgnoreCase("N")){
             System.out.println("Please enter valid char for start from scratch (Y/N)");
             entryPointString = scanner.nextLine();
         }

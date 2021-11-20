@@ -5,6 +5,7 @@ import dtoObjects.GraphDTO;
 import dtoObjects.SimulationSummeryDTO;
 import dtoObjects.TargetDTO;
 import exceptions.MenuOptionException;
+import exceptions.TaskException;
 import graph.Graph;
 import scema.generated.*;
 import Enums.SimulationEntryPoint;
@@ -13,6 +14,7 @@ import task.SimulationTask;
 import xml.Xml;
 import exceptions.XmlException;
 
+import java.io.File;
 import java.util.*;
 
 public class EngineManager implements EngineManagerInterface{
@@ -28,6 +30,14 @@ public class EngineManager implements EngineManagerInterface{
             this.graph = graphOrigin;
         if(graphIncremental != null)
             SimulationTask.graphStatic = graphIncremental;
+    }
+
+    public void saveSimulationFolder()  {
+            Graph graph = SimulationTask.graphStatic;
+            File folder = new File(graph.getWorkingDirectory());
+            if(folder.mkdir())
+                System.out.println("yes");
+
     }
 
     @Override
@@ -125,9 +135,9 @@ public class EngineManager implements EngineManagerInterface{
             throw new MenuOptionException("Target "+ src +" doesn't exist on the graph.");
         else if(targetTwo == null)
             throw new MenuOptionException("Target "+ des +" doesn't exist on the graph.");
-        if(typeOfConnection.equals("D"))
+        if(typeOfConnection.equalsIgnoreCase("D"))
             targetList = this.graph.findAllPaths(targetOne,targetTwo);
-        else if(typeOfConnection.equals("R"))
+        else if(typeOfConnection.equalsIgnoreCase("R"))
             targetList = this.graph.findAllPaths(targetTwo,targetOne);
         else
             throw new MenuOptionException("Please enter valid dependency type (R/D).");
