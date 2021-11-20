@@ -1,7 +1,7 @@
 package menu;
 
 import dtoObjects.TargetDTO;
-import engineManaget.EngineManager;
+import engineManager.EngineManager;
 import exceptions.MenuOptionException;
 import java.util.LinkedHashSet;
 import java.util.Scanner;
@@ -14,7 +14,8 @@ public class TargetCircleOption implements MenuOption{
         EngineManager engineManager = Menu.getEngineManager();
         try {
             engineManager.checkRunXml();
-            System.out.println("Enter target name: (if you want to go back to the menu, enter -1)");
+            System.out.println("Enter target name:");
+            System.out.println("If you want to go back to the menu, enter -1");
             String targetName = scanner.nextLine();
             if(!targetName.equals("-1")) {
                 LinkedHashSet<TargetDTO> list = engineManager.getTargetCircle(targetName);
