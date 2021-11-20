@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 public class SimulationTask {
-    private static Graph graphStatic;//save last graph(copy)
+    public static Graph graphStatic;//save last graph(copy)
     public static int count = 0;//how many simulations ran
 
     private SimulationSummeryDTO summery;

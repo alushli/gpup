@@ -39,5 +39,39 @@
                 <GPUG-Dependency type="dependsOn">D</GPUG-Dependency>
             </GPUP-Target-Dependencies>
         </GPUP-Target>
+        <GPUP-Target name="A" type="Incremental">
+            <GPUP-User-Data>freeText</GPUP-User-Data>
+            <GPUP-Target-Dependencies>
+                <GPUG-Dependency type="requiredFor">D</GPUG-Dependency>
+            </GPUP-Target-Dependencies>
+        </GPUP-Target>
+        <GPUP-Target name="B" type="Incremental">
+            <GPUP-Target-Dependencies>
+                <GPUG-Dependency type="requiredFor">D</GPUG-Dependency>
+                <GPUG-Dependency type="requiredFor">E</GPUG-Dependency>
+            </GPUP-Target-Dependencies>
+        </GPUP-Target>
+        <GPUP-Target name="C" type="Incremental">
+            <GPUP-User-Data>freeText</GPUP-User-Data>
+            <GPUP-Target-Dependencies>
+                <GPUG-Dependency type="requiredFor">E</GPUG-Dependency>
+            </GPUP-Target-Dependencies>
+        </GPUP-Target>
+        <GPUP-Target name="D" type="Incremental">
+            <GPUP-User-Data>freeText</GPUP-User-Data>
+            <GPUP-Target-Dependencies>
+                <GPUG-Dependency type="dependsOn">A</GPUG-Dependency>
+                <GPUG-Dependency type="dependsOn">B</GPUG-Dependency>
+                <GPUG-Dependency type="requiredFor">E</GPUG-Dependency>
+            </GPUP-Target-Dependencies>
+        </GPUP-Target>
+        <GPUP-Target name="E" type="Incremental">
+            <GPUP-User-Data>freeText</GPUP-User-Data>
+            <GPUP-Target-Dependencies>
+                <GPUG-Dependency type="dependsOn">B</GPUG-Dependency>
+                <GPUG-Dependency type="dependsOn">C</GPUG-Dependency>
+                <GPUG-Dependency type="dependsOn">D</GPUG-Dependency>
+            </GPUP-Target-Dependencies>
+        </GPUP-Target>
     </GPUP-Targets>
 </GPUP-Descriptor>

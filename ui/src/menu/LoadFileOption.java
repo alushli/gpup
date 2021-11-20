@@ -14,17 +14,18 @@ public class LoadFileOption implements MenuOption{
         System.out.println("Do you want to start from saved system status (Y/N) ?");
         System.out.println("If you want to go back to the menu, enter -1");
         loadStart = scanner.nextLine();
-        while (!loadStart.equals("Y") && !loadStart.equals("N") && !loadStart.equals("y") && !loadStart.equals("n") && !loadStart.equals("-1")) {
+        while (!loadStart.equalsIgnoreCase("Y") && !loadStart.equalsIgnoreCase("N") && !loadStart.equals("-1")) {
             System.out.println("Please enter valid char (Y/N)");
             loadStart = scanner.nextLine();
         }
         if (!loadStart.equals("-1")) {
-            if (loadStart.equals("Y") || loadStart.equals("y")) {
+            if (loadStart.equalsIgnoreCase("Y")) {
                 askFilePathForSavedSystemStatus(scanner, engineManager);
             } else {
                 askFilePathForNew(scanner, engineManager);
             }
         }
+        engineManager.saveSimulationFolder();
     }
 
     private void askFilePathForSavedSystemStatus(Scanner scanner, EngineManager engineManager){
