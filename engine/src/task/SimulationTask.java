@@ -141,7 +141,7 @@ public class SimulationTask {
     public String saveSimulationFolder() throws TaskException {
         Graph graph = graphStatic;
         Date date = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd:MM:yyyy HH.mm.ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy HH.mm.ss");
         String strDate = simpleDateFormat.format(date);
         File folder = new File(graph.getWorkingDirectory()+ "\\" + TasksName.SIMULATION + "-" + strDate);
         if(folder.mkdir())
