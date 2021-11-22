@@ -263,19 +263,23 @@ public class EngineManager implements EngineManagerInterface{
         List<Graph> graphsList = new ArrayList<>();
         GPUPDescriptor root = (GPUPDescriptor) Xml.readFromXml(filePath, new GPUPDescriptor());
         Set<String> errors = new HashSet<>();
-        List<Map<String, Target>> mapsList = getMapsOfTargets(root.getGPUPTargets(), errors);
-        Graph graphOrigin = new Graph(root.getGPUPConfiguration().getGPUPGraphName(), root.getGPUPConfiguration().getGPUPWorkingDirectory());
-        Graph graphIncremental = new Graph(root.getGPUPConfiguration().getGPUPGraphName(), root.getGPUPConfiguration().getGPUPWorkingDirectory());
-        if (errors.isEmpty()) {
-            addToTargetList(mapsList.get(0), root, graphOrigin, true, errors);
-            addToTargetList(mapsList.get(1), root, graphIncremental, false, errors);
+        if(root.getGPUPTargets() != null && root.getGPUPConfiguration() != null) {
+            List<Map<String, Target>> mapsList = getMapsOfTargets(root.getGPUPTargets(), errors);
+            Graph graphOrigin = new Graph(root.getGPUPConfiguration().getGPUPGraphName(), root.getGPUPConfiguration().getGPUPWorkingDirectory());
+            Graph graphIncremental = new Graph(root.getGPUPConfiguration().getGPUPGraphName(), root.getGPUPConfiguration().getGPUPWorkingDirectory());
+            if (errors.isEmpty()) {
+                addToTargetList(mapsList.get(0), root, graphOrigin, true, errors);
+                addToTargetList(mapsList.get(1), root, graphIncremental, false, errors);
+            }
+            if (!errors.isEmpty()) {
+                throw new XmlException(errors.toString());
+            }
+            graphsList.add(graphOrigin);
+            graphsList.add(graphIncremental);
+            return graphsList;
+        } else{
+            throw new XmlException("The file doesn't fit the schema.");
         }
-        if(!errors.isEmpty()){
-            throw new XmlException(errors.toString());
-        }
-        graphsList.add(graphOrigin);
-        graphsList.add(graphIncremental);
-        return graphsList;
     }
 
     /* the function add targets to target list */
@@ -305,7 +309,7 @@ public class EngineManager implements EngineManagerInterface{
                     addToTargetListByType(target, dependency, map.get(dependency.getValue().trim()), errors);
                 } else {
                     String newError = target.getName() + " " + dependency.getType() + " " + dependency.getValue()
-                            + "but" + dependency.getValue() + " not exist";
+                            + " but " + dependency.getValue() + " not exist";
                     errors.add(newError);
                 }
             }

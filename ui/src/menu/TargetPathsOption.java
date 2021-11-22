@@ -22,15 +22,19 @@ public class TargetPathsOption implements MenuOption{
             if(!srcName.equals("-1")) {
                 System.out.println("Enter target des name:");
                 System.out.println("If you want to go back to the menu, enter -1");
-
                 desName = scanner.nextLine();
                 if(!desName.equals("-1")) {
                     System.out.println("Enter dependency type (R for requiredFor or D for dependsOn):");
                     System.out.println("If you want to go back to the menu, enter -1");
                     dependency = scanner.nextLine();
                     if(!dependency.equals("-1")) {
+                        if(srcName.equalsIgnoreCase(desName)){
+                            System.out.println("You can't search for path between target to himself, please try again.");
+                            start();
+                        } else{
                         list = engineManager.getTargetsPath(srcName, desName, dependency);
                         printLists(list);
+                        }
                     }
                 }
             }
