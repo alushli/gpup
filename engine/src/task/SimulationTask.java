@@ -80,10 +80,10 @@ public class SimulationTask {
                 }else{
                     succeed.add(target);
                 }
-                handleSucceed(target, graphStatic,runnableList, consumer);
+                handleSucceed(target, graphStatic,runnableList, consumersList);
             }else{
                 failed.add(target);
-                handleFailure(target, skipped, consumer);
+                handleFailure(target, skipped, consumersList);
             }
         }
         long endTime = System.currentTimeMillis();
@@ -105,12 +105,12 @@ public class SimulationTask {
     }
 
     /* the function handle succeed target */
-    private void handleSucceed(Target target, Graph graph, List<Target> runnableList, Consumer<String> consumer){
+    private void handleSucceed(Target target, Graph graph, List<Target> runnableList, List<Consumer<String>> consumersList){
         Set<Target> targetsReq = target.getRequiredForList();
         for(Target target1 : targetsReq){
             graph.removeConnection(target1, target);
-            if(graph.isRunnable(target1) && target1.getStatus() != TargetStatus.SKIPPED){
-                consumer.accept("Target "+ target1.getName()+ " turned WAITING.");
+            if(graph.isRunnable(target1) && !(target1.getStatus().equals(TargetStatus.SKIPPED))){
+                writeToConsumers(consumersList, "Target "+ target1.getName()+ " turned WAITING.");
                 target1.setStatus(TargetStatus.WAITING);
                 runnableList.add(target1);
             }
@@ -119,21 +119,21 @@ public class SimulationTask {
     }
 
     /* the function handle failure target */
-    private void handleFailure(Target target, Set<Target> skipped, Consumer<String> consumer){
+    private void handleFailure(Target target, Set<Target> skipped, List<Consumer<String>> consumersList){
         for (Target target1 : target.getRequiredForList()){
-            handleFailureRec(target1, skipped, consumer);
+            handleFailureRec(target1, skipped, consumersList);
         }
     }
 
     /* help function for handleFailure */
-    private void handleFailureRec(Target target, Set<Target> skipped, Consumer<String> consumer){
+    private void handleFailureRec(Target target, Set<Target> skipped, List<Consumer<String>> consumersList){
         skipped.add(target);
-        consumer.accept("Target: "+target.getName()+ " turned skipped");
+        writeToConsumers(consumersList,"Target: "+target.getName()+ " turned skipped");
         target.setRunStatus(TargetRunStatus.SKIPPED);
         summery.addToTargets(target, "skipped");
         Set<Target> requireForTargets = target.getRequiredForList();
         for (Target target1 : requireForTargets){
-            handleFailureRec(target1, skipped,consumer);
+            handleFailureRec(target1, skipped,consumersList);
         }
     }
 
