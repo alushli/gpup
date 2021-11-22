@@ -1,12 +1,11 @@
 package menu;
 
 import engineManager.EngineManager;
-import exceptions.MenuOptionException;
-
 import java.util.Scanner;
 
 public class SavaSystemStatus implements MenuOption{
     @Override
+    /* the function start the menu option */
     public void start() {
         Scanner scanner = new Scanner(System.in);
         EngineManager engineManager = Menu.getEngineManager();

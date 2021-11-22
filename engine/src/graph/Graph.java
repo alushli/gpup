@@ -174,12 +174,24 @@ public class Graph {
             }
         }
 
+    /* the function return if given target is runnable */
+    public boolean isRunnable(Target target){
+        return map.get(target).size()==0;
+    }
+
+    /* the function remove connection from target1 to target 2 in graph */
+    public void removeConnection(Target target1, Target target2){
+        Set<Target> list = map.get(target1);
+        list.remove(target2);
+    }
+
+    /* the function remove target from graph */
+    public void removeFromGraph(Target target){
+        map.remove(target);
+    }
 
 
-
-
-    /* ******************************** */
-    // handle sort graph - doesnt use
+    /* ******************************** for sort graph */
     public void printOrderMap(Map<Target, List<Target>> map){
         for (Map.Entry<Target, List<Target>> entry : map.entrySet()){
             System.out.println(entry.getKey().toString());
@@ -206,21 +218,6 @@ public class Graph {
 
     }
 
-    //remove connection from target1 to target 2 in graph
-    public void removeConnection(Target target1, Target target2){
-        Set<Target> list = map.get(target1);
-        list.remove(target2);
-    }
-
-    //return if given target is runnable
-    public boolean isRunable(Target target){
-        return map.get(target).size()==0;
-    }
-
-    public void removeFromGraph(Target target){
-        map.remove(target);
-    }
-
     private void insertListToOrderMap(Map<Target, List<Target>> orderMap, List<Target> listToAdd){
         for (Target target : listToAdd){
             List<Target> value = new ArrayList<>();
@@ -242,6 +239,4 @@ public class Graph {
 
         orderMap.put(root,new ArrayList<>(root.getDependsOnList()));
     }
-
-
 }

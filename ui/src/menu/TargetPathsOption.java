@@ -41,7 +41,7 @@ public class TargetPathsOption implements MenuOption{
         }
     }
 
-
+    /* the function print the path list */
     private void printLists(List<List<TargetDTO>> lists){
         if(lists.isEmpty()){
             System.out.println("There is no path between the targets on the selected dependency.");
@@ -53,6 +53,7 @@ public class TargetPathsOption implements MenuOption{
         }
     }
 
+    /* the function print the path targets */
     private void printList(List<TargetDTO> list){
         System.out.print("The path is: ");
         int i =1;
@@ -65,8 +66,6 @@ public class TargetPathsOption implements MenuOption{
             i++;
         }
     }
-
-
 
     /* the function return to the start function */
     private void continu(String error){

@@ -7,7 +7,6 @@ import exceptions.TaskException;
 import graph.Graph;
 import target.Target;
 import Enums.TargetStatus;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.text.SimpleDateFormat;
@@ -16,8 +15,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 public class SimulationTask {
-    public static Graph graphStatic;//save last graph(copy)
-    public static int count = 0;//how many simulations ran
+    public static Graph graphStatic; //save last graph(copy)
+    public static int count = 0; //how many simulations ran
 
     private SimulationSummeryDTO summery;
     private int processTime;
@@ -25,7 +24,7 @@ public class SimulationTask {
     private double chanceSuccess ,chanceWarning;
     private String folderPath, path;
 
-
+    /* constructor */
     public  SimulationTask(Graph graph, int timePerTarget, double chancePerTarget, double chanceWarning, boolean isRandom,
                            boolean fromScratch, Consumer<String> consumer) throws TaskException {
         if(fromScratch ){
@@ -52,11 +51,14 @@ public class SimulationTask {
         run(consumer);
     }
 
+    /* the function initialize the graph */
     private void initGraph(){
         for (Target target : graphStatic.getGraphMap().keySet()){
             target.setStatus(TargetStatus.FROZEN);
         }
     }
+
+    /* the function run the simulation */
     public void run(Consumer<String> consumer){
         long startTime = System.currentTimeMillis();
         List<Target> runnableList = graphStatic.getRunnableTargets();
@@ -78,10 +80,10 @@ public class SimulationTask {
                 }else{
                     succeed.add(target);
                 }
-                handleSucceed(target, graphStatic,runnableList,summery, consumer);
+                handleSucceed(target, graphStatic,runnableList, consumer);
             }else{
                 failed.add(target);
-                handleFailure(target, graphStatic, skipped,summery,consumer);
+                handleFailure(target, skipped, consumer);
             }
         }
         long endTime = System.currentTimeMillis();
@@ -89,11 +91,12 @@ public class SimulationTask {
         summery.setCounts(skipped.size(), failed.size(),succeed.size(), warnings.size());
     }
 
-
+    /* the function return summery of simulation */
     public SimulationSummeryDTO getSummery() {
         return summery;
     }
 
+    /* the function convert millis to HMS */
     private String convertMillisToHMS(long millis){
         String hms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millis),
                 TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
@@ -101,12 +104,12 @@ public class SimulationTask {
         return hms;
     }
 
-    private void handleSucceed(Target target, Graph graph, List<Target> runnableList, SimulationSummeryDTO simulationSummeryDTO,
-                               Consumer<String> consumer){
+    /* the function handle succeed target */
+    private void handleSucceed(Target target, Graph graph, List<Target> runnableList, Consumer<String> consumer){
         Set<Target> targetsReq = target.getRequiredForList();
         for(Target target1 : targetsReq){
             graph.removeConnection(target1, target);
-            if(graph.isRunable(target1) && target1.getStatus() != TargetStatus.SKIPPED){
+            if(graph.isRunnable(target1) && target1.getStatus() != TargetStatus.SKIPPED){
                 consumer.accept("Target "+ target1.getName()+ " turned WAITING.");
                 target1.setStatus(TargetStatus.WAITING);
                 runnableList.add(target1);
@@ -115,25 +118,26 @@ public class SimulationTask {
         graphStatic.removeFromGraph(target);
     }
 
-    private void handleFailure(Target target, Graph graph, Set<Target> skipped, SimulationSummeryDTO simulationSummeryDTO,Consumer<String > consumer){
+    /* the function handle failure target */
+    private void handleFailure(Target target, Set<Target> skipped, Consumer<String> consumer){
         for (Target target1 : target.getRequiredForList()){
-            handleFailureRec(target1, graph, skipped, simulationSummeryDTO,consumer);
+            handleFailureRec(target1, skipped, consumer);
         }
     }
-    private void handleFailureRec(Target target, Graph graph, Set<Target> skipped, SimulationSummeryDTO simulationSummeryDTO
-    ,Consumer<String> consumer){
+
+    /* help function for handleFailure */
+    private void handleFailureRec(Target target, Set<Target> skipped, Consumer<String> consumer){
         skipped.add(target);
         consumer.accept("Target: "+target.getName()+ " turned skipped");
         target.setRunStatus(TargetRunStatus.SKIPPED);
         summery.addToTargets(target, "skipped");
         Set<Target> requireForTargets = target.getRequiredForList();
         for (Target target1 : requireForTargets){
-            handleFailureRec(target1, graph, skipped, simulationSummeryDTO,consumer);
+            handleFailureRec(target1, skipped,consumer);
         }
     }
 
-
-
+    /* the function save the simulation folder */
     public String saveSimulationFolder() throws TaskException {
         Graph graph = graphStatic;
         Date date = new Date();
@@ -145,9 +149,6 @@ public class SimulationTask {
         else
             throw new TaskException("The path doesn't exist or has invalid characters, please change the xml and upload again.");
     }
-
-
-
 
     /* the function run target */
     public boolean runTarget(Target target, List<Consumer<String>> consumersList){
@@ -186,11 +187,13 @@ public class SimulationTask {
         return false;
     }
 
+    /* the function write to the consumers */
     private void writeToConsumers(List<Consumer<String>> consumersList, String str){
         consumersList.get(0).accept(str);
         consumersList.get(1).accept(str);
     }
 
+    /* the function create target simulation files */
     private String createTargetFile(String targetName){
         try{
         File file = new File(this.folderPath +"/" + targetName+".txt");
@@ -201,6 +204,7 @@ public class SimulationTask {
         }
     }
 
+    /* the function write to target simulation file */
     private void printTargetToFile(String str){
         try {
             FileWriter file = new FileWriter(this.path, true);
