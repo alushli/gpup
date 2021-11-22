@@ -15,7 +15,7 @@ public class TargetInfoOption implements MenuOption{
             engineManager.checkRunXml();
             System.out.println("Enter target name:");
             System.out.println("If you want to go back to the menu, enter -1");
-            String targetName = scanner.nextLine();
+            String targetName = scanner.nextLine().trim();
             if(!targetName.equals("-1")) {
                 TargetDTO targetDTO = engineManager.getTargetInfo(targetName);
                 System.out.println("Target name: " + targetDTO.getName());

@@ -129,11 +129,21 @@ public class EngineManager implements EngineManagerInterface{
             throw new MenuOptionException("Target "+ des +" doesn't exist on the graph.");
         if(typeOfConnection.equalsIgnoreCase("D"))
             targetList = this.graph.findAllPaths(targetOne,targetTwo);
-        else if(typeOfConnection.equalsIgnoreCase("R"))
+        else if(typeOfConnection.equalsIgnoreCase("R")){
             targetList = this.graph.findAllPaths(targetTwo,targetOne);
+            reverseLists(targetList);
+        }
         else
             throw new MenuOptionException("Please enter valid dependency type (R/D).");
+
         return getTargetDTOPath(targetList);
+    }
+
+
+    private void reverseLists(List<List<Target>> lists){
+        for (List<Target> list : lists){
+            Collections.reverse(list);
+        }
     }
 
     /* the function return list of targetDTO list from list of target list */
@@ -166,6 +176,7 @@ public class EngineManager implements EngineManagerInterface{
         if(target == null)
             throw new MenuOptionException("The target doesn't exist on the graph.");
         LinkedHashSet<Target> linkedHashSet = this.graph.findCircle(target);
+
         return getTargetDTOCircle(linkedHashSet);
     }
 

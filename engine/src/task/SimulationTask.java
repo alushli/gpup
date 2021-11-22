@@ -121,19 +121,19 @@ public class SimulationTask {
     /* the function handle failure target */
     private void handleFailure(Target target, Set<Target> skipped, List<Consumer<String>> consumersList){
         for (Target target1 : target.getRequiredForList()){
-            handleFailureRec(target1, skipped, consumersList);
+            handleFailureRec(target1, skipped, consumersList, target);
         }
     }
 
     /* help function for handleFailure */
-    private void handleFailureRec(Target target, Set<Target> skipped, List<Consumer<String>> consumersList){
+    private void handleFailureRec(Target target, Set<Target> skipped, List<Consumer<String>> consumersList, Target dad){
         skipped.add(target);
-        writeToConsumers(consumersList,"Target: "+target.getName()+ " turned skipped");
+        writeToConsumers(consumersList,"Target: "+target.getName()+ " turned skipped (because "+ dad.getName()+" failed/skipped)");
         target.setRunStatus(TargetRunStatus.SKIPPED);
-        summery.addToTargets(target, "skipped");
+        summery.addToTargets(target, "skipped ");
         Set<Target> requireForTargets = target.getRequiredForList();
         for (Target target1 : requireForTargets){
-            handleFailureRec(target1, skipped,consumersList);
+            handleFailureRec(target1, skipped,consumersList, target);
         }
     }
 
@@ -165,7 +165,7 @@ public class SimulationTask {
                 time = random.nextInt(time);
             }
             long chanceInt = Math.round(chanceSuccess*10);
-            boolean isSuccess = (random.nextInt(9)<= chanceInt);
+            boolean isSuccess = (random.nextInt(9)< chanceInt);
             writeToConsumers(consumersList, "Target "+ target.getName()+ " start sleep");
             Thread.sleep(time);
             writeToConsumers(consumersList, "Target "+ target.getName()+ " done sleep");
@@ -180,6 +180,7 @@ public class SimulationTask {
                 target.setRunStatus(TargetRunStatus.FAILURE);
             }
             this.summery.addToTargets(target, convertMillisToHMS(time));
+            writeToConsumers(consumersList, "Target: " + target.getName()+" done with status: "+target.getRunStatus().toString());
             writeToConsumers(consumersList, "Target "+ target.getName()+ " time: " + convertMillisToHMS(time));
             return isSuccess;
         }catch (Exception e){

@@ -18,11 +18,11 @@ public class TargetPathsOption implements MenuOption{
             List<List<TargetDTO>> list;
             System.out.println("Enter target src name:");
             System.out.println("If you want to go back to the menu, enter -1");
-            srcName = scanner.nextLine();
+            srcName = scanner.nextLine().trim();
             if(!srcName.equals("-1")) {
                 System.out.println("Enter target des name:");
                 System.out.println("If you want to go back to the menu, enter -1");
-                desName = scanner.nextLine();
+                desName = scanner.nextLine().trim();
                 if(!desName.equals("-1")) {
                     System.out.println("Enter dependency type (R for requiredFor or D for dependsOn):");
                     System.out.println("If you want to go back to the menu, enter -1");
