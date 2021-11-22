@@ -143,7 +143,7 @@ public class SimulationTask {
         Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd:MM:yyyy HH.mm.ss");
         String strDate = simpleDateFormat.format(date);
-        File folder = new File(graph.getWorkingDirectory()+ "/" + TasksName.SIMULATION + "-" + strDate);
+        File folder = new File(graph.getWorkingDirectory()+ "\\" + TasksName.SIMULATION + "-" + strDate);
         if(folder.mkdir())
             return folder.getAbsolutePath();
         else
@@ -196,9 +196,9 @@ public class SimulationTask {
     /* the function create target simulation files */
     private String createTargetFile(String targetName){
         try{
-        File file = new File(this.folderPath +"/" + targetName+".txt");
+        File file = new File(this.folderPath +"\\" + targetName+".txt");
         file.createNewFile();
-        return this.folderPath +"/" + targetName+".txt";
+        return this.folderPath +"\\" + targetName+".txt";
         } catch (Exception e){
             return null;
         }
