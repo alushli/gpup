@@ -53,8 +53,10 @@ public class Menu {
                 break;
             case 6:
                 new TargetCircleOption().start();
+                break;
             case 7:
                 new SavaSystemStatus().start();
+                break;
         }
     }
 
