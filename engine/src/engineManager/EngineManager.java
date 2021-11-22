@@ -1,7 +1,6 @@
 package engineManager;
 
 import Enums.DependencyTypes;
-import Enums.TasksName;
 import dtoObjects.GraphDTO;
 import dtoObjects.SimulationSummeryDTO;
 import dtoObjects.TargetDTO;
@@ -14,8 +13,7 @@ import target.Target;
 import task.SimulationTask;
 import xml.Xml;
 import exceptions.XmlException;
-import java.io.File;
-import java.text.SimpleDateFormat;
+
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -53,7 +51,8 @@ public class EngineManager implements EngineManagerInterface{
             GPUPTargets gpupTargets = new GPUPTargets();
             List<GPUPTarget> gpupTargetList = new ArrayList<>();
             setTargetListGraphForFile(gpupTargetList, this.graph, true);
-            setTargetListGraphForFile(gpupTargetList, SimulationTask.graphStatic, false);
+            if(SimulationTask.graphStatic != null)
+                setTargetListGraphForFile(gpupTargetList, SimulationTask.graphStatic, false);
             gpupTargets.setGpupTarget(gpupTargetList);
             gpupDescriptor.setGPUPTargets(gpupTargets);
         }
@@ -70,9 +69,9 @@ public class EngineManager implements EngineManagerInterface{
                 gpupTarget.setType(SimulationEntryPoint.INCREMENTAL.toString());
             if (target.getGeneralInfo() != null)
                 gpupTarget.setGPUPUserData(target.getGeneralInfo());
-            if (!target.getDependsOnList().isEmpty() || !target.getRequiredForList().isEmpty()) {
+            if(!entry.getValue().isEmpty()) {
                 GPUPTargetDependencies gpupTargetDependencies = new GPUPTargetDependencies();
-                gpupTargetDependencies.setGpugDependency(setDependencyListForFile(target));
+                gpupTargetDependencies.setGpugDependency(setDependencyListForFile(entry.getValue()));
                 gpupTarget.setGPUPTargetDependencies(gpupTargetDependencies);
             }
             gpupTargetList.add(gpupTarget);
@@ -80,18 +79,12 @@ public class EngineManager implements EngineManagerInterface{
     }
 
     /* the function return dependency list of target for saving on file */
-    private List<GPUPTargetDependencies.GPUGDependency> setDependencyListForFile(Target target){
+    private List<GPUPTargetDependencies.GPUGDependency> setDependencyListForFile(Set<Target> dependsOn){
         List<GPUPTargetDependencies.GPUGDependency> gpugDependencyList = new ArrayList<>();
-        for (Target dependTarget : target.getDependsOnList()) {
+        for (Target dependTarget : dependsOn) {
             GPUPTargetDependencies.GPUGDependency gpugDependency = new GPUPTargetDependencies.GPUGDependency();
             gpugDependency.setType(DependencyTypes.DEPENDS_ON.toString());
             gpugDependency.setValue(dependTarget.getName());
-            gpugDependencyList.add(gpugDependency);
-        }
-        for (Target requiredTarget : target.getRequiredForList()) {
-            GPUPTargetDependencies.GPUGDependency gpugDependency = new GPUPTargetDependencies.GPUGDependency();
-            gpugDependency.setType(DependencyTypes.REQUIRED_FOR.toString());
-            gpugDependency.setValue(requiredTarget.getName());
             gpugDependencyList.add(gpugDependency);
         }
         return gpugDependencyList;
@@ -200,11 +193,11 @@ public class EngineManager implements EngineManagerInterface{
         for (GPUPTarget gpupTarget : targets.getGPUPTarget()) {
             if (gpupTarget.getType() != null) {
                 if (!mapsList.get(1).keySet().contains(gpupTarget.getName())) {
-                    addToMap(gpupTarget, mapsList.get(1));
+                    mapsList.get(1).put(gpupTarget.getName(), mapsList.get(0).get(gpupTarget.getName()));
                 } else
                     targetError = gpupTarget;
             } else {
-                if (!mapsList.get(1).keySet().contains(gpupTarget.getName())) {
+                if (!mapsList.get(0).keySet().contains(gpupTarget.getName())) {
                     addToMap(gpupTarget, mapsList.get(0));
                 } else
                     targetError = gpupTarget;
@@ -287,20 +280,19 @@ public class EngineManager implements EngineManagerInterface{
         for(GPUPTarget gpupTarget : root.getGPUPTargets().getGPUPTarget()){
             if(!isOrigin){
                 if(gpupTarget.getType() != null){
-                    addTargetToGraph(gpupTarget, map, errors);
                     graph.addToGr(map.get(gpupTarget.getName()));
                 }
             } else{
                 if(gpupTarget.getType() == null){
-                    addTargetToGraph(gpupTarget, map, errors);
+                    updateTargetLists(gpupTarget, map, errors);
                     graph.addToGr(map.get(gpupTarget.getName()));
                 }
             }
         }
     }
 
-    /* the function add target to the graph */
-    private void addTargetToGraph(GPUPTarget gpupTarget, Map<String, Target> map, Set<String> errors){
+    /* the function update target depends on and required for lists */
+    private void updateTargetLists(GPUPTarget gpupTarget, Map<String, Target> map, Set<String> errors){
         Target target = map.get(gpupTarget.getName());
         if(gpupTarget.getGPUPTargetDependencies() != null){
             for (GPUPTargetDependencies.GPUGDependency dependency : gpupTarget.getGPUPTargetDependencies().getGPUGDependency()) {
