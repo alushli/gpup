@@ -66,7 +66,6 @@ public class SimulationTask {
         Set<Target> failed = new HashSet<>();
         Set<Target> succeed = new HashSet<>();
         Set<Target> warnings = new HashSet<>();
-
         Consumer<String> consumerFile = s ->printTargetToFile(s);
         List<Consumer<String>> consumersList = new ArrayList<>();
         consumersList.add(consumer);
