@@ -48,17 +48,27 @@ public class RunTaskOption implements MenuOption{
                 System.out.println(e.errorInfo() + e.getMessage());
         }
     }
+    
 
     /* the function ask for process time */
     private int askForProcessTime(Scanner scanner) {
-        int processTime = 0;
-        System.out.println("Enter processing time for all targets (positive integer):");
-        while (!scanner.hasNextInt()) {
+        try{
+            int proccessTime;
+            System.out.println("Enter processing time for all targets (positive integer):");
+            proccessTime = scanner.nextInt();
+            if(proccessTime < 0){
+                throw new Exception();
+            }else{
+                return proccessTime;
+            }
+        }catch (InputMismatchException e){
             System.out.println("Process time need to be positive integer");
             scanner.next();
+            return askForProcessTime(scanner);
+        }catch (Exception e){
+            System.out.println("Process time need to be positive integer");
+            return askForProcessTime(scanner);
         }
-        processTime = scanner.nextInt();
-        return processTime;
     }
 
     /* the function ask for random string */
@@ -75,34 +85,48 @@ public class RunTaskOption implements MenuOption{
 
     /* the function ask for chance target success */
     private double askForChanceTargetSuccess(Scanner scanner) {
-        double chanceTargetSuccess = 0;
-        System.out.println("Enter the probability that it will end successfully (between 0 to 1):");
-        while(!scanner.hasNextDouble()){
+        try{
+            double chance;
+            System.out.println("Enter the probability that it will end successfully (between 0 to 1):");
+            chance = scanner.nextDouble();
+            if(chance<0 || chance>1){
+                throw new Exception();
+            }else{
+                return chance;
+            }
+
+        }catch (InputMismatchException e){
             System.out.println("The probability that it will end successfully need to be between 0 to 1");
-            scanner.nextLine();
+            scanner.next();
+            return askForChanceTargetSuccess(scanner);
         }
-        chanceTargetSuccess = scanner.nextDouble();
-        while (chanceTargetSuccess < 0 || chanceTargetSuccess > 1){
+        catch (Exception e){
             System.out.println("The probability that it will end successfully need to be between 0 to 1");
-            chanceTargetSuccess = scanner.nextDouble();
+            return askForChanceTargetSuccess(scanner);
         }
-        return chanceTargetSuccess;
     }
 
     /* the function ask for chance target warning */
     private double askForChanceTargetWarning(Scanner scanner) {
-        double chanceTargetWarning = 0;
-        System.out.println("If end with success, enter the probability that it will end with warning (between 0 to 1):");
-        while(!scanner.hasNextDouble()){
+        try{
+            double chance;
+            System.out.println("If end with success, enter the probability that it will end with warning (between 0 to 1):");
+            chance = scanner.nextDouble();
+            if(chance<0 || chance>1){
+                throw new Exception();
+            }else{
+                return chance;
+            }
+
+        }catch (InputMismatchException e){
             System.out.println("The probability that it will end with warning need to be between 0 to 1");
-            scanner.nextLine();
+            scanner.next();
+            return askForChanceTargetSuccess(scanner);
         }
-        chanceTargetWarning = scanner.nextDouble();
-        while (chanceTargetWarning < 0 || chanceTargetWarning > 1){
+        catch (Exception e){
             System.out.println("The probability that it will end with warning need to be between 0 to 1");
-            chanceTargetWarning = scanner.nextDouble();
+            return askForChanceTargetSuccess(scanner);
         }
-        return chanceTargetWarning;
     }
 
     /* the function ask for entry point string */
