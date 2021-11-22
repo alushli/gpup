@@ -277,12 +277,15 @@ public class EngineManager implements EngineManagerInterface{
         }
     }
 
+
+
     /* the function add targets to target list */
     private void addToTargetList(Map<String, Target> map, GPUPDescriptor root, Graph graph, boolean isOrigin, Set<String> errors) {
         for(GPUPTarget gpupTarget : root.getGPUPTargets().getGPUPTarget()){
             if(!isOrigin){
                 if(gpupTarget.getType() != null){
-                    graph.addToGr(map.get(gpupTarget.getName()));
+                    graph.addToGraphWithoutList(map.get(gpupTarget.getName()));
+                    updateIncrementalGraph(gpupTarget,map,graph);
                 }
             } else{
                 if(gpupTarget.getType() == null){
@@ -305,6 +308,17 @@ public class EngineManager implements EngineManagerInterface{
                     String newError = target.getName() + " " + dependency.getType() + " " + dependency.getValue()
                             + " but " + dependency.getValue() + " not exist";
                     errors.add(newError);
+                }
+            }
+        }
+    }
+
+    private void updateIncrementalGraph(GPUPTarget gpupTarget, Map<String, Target> map, Graph graph){
+        if(gpupTarget.getGPUPTargetDependencies() != null){
+            for (GPUPTargetDependencies.GPUGDependency dependency: gpupTarget.getGPUPTargetDependencies().getGPUGDependency()){
+                String name = dependency.getValue();
+                if(map.keySet().contains(name.trim())){
+                    graph.addConnection(map.get(dependency.getValue()),map.get(gpupTarget.getName()));
                 }
             }
         }

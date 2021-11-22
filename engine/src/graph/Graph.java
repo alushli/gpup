@@ -60,6 +60,10 @@ public class Graph {
         this.map.put(target, new HashSet<>(target.getDependsOnList()));
     }
 
+    public void addToGraphWithoutList(Target target){
+        this.map.put(target, new HashSet<>());
+    }
+
     /* the function return true if graph map is empty and false else */
     public boolean isEmpty(){
         return this.map.isEmpty();
@@ -190,6 +194,12 @@ public class Graph {
         map.remove(target);
     }
 
+    /*add connection between target and targetToAdd in the graph*/
+    public void addConnection(Target targetToAdd, Target target){
+        if(map.get(target) != null){
+            this.map.get(target).add(targetToAdd);
+        }
+    }
 
     /* ******************************** for sort graph */
     public void printOrderMap(Map<Target, List<Target>> map){
@@ -239,4 +249,6 @@ public class Graph {
 
         orderMap.put(root,new ArrayList<>(root.getDependsOnList()));
     }
+
+
 }
