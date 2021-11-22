@@ -1,18 +1,9 @@
 package target;
 
-import dtoObjects.SimulationSummeryDTO;
-import Enums.DependencyTypes;
 import Enums.TargetPosition;
 import Enums.TargetRunStatus;
 import Enums.TargetStatus;
-import graph.Graph;
-import scema.generated.GPUPTargetDependencies;
-import exceptions.XmlException;
-import java.util.Random;
-
-
 import java.util.*;
-import java.util.function.Consumer;
 
 public class Target {
     private String name;
@@ -22,11 +13,12 @@ public class Target {
     private Set<Target> requiredForList;
     private String generalInfo;
 
-
+    /* the function update run status property */
     public void setRunStatus(TargetRunStatus runStatus) {
         this.runStatus = runStatus;
     }
 
+    /* the function update status property */
     public void setStatus(TargetStatus status) {
         this.status = status;
     }
@@ -61,6 +53,7 @@ public class Target {
             this.requiredForList.add(target);
         }
     }
+
     /* the function update the general info of target */
     public void updateGeneralInfo(String generalInfo){
         this.generalInfo = generalInfo;
@@ -79,44 +72,6 @@ public class Target {
     /* the function return target general information */
     public String getGeneralInfo() {
         return generalInfo;
-    }
-
-    /* the function load the dependsOnList and requiredForList of the target */
-   public void load(GPUPTargetDependencies gpupTargetDependencies, Graph graph, Set<String> validTargetExist, Set<String> errorTargetsDependencies) throws XmlException{
-       for (GPUPTargetDependencies.GPUGDependency gpupDependency : gpupTargetDependencies.getGPUGDependency()) {
-           Target target;
-           if (!graph.getGraphMap().containsKey(new Target(gpupDependency.getValue()))) {
-               target = new Target(gpupDependency.getValue());
-               graph.addToGr(target);
-               validTargetExist.add(target.getName());
-           } else {
-               target = graph.getTargetByName(gpupDependency.getValue());
-           }
-           if (gpupDependency.getType().equals(DependencyTypes.REQUIRED_FOR.toString())) {
-               if(!this.requiredForList.contains(target))
-                   this.addToRequiredForList(target);
-               if(!target.dependsOnList.contains(this))
-                   target.addToDependsOnList(this);
-               checkConflictDependencies(target, DependencyTypes.REQUIRED_FOR, errorTargetsDependencies);
-           } else if (gpupDependency.getType().equals(DependencyTypes.DEPENDS_ON.toString())) {
-               if(!this.dependsOnList.contains(target))
-                   this.addToDependsOnList(target);
-               if(!target.requiredForList.contains(this))
-                   target.addToRequiredForList(this);
-               checkConflictDependencies(target, DependencyTypes.DEPENDS_ON,errorTargetsDependencies);
-           }
-       }
-   }
-
-   /* the function return true if there is conflict between the types of dependencies of targets and false else */
-    void checkConflictDependencies(Target target, DependencyTypes dependencyTypes, Set<String> errorTargetsDependencies) throws XmlException{
-        if (dependencyTypes == DependencyTypes.DEPENDS_ON){
-            if (this.dependsOnList.contains(target) && target.dependsOnList.contains(this))
-                errorTargetsDependencies.add("target " + this.getName() + " and target " + target.getName() + " can not be dependent on each other");
-        } else if(dependencyTypes == DependencyTypes.REQUIRED_FOR){
-            if (this.requiredForList.contains(target) && target.requiredForList.contains(this))
-                errorTargetsDependencies.add("target " + this.getName() + " and target " + target.getName() + " can not be required for each other");
-        }
     }
 
     /* thr function calculate and return the target position */
@@ -138,17 +93,13 @@ public class Target {
         return this.name;
     }
 
-    //************
     @Override
     /* the function return information about the target */
     public String toString() {
-//        return "name: " + name + " position: " + position.toString() + " list of depends on: **" + " list of required from: **" +
-//                " general information: " + generalInfo;
         return name;
     }
 
     @Override
-    /* equals function between targets */
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -157,7 +108,6 @@ public class Target {
     }
 
     @Override
-    /* hash code function for target */
     public int hashCode() {
         return Objects.hash(name);
     }
@@ -183,7 +133,6 @@ public class Target {
         this.requiredForList.add(targetToAdd);
     }
 
-
     /* the function remove the target from requiredFor list */
     public void removeTargetFromRequiredList(Target targetToRemove){
         this.requiredForList.remove(targetToRemove);
@@ -203,5 +152,4 @@ public class Target {
     public boolean isInRequiredForList(Target target){
         return requiredForList.contains(target);
     }
-
 }

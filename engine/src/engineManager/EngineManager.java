@@ -14,7 +14,6 @@ import target.Target;
 import task.SimulationTask;
 import xml.Xml;
 import exceptions.XmlException;
-
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -34,8 +33,6 @@ public class EngineManager implements EngineManagerInterface{
         if(graphIncremental != null)
             SimulationTask.graphStatic = graphIncremental;
     }
-
-
 
     @Override
     /* the function load saved system status */
@@ -63,6 +60,7 @@ public class EngineManager implements EngineManagerInterface{
         saveSystemStatusHelper(gpupDescriptor, filePath);
     }
 
+    /* the function set graph for saving on file */
     private void setTargetListGraphForFile(List<GPUPTarget> gpupTargetList, Graph graph, boolean isOrigin){
         for (Map.Entry<Target, Set<Target>> entry : graph.getGraphMap().entrySet()) {
             Target target = entry.getKey();
@@ -81,6 +79,7 @@ public class EngineManager implements EngineManagerInterface{
         }
     }
 
+    /* the function return dependency list of target for saving on file */
     private List<GPUPTargetDependencies.GPUGDependency> setDependencyListForFile(Target target){
         List<GPUPTargetDependencies.GPUGDependency> gpugDependencyList = new ArrayList<>();
         for (Target dependTarget : target.getDependsOnList()) {
@@ -98,6 +97,7 @@ public class EngineManager implements EngineManagerInterface{
         return gpugDependencyList;
     }
 
+    /* the function help for function saveSystemStatus */
     private void saveSystemStatusHelper(GPUPDescriptor gpupDescriptor, String filePath) {
         Xml.writeToXml(filePath, gpupDescriptor);
     }
@@ -220,8 +220,7 @@ public class EngineManager implements EngineManagerInterface{
         return mapsList;
     }
 
-
-
+    /* the function add the target to map */
     private void addToMap(GPUPTarget gpupTarget, Map<String, Target> map){
         Target target = new Target(gpupTarget.getName());
         map.put(gpupTarget.getName(), target);
@@ -279,6 +278,7 @@ public class EngineManager implements EngineManagerInterface{
         return graphsList;
     }
 
+    /* the function add targets to target list */
     private void addToTargetList(Map<String, Target> map, GPUPDescriptor root, Graph graph, boolean isOrigin, Set<String> errors) {
         for(GPUPTarget gpupTarget : root.getGPUPTargets().getGPUPTarget()){
             if(!isOrigin){
@@ -295,6 +295,7 @@ public class EngineManager implements EngineManagerInterface{
         }
     }
 
+    /* the function add target to the graph */
     private void addTargetToGraph(GPUPTarget gpupTarget, Map<String, Target> map, Set<String> errors){
         Target target = map.get(gpupTarget.getName());
         if(gpupTarget.getGPUPTargetDependencies() != null){

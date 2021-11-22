@@ -27,6 +27,7 @@ public class LoadFileOption implements MenuOption{
         }
     }
 
+    /* the function handle for save system status xml */
     private void askFilePathForSavedSystemStatus(Scanner scanner, EngineManager engineManager){
         String xmlPath;
         try {
@@ -43,6 +44,7 @@ public class LoadFileOption implements MenuOption{
         }
     }
 
+    /* the function handle for new xml */
     private void askFilePathForNew(Scanner scanner, EngineManager engineManager){
         String xmlPath;
         try {

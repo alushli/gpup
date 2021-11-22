@@ -1,7 +1,6 @@
 package xml;
 
 import exceptions.XmlException;
-
 import javax.xml.bind.*;
 import java.io.File;
 

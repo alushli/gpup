@@ -5,7 +5,6 @@ import dtoObjects.SimulationSummeryDTO;
 import engineManager.EngineManager;
 import exceptions.MenuOptionException;
 import exceptions.TaskException;
-
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -15,7 +14,6 @@ public class RunTaskOption implements MenuOption{
     /* the function start the menu option */
     public void start() {
         Consumer<String> consumer = s-> System.out.println(s);
-
         Scanner scanner = new Scanner(System.in);
         EngineManager engineManager = Menu.getEngineManager();
         try {
@@ -51,6 +49,7 @@ public class RunTaskOption implements MenuOption{
         }
     }
 
+    /* the function ask for process time */
     private int askForProcessTime(Scanner scanner) {
         int processTime = 0;
         System.out.println("Enter processing time for all targets (positive integer):");
@@ -62,6 +61,7 @@ public class RunTaskOption implements MenuOption{
         return processTime;
     }
 
+    /* the function ask for random string */
     private String askForRandomString(Scanner scanner) {
         String isRandomString;
         System.out.println("Enter if processing time is random (Y/N):");
@@ -73,6 +73,7 @@ public class RunTaskOption implements MenuOption{
         return isRandomString;
     }
 
+    /* the function ask for chance target success */
     private double askForChanceTargetSuccess(Scanner scanner) {
         double chanceTargetSuccess = 0;
         System.out.println("Enter the probability that it will end successfully (between 0 to 1):");
@@ -88,6 +89,7 @@ public class RunTaskOption implements MenuOption{
         return chanceTargetSuccess;
     }
 
+    /* the function ask for chance target warning */
     private double askForChanceTargetWarning(Scanner scanner) {
         double chanceTargetWarning = 0;
         System.out.println("If end with success, enter the probability that it will end with warning (between 0 to 1):");
@@ -103,6 +105,7 @@ public class RunTaskOption implements MenuOption{
         return chanceTargetWarning;
     }
 
+    /* the function ask for entry point string */
     private String askForEntryPointString(Scanner scanner) {
         String entryPointString;
         System.out.println("Do you want to start running from scratch? (Y/N):");
@@ -119,5 +122,4 @@ public class RunTaskOption implements MenuOption{
         if(!error.equals(MenuOptionException.getXmlLoadError()))
             start();
     }
-
 }
