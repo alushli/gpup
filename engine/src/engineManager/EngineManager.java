@@ -28,8 +28,10 @@ public class EngineManager implements EngineManagerInterface{
         Graph graphIncremental = graphsList.get(1);
         if(graphOrigin != null)
             this.graph = graphOrigin;
-        if(graphIncremental != null)
+        if(!graphIncremental.getGraphMap().isEmpty())
             SimulationTask.graphStatic = graphIncremental;
+        else
+            SimulationTask.graphStatic = null;
     }
 
     @Override
