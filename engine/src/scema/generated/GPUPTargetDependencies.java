@@ -141,7 +141,7 @@ public class GPUPTargetDependencies {
          *     
          */
         public String getValue() {
-            return value;
+            return value.toUpperCase().trim();
         }
 
         /**

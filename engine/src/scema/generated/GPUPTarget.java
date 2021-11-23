@@ -110,7 +110,7 @@ public class GPUPTarget {
      *     
      */
     public String getName() {
-        return name;
+        return name.toUpperCase().trim();
     }
 
     /**

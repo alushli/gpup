@@ -205,12 +205,12 @@ public class EngineManager implements EngineManagerInterface{
         mapsList.add(new HashMap<>());
         for (GPUPTarget gpupTarget : targets.getGPUPTarget()) {
             if (gpupTarget.getType() != null) {
-                if (!mapsList.get(1).keySet().contains(gpupTarget.getName().toUpperCase())) {
-                    mapsList.get(1).put(gpupTarget.getName().toUpperCase(), mapsList.get(0).get(gpupTarget.getName().toUpperCase()));
+                if (!mapsList.get(1).keySet().contains(gpupTarget.getName())) {
+                    mapsList.get(1).put(gpupTarget.getName(), mapsList.get(0).get(gpupTarget.getName()));
                 } else
                     targetError = gpupTarget;
             } else {
-                if (!mapsList.get(0).keySet().contains(gpupTarget.getName().toUpperCase())) {
+                if (!mapsList.get(0).keySet().contains(gpupTarget.getName())) {
                     addToMap(gpupTarget, mapsList.get(0));
                 } else
                     targetError = gpupTarget;
@@ -228,8 +228,8 @@ public class EngineManager implements EngineManagerInterface{
 
     /* the function add the target to map */
     private void addToMap(GPUPTarget gpupTarget, Map<String, Target> map){
-        Target target = new Target(gpupTarget.getName().toUpperCase());
-        map.put(gpupTarget.getName().toUpperCase(), target);
+        Target target = new Target(gpupTarget.getName());
+        map.put(gpupTarget.getName(), target);
         if(gpupTarget.getGPUPUserData() != null) {
             target.updateGeneralInfo(gpupTarget.getGPUPUserData());
         }
@@ -295,24 +295,28 @@ public class EngineManager implements EngineManagerInterface{
         for(GPUPTarget gpupTarget : root.getGPUPTargets().getGPUPTarget()){
             if(!isOrigin){
                 if(gpupTarget.getType() != null){
-                    graph.addToGraphWithoutList(map.get(gpupTarget.getName().toUpperCase()));
+                    graph.addToGraphWithoutList(map.get(gpupTarget.getName()));
                     updateIncrementalGraph(gpupTarget,map,graph);
                 }
             } else{
                 if(gpupTarget.getType() == null){
                     updateTargetLists(gpupTarget, map, errors);
-                    graph.addToGr(map.get(gpupTarget.getName().toUpperCase()));
                 }
+            }
+        }
+        if(isOrigin){
+            for (GPUPTarget gpupTarget : root.getGPUPTargets().getGPUPTarget()){
+                graph.addToGr(map.get(gpupTarget.getName()));
             }
         }
     }
 
     /* the function update target depends on and required for lists */
     private void updateTargetLists(GPUPTarget gpupTarget, Map<String, Target> map, Set<String> errors){
-        Target target = map.get(gpupTarget.getName().toUpperCase());
+        Target target = map.get(gpupTarget.getName());
         if(gpupTarget.getGPUPTargetDependencies() != null){
             for (GPUPTargetDependencies.GPUGDependency dependency : gpupTarget.getGPUPTargetDependencies().getGPUGDependency()) {
-                String name = dependency.getValue().toUpperCase();
+                String name = dependency.getValue();
                 if (map.keySet().contains(name.trim())) {
                     addToTargetListByType(target, dependency, map.get(name.trim()), errors);
                 } else {
@@ -327,9 +331,9 @@ public class EngineManager implements EngineManagerInterface{
     private void updateIncrementalGraph(GPUPTarget gpupTarget, Map<String, Target> map, Graph graph){
         if(gpupTarget.getGPUPTargetDependencies() != null){
             for (GPUPTargetDependencies.GPUGDependency dependency: gpupTarget.getGPUPTargetDependencies().getGPUGDependency()){
-                String name = dependency.getValue().toUpperCase();
+                String name = dependency.getValue();
                 if(map.keySet().contains(name.trim())){
-                    graph.addConnection(map.get(name),map.get(gpupTarget.getName().toUpperCase()));
+                    graph.addConnection(map.get(name),map.get(gpupTarget.getName()));
                 }
             }
         }
