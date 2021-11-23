@@ -5,7 +5,8 @@ public enum TargetStatus {
     SKIPPED ("skipped"),
     WAITING ("waiting"),
     IN_PROCESS("in-process"),
-    FINISHED ("finished");
+    FINISHED ("finished"),
+    NONE ("none");
 
     private String name;
 

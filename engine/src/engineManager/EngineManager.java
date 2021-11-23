@@ -107,7 +107,7 @@ public class EngineManager implements EngineManagerInterface{
     @Override
     /* the function return target info */
     public TargetDTO getTargetInfo(String targetName) throws MenuOptionException{
-        Target target = this.graph.getTargetByName(targetName);
+        Target target = this.graph.getTargetByName(targetName.toUpperCase());
         if(target == null)
             throw new MenuOptionException("The target doesn't exist on the graph.");
         else
@@ -172,7 +172,7 @@ public class EngineManager implements EngineManagerInterface{
     @Override
     /* the function return target circle */
     public LinkedHashSet<TargetDTO> getTargetCircle(String targetName) throws MenuOptionException {
-        Target target = graph.getTargetByName(targetName);
+        Target target = graph.getTargetByName(targetName.toUpperCase());
         if(target == null)
             throw new MenuOptionException("The target doesn't exist on the graph.");
         LinkedHashSet<Target> linkedHashSet = this.graph.findCircle(target);
@@ -205,12 +205,12 @@ public class EngineManager implements EngineManagerInterface{
         mapsList.add(new HashMap<>());
         for (GPUPTarget gpupTarget : targets.getGPUPTarget()) {
             if (gpupTarget.getType() != null) {
-                if (!mapsList.get(1).keySet().contains(gpupTarget.getName())) {
-                    mapsList.get(1).put(gpupTarget.getName(), mapsList.get(0).get(gpupTarget.getName()));
+                if (!mapsList.get(1).keySet().contains(gpupTarget.getName().toUpperCase())) {
+                    mapsList.get(1).put(gpupTarget.getName().toUpperCase(), mapsList.get(0).get(gpupTarget.getName().toUpperCase()));
                 } else
                     targetError = gpupTarget;
             } else {
-                if (!mapsList.get(0).keySet().contains(gpupTarget.getName())) {
+                if (!mapsList.get(0).keySet().contains(gpupTarget.getName().toUpperCase())) {
                     addToMap(gpupTarget, mapsList.get(0));
                 } else
                     targetError = gpupTarget;
@@ -228,8 +228,8 @@ public class EngineManager implements EngineManagerInterface{
 
     /* the function add the target to map */
     private void addToMap(GPUPTarget gpupTarget, Map<String, Target> map){
-        Target target = new Target(gpupTarget.getName());
-        map.put(gpupTarget.getName(), target);
+        Target target = new Target(gpupTarget.getName().toUpperCase());
+        map.put(gpupTarget.getName().toUpperCase(), target);
         if(gpupTarget.getGPUPUserData() != null) {
             target.updateGeneralInfo(gpupTarget.getGPUPUserData());
         }
@@ -295,13 +295,13 @@ public class EngineManager implements EngineManagerInterface{
         for(GPUPTarget gpupTarget : root.getGPUPTargets().getGPUPTarget()){
             if(!isOrigin){
                 if(gpupTarget.getType() != null){
-                    graph.addToGraphWithoutList(map.get(gpupTarget.getName()));
+                    graph.addToGraphWithoutList(map.get(gpupTarget.getName().toUpperCase()));
                     updateIncrementalGraph(gpupTarget,map,graph);
                 }
             } else{
                 if(gpupTarget.getType() == null){
                     updateTargetLists(gpupTarget, map, errors);
-                    graph.addToGr(map.get(gpupTarget.getName()));
+                    graph.addToGr(map.get(gpupTarget.getName().toUpperCase()));
                 }
             }
         }
@@ -309,12 +309,12 @@ public class EngineManager implements EngineManagerInterface{
 
     /* the function update target depends on and required for lists */
     private void updateTargetLists(GPUPTarget gpupTarget, Map<String, Target> map, Set<String> errors){
-        Target target = map.get(gpupTarget.getName());
+        Target target = map.get(gpupTarget.getName().toUpperCase());
         if(gpupTarget.getGPUPTargetDependencies() != null){
             for (GPUPTargetDependencies.GPUGDependency dependency : gpupTarget.getGPUPTargetDependencies().getGPUGDependency()) {
-                String name = dependency.getValue();
+                String name = dependency.getValue().toUpperCase();
                 if (map.keySet().contains(name.trim())) {
-                    addToTargetListByType(target, dependency, map.get(dependency.getValue().trim()), errors);
+                    addToTargetListByType(target, dependency, map.get(name.trim()), errors);
                 } else {
                     String newError = target.getName() + " " + dependency.getType() + " " + dependency.getValue()
                             + " but " + dependency.getValue() + " not exist";
@@ -327,9 +327,9 @@ public class EngineManager implements EngineManagerInterface{
     private void updateIncrementalGraph(GPUPTarget gpupTarget, Map<String, Target> map, Graph graph){
         if(gpupTarget.getGPUPTargetDependencies() != null){
             for (GPUPTargetDependencies.GPUGDependency dependency: gpupTarget.getGPUPTargetDependencies().getGPUGDependency()){
-                String name = dependency.getValue();
+                String name = dependency.getValue().toUpperCase();
                 if(map.keySet().contains(name.trim())){
-                    graph.addConnection(map.get(dependency.getValue()),map.get(gpupTarget.getName()));
+                    graph.addConnection(map.get(name),map.get(gpupTarget.getName().toUpperCase()));
                 }
             }
         }

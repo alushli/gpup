@@ -25,9 +25,11 @@ public class Target {
 
     /* the function create new target */
     public Target(String name){
-        this.name = name.trim();
+        this.name = name.trim().toUpperCase();
         dependsOnList = new HashSet<>();
         requiredForList = new HashSet<>();
+        this.runStatus = TargetRunStatus.NONE;
+        this.status = TargetStatus.NONE;
     }
 
     /* copy constructor */

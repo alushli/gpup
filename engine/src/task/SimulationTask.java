@@ -109,7 +109,7 @@ public class SimulationTask {
         Set<Target> targetsReq = target.getRequiredForList();
         for(Target target1 : targetsReq){
             graph.removeConnection(target1, target);
-            if(graph.isRunnable(target1) && !(target1.getStatus().equals(TargetStatus.SKIPPED))){
+            if(graph.isRunnable(target1) && !(target1.getStatus().equals(TargetRunStatus.SKIPPED))){
                 writeToConsumers(consumersList, "Target "+ target1.getName()+ " turned WAITING.");
                 target1.setStatus(TargetStatus.WAITING);
                 runnableList.add(target1);
