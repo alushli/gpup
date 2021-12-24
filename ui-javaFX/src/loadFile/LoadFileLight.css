@@ -1,0 +1,43 @@
+#header_label{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 40px;
+    -fx-font-weight: 700;
+}
+
+#what_next_label {
+    -fx-font-family: Tahoma;
+    -fx-font-size: 24px;
+    -fx-font-weight: 700;
+}
+
+#expand_btn{
+    -fx-background-color: transparent;
+}
+
+
+
+.successes_message{
+    -fx-text-fill: green;
+}
+
+.failed_message{
+    -fx-text-fill: red;
+}
+
+#file_path_label{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 14px;
+    -fx-background-color: white;
+    -fx-padding: 2 10 2 10;
+    -fx-border-color: black;
+}
+
+.load_message_label{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 14px;
+}
+
+.load_file_btn{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 14px;
+}
