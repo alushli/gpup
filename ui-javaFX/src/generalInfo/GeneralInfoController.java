@@ -2,7 +2,6 @@ package generalInfo;
 
 import appScreen.AppController;
 import enums.FxmlPath;
-import enums.ScreenTypes;
 import generalInfo.showGraphInfo.ShowGraphInfoController;
 import generalInfo.showTargetInfo.ShowTargetInfoController;
 import javafx.fxml.FXML;
@@ -32,8 +31,8 @@ public class GeneralInfoController extends mainControllers.Controllers {
         if(showTargetInfoComponentController == null) {
             setTargetInfoFxml();
         }
-        showTargetInfoComponentController.setTable();
         this.appController.setArea(this.appController.getMenuComponentController().getGeneralInfoController().getShowTargetInfoParent());
+        showTargetInfoComponentController.setTable();
     }
 
     void setTargetInfoFxml(){
@@ -76,7 +75,7 @@ public class GeneralInfoController extends mainControllers.Controllers {
         if(!this.appController.getLoadFile()){
             LoadFileError.setLoadFileError(showGraphInfoComponentController.getDataArea(), this.appController);
         } else {
-            LoadFileError.removeLoadFileError(showGraphInfoComponentController.getDataArea(), this.appController);
+            LoadFileError.removeLoadFileError(showGraphInfoComponentController.getDataArea());
         }
     }
 

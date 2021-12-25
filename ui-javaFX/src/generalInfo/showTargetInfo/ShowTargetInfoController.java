@@ -31,7 +31,7 @@ public class ShowTargetInfoController extends mainControllers.Controllers{
             fxmlLoader.setLocation(url);
             this.appController.setArea(fxmlLoader.load(url.openStream()));
         }catch (Exception e){
-            System.out.println("t");
+            System.out.println("problem with table");
         }
 
     }

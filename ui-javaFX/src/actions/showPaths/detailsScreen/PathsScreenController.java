@@ -23,9 +23,15 @@ public class PathsScreenController extends mainControllers.Controllers{
     @FXML
     private StackPane paths_SP;
 
+
+    @FXML
+    public void initialize() {
+        setPathsTable(5);
+    }
+
     @FXML
     void clickSwitch(ActionEvent event) {
-        String temp = target1_label.getText();
+        String temp = target2_label.getText();
         target2_label.setText(target1_label.getText());
         target1_label.setText(temp);
     }
@@ -41,7 +47,7 @@ public class PathsScreenController extends mainControllers.Controllers{
         VBox vBox = new VBox();
         for(int i=0 ; i<size ; i++){
             Label label = new Label();
-            label.setText(i+1 + "Please upload valid xml file first");
+            label.setText(i+1 + ": Please upload valid xml file first");
             vBox.getChildren().add(label);
         }
         paths_SP.getChildren().add(0,vBox);

@@ -31,7 +31,7 @@ public class LoadFileError {
         label.getStyleClass().add("load_error_label");
     }
 
-    public static void removeLoadFileError(StackPane data_area, AppController appController){
+    public static void removeLoadFileError(StackPane data_area){
         data_area.getChildren().remove(vBox);
     }
 }
