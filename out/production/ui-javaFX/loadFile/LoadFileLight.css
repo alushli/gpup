@@ -10,11 +10,16 @@
     -fx-font-weight: 700;
 }
 
-#expand_btn{
-    -fx-background-color: transparent;
+#message_label{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 14px;
 }
 
-
+#load_message_ta{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 14px;
+    -fx-wrap-text: true;
+}
 
 .successes_message{
     -fx-text-fill: green;
@@ -32,12 +37,21 @@
     -fx-border-color: black;
 }
 
-.load_message_label{
-    -fx-font-family:Tahoma;
-    -fx-font-size: 14px;
-}
 
 .load_file_btn{
     -fx-font-family:Tahoma;
     -fx-font-size: 14px;
+    -fx-cursor:hand ;
+}
+
+.what_next_buttons{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 14px;
+    -fx-cursor:hand ;
+}
+
+.what_next_main_buttons{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 18px;
+    -fx-cursor:hand ;
 }

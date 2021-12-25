@@ -32,6 +32,7 @@ public class TasksController extends mainControllers.Controllers{
         if(simulationTaskComponentController == null) {
             setSimulationTaskFxml();
         }
+        this.appController.setArea(this.appController.getMenuComponentController().getTasksController().getSimulationTaskParent());
     }
 
     void setSimulationTaskFxml(){
@@ -52,6 +53,7 @@ public class TasksController extends mainControllers.Controllers{
         if(compilerTaskComponentController == null) {
             setCompilerTaskFxml();
         }
+        this.appController.setArea(this.appController.getMenuComponentController().getTasksController().getCompilerTaskParent());
     }
 
     void setCompilerTaskFxml(){

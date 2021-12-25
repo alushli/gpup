@@ -20,12 +20,8 @@ public class ShowGraphInfoController extends mainControllers.Controllers{
     @FXML
     private StackPane data_area;
 
-    public void setLoadFileHandling(){
-        if(!this.appController.getLoadFile()){
-            LoadFileError.setLoadFileError(this.data_area, this.appController);
-       }else{
-
-       }
+    public StackPane getDataArea() {
+        return data_area;
     }
 
     @Override

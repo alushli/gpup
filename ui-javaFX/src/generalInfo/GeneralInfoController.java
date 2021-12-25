@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import templates.LoadFileError;
 
 import java.io.IOException;
 import java.net.URL;
@@ -31,6 +32,7 @@ public class GeneralInfoController extends mainControllers.Controllers {
         if(showTargetInfoComponentController == null) {
             setTargetInfoFxml();
         }
+        this.appController.setArea(this.appController.getMenuComponentController().getGeneralInfoController().getShowTargetInfoParent());
     }
 
     void setTargetInfoFxml(){
@@ -51,7 +53,7 @@ public class GeneralInfoController extends mainControllers.Controllers {
         if(showGraphInfoComponentController == null) {
             setGraphInfoFxml();
         }
-        this.showGraphInfoComponentController.setLoadFileHandling();
+        this.setLoadFileHandling();
     }
 
     void setGraphInfoFxml(){
@@ -65,6 +67,15 @@ public class GeneralInfoController extends mainControllers.Controllers {
             this.showGraphInfoComponentController.setMainController(this);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void setLoadFileHandling(){
+        this.appController.setArea(getShowGraphInfoParent());
+        if(!this.appController.getLoadFile()){
+            LoadFileError.setLoadFileError(showGraphInfoComponentController.getDataArea(), this.appController);
+        } else {
+            LoadFileError.removeLoadFileError(showGraphInfoComponentController.getDataArea(), this.appController);
         }
     }
 

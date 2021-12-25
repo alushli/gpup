@@ -37,11 +37,9 @@ public class SubMenuController extends  mainControllers.Controllers{
         buttons_vbox.getChildren().add(showPathBtn);
         showCirclesBtn.setOnAction(e -> {
             this.mainController.getActionController().setShowCirclesControllers();
-            this.appController.setArea(this.mainController.getActionController().getShowCirclesParent());
         });
         showPathBtn.setOnAction(e -> {
             this.mainController.getActionController().setShowPathsControllers();
-            this.appController.setArea(this.mainController.getActionController().getShowPathsParent());
         });
     }
 
@@ -55,12 +53,9 @@ public class SubMenuController extends  mainControllers.Controllers{
         buttons_vbox.getChildren().add(graphInfoBtn);
         targetInfoBtn.setOnAction(e -> {
             this.mainController.getGeneralInfoController().setTargetInfoControllers();
-            this.appController.setArea(this.mainController.getGeneralInfoController().getShowTargetInfoParent());
-
         });
         graphInfoBtn.setOnAction(e -> {
             this.mainController.getGeneralInfoController().setGraphInfoControllers();
-            this.appController.setArea(this.mainController.getGeneralInfoController().getShowGraphInfoParent());
         });
     }
 
@@ -74,11 +69,9 @@ public class SubMenuController extends  mainControllers.Controllers{
         buttons_vbox.getChildren().add(compilerBtn);
         simulationBtn.setOnAction(e -> {
             this.mainController.getTasksController().setSimulationControllers();
-            this.appController.setArea(this.mainController.getTasksController().getSimulationTaskParent());
         });
         compilerBtn.setOnAction(e -> {
             this.mainController.getTasksController().setCompilerControllers();
-            this.appController.setArea(this.mainController.getTasksController().getCompilerTaskParent());
         });
     }
 

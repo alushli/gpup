@@ -30,6 +30,7 @@ public class ActionsController extends mainControllers.Controllers {
         if(showPathsComponentController == null) {
             setShowPathsFxml();
         }
+        this.appController.setArea(this.appController.getMenuComponentController().getActionController().getShowPathsParent());
     }
 
     void setShowPathsFxml(){
@@ -50,6 +51,7 @@ public class ActionsController extends mainControllers.Controllers {
         if(showCirclesComponentController == null) {
             setShowCircleFxml();
         }
+        this.appController.setArea(this.appController.getMenuComponentController().getActionController().getShowCirclesParent());
     }
 
     void setShowCircleFxml(){
