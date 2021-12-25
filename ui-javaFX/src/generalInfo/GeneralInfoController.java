@@ -32,6 +32,7 @@ public class GeneralInfoController extends mainControllers.Controllers {
         if(showTargetInfoComponentController == null) {
             setTargetInfoFxml();
         }
+        showTargetInfoComponentController.setTable();
         this.appController.setArea(this.appController.getMenuComponentController().getGeneralInfoController().getShowTargetInfoParent());
     }
 
