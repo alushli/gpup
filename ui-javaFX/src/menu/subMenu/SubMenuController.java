@@ -55,7 +55,8 @@ public class SubMenuController extends  mainControllers.Controllers{
         buttons_vbox.getChildren().add(graphInfoBtn);
         targetInfoBtn.setOnAction(e -> {
             this.mainController.getGeneralInfoController().setTargetInfoControllers();
-            this.appController.setArea(this.mainController.getGeneralInfoController().getShowTargetInfoParent());
+            //this.appController.setArea(this.mainController.getGeneralInfoController().getShowTargetInfoParent());
+
 
         });
         graphInfoBtn.setOnAction(e -> {
