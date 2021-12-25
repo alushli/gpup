@@ -111,6 +111,7 @@ public class LoadFileController extends mainControllers.Controllers{
 
     @FXML
     void clickLoadFile(ActionEvent event) {
+        setVisibleButtons();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select xml file");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files", "*.xml"));
