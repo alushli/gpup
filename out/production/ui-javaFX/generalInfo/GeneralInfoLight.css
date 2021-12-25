@@ -1,0 +1,16 @@
+#header_label{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 40px;
+    -fx-font-weight: 700;
+}
+
+.load_btn{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 14px;
+    -fx-padding: 10 5 10 5;
+}
+
+.load_error_label{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 14px;
+}
