@@ -19,6 +19,7 @@ public class GeneralInfoController extends mainControllers.Controllers {
     private static ShowGraphInfoController showGraphInfoComponentController = null;
     private static Parent showGraphInfoParent;
 
+
     @FXML
     private Label lable;
 
@@ -31,6 +32,7 @@ public class GeneralInfoController extends mainControllers.Controllers {
         if(showTargetInfoComponentController == null) {
             setTargetInfoFxml();
         }
+        showTargetInfoComponentController.setTable();
     }
 
     void setTargetInfoFxml(){
