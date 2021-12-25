@@ -1,0 +1,39 @@
+#menu{
+
+}
+#menu-scroll-pane{
+    -fx-background-color:transparent;
+}
+#menu-header{
+    -fx-background-color: transparent;
+    -fx-padding: 10 0 0 10;
+    -fx-font-family: Tahoma;
+    -fx-font-weight: 900;
+    -fx-font-size: 24;
+}
+#menu-buttons-vbox{
+    -fx-padding:20 0 0 0 ;
+}
+#back_btn{
+    -fx-background-color: transparent;
+    -fx-cursor:hand ;
+}
+
+#sub_header_label {
+    -fx-padding:5px 0 10px 5px ;
+    -fx-font-family:Tahoma;
+    -fx-font-size: 14px;
+    -fx-font-weight: 700;
+}
+
+.menu-btn{
+    -fx-background-color: transparent;
+    -fx-font-family:Tahoma;
+    -fx-font-size: 14px;
+    -fx-padding: 13px 0 0 5px;
+}
+
+.menu-btn:hover{
+    -fx-background-color:#E8E9EB;
+    -fx-cursor:hand ;
+}

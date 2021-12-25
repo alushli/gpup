@@ -13,8 +13,10 @@ import java.io.IOException;
 import java.net.URL;
 
 public class ActionsController extends mainControllers.Controllers {
-    private ShowPathsController showPathsComponentController;
-    private ShowCirclesController showCirclesComponentController;
+    private static ShowPathsController showPathsComponentController = null;
+    private static Parent showPathsParent;
+    private static ShowCirclesController showCirclesComponentController = null;
+    private static Parent showCirclesParent;
 
     @FXML
     private Label lable;
@@ -24,35 +26,48 @@ public class ActionsController extends mainControllers.Controllers {
         this.appController = mainControllers;
     }
 
-    public Parent setShowPathsControllers() {
+    public void setShowPathsControllers() {
+        if(showPathsComponentController == null) {
+            setShowPathsFxml();
+        }
+    }
+
+    void setShowPathsFxml(){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             URL url = getClass().getResource("../" + FxmlPath.TARGET_PATHS);
             fxmlLoader.setLocation(url);
-            Parent data = fxmlLoader.load(url.openStream());
-            this.showPathsComponentController = fxmlLoader.getController();
+            this.showPathsParent = fxmlLoader.load(url.openStream());
+            this.showPathsComponentController= fxmlLoader.getController();
             this.showPathsComponentController.setAppController(this.appController);
             this.showPathsComponentController.setMainController(this);
-            return data;
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
     }
 
-    public Parent setShowCirclesControllers() {
+    public void setShowCirclesControllers() {
+        if(showCirclesComponentController == null) {
+            setShowCircleFxml();
+        }
+    }
+
+    void setShowCircleFxml(){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             URL url = getClass().getResource("../" + FxmlPath.TARGET_CIRCLES);
             fxmlLoader.setLocation(url);
-            Parent data = fxmlLoader.load(url.openStream());
-            this.showCirclesComponentController = fxmlLoader.getController();
+            this.showCirclesParent = fxmlLoader.load(url.openStream());
+            this.showCirclesComponentController= fxmlLoader.getController();
             this.showCirclesComponentController.setAppController(this.appController);
             this.showCirclesComponentController.setMainController(this);
-            return data;
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
     }
+
+    public Parent getShowPathsParent() { return this.showPathsParent; }
+
+    public Parent getShowCirclesParent() { return this.showCirclesParent; }
+
 }

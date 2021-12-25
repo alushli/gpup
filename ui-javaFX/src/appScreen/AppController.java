@@ -11,22 +11,29 @@ import java.io.IOException;
 import java.net.URL;
 
 public class AppController {
-
     @FXML private StackPane menu_area;
-    @FXML private MenuController menuComponentController;
+    private static Parent menuParent;
+    private static MenuController menuComponentController = null;
+
     @FXML private StackPane content_area;
     private boolean isLoadFile = false;
 
     @FXML
     public void initialize() {
+            if(menuComponentController == null) {
+                setMenuFxml();
+            }
+            setMenu(this.menuParent);
+    }
+
+    private void setMenuFxml(){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            URL url = getClass().getResource("../" + FxmlPath.MENU.toString());
+            URL url = getClass().getResource("../" + FxmlPath.MENU);
             fxmlLoader.setLocation(url);
-            Parent data = fxmlLoader.load(url.openStream());
+            this.menuParent = fxmlLoader.load(url.openStream());
             this.menuComponentController = fxmlLoader.getController();
             this.menuComponentController.setAppController(this);
-            setMenu(data);
         } catch (IOException e) {
             e.printStackTrace();
         }

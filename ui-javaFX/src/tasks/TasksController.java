@@ -15,8 +15,10 @@ import java.io.IOException;
 import java.net.URL;
 
 public class TasksController extends mainControllers.Controllers{
-    private SimulationTaskController simulationTaskComponentController;
-    private CompilerTaskController compilerTaskComponentController;
+    private static SimulationTaskController simulationTaskComponentController = null;
+    private static Parent simulationTaskParent;
+    private static CompilerTaskController compilerTaskComponentController = null;
+    private static Parent compilerTaskParent;
 
     @FXML
     private Label lable;
@@ -26,35 +28,47 @@ public class TasksController extends mainControllers.Controllers{
         this.appController = mainControllers;
     }
 
-    public Parent setSimulationControllers() {
+    public void setSimulationControllers() {
+        if(simulationTaskComponentController == null) {
+            setSimulationTaskFxml();
+        }
+    }
+
+    void setSimulationTaskFxml(){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             URL url = getClass().getResource("../" + FxmlPath.SIMULATION_TASK);
             fxmlLoader.setLocation(url);
-            Parent data = fxmlLoader.load(url.openStream());
-            this.simulationTaskComponentController = fxmlLoader.getController();
+            this.simulationTaskParent = fxmlLoader.load(url.openStream());
+            this.simulationTaskComponentController= fxmlLoader.getController();
             this.simulationTaskComponentController.setAppController(this.appController);
             this.simulationTaskComponentController.setMainController(this);
-            return data;
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
     }
 
-    public Parent setCompilerControllers() {
+    public void setCompilerControllers() {
+        if(compilerTaskComponentController == null) {
+            setCompilerTaskFxml();
+        }
+    }
+
+    void setCompilerTaskFxml(){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             URL url = getClass().getResource("../" + FxmlPath.COMPILER_TASK);
             fxmlLoader.setLocation(url);
-            Parent data = fxmlLoader.load(url.openStream());
-            this.compilerTaskComponentController = fxmlLoader.getController();
+            this.compilerTaskParent = fxmlLoader.load(url.openStream());
+            this.compilerTaskComponentController= fxmlLoader.getController();
             this.compilerTaskComponentController.setAppController(this.appController);
             this.compilerTaskComponentController.setMainController(this);
-            return data;
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
     }
+
+    public Parent getSimulationTaskParent() { return this.simulationTaskParent; }
+
+    public Parent getCompilerTaskParent() { return this.compilerTaskParent; }
 }

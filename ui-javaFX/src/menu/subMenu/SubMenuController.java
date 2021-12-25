@@ -21,6 +21,7 @@ public class SubMenuController extends  mainControllers.Controllers{
     @FXML
     private Button back_btn;
 
+
     @FXML
     void clickBack(ActionEvent event) {
         this.appController.initialize();
@@ -35,10 +36,12 @@ public class SubMenuController extends  mainControllers.Controllers{
         buttons_vbox.getChildren().add(showCirclesBtn);
         buttons_vbox.getChildren().add(showPathBtn);
         showCirclesBtn.setOnAction(e -> {
-            this.appController.setArea(this.mainController.getActionController().setShowCirclesControllers());
+            this.mainController.getActionController().setShowCirclesControllers();
+            this.appController.setArea(this.mainController.getActionController().getShowCirclesParent());
         });
         showPathBtn.setOnAction(e -> {
-            this.appController.setArea(this.mainController.getActionController().setShowPathsControllers());
+            this.mainController.getActionController().setShowPathsControllers();
+            this.appController.setArea(this.mainController.getActionController().getShowPathsParent());
         });
     }
 
@@ -51,11 +54,13 @@ public class SubMenuController extends  mainControllers.Controllers{
         buttons_vbox.getChildren().add(targetInfoBtn);
         buttons_vbox.getChildren().add(graphInfoBtn);
         targetInfoBtn.setOnAction(e -> {
-            this.appController.setArea(this.mainController.getGeneralInfoController().setTargetInfoControllers());
+            this.mainController.getGeneralInfoController().setTargetInfoControllers();
+            this.appController.setArea(this.mainController.getGeneralInfoController().getShowTargetInfoParent());
 
         });
         graphInfoBtn.setOnAction(e -> {
-            this.appController.setArea(this.mainController.getGeneralInfoController().setGraphInfoControllers());
+            this.mainController.getGeneralInfoController().setGraphInfoControllers();
+            this.appController.setArea(this.mainController.getGeneralInfoController().getShowGraphInfoParent());
         });
     }
 
@@ -68,13 +73,14 @@ public class SubMenuController extends  mainControllers.Controllers{
         buttons_vbox.getChildren().add(simulationBtn);
         buttons_vbox.getChildren().add(compilerBtn);
         simulationBtn.setOnAction(e -> {
-            this.appController.setArea(this.mainController.getTasksController().setSimulationControllers());
+            this.mainController.getTasksController().setSimulationControllers();
+            this.appController.setArea(this.mainController.getTasksController().getSimulationTaskParent());
         });
         compilerBtn.setOnAction(e -> {
-            this.appController.setArea(this.mainController.getTasksController().setCompilerControllers());
+            this.mainController.getTasksController().setCompilerControllers();
+            this.appController.setArea(this.mainController.getTasksController().getCompilerTaskParent());
         });
     }
-
 
     @Override
     public void setAppController(AppController mainControllers) {

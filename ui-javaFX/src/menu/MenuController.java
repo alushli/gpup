@@ -20,23 +20,16 @@ import java.io.IOException;
 import java.net.URL;
 
 public class MenuController extends mainControllers.Controllers {
-    private LoadFileController loadFileComponentController;
-    private TasksController tasksComponentController;
-    private GeneralInfoController generalInfoComponentController;
-    private ActionsController actionsComponentController;
-    private SubMenuController subMenuComponentController;
-
-    @FXML
-    private Button load_file_btn;
-
-    @FXML
-    private Button general_info_btn;
-
-    @FXML
-    private Button actions_btn;
-
-    @FXML
-    private Button tasks_btn;
+    private static LoadFileController loadFileComponentController = null;
+    private static Parent loadFileParent;
+    private static TasksController tasksComponentController = null;
+    private static Parent tasksParent;
+    private static GeneralInfoController generalInfoComponentController = null;
+    private static Parent generalInfoParent;
+    private static ActionsController actionsComponentController = null;
+    private static Parent actionsParent;
+    private static SubMenuController subMenuComponentController = null;
+    private Parent subMenuParent;
 
     @FXML
     private CheckBox animation_cb;
@@ -52,73 +45,109 @@ public class MenuController extends mainControllers.Controllers {
     }
 
     public void setSubMenu(){
-        Parent menu = getRoot(FxmlPath.SUB_MENU.toString(), ScreenTypes.SUB_MENU);
-        appController.setMenu(menu);
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            URL url = getClass().getResource(FxmlPath.SUB_MENU.toString());
+            fxmlLoader.setLocation(url);
+            this.subMenuParent = fxmlLoader.load(url.openStream());
+            this.subMenuComponentController= fxmlLoader.getController();
+            this.subMenuComponentController.setAppController(this.appController);
+            this.subMenuComponentController.setMainController(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        appController.setMenu(this.subMenuParent);
     }
 
     @FXML
     public void clickAction(ActionEvent event) {
         setSubMenu();
         this.subMenuComponentController.setActionButtons();
-        getRoot("../" + FxmlPath.ACTIONS, ScreenTypes.ACTIONS);
+        if(actionsComponentController == null) {
+            setActionsFxml();
+        }
+        //appController.setArea(this.actionsParent);
+    }
+
+    void setActionsFxml() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            URL url = getClass().getResource("../" + FxmlPath.ACTIONS);
+            fxmlLoader.setLocation(url);
+            this.actionsParent = fxmlLoader.load(url.openStream());
+            this.actionsComponentController= fxmlLoader.getController();
+            this.actionsComponentController.setAppController(this.appController);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     public void clickGeneralInfo(ActionEvent event) {
         setSubMenu();
         this.subMenuComponentController.setGeneralInfoButtons();
-        getRoot("../" + FxmlPath.GENERAL_INFO, ScreenTypes.GENERAL_INFO);
+        if(generalInfoComponentController == null) {
+            setGeneralInfoFxml();
+        }
+        //appController.setArea(this.generalInfoParent);
+    }
+
+    void setGeneralInfoFxml() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            URL url = getClass().getResource("../" + FxmlPath.GENERAL_INFO);
+            fxmlLoader.setLocation(url);
+            this.generalInfoParent = fxmlLoader.load(url.openStream());
+            this.generalInfoComponentController= fxmlLoader.getController();
+            this.generalInfoComponentController.setAppController(this.appController);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     public void clickLoadFile(ActionEvent event) {
-        Parent data = getRoot("../" + FxmlPath.LOAD_FILE, ScreenTypes.LOAD_FILE);
-        appController.setArea(data);
+        if(loadFileComponentController == null) {
+            setLoadFileFxml();
+        }
+        appController.setArea(this.loadFileParent);
+    }
+
+    void setLoadFileFxml() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            URL url = getClass().getResource("../" + FxmlPath.LOAD_FILE);
+            fxmlLoader.setLocation(url);
+            this.loadFileParent = fxmlLoader.load(url.openStream());
+            this.loadFileComponentController= fxmlLoader.getController();
+            this.loadFileComponentController.setAppController(this.appController);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     public void clickTasks(ActionEvent event) {
         setSubMenu();
         this.subMenuComponentController.setTasksButtons();
-        getRoot("../" + FxmlPath.TASKS, ScreenTypes.TASKS);
+        if(tasksComponentController == null) {
+            setTasksFxml();
+        }
+        //appController.setArea(this.tasksParent);
     }
 
-    Parent getRoot(String path, ScreenTypes screenName)  {
+    void setTasksFxml() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            URL url = getClass().getResource(path);
+            URL url = getClass().getResource("../" + FxmlPath.TASKS);
             fxmlLoader.setLocation(url);
-            Parent data = fxmlLoader.load(url.openStream());
-            switch (screenName){
-                case LOAD_FILE:
-                    this.loadFileComponentController = fxmlLoader.getController();
-                    this.loadFileComponentController.setAppController(this.appController);
-                    break;
-                case GENERAL_INFO:
-                    this.generalInfoComponentController = fxmlLoader.getController();
-                    this.generalInfoComponentController.setAppController(this.appController);
-                    break;
-                case TASKS:
-                    this.tasksComponentController = fxmlLoader.getController();
-                    this.tasksComponentController.setAppController(this.appController);
-                    break;
-                case ACTIONS:
-                    this.actionsComponentController = fxmlLoader.getController();
-                    this.actionsComponentController.setAppController(this.appController);
-                    break;
-                case SUB_MENU:
-                    this.subMenuComponentController = fxmlLoader.getController();
-                    this.subMenuComponentController.setAppController(this.appController);
-                    this.subMenuComponentController.setMainController(this);
-                    break;
-            }
-            return data;
+            this.tasksParent = fxmlLoader.load(url.openStream());
+            this.tasksComponentController= fxmlLoader.getController();
+            this.tasksComponentController.setAppController(this.appController);
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
     }
-
 
     @FXML
     void clickAnimation(ActionEvent event) {
