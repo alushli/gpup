@@ -15,14 +15,14 @@
             <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                <columnConstraints>
                   <ColumnConstraints hgrow="NEVER" minWidth="30.0" prefWidth="30.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="600.0" prefWidth="600.0" />
                   <ColumnConstraints hgrow="NEVER" minWidth="30.0" prefWidth="30.0" />
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints maxHeight="1.7976931348623157E308" />
                   <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="1.7976931348623157E308" minHeight="40.0" prefHeight="40.0" vgrow="NEVER" />
-                  <RowConstraints maxHeight="1.7976931348623157E308" valignment="CENTER" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="0.0" prefHeight="0.0" valignment="CENTER" />
                </rowConstraints>
                <children>
                   <Label id="header_label" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Paths Between Two Targets" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
@@ -32,23 +32,23 @@
                   </Label>
                   <StackPane fx:id="data_area" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.vgrow="SOMETIMES">
                      <children>
-                        <GridPane id="screen_grid" fx:id="details_grid" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                        <GridPane id="screen_grid" fx:id="details_grid" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="grid_ares">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" />
-                            <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="1.7976931348623157E308" minWidth="405.0" prefWidth="405.0" />
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="405.0" prefWidth="405.0" />
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints maxHeight="1.7976931348623157E308" valignment="CENTER" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <ScrollPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                              <ScrollPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                                  <content>
                                     <StackPane fx:id="table_SP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
                                  </content>
                               </ScrollPane>
-                              <ScrollPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.vgrow="ALWAYS">
+                              <ScrollPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                                  <content>
-                                    <StackPane fx:id="page_SP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                                    <StackPane fx:id="page_SP" alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
                                  </content>
                               </ScrollPane>
                            </children>

@@ -13,7 +13,9 @@ public enum FxmlPath {
     TARGET_INFO("generalInfo/showTargetInfo/showTargetInfo.fxml"),
     GRAPH_INFO("generalInfo/showGraphInfo/showGraphInfo.fxml"),
     SIMULATION_TASK("tasks/simulation/simulationTask.fxml"),
-    COMPILER_TASK("tasks/compiler/compilerTask.fxml");
+    COMPILER_TASK("tasks/compiler/compilerTask.fxml"),
+    DETAILS_PATH_SCREEN("detailsScreen/pathsScreen.fxml"),
+    TARGET_TABEL("generalComponents/targetsTable/TargetsTable.fxml");
 
     private String name;
 

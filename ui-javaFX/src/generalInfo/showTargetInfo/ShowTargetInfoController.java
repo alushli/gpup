@@ -1,6 +1,7 @@
 package generalInfo.showTargetInfo;
 
 import appScreen.AppController;
+import enums.FxmlPath;
 import generalInfo.GeneralInfoController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,7 +28,7 @@ public class ShowTargetInfoController extends mainControllers.Controllers{
     public void setTable(){
         try{
             FXMLLoader fxmlLoader = new FXMLLoader();
-            URL url = getClass().getResource("../../generalComponents/targetsTable/TargetsTable.fxml");
+            URL url = getClass().getResource("../../" + FxmlPath.TARGET_TABEL);
             fxmlLoader.setLocation(url);
             this.appController.setArea(fxmlLoader.load(url.openStream()));
         }catch (Exception e){

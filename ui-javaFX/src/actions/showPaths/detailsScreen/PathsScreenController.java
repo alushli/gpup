@@ -23,6 +23,12 @@ public class PathsScreenController extends mainControllers.Controllers{
     @FXML
     private StackPane paths_SP;
 
+    @FXML
+    private StackPane fall_screen_SP;
+
+    public StackPane getFall_screen_SP() {
+        return fall_screen_SP;
+    }
 
     @FXML
     public void initialize() {

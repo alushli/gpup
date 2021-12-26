@@ -19,7 +19,7 @@
 }
 .table-row-cell:hover {
     -fx-background-color: #93f9b911;
-    -fx-text-background-color: blue;
+    /*-fx-text-background-color: blue;*/
 }
 .table-row-cell:odd{
     -fx-background-color: #93f9b911;
@@ -30,6 +30,9 @@
     -fx-background-color: #1dbbdd11;
     -fx-background-insets: 0, 0 0 1 0;
     -fx-padding: 0.0em;
+}
+.table-row-cell:focused {
+    -fx-background-color: rgba(52, 155, 199, 0.44);
 }
 .table-view .virtual-flow .scroll-bar:vertical,
 .table-view .virtual-flow .scroll-bar:vertical .track,

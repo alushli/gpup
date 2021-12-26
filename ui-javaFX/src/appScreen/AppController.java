@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import menu.MenuController;
 
 import java.io.IOException;
@@ -14,6 +15,7 @@ public class AppController {
     @FXML private StackPane menu_area;
     private static Parent menuParent;
     private static MenuController menuComponentController = null;
+    private Stage primaryStage;
 
     @FXML private StackPane content_area;
     private boolean isLoadFile = false;
@@ -24,6 +26,14 @@ public class AppController {
                 setMenuFxml();
             }
             setMenu(this.menuParent);
+    }
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
     }
 
     private void setMenuFxml(){
