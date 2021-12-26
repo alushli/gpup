@@ -7,8 +7,10 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class LoadFileError {
+    private static VBox vBox = null;
+
     public static void setLoadFileError(StackPane data_area, AppController appController){
-        VBox vBox = new VBox();
+        vBox = new VBox();
         Label label = new Label();
         label.setText("Please upload valid xml file first");
         Button loadFile = new Button("Go to Load File screen");
@@ -27,6 +29,9 @@ public class LoadFileError {
         btn.getStyleClass().add("load_btn");
         btn.setMaxWidth(1.7976931348623157E308);
         label.getStyleClass().add("load_error_label");
+    }
 
+    public static void removeLoadFileError(StackPane data_area){
+        data_area.getChildren().remove(vBox);
     }
 }

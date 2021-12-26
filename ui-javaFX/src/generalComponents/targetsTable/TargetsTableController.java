@@ -48,6 +48,9 @@ public class TargetsTableController {
     @FXML
     private TableColumn<ResTargetDTO, CheckBox> selectCol;
 
+    public TableView<ResTargetDTO> getTable() {
+        return table;
+    }
 
     public TargetsTableController(Collection<ResTargetDTO> targets){
         table.setItems(getTargets(targets));
@@ -63,7 +66,7 @@ public class TargetsTableController {
 
     public static ObservableList<ResTargetDTO> getTargets(){
         ObservableList<ResTargetDTO> targetsObs = FXCollections.observableArrayList();
-        for (int i = 0; i<100 ; i++){
+        for (int i = 0; i<10 ; i++){
             targetsObs.add(new ResTargetDTO("Yarin", TargetPosition.ROOT,
                     10, 10, i, 10,
                     "bazini", 10));
@@ -83,6 +86,16 @@ public class TargetsTableController {
         this.positionCol.setCellValueFactory(new PropertyValueFactory<>("position"));
         this.selectCol.setCellValueFactory(new PropertyValueFactory<>("select"));
         this.selectCol.setSortable(false);
+
+//        this.nameCol.prefWidthProperty().bind(table.widthProperty().multiply(1.0/9.0));
+//        this.directDependsOnCol.prefWidthProperty().bind(table.widthProperty().multiply(1.0/9.0));
+//        this.totalDependsOnCol.prefWidthProperty().bind(table.widthProperty().multiply(1.0/9.0));
+//        this.directRequiredForCol.prefWidthProperty().bind(table.widthProperty().multiply(1.0/9.0));
+//        this.totalRequiredForCol.prefWidthProperty().bind(table.widthProperty().multiply(1.0/9.0));
+//        this.serialSetsCol.prefWidthProperty().bind(table.widthProperty().multiply(1.0/9.0));
+//        this.positionCol.prefWidthProperty().bind(table.widthProperty().multiply(1.0/9.0));
+//        this.selectCol.prefWidthProperty().bind(table.widthProperty().multiply(1.0/9.0));
+
         this.table.setItems(getTargets());
     }
 

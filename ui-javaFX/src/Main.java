@@ -1,3 +1,4 @@
+import appScreen.AppController;
 import enums.FxmlPath;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +19,8 @@ public class Main extends Application {
         URL url = getClass().getResource(FxmlPath.APP_SCREEN.toString());
         fxmlLoader.setLocation(url);
         Parent rootContainer = fxmlLoader.load(url.openStream());
+        AppController appController = fxmlLoader.getController();
+        appController.setPrimaryStage(primaryStage);
         primaryStage.setScene(new Scene(rootContainer, 1200, 750));
         primaryStage.setTitle("GPUP");
         primaryStage.show();

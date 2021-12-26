@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
+import templates.LoadFileError;
 
 import java.io.IOException;
 import java.net.URL;
@@ -30,6 +32,20 @@ public class ActionsController extends mainControllers.Controllers {
         if(showPathsComponentController == null) {
             setShowPathsFxml();
         }
+        this.setLoadFileHandling();
+    }
+
+    public void setLoadFileHandling(){
+        this.appController.setArea(getShowPathsParent());
+        if(!this.appController.getLoadFile()){
+            showPathsComponentController.getDetailsGrid().setVisible(false);
+            LoadFileError.setLoadFileError(showPathsComponentController.getDataArea(), this.appController);
+        } else {
+            LoadFileError.removeLoadFileError(showPathsComponentController.getDataArea());
+            showPathsComponentController.getDetailsGrid().setVisible(true);
+            showPathsComponentController.setPageScreen();
+            showPathsComponentController.setTableScreen();
+        }
     }
 
     void setShowPathsFxml(){
@@ -46,10 +62,16 @@ public class ActionsController extends mainControllers.Controllers {
         }
     }
 
+    public void setArea(StackPane area, Parent data){
+        area.getChildren().removeAll();
+        area.getChildren().setAll(data);
+    }
+
     public void setShowCirclesControllers() {
         if(showCirclesComponentController == null) {
             setShowCircleFxml();
         }
+        this.appController.setArea(this.appController.getMenuComponentController().getActionController().getShowCirclesParent());
     }
 
     void setShowCircleFxml(){
@@ -65,6 +87,7 @@ public class ActionsController extends mainControllers.Controllers {
             e.printStackTrace();
         }
     }
+
 
     public Parent getShowPathsParent() { return this.showPathsParent; }
 

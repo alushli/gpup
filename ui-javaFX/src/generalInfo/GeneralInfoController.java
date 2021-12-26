@@ -2,13 +2,13 @@ package generalInfo;
 
 import appScreen.AppController;
 import enums.FxmlPath;
-import enums.ScreenTypes;
 import generalInfo.showGraphInfo.ShowGraphInfoController;
 import generalInfo.showTargetInfo.ShowTargetInfoController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import templates.LoadFileError;
 
 import java.io.IOException;
 import java.net.URL;
@@ -18,7 +18,6 @@ public class GeneralInfoController extends mainControllers.Controllers {
     private static Parent showTargetInfoParent;
     private static ShowGraphInfoController showGraphInfoComponentController = null;
     private static Parent showGraphInfoParent;
-
 
     @FXML
     private Label lable;
@@ -32,6 +31,7 @@ public class GeneralInfoController extends mainControllers.Controllers {
         if(showTargetInfoComponentController == null) {
             setTargetInfoFxml();
         }
+        this.appController.setArea(this.appController.getMenuComponentController().getGeneralInfoController().getShowTargetInfoParent());
         showTargetInfoComponentController.setTable();
     }
 
@@ -53,7 +53,7 @@ public class GeneralInfoController extends mainControllers.Controllers {
         if(showGraphInfoComponentController == null) {
             setGraphInfoFxml();
         }
-        this.showGraphInfoComponentController.setLoadFileHandling();
+        this.setLoadFileHandling();
     }
 
     void setGraphInfoFxml(){
@@ -67,6 +67,15 @@ public class GeneralInfoController extends mainControllers.Controllers {
             this.showGraphInfoComponentController.setMainController(this);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void setLoadFileHandling(){
+        this.appController.setArea(getShowGraphInfoParent());
+        if(!this.appController.getLoadFile()){
+            LoadFileError.setLoadFileError(showGraphInfoComponentController.getDataArea(), this.appController);
+        } else {
+            LoadFileError.removeLoadFileError(showGraphInfoComponentController.getDataArea());
         }
     }
 
