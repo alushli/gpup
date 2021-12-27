@@ -51,7 +51,7 @@ public class AppController {
     private void setMenuFxml(){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            URL url = getClass().getResource("../" + FxmlPath.MENU);
+            URL url = getClass().getResource(FxmlPath.MENU.toString());
             fxmlLoader.setLocation(url);
             this.menuParent = fxmlLoader.load(url.openStream());
             this.menuComponentController = fxmlLoader.getController();

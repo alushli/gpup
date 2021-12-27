@@ -38,7 +38,7 @@ public class TasksController extends mainControllers.Controllers{
     void setSimulationTaskFxml(){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            URL url = getClass().getResource("../" + FxmlPath.SIMULATION_TASK);
+            URL url = getClass().getResource(FxmlPath.SIMULATION_TASK.toString());
             fxmlLoader.setLocation(url);
             this.simulationTaskParent = fxmlLoader.load(url.openStream());
             this.simulationTaskComponentController= fxmlLoader.getController();
@@ -59,7 +59,7 @@ public class TasksController extends mainControllers.Controllers{
     void setCompilerTaskFxml(){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            URL url = getClass().getResource("../" + FxmlPath.COMPILER_TASK);
+            URL url = getClass().getResource(FxmlPath.COMPILER_TASK.toString());
             fxmlLoader.setLocation(url);
             this.compilerTaskParent = fxmlLoader.load(url.openStream());
             this.compilerTaskComponentController= fxmlLoader.getController();

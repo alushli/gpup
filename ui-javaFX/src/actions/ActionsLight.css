@@ -1,33 +1,13 @@
-#header_label{
-    -fx-font-family:Tahoma;
-    -fx-font-size: 40px;
-    -fx-font-weight: 700;
-}
-
 .load_btn{
-    -fx-font-family:Tahoma;
-    -fx-font-size: 14px;
     -fx-padding: 10 5 10 5;
-}
-
-.load_error_label{
-    -fx-font-family:Tahoma;
-    -fx-font-size: 14px;
 }
 
 #switch_btn{
     -fx-background-color: transparent;
-    -fx-cursor:hand ;
 }
 
 #find_btn{
-    -fx-font-family:Tahoma;
     -fx-font-size: 16px;
-}
-
-#direction_CB{
-    -fx-font-family:Tahoma;
-    -fx-font-size: 14px;
 }
 
 .grid_ares{
@@ -36,7 +16,6 @@
 }
 
 .label{
-    -fx-font-family:Tahoma;
     -fx-font-size: 16px;
 }
 
@@ -47,6 +26,6 @@
     -fx-background-color: white;
 }
 
-.from_to_lable{
+.from_to_label{
     -fx-font-size: 12px;
 }

@@ -38,7 +38,7 @@ public class GeneralInfoController extends mainControllers.Controllers {
     void setTargetInfoFxml(){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            URL url = getClass().getResource("../" + FxmlPath.TARGET_INFO);
+            URL url = getClass().getResource(FxmlPath.TARGET_INFO.toString());
             fxmlLoader.setLocation(url);
             this.showTargetInfoParent = fxmlLoader.load(url.openStream());
             this.showTargetInfoComponentController= fxmlLoader.getController();
@@ -59,7 +59,7 @@ public class GeneralInfoController extends mainControllers.Controllers {
     void setGraphInfoFxml(){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            URL url = getClass().getResource("../" + FxmlPath.GRAPH_INFO);
+            URL url = getClass().getResource(FxmlPath.GRAPH_INFO.toString());
             fxmlLoader.setLocation(url);
             this.showGraphInfoParent = fxmlLoader.load(url.openStream());
             this.showGraphInfoComponentController= fxmlLoader.getController();

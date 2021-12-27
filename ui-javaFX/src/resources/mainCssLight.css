@@ -1,0 +1,27 @@
+.text-area{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 14px;
+    -fx-wrap-text: true;
+}
+
+.combo-box{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 14px;
+}
+
+#header_label{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 40px;
+    -fx-font-weight: 700;
+}
+
+.label{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 14px;
+}
+
+.button{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 14px;
+    -fx-cursor:hand;
+}

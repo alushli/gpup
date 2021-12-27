@@ -4,16 +4,12 @@ import actions.ActionsController;
 import actions.showPaths.detailsScreen.PathsScreenController;
 import appScreen.AppController;
 import enums.FxmlPath;
-import generalComponents.targetsTable.ResTargetDTO;
 import generalComponents.targetsTable.TargetsTableController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.TableView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
-import javax.swing.table.TableCellEditor;
 import java.net.URL;
 
 public class ShowPathsController extends mainControllers.Controllers{
@@ -59,7 +55,7 @@ public class ShowPathsController extends mainControllers.Controllers{
     public void setTableScreen(){
         try{
             FXMLLoader fxmlLoader = new FXMLLoader();
-            URL url = getClass().getResource("../../" + FxmlPath.TARGET_TABEL);
+            URL url = getClass().getResource(FxmlPath.TARGET_TABLE.toString());
             fxmlLoader.setLocation(url);
             this.mainController.setArea(this.table_SP ,fxmlLoader.load(url.openStream()));
             TargetsTableController targetsTableController = fxmlLoader.getController();

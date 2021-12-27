@@ -1,24 +1,6 @@
-#header_label{
-    -fx-font-family:Tahoma;
-    -fx-font-size: 40px;
-    -fx-font-weight: 700;
-}
-
 #what_next_label {
-    -fx-font-family: Tahoma;
     -fx-font-size: 24px;
     -fx-font-weight: 700;
-}
-
-#message_label{
-    -fx-font-family:Tahoma;
-    -fx-font-size: 14px;
-}
-
-#load_message_ta{
-    -fx-font-family:Tahoma;
-    -fx-font-size: 14px;
-    -fx-wrap-text: true;
 }
 
 .successes_message{
@@ -30,28 +12,11 @@
 }
 
 #file_path_label{
-    -fx-font-family:Tahoma;
-    -fx-font-size: 14px;
     -fx-background-color: white;
     -fx-padding: 2 10 2 10;
     -fx-border-color: black;
 }
 
-
-.load_file_btn{
-    -fx-font-family:Tahoma;
-    -fx-font-size: 14px;
-    -fx-cursor:hand ;
-}
-
-.what_next_buttons{
-    -fx-font-family:Tahoma;
-    -fx-font-size: 14px;
-    -fx-cursor:hand ;
-}
-
 .what_next_main_buttons{
-    -fx-font-family:Tahoma;
     -fx-font-size: 18px;
-    -fx-cursor:hand ;
 }

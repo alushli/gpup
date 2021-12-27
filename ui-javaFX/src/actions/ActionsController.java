@@ -51,7 +51,7 @@ public class ActionsController extends mainControllers.Controllers {
     void setShowPathsFxml(){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            URL url = getClass().getResource("../" + FxmlPath.TARGET_PATHS);
+            URL url = getClass().getResource(FxmlPath.TARGET_PATHS.toString());
             fxmlLoader.setLocation(url);
             this.showPathsParent = fxmlLoader.load(url.openStream());
             this.showPathsComponentController= fxmlLoader.getController();
@@ -77,7 +77,7 @@ public class ActionsController extends mainControllers.Controllers {
     void setShowCircleFxml(){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            URL url = getClass().getResource("../" + FxmlPath.TARGET_CIRCLES);
+            URL url = getClass().getResource(FxmlPath.TARGET_CIRCLES.toString());
             fxmlLoader.setLocation(url);
             this.showCirclesParent = fxmlLoader.load(url.openStream());
             this.showCirclesComponentController= fxmlLoader.getController();
