@@ -4,6 +4,7 @@ import actions.showPaths.ShowPathsController;
 import appScreen.AppController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -21,6 +22,9 @@ public class PathsScreenController extends mainControllers.Controllers{
     private Label paths_message_label;
 
     @FXML
+    private ComboBox<String> direction_CB;
+
+    @FXML
     private StackPane paths_SP;
 
     @FXML
@@ -31,8 +35,16 @@ public class PathsScreenController extends mainControllers.Controllers{
     }
 
     @FXML
+    void clickFind(ActionEvent event) {
+
+    }
+
+    @FXML
     public void initialize() {
-        setPathsTable(5);
+        //setPathsTable(5);
+        direction_CB.getItems().removeAll(direction_CB.getItems());
+        direction_CB.getItems().addAll("Depends On", "Required For");
+        direction_CB.getSelectionModel().select("Depends On");
     }
 
     @FXML

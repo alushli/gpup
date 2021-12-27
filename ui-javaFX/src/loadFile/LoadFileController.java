@@ -1,6 +1,7 @@
 package loadFile;
 
 import appScreen.AppController;
+import exceptions.XmlException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,6 +13,8 @@ import java.io.File;
 
 
 public class LoadFileController extends mainControllers.Controllers{
+    private static String workFile = null;
+
     @FXML
     private TextArea load_message_ta;
 
@@ -111,34 +114,43 @@ public class LoadFileController extends mainControllers.Controllers{
 
     @FXML
     void clickLoadFile(ActionEvent event) {
-        setVisibleButtons();
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select xml file");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files", "*.xml"));
-        File selectedFile = fileChooser.showOpenDialog(null);
-        if (selectedFile == null) {
-            failedLoad();
-            return;
+        try {
+            setVisibleButtons();
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Select xml file");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files", "*.xml"));
+            File selectedFile = fileChooser.showOpenDialog(null);
+            if (selectedFile == null) {
+                failedLoad("Please choose an xml file");
+                return;
+            }
+            String absolutePath = selectedFile.getAbsolutePath();
+            this.appController.loadFile(absolutePath);
+            workFile = absolutePath;
+            file_path_label.setText(workFile);
+            successLoad();
+        } catch (XmlException e) {
+            failedLoad(e.getMessage());
+            file_path_label.setText(workFile);
         }
-        String absolutePath = selectedFile.getAbsolutePath();
-        file_path_label.setText(absolutePath);
-        successLoad();
-
     }
 
     void successLoad(){
         this.appController.setLoadFile(true);
         what_next_area.setDisable(false);
-        load_message_ta.setText("yayyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyayyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyayyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyayyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyayyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyayyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy yyyyyayyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyayyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy yyyyyyyyyyyayyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
+        load_message_ta.setText("The xml was uploaded successfully");
         load_message_ta.getStyleClass().add("successes_message");
         load_message_ta.getStyleClass().remove("failed_message");
     }
 
-    void failedLoad(){
-        this.appController.setLoadFile(false);
-        what_next_area.setDisable(true);
-        file_path_label.setText("");
-        load_message_ta.setText("faildddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
+    void failedLoad(String error){
+        String message;
+        if(workFile != null){
+            message = "File load failed - previous file saved.\n";
+        }else{
+            message = "";
+        }
+        load_message_ta.setText(message + "Errors:\n" + error);
         load_message_ta.getStyleClass().add("failed_message");
         load_message_ta.getStyleClass().remove("successes_message");
     }

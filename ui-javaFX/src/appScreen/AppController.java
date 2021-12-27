@@ -1,6 +1,10 @@
 package appScreen;
 
+import dtoObjects.TargetFXDTO;
+import engineManager.EngineManager;
 import enums.FxmlPath;
+import exceptions.XmlException;
+import generalComponents.GeneralComponent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,15 +14,23 @@ import menu.MenuController;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collection;
 
 public class AppController {
     @FXML private StackPane menu_area;
     private static Parent menuParent;
     private static MenuController menuComponentController = null;
     private Stage primaryStage;
-
     @FXML private StackPane content_area;
     private boolean isLoadFile = false;
+    private EngineManager engineManager;
+    private GeneralComponent generalComponent;
+
+    public AppController(){
+        this.engineManager = new EngineManager();
+        this.generalComponent = new GeneralComponent();
+        this.generalComponent.setAppController(this);
+    }
 
     @FXML
     public void initialize() {
@@ -69,5 +81,13 @@ public class AppController {
 
     public boolean getLoadFile(){
         return isLoadFile;
+    }
+
+    public void loadFile(String path) throws XmlException {
+        this.engineManager.load(path);
+    }
+
+    public Collection<TargetFXDTO> getAllTargets(){
+        return this.engineManager.getAllTargets();
     }
 }

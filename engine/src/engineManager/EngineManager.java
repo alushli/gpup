@@ -4,6 +4,7 @@ import Enums.DependencyTypes;
 import dtoObjects.GraphDTO;
 import dtoObjects.SimulationSummeryDTO;
 import dtoObjects.TargetDTO;
+import dtoObjects.TargetFXDTO;
 import exceptions.MenuOptionException;
 import exceptions.TaskException;
 import graph.Graph;
@@ -337,6 +338,16 @@ public class EngineManager implements EngineManagerInterface{
                 }
             }
         }
+    }
+
+    public Collection<TargetFXDTO> getAllTargets(){
+        Collection<TargetFXDTO> targets = new ArrayList<>();
+        if(this.graph != null){
+            for (Target target : graph.getGraphMap().keySet()){
+                targets.add(new TargetFXDTO(target));
+            }
+        }
+        return targets;
     }
 }
 

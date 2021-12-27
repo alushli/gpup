@@ -88,7 +88,6 @@ public class ActionsController extends mainControllers.Controllers {
         }
     }
 
-
     public Parent getShowPathsParent() { return this.showPathsParent; }
 
     public Parent getShowCirclesParent() { return this.showCirclesParent; }

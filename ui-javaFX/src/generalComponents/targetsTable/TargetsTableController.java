@@ -2,74 +2,63 @@ package generalComponents.targetsTable;
 
 
 import Enums.TargetPosition;
-import appScreen.AppController;
-import enums.FxmlPath;
+import dtoObjects.TargetFXDTO;
+import generalComponents.GeneralComponent;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import org.omg.CORBA.INTERNAL;
 
+import javax.sound.midi.Soundbank;
 import java.util.Collection;
 
-public class TargetsTableController {
+public class TargetsTableController extends GeneralComponent {
+    private int maxSelect =2;
+    private Collection<TargetFXDTO> curSelected;
 
     @FXML
-    private TableView<ResTargetDTO> table;
+    private TableView<TargetFXDTO> table;
 
     @FXML
-    private TableColumn<ResTargetDTO, String> nameCol;
+    private TableColumn<TargetFXDTO, String> nameCol;
 
     @FXML
-    private TableColumn<ResTargetDTO, Integer> positionCol;
+    private TableColumn<TargetFXDTO, Integer> positionCol;
 
     @FXML
-    private TableColumn<ResTargetDTO, Integer> directDependsOnCol;
+    private TableColumn<TargetFXDTO, Integer> directDependsOnCol;
 
     @FXML
-    private TableColumn<ResTargetDTO, Integer> totalDependsOnCol;
+    private TableColumn<TargetFXDTO, Integer> totalDependsOnCol;
 
     @FXML
-    private TableColumn<ResTargetDTO, Integer> directRequiredForCol;
+    private TableColumn<TargetFXDTO, Integer> directRequiredForCol;
 
     @FXML
-    private TableColumn<ResTargetDTO, Integer> totalRequiredForCol;
+    private TableColumn<TargetFXDTO, Integer> totalRequiredForCol;
 
     @FXML
-    private TableColumn<ResTargetDTO, String> freeTextCol;
+    private TableColumn<TargetFXDTO, String> freeTextCol;
 
     @FXML
-    private TableColumn<ResTargetDTO, Integer> serialSetsCol;
+    private TableColumn<TargetFXDTO, Integer> serialSetsCol;
 
     @FXML
-    private TableColumn<ResTargetDTO, CheckBox> selectCol;
+    private TableColumn<TargetFXDTO, CheckBox> selectCol;
 
-    public TableView<ResTargetDTO> getTable() {
+    public TableView<TargetFXDTO> getTable() {
         return table;
     }
 
-    public TargetsTableController(Collection<ResTargetDTO> targets){
+    public TargetsTableController(Collection<TargetFXDTO> targets){
         table.setItems(getTargets(targets));
     }
 
-    public ObservableList<ResTargetDTO> getTargets(Collection<ResTargetDTO> targets){
-        ObservableList<ResTargetDTO> targetsObs = FXCollections.observableArrayList();
-        for (ResTargetDTO resTargetDTO : targets){
-            targetsObs.add(new ResTargetDTO(resTargetDTO));
-        }
-        return targetsObs;
-    }
-
-    public static ObservableList<ResTargetDTO> getTargets(){
-        ObservableList<ResTargetDTO> targetsObs = FXCollections.observableArrayList();
-        for (int i = 0; i<10 ; i++){
-            targetsObs.add(new ResTargetDTO("Yarin", TargetPosition.ROOT,
-                    10, 10, i, 10,
-                    "bazini", 10));
+    public ObservableList<TargetFXDTO> getTargets(Collection<TargetFXDTO> targets){
+        ObservableList<TargetFXDTO> targetsObs = FXCollections.observableArrayList();
+        for (TargetFXDTO resTargetDTO : targets){
+            targetsObs.add(new TargetFXDTO(resTargetDTO));
         }
         return targetsObs;
     }
@@ -86,19 +75,20 @@ public class TargetsTableController {
         this.positionCol.setCellValueFactory(new PropertyValueFactory<>("position"));
         this.selectCol.setCellValueFactory(new PropertyValueFactory<>("select"));
         this.selectCol.setSortable(false);
-
-//        this.nameCol.prefWidthProperty().bind(table.widthProperty().multiply(1.0/9.0));
-//        this.directDependsOnCol.prefWidthProperty().bind(table.widthProperty().multiply(1.0/9.0));
-//        this.totalDependsOnCol.prefWidthProperty().bind(table.widthProperty().multiply(1.0/9.0));
-//        this.directRequiredForCol.prefWidthProperty().bind(table.widthProperty().multiply(1.0/9.0));
-//        this.totalRequiredForCol.prefWidthProperty().bind(table.widthProperty().multiply(1.0/9.0));
-//        this.serialSetsCol.prefWidthProperty().bind(table.widthProperty().multiply(1.0/9.0));
-//        this.positionCol.prefWidthProperty().bind(table.widthProperty().multiply(1.0/9.0));
-//        this.selectCol.prefWidthProperty().bind(table.widthProperty().multiply(1.0/9.0));
-
-        this.table.setItems(getTargets());
+        Collection<TargetFXDTO> targets = this.getAppController().getAllTargets();
+        this.table.setItems(getTargets(targets));
+        setSelectOnClick(this.table.getItems());
     }
 
+    private void setSelectOnClick(Collection<TargetFXDTO> targets){
+        for (TargetFXDTO targetFXDTO : targets){
+            CheckBox selectCheckBox = targetFXDTO.getSelect();
+            selectCheckBox.selectedProperty().addListener((a,b,c)->{
+                System.out.println(selectCheckBox.isSelected());
+                System.out.println(targetFXDTO.getName());
+            });
+        }
+    }
     public TargetsTableController(){
 
     }

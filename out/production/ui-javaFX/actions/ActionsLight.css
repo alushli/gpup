@@ -20,6 +20,16 @@
     -fx-cursor:hand ;
 }
 
+#find_btn{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 16px;
+}
+
+#direction_CB{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 14px;
+}
+
 .grid_ares{
     -fx-border-color: transparent;
     -fx-background-color: transparent;
@@ -27,7 +37,7 @@
 
 .label{
     -fx-font-family:Tahoma;
-    -fx-font-size: 14px;
+    -fx-font-size: 16px;
 }
 
 .target_label{
@@ -35,4 +45,8 @@
     -fx-border-color: black ;
     -fx-border-width: 2 ;
     -fx-background-color: white;
+}
+
+.from_to_lable{
+    -fx-font-size: 12px;
 }

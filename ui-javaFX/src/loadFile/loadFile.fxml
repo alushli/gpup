@@ -49,7 +49,7 @@
                         <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="NEVER">
                            <children>
                               <Label fx:id="message_label" ellipsisString="" maxWidth="1.7976931348623157E308" minWidth="60.0" styleClass="load_message_label" text="Message:" HBox.hgrow="NEVER" />
-                              <TextArea fx:id="load_message_ta" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="SOMETIMES" />
+                              <TextArea fx:id="load_message_ta" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="SOMETIMES" />
                            </children>
                         </HBox>
                      </children>
