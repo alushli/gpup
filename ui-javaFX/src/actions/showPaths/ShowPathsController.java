@@ -69,10 +69,12 @@ public class ShowPathsController extends mainControllers.Controllers{
                 this.pathsScreenController.getFind_btn().setDisable(true);
                 this.pathsScreenController.getTarget1_label().setText("");
                 this.pathsScreenController.getTarget2_label().setText("");
+                this.pathsScreenController.getPaths_TA().setText("");
             } else if(curSelectedCount.getValue() == 1){
                 this.pathsScreenController.getFind_btn().setDisable(true);
                 this.pathsScreenController.getTarget1_label().setText(this.targetsTableController.getCurSelected().get(0).getName());
                 this.pathsScreenController.getTarget2_label().setText("");
+                this.pathsScreenController.getPaths_TA().setText("");
             } else{
                 this.pathsScreenController.getFind_btn().setDisable(false);
                 this.pathsScreenController.getTarget1_label().setText(this.targetsTableController.getCurSelected().get(0).getName());

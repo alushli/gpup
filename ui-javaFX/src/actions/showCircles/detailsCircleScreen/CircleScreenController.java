@@ -43,6 +43,10 @@ public class CircleScreenController extends mainControllers.Controllers {
         }
     }
 
+    public TextArea getPaths_TA() {
+        return paths_TA;
+    }
+
     private void setCircleTable(LinkedHashSet<TargetDTO> list){
         if(list.size() == 0)
             this.paths_TA.setText("There is no circle with the selected target.");

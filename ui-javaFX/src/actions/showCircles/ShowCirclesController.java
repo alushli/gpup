@@ -65,6 +65,7 @@ public class ShowCirclesController extends mainControllers.Controllers{
             if(curSelectedCount.getValue() == 0){
                 this.circleScreenController.getFind_btn().setDisable(true);
                 this.circleScreenController.getTarget_label().setText("");
+                this.circleScreenController.getPaths_TA().setText("");
             } else {
                 this.circleScreenController.getFind_btn().setDisable(false);
                 this.circleScreenController.getTarget_label().setText(this.targetsTableController.getCurSelected().get(0).getName());

@@ -43,6 +43,10 @@ public class PathsScreenController extends mainControllers.Controllers{
         return fall_screen_SP;
     }
 
+    public TextArea getPaths_TA() {
+        return paths_TA;
+    }
+
     @FXML
     void clickFind(ActionEvent event) {
         String direction;
