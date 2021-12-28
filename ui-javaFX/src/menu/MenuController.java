@@ -72,7 +72,7 @@ public class MenuController extends mainControllers.Controllers {
     void setActionsFxml() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            URL url = getClass().getResource("../" + FxmlPath.ACTIONS);
+            URL url = getClass().getResource(FxmlPath.ACTIONS.toString());
             fxmlLoader.setLocation(url);
             this.actionsParent = fxmlLoader.load(url.openStream());
             this.actionsComponentController= fxmlLoader.getController();
@@ -95,7 +95,7 @@ public class MenuController extends mainControllers.Controllers {
     void setGeneralInfoFxml() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            URL url = getClass().getResource("../" + FxmlPath.GENERAL_INFO);
+            URL url = getClass().getResource(FxmlPath.GENERAL_INFO.toString());
             fxmlLoader.setLocation(url);
             this.generalInfoParent = fxmlLoader.load(url.openStream());
             this.generalInfoComponentController= fxmlLoader.getController();
@@ -116,7 +116,7 @@ public class MenuController extends mainControllers.Controllers {
     void setLoadFileFxml() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            URL url = getClass().getResource("../" + FxmlPath.LOAD_FILE);
+            URL url = getClass().getResource(FxmlPath.LOAD_FILE.toString());
             fxmlLoader.setLocation(url);
             this.loadFileParent = fxmlLoader.load(url.openStream());
             this.loadFileComponentController= fxmlLoader.getController();
@@ -139,7 +139,7 @@ public class MenuController extends mainControllers.Controllers {
     void setTasksFxml() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            URL url = getClass().getResource("../" + FxmlPath.TASKS);
+            URL url = getClass().getResource(FxmlPath.TASKS.toString());
             fxmlLoader.setLocation(url);
             this.tasksParent = fxmlLoader.load(url.openStream());
             this.tasksComponentController= fxmlLoader.getController();

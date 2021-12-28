@@ -1,0 +1,46 @@
+.text-area{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 14px;
+    -fx-wrap-text: true;
+}
+
+.ListView{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 14px;
+}
+
+.check-box{
+    -fx-cursor:hand;
+}
+
+.combo-box{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 14px;
+    -fx-cursor:hand;
+}
+
+#header_label{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 40px;
+    -fx-font-weight: 700;
+}
+
+.label{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 14px;
+}
+
+.load_error_label{
+    -fx-font-size: 16px;
+}
+
+.button{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 14px;
+    -fx-cursor:hand;
+}
+
+.load_btn{
+    -fx-font-size: 16px;
+    -fx-padding: 15 5 15 5;
+}

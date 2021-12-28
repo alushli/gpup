@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
@@ -13,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<GridPane id="menu" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" stylesheets="@../MenuLight.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="menu.subMenu.SubMenuController">
+<GridPane id="menu" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="menu.subMenu.SubMenuController">
    <columnConstraints>
       <ColumnConstraints hgrow="ALWAYS" />
    </columnConstraints>
@@ -63,4 +64,8 @@
          </children>
       </HBox>
    </children>
+   <stylesheets>
+      <URL value="@../MenuLight.css" />
+      <URL value="@../../resources/mainCssLight.css" />
+   </stylesheets>
 </GridPane>

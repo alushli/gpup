@@ -20,9 +20,6 @@ public class ActionsController extends mainControllers.Controllers {
     private static ShowCirclesController showCirclesComponentController = null;
     private static Parent showCirclesParent;
 
-    @FXML
-    private Label lable;
-
     @Override
     public void setAppController(AppController mainControllers) {
         this.appController = mainControllers;
@@ -32,10 +29,10 @@ public class ActionsController extends mainControllers.Controllers {
         if(showPathsComponentController == null) {
             setShowPathsFxml();
         }
-        this.setLoadFileHandling();
+        this.setLoadFileHandlingFindPaths();
     }
 
-    public void setLoadFileHandling(){
+    public void setLoadFileHandlingFindPaths(){
         this.appController.setArea(getShowPathsParent());
         if(!this.appController.getLoadFile()){
             showPathsComponentController.getDetailsGrid().setVisible(false);
@@ -43,15 +40,15 @@ public class ActionsController extends mainControllers.Controllers {
         } else {
             LoadFileError.removeLoadFileError(showPathsComponentController.getDataArea());
             showPathsComponentController.getDetailsGrid().setVisible(true);
-            showPathsComponentController.setPageScreen();
             showPathsComponentController.setTableScreen();
+            showPathsComponentController.setPageScreen();
         }
     }
 
     void setShowPathsFxml(){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            URL url = getClass().getResource("../" + FxmlPath.TARGET_PATHS);
+            URL url = getClass().getResource(FxmlPath.TARGET_PATHS.toString());
             fxmlLoader.setLocation(url);
             this.showPathsParent = fxmlLoader.load(url.openStream());
             this.showPathsComponentController= fxmlLoader.getController();
@@ -71,13 +68,13 @@ public class ActionsController extends mainControllers.Controllers {
         if(showCirclesComponentController == null) {
             setShowCircleFxml();
         }
-        this.appController.setArea(this.appController.getMenuComponentController().getActionController().getShowCirclesParent());
+        this.setLoadFileHandlingFindCircle();
     }
 
     void setShowCircleFxml(){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            URL url = getClass().getResource("../" + FxmlPath.TARGET_CIRCLES);
+            URL url = getClass().getResource(FxmlPath.TARGET_CIRCLES.toString());
             fxmlLoader.setLocation(url);
             this.showCirclesParent = fxmlLoader.load(url.openStream());
             this.showCirclesComponentController= fxmlLoader.getController();
@@ -88,6 +85,18 @@ public class ActionsController extends mainControllers.Controllers {
         }
     }
 
+    public void setLoadFileHandlingFindCircle(){
+        this.appController.setArea(getShowCirclesParent());
+        if(!this.appController.getLoadFile()){
+            showCirclesComponentController.getDetailsGrid().setVisible(false);
+            LoadFileError.setLoadFileError(showCirclesComponentController.getDataArea(), this.appController);
+        } else {
+            LoadFileError.removeLoadFileError(showCirclesComponentController.getDataArea());
+            showCirclesComponentController.getDetailsGrid().setVisible(true);
+            showCirclesComponentController.setTableScreen();
+            showCirclesComponentController.setPageScreen();
+        }
+    }
 
     public Parent getShowPathsParent() { return this.showPathsParent; }
 

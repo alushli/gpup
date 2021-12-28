@@ -12,13 +12,13 @@
             <TableView fx:id="table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
               <columns>
                 <TableColumn fx:id="selectCol" prefWidth="50.0" resizable="false" text="Select" />
-                <TableColumn fx:id="nameCol" prefWidth="60.0" resizable="false" text="Name" />
-                  <TableColumn fx:id="positionCol" minWidth="9.0" prefWidth="63.0" resizable="false" text="Position" />
-                  <TableColumn fx:id="directDependsOnCol" prefWidth="130.0" resizable="false" text="Direct Depends On" />
+                <TableColumn fx:id="nameCol" prefWidth="60.0" text="Name" />
+                  <TableColumn fx:id="positionCol" minWidth="9.0" prefWidth="90.0" resizable="false" text="Position" />
+                  <TableColumn fx:id="directDependsOnCol" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="130.0" resizable="false" text="Direct Depends On" />
                   <TableColumn fx:id="totalDependsOnCol" prefWidth="130.0" resizable="false" text="Total Depends On" />
                   <TableColumn fx:id="directRequiredForCol" prefWidth="130.0" resizable="false" text="Direct Required For" />
                   <TableColumn fx:id="totalRequiredForCol" prefWidth="130.0" resizable="false" text="Total Required For" />
-                  <TableColumn fx:id="freeTextCol" prefWidth="75.0" resizable="false" text="Free Text" />
+                  <TableColumn fx:id="freeTextCol" prefWidth="75.0" text="Free Text" />
                   <TableColumn fx:id="serialSetsCol" prefWidth="99.0" resizable="false" text="Serial Sets" />
               </columns>
             </TableView>

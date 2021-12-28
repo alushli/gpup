@@ -1,16 +1,16 @@
-#header_label{
-    -fx-font-family:Tahoma;
-    -fx-font-size: 40px;
+.explanation_label{
+    -fx-text-fill: red;
+}
+
+.sub_header_label{
+    -fx-font-size: 16px;
+}
+
+.summery_label{
     -fx-font-weight: 700;
+    -fx-font-size: 30;
 }
 
-.load_btn{
-    -fx-font-family:Tahoma;
-    -fx-font-size: 14px;
-    -fx-padding: 10 5 10 5;
-}
-
-.load_error_label{
-    -fx-font-family:Tahoma;
-    -fx-font-size: 14px;
+#error_label{
+    -fx-font-size: 18;
 }
