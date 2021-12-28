@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 import templates.LoadFileError;
 
 import java.io.IOException;
@@ -31,8 +32,20 @@ public class GeneralInfoController extends mainControllers.Controllers {
         if(showTargetInfoComponentController == null) {
             setTargetInfoFxml();
         }
-        this.appController.setArea(this.appController.getMenuComponentController().getGeneralInfoController().getShowTargetInfoParent());
-        showTargetInfoComponentController.setTable();
+        this.setLoadFileHandlingTargetInfo();
+    }
+
+    public void setLoadFileHandlingTargetInfo(){
+        this.appController.setArea(getShowTargetInfoParent());
+        if(!this.appController.getLoadFile()){
+            showTargetInfoComponentController.getDetailsGrid().setVisible(false);
+            LoadFileError.setLoadFileError(showTargetInfoComponentController.getDataArea(), this.appController);
+        } else {
+            LoadFileError.removeLoadFileError(showTargetInfoComponentController.getDataArea());
+            showTargetInfoComponentController.getDetailsGrid().setVisible(true);
+            showTargetInfoComponentController.setPageScreen();
+            showTargetInfoComponentController.setTableScreen();
+        }
     }
 
     void setTargetInfoFxml(){
@@ -53,7 +66,7 @@ public class GeneralInfoController extends mainControllers.Controllers {
         if(showGraphInfoComponentController == null) {
             setGraphInfoFxml();
         }
-        this.setLoadFileHandling();
+        this.setLoadFileHandlingGraphInfo();
     }
 
     void setGraphInfoFxml(){
@@ -70,13 +83,22 @@ public class GeneralInfoController extends mainControllers.Controllers {
         }
     }
 
-    public void setLoadFileHandling(){
+    public void setLoadFileHandlingGraphInfo(){
         this.appController.setArea(getShowGraphInfoParent());
         if(!this.appController.getLoadFile()){
+            showGraphInfoComponentController.getDetailsGrid().setVisible(false);
             LoadFileError.setLoadFileError(showGraphInfoComponentController.getDataArea(), this.appController);
         } else {
             LoadFileError.removeLoadFileError(showGraphInfoComponentController.getDataArea());
+            showGraphInfoComponentController.getDetailsGrid().setVisible(true);
+            showGraphInfoComponentController.setPageScreen();
+            showGraphInfoComponentController.setTableScreen();
         }
+    }
+
+    public void setArea(StackPane area, Parent data){
+        area.getChildren().removeAll();
+        area.getChildren().setAll(data);
     }
 
     public Parent getShowTargetInfoParent() { return this.showTargetInfoParent; }

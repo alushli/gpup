@@ -14,8 +14,12 @@ public enum FxmlPath {
     GRAPH_INFO("/generalInfo/showGraphInfo/showGraphInfo.fxml"),
     SIMULATION_TASK("/tasks/simulation/simulationTask.fxml"),
     COMPILER_TASK("/tasks/compiler/compilerTask.fxml"),
-    DETAILS_PATH_SCREEN("/actions/showPaths/detailsScreen/pathsScreen.fxml"),
-    TARGET_TABLE("/generalComponents/targetsTable/TargetsTable.fxml");
+    DETAILS_PATH_SCREEN("/actions/showPaths/detailsPathsScreen/pathsScreen.fxml"),
+    DETAILS_CIRCLE_SCREEN("/actions/showCircles/detailsCircleScreen/circleScreen.fxml"),
+    DETAILS_GRAPH_INFO_SCREEN("/generalInfo/showGraphInfo/detailsGraphScreen/graphInfoScreen.fxml"),
+    DETAILS_TARGET_INFO_SCREEN("/generalInfo/showTargetInfo/detailsTargetScreen/targetInfoScreen.fxml"),
+    TARGET_TABLE("/generalComponents/targetsTable/TargetsTable.fxml"),
+    SERIAL_SET_TABLE("/generalComponents/serialSetTable/serialSetTable.fxml");
 
     private String name;
 

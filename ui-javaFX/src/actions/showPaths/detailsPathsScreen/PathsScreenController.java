@@ -1,4 +1,4 @@
-package actions.showPaths.detailsScreen;
+package actions.showPaths.detailsPathsScreen;
 
 import actions.showPaths.ShowPathsController;
 import appScreen.AppController;
@@ -6,8 +6,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 
 public class PathsScreenController extends mainControllers.Controllers{
     private ShowPathsController mainController;
@@ -25,7 +25,7 @@ public class PathsScreenController extends mainControllers.Controllers{
     private ComboBox<String> direction_CB;
 
     @FXML
-    private StackPane paths_SP;
+    private TextArea paths_TA;
 
     @FXML
     private StackPane fall_screen_SP;
@@ -41,7 +41,7 @@ public class PathsScreenController extends mainControllers.Controllers{
 
     @FXML
     public void initialize() {
-        //setPathsTable(5);
+        setPathsTable(5);
         direction_CB.getItems().removeAll(direction_CB.getItems());
         direction_CB.getItems().addAll("Depends On", "Required For");
         direction_CB.getSelectionModel().select("Depends On");
@@ -62,12 +62,8 @@ public class PathsScreenController extends mainControllers.Controllers{
     }
 
     void setPathsTable(int size){
-        VBox vBox = new VBox();
         for(int i=0 ; i<size ; i++){
-            Label label = new Label();
-            label.setText(i+1 + ": Please upload valid xml file first");
-            vBox.getChildren().add(label);
+            paths_TA.appendText(i+1 + ": Please upload valid xml file first \n");
         }
-        paths_SP.getChildren().add(0,vBox);
     }
 }

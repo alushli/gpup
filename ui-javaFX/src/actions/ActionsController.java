@@ -32,10 +32,10 @@ public class ActionsController extends mainControllers.Controllers {
         if(showPathsComponentController == null) {
             setShowPathsFxml();
         }
-        this.setLoadFileHandling();
+        this.setLoadFileHandlingFindPaths();
     }
 
-    public void setLoadFileHandling(){
+    public void setLoadFileHandlingFindPaths(){
         this.appController.setArea(getShowPathsParent());
         if(!this.appController.getLoadFile()){
             showPathsComponentController.getDetailsGrid().setVisible(false);
@@ -71,7 +71,7 @@ public class ActionsController extends mainControllers.Controllers {
         if(showCirclesComponentController == null) {
             setShowCircleFxml();
         }
-        this.appController.setArea(this.appController.getMenuComponentController().getActionController().getShowCirclesParent());
+        this.setLoadFileHandlingFindCircle();
     }
 
     void setShowCircleFxml(){
@@ -85,6 +85,19 @@ public class ActionsController extends mainControllers.Controllers {
             this.showCirclesComponentController.setMainController(this);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void setLoadFileHandlingFindCircle(){
+        this.appController.setArea(getShowCirclesParent());
+        if(!this.appController.getLoadFile()){
+            showCirclesComponentController.getDetailsGrid().setVisible(false);
+            LoadFileError.setLoadFileError(showCirclesComponentController.getDataArea(), this.appController);
+        } else {
+            LoadFileError.removeLoadFileError(showCirclesComponentController.getDataArea());
+            showCirclesComponentController.getDetailsGrid().setVisible(true);
+            showCirclesComponentController.setPageScreen();
+            showCirclesComponentController.setTableScreen();
         }
     }
 

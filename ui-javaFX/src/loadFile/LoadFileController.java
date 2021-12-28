@@ -139,8 +139,8 @@ public class LoadFileController extends mainControllers.Controllers{
         this.appController.setLoadFile(true);
         what_next_area.setDisable(false);
         load_message_ta.setText("The xml was uploaded successfully");
-        load_message_ta.getStyleClass().add("successes_message");
         load_message_ta.getStyleClass().remove("failed_message");
+        load_message_ta.getStyleClass().add("successes_message");
     }
 
     void failedLoad(String error){
@@ -151,8 +151,8 @@ public class LoadFileController extends mainControllers.Controllers{
             message = "";
         }
         load_message_ta.setText(message + "Errors:\n" + error);
-        load_message_ta.getStyleClass().add("failed_message");
         load_message_ta.getStyleClass().remove("successes_message");
+        load_message_ta.getStyleClass().add("failed_message");
     }
 
     @Override

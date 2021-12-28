@@ -1,3 +1,12 @@
-.load_btn{
-    -fx-padding: 10 5 10 5;
+.explanation_label{
+    -fx-text-fill: red;
+}
+
+.sub_header_label{
+    -fx-font-size: 16px;
+}
+
+.summery_label{
+    -fx-font-weight: 700;
+    -fx-font-size: 30;
 }

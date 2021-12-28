@@ -20,3 +20,7 @@
 .what_next_main_buttons{
     -fx-font-size: 18px;
 }
+
+.load_btn{
+    -fx-padding: 10 5 10 5;
+}

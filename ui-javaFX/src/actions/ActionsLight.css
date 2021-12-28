@@ -1,13 +1,13 @@
-.load_btn{
-    -fx-padding: 10 5 10 5;
-}
-
 #switch_btn{
     -fx-background-color: transparent;
 }
 
 #find_btn{
     -fx-font-size: 16px;
+}
+
+#explanation_label{
+    -fx-text-fill: red;
 }
 
 .grid_ares{

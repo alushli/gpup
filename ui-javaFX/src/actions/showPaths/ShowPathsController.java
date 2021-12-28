@@ -1,7 +1,7 @@
 package actions.showPaths;
 
 import actions.ActionsController;
-import actions.showPaths.detailsScreen.PathsScreenController;
+import actions.showPaths.detailsPathsScreen.PathsScreenController;
 import appScreen.AppController;
 import enums.FxmlPath;
 import generalComponents.targetsTable.TargetsTableController;
@@ -9,7 +9,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-
 import java.net.URL;
 
 public class ShowPathsController extends mainControllers.Controllers{
@@ -47,6 +46,8 @@ public class ShowPathsController extends mainControllers.Controllers{
             fxmlLoader.setLocation(url);
             this.mainController.setArea(this.page_SP ,fxmlLoader.load(url.openStream()));
             PathsScreenController pathsScreenController = fxmlLoader.getController();
+            pathsScreenController.setMainController(this);
+            pathsScreenController.setAppController(this.appController);
             pathsScreenController.getFall_screen_SP().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.99));
         } catch (Exception e){
         }
@@ -59,7 +60,8 @@ public class ShowPathsController extends mainControllers.Controllers{
             fxmlLoader.setLocation(url);
             this.mainController.setArea(this.table_SP ,fxmlLoader.load(url.openStream()));
             TargetsTableController targetsTableController = fxmlLoader.getController();
-            targetsTableController.getTable().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.965));
+            targetsTableController.setAppController(this.appController);
+            targetsTableController.getTable().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.925));
         }catch (Exception e){
 
         }
