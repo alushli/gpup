@@ -5,6 +5,9 @@ import actions.showPaths.detailsPathsScreen.PathsScreenController;
 import appScreen.AppController;
 import enums.FxmlPath;
 import generalComponents.targetsTable.TargetsTableController;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.GridPane;
@@ -13,6 +16,9 @@ import java.net.URL;
 
 public class ShowPathsController extends mainControllers.Controllers{
     private ActionsController mainController;
+    private TargetsTableController targetsTableController;
+    private IntegerProperty curSelectedCount;
+    private PathsScreenController pathsScreenController;
 
     @FXML
     private StackPane data_area;
@@ -41,16 +47,38 @@ public class ShowPathsController extends mainControllers.Controllers{
 
     public void setPageScreen(){
         try{
+            this.curSelectedCount = new SimpleIntegerProperty();
             FXMLLoader fxmlLoader = new FXMLLoader();
             URL url = getClass().getResource(FxmlPath.DETAILS_PATH_SCREEN.toString());
             fxmlLoader.setLocation(url);
             this.mainController.setArea(this.page_SP ,fxmlLoader.load(url.openStream()));
-            PathsScreenController pathsScreenController = fxmlLoader.getController();
-            pathsScreenController.setMainController(this);
-            pathsScreenController.setAppController(this.appController);
+            this.pathsScreenController = fxmlLoader.getController();
+            this.pathsScreenController.setMainController(this);
+            this.pathsScreenController.setAppController(this.appController);
+            setTargetsLabels();
             pathsScreenController.getFall_screen_SP().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.99));
         } catch (Exception e){
+            System.out.println("Error in setPageScreen() - showPathController");
         }
+    }
+
+    private void setTargetsLabels(){
+        this.curSelectedCount.bind(this.targetsTableController.selectedCounterProperty());
+        this.curSelectedCount.addListener((a,b,c)->{
+            if(curSelectedCount.getValue() == 0){
+                this.pathsScreenController.getFind_btn().setDisable(true);
+                this.pathsScreenController.getTarget1_label().setText("");
+                this.pathsScreenController.getTarget2_label().setText("");
+            } else if(curSelectedCount.getValue() == 1){
+                this.pathsScreenController.getFind_btn().setDisable(true);
+                this.pathsScreenController.getTarget1_label().setText(this.targetsTableController.getCurSelected().get(0).getName());
+                this.pathsScreenController.getTarget2_label().setText("");
+            } else{
+                this.pathsScreenController.getFind_btn().setDisable(false);
+                this.pathsScreenController.getTarget1_label().setText(this.targetsTableController.getCurSelected().get(0).getName());
+                this.pathsScreenController.getTarget2_label().setText(this.targetsTableController.getCurSelected().get(1).getName());
+            }
+        });
     }
 
     public void setTableScreen(){
@@ -59,11 +87,12 @@ public class ShowPathsController extends mainControllers.Controllers{
             URL url = getClass().getResource(FxmlPath.TARGET_TABLE.toString());
             fxmlLoader.setLocation(url);
             this.mainController.setArea(this.table_SP ,fxmlLoader.load(url.openStream()));
-            TargetsTableController targetsTableController = fxmlLoader.getController();
-            targetsTableController.setAppController(this.appController);
-            targetsTableController.getTable().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.925));
+            this.targetsTableController = fxmlLoader.getController();
+            this.targetsTableController.setAppController(this.appController);
+            this.targetsTableController.getTable().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.925));
+            this.targetsTableController.setMaxSelect(2);
         }catch (Exception e){
-
+            System.out.println("Error in setTableScreen() - showPathController");
         }
     }
 }

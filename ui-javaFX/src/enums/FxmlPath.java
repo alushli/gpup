@@ -18,6 +18,7 @@ public enum FxmlPath {
     DETAILS_CIRCLE_SCREEN("/actions/showCircles/detailsCircleScreen/circleScreen.fxml"),
     DETAILS_GRAPH_INFO_SCREEN("/generalInfo/showGraphInfo/detailsGraphScreen/graphInfoScreen.fxml"),
     DETAILS_TARGET_INFO_SCREEN("/generalInfo/showTargetInfo/detailsTargetScreen/targetInfoScreen.fxml"),
+    EMPTY_SCREEN_TARGET_INFO("/generalInfo/showTargetInfo/emptyScreen/emptyScreen.fxml"),
     TARGET_TABLE("/generalComponents/targetsTable/TargetsTable.fxml"),
     SERIAL_SET_TABLE("/generalComponents/serialSetTable/serialSetTable.fxml");
 

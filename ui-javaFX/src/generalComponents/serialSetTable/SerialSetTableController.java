@@ -14,7 +14,6 @@ import java.util.Collection;
 
 public class SerialSetTableController extends GeneralComponent {
     public SerialSetTableController(){
-        System.out.println("constructor");
     }
 
     @FXML

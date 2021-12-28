@@ -1,6 +1,7 @@
 package generalInfo.showGraphInfo.detailsGraphScreen;
 
 import appScreen.AppController;
+import dtoObjects.GraphDTO;
 import enums.FxmlPath;
 import generalComponents.serialSetTable.SerialSetTableController;
 import generalComponents.targetsTable.TargetsTableController;
@@ -21,6 +22,13 @@ public class GraphInfoScreenController extends mainControllers.Controllers{
 
     @FXML
     private StackPane fall_screen_SP;
+
+    @FXML
+    private Label graph_name_label;
+
+    @FXML
+    private Label graph_work_dir_label;
+
 
     @FXML
     private Label target_num_label;
@@ -46,6 +54,34 @@ public class GraphInfoScreenController extends mainControllers.Controllers{
     @FXML
     void clickExport(ActionEvent event) {
 
+    }
+
+    public Label getGraph_name_label() {
+        return graph_name_label;
+    }
+
+    public Label getGraph_work_dir_label() {
+        return graph_work_dir_label;
+    }
+
+    public Label getTarget_num_label() {
+        return target_num_label;
+    }
+
+    public Label getRoot_num_label() {
+        return root_num_label;
+    }
+
+    public Label getMid_num_label() {
+        return mid_num_label;
+    }
+
+    public Label getLeaf_num_label() {
+        return leaf_num_label;
+    }
+
+    public Label getInd_num_label() {
+        return ind_num_label;
     }
 
     public void setSerialSetTable(){

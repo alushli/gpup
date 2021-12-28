@@ -4,6 +4,10 @@ package generalComponents.targetsTable;
 import Enums.TargetPosition;
 import dtoObjects.TargetFXDTO;
 import generalComponents.GeneralComponent;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,11 +15,14 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import javax.sound.midi.Soundbank;
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class TargetsTableController extends GeneralComponent {
-    private int maxSelect =2;
-    private Collection<TargetFXDTO> curSelected;
+    private int maxSelect;
+    private ArrayList<TargetFXDTO> curSelected;
+    private IntegerProperty selectedCounter;
+    private BooleanProperty isMaxSelected;
 
     @FXML
     private TableView<TargetFXDTO> table;
@@ -63,8 +70,33 @@ public class TargetsTableController extends GeneralComponent {
         return targetsObs;
     }
 
+    public int getMaxSelect() {
+        return maxSelect;
+    }
+
+    public void setMaxSelect(int maxSelect) {
+        this.maxSelect = maxSelect;
+        setSelectOnClick(this.table.getItems());
+    }
+
+    public ArrayList<TargetFXDTO> getCurSelected() {
+        return curSelected;
+    }
+
+    public int getSelectedCounter() {
+        return selectedCounter.get();
+    }
+
+    public IntegerProperty selectedCounterProperty() {
+        return selectedCounter;
+    }
+
     @FXML
     public void initialize(){
+        this.curSelected = new ArrayList<>();
+        this.isMaxSelected = new SimpleBooleanProperty();
+        this.selectedCounter = new SimpleIntegerProperty();
+
         this.nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         this.directDependsOnCol.setCellValueFactory(new PropertyValueFactory<>("directDependsOn"));
         this.totalDependsOnCol.setCellValueFactory(new PropertyValueFactory<>("totalDependsOn"));
@@ -77,20 +109,40 @@ public class TargetsTableController extends GeneralComponent {
         this.selectCol.setSortable(false);
         Collection<TargetFXDTO> targets = this.getAppController().getAllTargets();
         this.table.setItems(getTargets(targets));
-        setSelectOnClick(this.table.getItems());
     }
 
     private void setSelectOnClick(Collection<TargetFXDTO> targets){
         for (TargetFXDTO targetFXDTO : targets){
             CheckBox selectCheckBox = targetFXDTO.getSelect();
             selectCheckBox.selectedProperty().addListener((a,b,c)->{
-                System.out.println(selectCheckBox.isSelected());
-                System.out.println(targetFXDTO.getName());
+                if(selectCheckBox.isSelected()){
+                    this.curSelected.add(targetFXDTO);
+                    this.selectedCounter.setValue(this.curSelected.size());
+                    if(this.selectedCounter.getValue() == this.maxSelect){
+                        this.isMaxSelected.set(true);
+                    }
+                }else{
+                    this.curSelected.remove(targetFXDTO);
+                    this.selectedCounter.setValue(this.curSelected.size());
+                    if(this.selectedCounter.getValue() < this.maxSelect) {
+                        this.isMaxSelected.set(false);
+                    }
+                }
+
             });
+            selectCheckBox.disableProperty().bind(isMaxSelected.and(selectCheckBox.selectedProperty().not()) );
         }
     }
+
+
     public TargetsTableController(){
 
+    }
+
+    public void setSelectDisable(){
+        for(TargetFXDTO targetFXDTO: this.table.getItems()){
+            targetFXDTO.getSelect().setDisable(true);
+        }
     }
 
 }

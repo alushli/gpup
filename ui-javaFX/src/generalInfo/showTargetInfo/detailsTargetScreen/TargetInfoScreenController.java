@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
 public class TargetInfoScreenController extends mainControllers.Controllers{
@@ -37,8 +38,41 @@ public class TargetInfoScreenController extends mainControllers.Controllers{
     private TextArea free_text_TA;
 
     @FXML
+    private GridPane target_info_grid;
+
+    @FXML
     private ListView<String> serial_list;
 
+    @FXML
+    private Label error_message;
+
+    public Label getError_message() {
+        return error_message;
+    }
+
+    public Label getTarget_name_label() {
+        return target_name_label;
+    }
+
+    public ListView<String> getDirect_DO_list() {
+        return direct_DO_list;
+    }
+
+    public GridPane getTarget_info_grid() {
+        return target_info_grid;
+    }
+
+    public ListView<String> getDirect_RF_list() {
+        return direct_RF_list;
+    }
+
+    public Label getPosition_label() {
+        return position_label;
+    }
+
+    public TextArea getFree_text_TA() {
+        return free_text_TA;
+    }
 
     public StackPane getFall_screen_SP() {
         return fall_screen_SP;

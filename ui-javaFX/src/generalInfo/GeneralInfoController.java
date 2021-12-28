@@ -43,8 +43,8 @@ public class GeneralInfoController extends mainControllers.Controllers {
         } else {
             LoadFileError.removeLoadFileError(showTargetInfoComponentController.getDataArea());
             showTargetInfoComponentController.getDetailsGrid().setVisible(true);
-            showTargetInfoComponentController.setPageScreen();
             showTargetInfoComponentController.setTableScreen();
+            showTargetInfoComponentController.setPageScreen();
         }
     }
 
@@ -91,8 +91,8 @@ public class GeneralInfoController extends mainControllers.Controllers {
         } else {
             LoadFileError.removeLoadFileError(showGraphInfoComponentController.getDataArea());
             showGraphInfoComponentController.getDetailsGrid().setVisible(true);
-            showGraphInfoComponentController.setPageScreen();
             showGraphInfoComponentController.setTableScreen();
+            showGraphInfoComponentController.setPageScreen();
         }
     }
 

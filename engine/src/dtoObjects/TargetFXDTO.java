@@ -4,6 +4,8 @@ import Enums.TargetPosition;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.control.CheckBox;
 import target.Target;
 
@@ -57,9 +59,10 @@ public class TargetFXDTO {
         return serialSets;
     }
 
+
     public TargetFXDTO(String name, TargetPosition position, int directDependsOn,
-                        int directRequiredFor, int totalDependsOn, int totalRequiredFor,
-                        String generalInfo, int serialSets) {
+                       int directRequiredFor, int totalDependsOn, int totalRequiredFor,
+                       String generalInfo, int serialSets) {
         this.name = name;
         this.position = position;
         this.directDependsOn = directDependsOn;
@@ -105,7 +108,6 @@ public class TargetFXDTO {
         this.generalInfo = other.getGeneralInfo();
         this.select = new CheckBox();
         this.select.setSelected(true);
-
     }
 
 }

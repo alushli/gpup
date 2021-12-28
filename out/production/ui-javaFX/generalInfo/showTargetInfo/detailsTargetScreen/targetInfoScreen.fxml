@@ -28,7 +28,7 @@
                   <RowConstraints minHeight="20.0" prefHeight="20.0" vgrow="NEVER" />
                </rowConstraints>
                <children>
-                  <GridPane GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                  <GridPane fx:id="target_info_grid" visible="false" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                      </columnConstraints>
@@ -93,6 +93,7 @@
                         </VBox>
                      </children>
                   </GridPane>
+                  <Label id="error_label" fx:id="error_message" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Please select one target from the table to see his details" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
          </content>

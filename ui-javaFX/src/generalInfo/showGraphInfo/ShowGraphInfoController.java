@@ -1,7 +1,7 @@
 package generalInfo.showGraphInfo;
 
-import actions.showPaths.detailsPathsScreen.PathsScreenController;
 import appScreen.AppController;
+import dtoObjects.GraphDTO;
 import enums.FxmlPath;
 import generalComponents.targetsTable.TargetsTableController;
 import generalInfo.GeneralInfoController;
@@ -11,11 +11,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-
 import java.net.URL;
 
 public class ShowGraphInfoController extends mainControllers.Controllers{
     private GeneralInfoController mainController;
+    private GraphInfoScreenController graphInfoScreenController;
+    private TargetsTableController targetsTableController;
 
     @FXML
     private StackPane data_area;
@@ -57,13 +58,25 @@ public class ShowGraphInfoController extends mainControllers.Controllers{
             URL url = getClass().getResource(FxmlPath.DETAILS_GRAPH_INFO_SCREEN.toString());
             fxmlLoader.setLocation(url);
             this.mainController.setArea(this.page_SP ,fxmlLoader.load(url.openStream()));
-            GraphInfoScreenController graphInfoScreenController = fxmlLoader.getController();
-            graphInfoScreenController.setMainController(this);
-            graphInfoScreenController.setAppController(this.appController);
-            graphInfoScreenController.setSerialSetTable();
-            graphInfoScreenController.getFall_screen_SP().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.99));
+            this.graphInfoScreenController = fxmlLoader.getController();
+            this.graphInfoScreenController.setMainController(this);
+            this.graphInfoScreenController.setAppController(this.appController);
+            this.graphInfoScreenController.setSerialSetTable();
+            this.graphInfoScreenController.getFall_screen_SP().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.99));
+            setPageLabels();
         } catch (Exception e){
         }
+    }
+
+    private void setPageLabels(){
+        GraphDTO graphDTO = this.appController.getGraphInfo();
+        this.graphInfoScreenController.getGraph_name_label().setText(graphDTO.getGraphName());
+        this.graphInfoScreenController.getGraph_work_dir_label().setText(graphDTO.getWorkingDirectory());
+        this.graphInfoScreenController.getTarget_num_label().setText(String.valueOf(graphDTO.getCountRoots() + graphDTO.getCountMiddles() + graphDTO.getCountLeaves() + graphDTO.getCountIndependents()));
+        this.graphInfoScreenController.getRoot_num_label().setText(String.valueOf(graphDTO.getCountRoots()));
+        this.graphInfoScreenController.getMid_num_label().setText(String.valueOf(graphDTO.getCountMiddles()));
+        this.graphInfoScreenController.getLeaf_num_label().setText(String.valueOf(graphDTO.getCountLeaves()));
+        this.graphInfoScreenController.getInd_num_label().setText(String.valueOf(graphDTO.getCountIndependents()));
     }
 
     public void setTableScreen(){
@@ -72,9 +85,10 @@ public class ShowGraphInfoController extends mainControllers.Controllers{
             URL url = getClass().getResource(FxmlPath.TARGET_TABLE.toString());
             fxmlLoader.setLocation(url);
             this.mainController.setArea(this.table_SP ,fxmlLoader.load(url.openStream()));
-            TargetsTableController targetsTableController = fxmlLoader.getController();
-            targetsTableController.setAppController(this.appController);
-            targetsTableController.getTable().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.965));
+            this.targetsTableController = fxmlLoader.getController();
+            this.targetsTableController.setAppController(this.appController);
+            this.targetsTableController.getTable().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.965));
+            this.targetsTableController.setSelectDisable();
         }catch (Exception e){
 
         }

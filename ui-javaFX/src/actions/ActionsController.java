@@ -20,9 +20,6 @@ public class ActionsController extends mainControllers.Controllers {
     private static ShowCirclesController showCirclesComponentController = null;
     private static Parent showCirclesParent;
 
-    @FXML
-    private Label lable;
-
     @Override
     public void setAppController(AppController mainControllers) {
         this.appController = mainControllers;
@@ -43,8 +40,8 @@ public class ActionsController extends mainControllers.Controllers {
         } else {
             LoadFileError.removeLoadFileError(showPathsComponentController.getDataArea());
             showPathsComponentController.getDetailsGrid().setVisible(true);
-            showPathsComponentController.setPageScreen();
             showPathsComponentController.setTableScreen();
+            showPathsComponentController.setPageScreen();
         }
     }
 
@@ -96,8 +93,8 @@ public class ActionsController extends mainControllers.Controllers {
         } else {
             LoadFileError.removeLoadFileError(showCirclesComponentController.getDataArea());
             showCirclesComponentController.getDetailsGrid().setVisible(true);
-            showCirclesComponentController.setPageScreen();
             showCirclesComponentController.setTableScreen();
+            showCirclesComponentController.setPageScreen();
         }
     }
 
