@@ -131,9 +131,7 @@ public class AppController {
         }
     }
 
-    public void exportGraph(String path){
-        try{
-            this.engineManager.exportGraph(path);
-        } catch (Exception e){}
+    public void exportGraph(String path) throws IOException {
+        this.engineManager.exportGraph(path);
     }
 }
