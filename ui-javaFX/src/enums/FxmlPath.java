@@ -20,7 +20,8 @@ public enum FxmlPath {
     DETAILS_TARGET_INFO_SCREEN("/generalInfo/showTargetInfo/detailsTargetScreen/targetInfoScreen.fxml"),
     EMPTY_SCREEN_TARGET_INFO("/generalInfo/showTargetInfo/emptyScreen/emptyScreen.fxml"),
     TARGET_TABLE("/generalComponents/targetsTable/TargetsTable.fxml"),
-    SERIAL_SET_TABLE("/generalComponents/serialSetTable/serialSetTable.fxml");
+    SERIAL_SET_TABLE("/generalComponents/serialSetTable/serialSetTable.fxml"),
+    EXPORT_GRAPH_POPUP("/generalInfo/showGraphInfo/detailsGraphScreen/exportGraphScreen/exportGraphPopup.fxml");
 
     private String name;
 

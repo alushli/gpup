@@ -15,6 +15,9 @@ import task.SimulationTask;
 import xml.Xml;
 import exceptions.XmlException;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -349,6 +352,36 @@ public class EngineManager implements EngineManagerInterface{
         }
         return targets;
     }
+
+    public void exportGraph(String path) throws IOException {
+        FileWriter graphFile = new FileWriter(path);
+        writeToFile(graphFile);
+        graphFile.close();
+
+    }
+
+    private void writeToFile(FileWriter file) throws IOException {
+        int count = 0;
+        file.write("digraph {\n");
+        for (Map.Entry<Target, Set<Target>> entry : graph.getGraphMap().entrySet()) {
+            Target target = entry.getKey();
+            if(!target.getDependsOnList().isEmpty()){
+                file.write(target.getName());
+                file.write(" -> {");
+                for(Target targetDep:target.getDependsOnList()){
+                    count++;
+                    file.write(targetDep.getName());
+                    if(count < target.getDependsOnList().size())
+                        file.write(", ");
+                }
+                count = 0;
+                file.write("}\n");
+            }
+        }
+        file.write("}");
+    }
+
+
 }
 
 
