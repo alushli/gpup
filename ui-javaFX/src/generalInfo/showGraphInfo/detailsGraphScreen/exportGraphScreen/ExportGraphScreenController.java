@@ -51,7 +51,7 @@ public class ExportGraphScreenController extends mainControllers.Controllers {
 
     @FXML
     void clickExport(ActionEvent event) {
-        String path = this.folder_path_label.getText() + "/" + this.file_name_txt.getText() + ".png";
+        String path = this.folder_path_label.getText() + "/" + this.file_name_txt.getText();
         this.mainController.setFullPathExport(path);
         this.mainController.exitPopup();
         this.mainController.exportGraph();
