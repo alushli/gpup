@@ -62,6 +62,7 @@ public class ShowGraphInfoController extends mainControllers.Controllers{
             this.graphInfoScreenController.setMainController(this);
             this.graphInfoScreenController.setAppController(this.appController);
             this.graphInfoScreenController.setSerialSetTable();
+            this.graphInfoScreenController.restartExportLabel();
             this.graphInfoScreenController.getFall_screen_SP().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.99));
             setPageLabels();
         } catch (Exception e){

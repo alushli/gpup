@@ -130,4 +130,10 @@ public class AppController {
             return null;
         }
     }
+
+    public void exportGraph(String path){
+        try{
+            this.engineManager.exportGraph(path);
+        } catch (Exception e){}
+    }
 }
