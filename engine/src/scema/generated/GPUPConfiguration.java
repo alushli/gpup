@@ -46,6 +46,8 @@ public class GPUPConfiguration {
     protected String gpupGraphName;
     @XmlElement(name = "GPUP-Working-Directory", required = true)
     protected String gpupWorkingDirectory;
+    @XmlElement(name = "GPUP-Max-Parallelism")
+    protected int gpupMaxParallelism;
 
     /**
      * Gets the value of the gpupGraphName property.
@@ -93,6 +95,22 @@ public class GPUPConfiguration {
      */
     public void setGPUPWorkingDirectory(String value) {
         this.gpupWorkingDirectory = value;
+    }
+
+    /**
+     * Gets the value of the gpupMaxParallelism property.
+     *
+     */
+    public int getGPUPMaxParallelism() {
+        return gpupMaxParallelism;
+    }
+
+    /**
+     * Sets the value of the gpupMaxParallelism property.
+     *
+     */
+    public void setGPUPMaxParallelism(int value) {
+        this.gpupMaxParallelism = value;
     }
 
 }
