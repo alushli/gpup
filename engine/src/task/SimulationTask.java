@@ -72,7 +72,7 @@ public class SimulationTask {
         consumersList.add(consumer);
         consumersList.add(consumerFile);
         while (!runnableList.isEmpty()){
-            Target target = runnableList.remove(runnableList.size()-1);
+            Target target = runnableList.remove(runnableList.size()-1);//work on runnablelist shuold be synchro
             boolean isSucceed= runTarget(target,consumersList);
             if(isSucceed){
                 if(target.getRunStatus().equals(TargetRunStatus.WARNING)){
