@@ -7,6 +7,8 @@ import engineManager.EngineManager;
 import enums.FxmlPath;
 import exceptions.XmlException;
 import generalComponents.GeneralComponent;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -29,11 +31,13 @@ public class AppController {
     private boolean isLoadFile = false;
     private EngineManager engineManager;
     private GeneralComponent generalComponent;
+    private BooleanProperty isLight;
 
     public AppController(){
         this.engineManager = new EngineManager();
         this.generalComponent = new GeneralComponent();
         this.generalComponent.setAppController(this);
+        this.isLight = new SimpleBooleanProperty(true);
     }
 
     @FXML
@@ -42,6 +46,16 @@ public class AppController {
                 setMenuFxml();
             }
             setMenu(this.menuParent);
+    }
+
+
+
+    public void setIsLight(boolean isLight) {
+        this.isLight.set(isLight);
+    }
+
+    public BooleanProperty isLightProperty() {
+        return isLight;
     }
 
     public Stage getPrimaryStage() {
@@ -60,6 +74,7 @@ public class AppController {
             this.menuParent = fxmlLoader.load(url.openStream());
             this.menuComponentController = fxmlLoader.getController();
             this.menuComponentController.setAppController(this);
+            this.menuComponentController.isLightProperty().bind(this.isLightProperty());
         } catch (IOException e) {
             e.printStackTrace();
         }

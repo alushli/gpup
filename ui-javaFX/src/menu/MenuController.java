@@ -5,6 +5,8 @@ import appScreen.AppController;
 import enums.FxmlPath;
 import enums.ScreenTypes;
 import generalInfo.GeneralInfoController;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.layout.GridPane;
 import loadFile.LoadFileController;
 import menu.subMenu.SubMenuController;
 import tasks.TasksController;
@@ -30,6 +33,10 @@ public class MenuController extends mainControllers.Controllers {
     private static Parent actionsParent;
     private static SubMenuController subMenuComponentController = null;
     private Parent subMenuParent;
+    private BooleanProperty isLight;
+
+    @FXML
+    private GridPane main_screen;
 
     @FXML
     private CheckBox animation_cb;
@@ -42,6 +49,16 @@ public class MenuController extends mainControllers.Controllers {
         skin_combo_box.getItems().removeAll(skin_combo_box.getItems());
         skin_combo_box.getItems().addAll("Light", "Dark");
         skin_combo_box.getSelectionModel().select("Light");
+        this.isLight = new SimpleBooleanProperty(true);
+        this.isLight.addListener((a,b,c)->{
+            if(this.isLight.getValue()){
+                this.main_screen.getStylesheets().remove("/resources/mainCssDark.css");
+                this.main_screen.getStylesheets().add("/resources/mainCssLight.css");
+            }else{
+                this.main_screen.getStylesheets().remove("/resources/mainCssLight.css");
+                this.main_screen.getStylesheets().add("/resources/mainCssDark.css");
+            }
+        });
     }
 
     public void setSubMenu(){
@@ -80,6 +97,14 @@ public class MenuController extends mainControllers.Controllers {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean isIsLight() {
+        return isLight.get();
+    }
+
+    public BooleanProperty isLightProperty() {
+        return isLight;
     }
 
     @FXML
@@ -156,7 +181,11 @@ public class MenuController extends mainControllers.Controllers {
 
     @FXML
     void clickSkin(ActionEvent event) {
-
+        if(this.skin_combo_box.getValue().equals("Light")){
+            this.appController.setIsLight(true);
+        }else{
+            this.appController.setIsLight(false);
+        }
     }
 
     @Override
