@@ -23,6 +23,7 @@
     -fx-font-family:Tahoma;
     -fx-font-size: 40px;
     -fx-font-weight: 700;
+    -fx-text-fill: black;
 }
 
 .label{
@@ -43,4 +44,10 @@
 .load_btn{
     -fx-font-size: 16px;
     -fx-padding: 15 5 15 5;
+    -fx-background-color: #008AFF;
+    -fx-text-fill: #FFFFFF;
+}
+
+.main_screen_content{
+    -fx-background-color: #FFFFFF;
 }

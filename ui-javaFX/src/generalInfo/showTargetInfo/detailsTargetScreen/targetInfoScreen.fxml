@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import java.net.URL?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -12,11 +13,11 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane fx:id="fall_screen_SP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="348.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="generalInfo.showTargetInfo.detailsTargetScreen.TargetInfoScreenController">
+<StackPane fx:id="fall_screen_SP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="348.0" styleClass="main_screen_content" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="generalInfo.showTargetInfo.detailsTargetScreen.TargetInfoScreenController">
    <children>
-      <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+      <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_screen_content">
          <content>
-            <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="598.0" prefWidth="348.0">
+            <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="598.0" prefWidth="348.0" styleClass="main_screen_content">
                <columnConstraints>
                   <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="10.0" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="300.0" />
@@ -28,7 +29,7 @@
                   <RowConstraints minHeight="20.0" prefHeight="20.0" vgrow="NEVER" />
                </rowConstraints>
                <children>
-                  <GridPane fx:id="target_info_grid" visible="false" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                  <GridPane fx:id="target_info_grid" styleClass="main_screen_content" visible="false" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                      </columnConstraints>
@@ -41,8 +42,16 @@
                      <children>
                         <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" GridPane.vgrow="NEVER">
                            <children>
-                              <Label maxHeight="1.7976931348623157E308" styleClass="summery_label" text="Target" HBox.hgrow="ALWAYS" />
-                              <Label fx:id="target_name_label" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="summery_label" HBox.hgrow="ALWAYS" />
+                              <Label maxHeight="1.7976931348623157E308" text="Target" HBox.hgrow="ALWAYS">
+                                 <styleClass>
+                                    <String fx:value="summery_label" />
+                                    <String fx:value="target_name" />
+                                 </styleClass></Label>
+                              <Label fx:id="target_name_label" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                                 <styleClass>
+                                    <String fx:value="target_name" />
+                                    <String fx:value="summery_label" />
+                                 </styleClass></Label>
                            </children>
                         </HBox>
                         <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="20.0" GridPane.rowIndex="2">

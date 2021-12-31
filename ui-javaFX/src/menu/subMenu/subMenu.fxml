@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<GridPane id="menu" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="menu.subMenu.SubMenuController">
+<GridPane id="menu" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" styleClass="main_screen_content" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="menu.subMenu.SubMenuController">
    <columnConstraints>
       <ColumnConstraints hgrow="ALWAYS" />
    </columnConstraints>
@@ -24,7 +24,7 @@
       <RowConstraints valignment="BOTTOM" vgrow="NEVER" />
    </rowConstraints>
    <children>
-      <ScrollPane id="menu-scroll-pane" fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" prefHeight="300.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="NEVER">
+      <ScrollPane id="menu-scroll-pane" fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" prefHeight="300.0" styleClass="main_screen_content" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="NEVER">
          <content>
             <VBox id="menu-buttons-vbox" fx:id="buttons_vbox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                <cursor>
@@ -41,7 +41,7 @@
             <Insets bottom="5.0" />
          </GridPane.margin>
       </Label>
-      <HBox maxHeight="60.0" maxWidth="200.0" minHeight="60.0" minWidth="200.0" prefHeight="60.0" prefWidth="200.0" GridPane.halignment="LEFT" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER">
+      <HBox maxHeight="60.0" maxWidth="200.0" minHeight="60.0" minWidth="200.0" prefHeight="60.0" prefWidth="200.0" styleClass="main_screen_content" GridPane.halignment="LEFT" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER">
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="25.0" />
          </padding>
@@ -51,7 +51,7 @@
          <children>
             <Button id="back_btn" fx:id="back_btn" maxHeight="20.0" maxWidth="30.0" minHeight="20.0" minWidth="30.0" mnemonicParsing="false" onAction="#clickBack" prefHeight="20.0" prefWidth="30.0" textFill="WHITE" HBox.hgrow="NEVER">
                <graphic>
-                  <ImageView fitHeight="44.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView id="back_img" fitHeight="44.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@back_arrow.png" />
                      </image>

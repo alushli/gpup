@@ -1,16 +1,29 @@
 #menu-scroll-pane{
     -fx-background-color:transparent;
 }
+
 #menu-header{
     -fx-background-color: transparent;
     -fx-padding: 10 0 0 10;
     -fx-font-weight: 900;
     -fx-font-size: 24;
+    -fx-text-fill: #008AFF;
 }
 #menu-buttons-vbox{
     -fx-padding:20 0 0 0 ;
+    -fx-background-color: #FFFFFF;
 }
+
+#skin_combo_box{
+    -fx-background-color: #F5FAFF;
+    -fx-border-color: #008AFF;
+}
+
 #back_btn{
+    -fx-background-color: transparent;
+}
+
+#back_img{
     -fx-background-color: transparent;
 }
 
@@ -25,5 +38,6 @@
 }
 
 .menu-btn:hover{
-    -fx-background-color:#E8E9EB;
+    -fx-background-color: #F5FAFF;
+    -fx-text-fill: #008AFF;
 }
