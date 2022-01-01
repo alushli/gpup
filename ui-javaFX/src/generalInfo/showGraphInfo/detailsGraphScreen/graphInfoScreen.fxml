@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -12,21 +13,21 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane fx:id="fall_screen_SP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="348.0" styleClass="main_screen_content" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="generalInfo.showGraphInfo.detailsGraphScreen.GraphInfoScreenController">
+<StackPane fx:id="fall_screen_SP" maxHeight="1.7976931348623157E308" maxWidth="400.0" minWidth="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="generalInfo.showGraphInfo.detailsGraphScreen.GraphInfoScreenController">
    <children>
-      <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_screen_content">
+      <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
          <content>
-            <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="598.0" prefWidth="348.0" styleClass="main_screen_content">
+            <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_screen_content">
                <columnConstraints>
                   <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="10.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="300.0" />
+                  <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="330.0" />
                   <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="10.0" />
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="NEVER" />
-                  <RowConstraints maxHeight="270.0" minHeight="270.0" prefHeight="270.0" vgrow="ALWAYS" />
-                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="100.0" prefHeight="100.0" vgrow="ALWAYS" />
-                  <RowConstraints minHeight="70.0" prefHeight="70.0" vgrow="NEVER" />
+                  <RowConstraints maxHeight="270.0" minHeight="270.0" prefHeight="270.0" vgrow="NEVER" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="270.0" prefHeight="270.0" vgrow="ALWAYS" />
+                  <RowConstraints minHeight="73.0" prefHeight="74.0" vgrow="NEVER" />
                   <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="NEVER" />
                </rowConstraints>
                <children>
@@ -106,13 +107,13 @@
                         </VBox>
                      </children>
                   </GridPane>
-                  <GridPane GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+                  <GridPane GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.vgrow="SOMETIMES">
                      <columnConstraints>
                         <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
                      </columnConstraints>
                      <rowConstraints>
                         <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
-                        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
+                        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="30.0" prefHeight="30.0" vgrow="ALWAYS" />
                      </rowConstraints>
                      <children>
                         <Label id="paths_message_label" fx:id="serial_label" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="sub_header_label" text="Serial Sets" />
@@ -124,7 +125,10 @@
                   </GridPane>
                   <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <children>
-                        <Button id="export_btn" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clickExport" prefHeight="42.0" prefWidth="328.0" text="Export graph to png" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
+                        <Button id="export_btn" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clickExport" prefHeight="42.0" prefWidth="328.0" text="Export graph to png" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin></Button>
                         <Label fx:id="export_label">
                            <VBox.margin>
                               <Insets top="5.0" />
@@ -135,10 +139,18 @@
                </children>
             </GridPane>
          </content>
+         <styleClass>
+            <String fx:value="main_screen_content" />
+            <String fx:value="scroll_border" />
+         </styleClass>
       </ScrollPane>
    </children>
    <stylesheets>
       <URL value="@../../../resources/mainCssLight.css" />
       <URL value="@../../GeneralInfoLight.css" />
    </stylesheets>
+   <styleClass>
+      <String fx:value="main_screen_content" />
+      <String fx:value="scroll_border" />
+   </styleClass>
 </StackPane>

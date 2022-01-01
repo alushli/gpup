@@ -1,3 +1,62 @@
+.text-area{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 14px;
+    -fx-wrap-text: true;
+    -fx-text-fill: black;
+}
+
+.ListView{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 14px;
+    -fx-text-fill: black;
+}
+
+.check-box{
+    -fx-cursor:hand;
+    -fx-text-fill: #FFFFFF;
+}
+
+.combo-box{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 14px;
+    -fx-cursor:hand;
+}
+
+#header_label{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 40px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #FFFFFF;
+}
+
+.label{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 14px;
+    -fx-text-fill: #FFFFFF;
+}
+
+.load_error_label{
+    -fx-font-size: 16px;
+}
+
+.button{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 14px;
+    -fx-cursor:hand;
+    -fx-text-fill: #FFFFFF;
+}
+
+.load_btn{
+    -fx-font-size: 16px;
+    -fx-padding: 15 5 15 5;
+    -fx-background-color: #7086DD;
+    -fx-text-fill: #FFFFFF;
+}
+
 .main_screen_content{
-    -fx-background-color: red;
+    -fx-background-color: #121212 !important;
+}
+
+.grid-ares{
+    -fx-background-color: #121212 !important;
 }

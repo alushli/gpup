@@ -5,8 +5,11 @@ import actions.showCircles.detailsCircleScreen.CircleScreenController;
 import actions.showPaths.detailsPathsScreen.PathsScreenController;
 import appScreen.AppController;
 import enums.FxmlPath;
+import enums.StyleSheetsPath;
 import generalComponents.targetsTable.TargetsTableController;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +25,10 @@ public class ShowCirclesController extends mainControllers.Controllers{
     private TargetsTableController targetsTableController;
     private CircleScreenController circleScreenController;
     private IntegerProperty curSelectedCount;
+    private BooleanProperty isLight;
+
+    @FXML
+    private StackPane main_screen;
 
     @FXML
     private StackPane data_area;
@@ -38,6 +45,28 @@ public class ShowCirclesController extends mainControllers.Controllers{
     @FXML
     private StackPane page_SP;
 
+    @FXML
+    public void initialize() {
+        this.isLight = new SimpleBooleanProperty(true);
+        this.isLight.addListener((a,b,c)->{
+            if(this.isLight.getValue()){
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.ACTIONS_DARK.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.ACTIONS_LIGHT.toString());
+            }else{
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.ACTIONS_LIGHT.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.ACTIONS_DARK.toString());
+            }
+        });
+    }
+
+    public BooleanProperty isLightProperty() {
+        return isLight;
+    }
+
     public StackPane getDataArea() { return data_area; }
 
     public GridPane getDetailsGrid() { return details_grid; }
@@ -52,6 +81,7 @@ public class ShowCirclesController extends mainControllers.Controllers{
             this.circleScreenController = fxmlLoader.getController();
             this.circleScreenController.setMainController(this);
             this.circleScreenController.setAppController(this.appController);
+            this.circleScreenController.isLightProperty().bind(this.appController.isLightProperty());
             this.circleScreenController.getFall_screen_SP().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.99));
             setTargetsLabel();
         } catch (Exception e){

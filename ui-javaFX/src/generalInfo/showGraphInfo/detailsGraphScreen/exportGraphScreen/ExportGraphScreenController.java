@@ -1,6 +1,7 @@
 package generalInfo.showGraphInfo.detailsGraphScreen.exportGraphScreen;
 
 import appScreen.AppController;
+import enums.StyleSheetsPath;
 import generalInfo.showGraphInfo.ShowGraphInfoController;
 import generalInfo.showGraphInfo.detailsGraphScreen.GraphInfoScreenController;
 import javafx.beans.property.BooleanProperty;
@@ -10,6 +11,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.DirectoryChooser;
 
 
@@ -19,6 +22,10 @@ import java.io.File;
 public class ExportGraphScreenController extends mainControllers.Controllers {
     private GraphInfoScreenController mainController;
     private BooleanProperty canExport;
+    private BooleanProperty isLight;
+
+    @FXML
+    private StackPane main_screen;
 
     @FXML
     private Label folder_path_label;
@@ -31,6 +38,7 @@ public class ExportGraphScreenController extends mainControllers.Controllers {
 
     @FXML
     public void initialize() {
+        this.isLight = new SimpleBooleanProperty(true);
         this.canExport = new SimpleBooleanProperty();
         this.export_btn.disableProperty().bind(canExport.not());
         this.file_name_txt.textProperty().addListener((a,b,c)->{
@@ -47,6 +55,23 @@ public class ExportGraphScreenController extends mainControllers.Controllers {
                 this.canExport.set(false);
             }
         });
+        this.isLight.addListener((a,b,c)->{
+            if(this.isLight.getValue()){
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.GENERAL_INFO_DARK.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.GENERAL_INFO_LIGHT.toString());
+            }else{
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.GENERAL_INFO_LIGHT.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.GENERAL_INFO_DARK.toString());
+            }
+        });
+    }
+
+    public BooleanProperty isLightProperty() {
+        return isLight;
     }
 
     @FXML

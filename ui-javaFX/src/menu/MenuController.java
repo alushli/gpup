@@ -4,6 +4,7 @@ import actions.ActionsController;
 import appScreen.AppController;
 import enums.FxmlPath;
 import enums.ScreenTypes;
+import enums.StyleSheetsPath;
 import generalInfo.GeneralInfoController;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -52,11 +53,15 @@ public class MenuController extends mainControllers.Controllers {
         this.isLight = new SimpleBooleanProperty(true);
         this.isLight.addListener((a,b,c)->{
             if(this.isLight.getValue()){
-                this.main_screen.getStylesheets().remove("/resources/mainCssDark.css");
-                this.main_screen.getStylesheets().add("/resources/mainCssLight.css");
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MENU_DARK.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MENU_LIGHT.toString());
             }else{
-                this.main_screen.getStylesheets().remove("/resources/mainCssLight.css");
-                this.main_screen.getStylesheets().add("/resources/mainCssDark.css");
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MENU_LIGHT.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MENU_DARK.toString());
             }
         });
     }
@@ -70,6 +75,7 @@ public class MenuController extends mainControllers.Controllers {
             this.subMenuComponentController= fxmlLoader.getController();
             this.subMenuComponentController.setAppController(this.appController);
             this.subMenuComponentController.setMainController(this);
+            this.subMenuComponentController.isLightProperty().bind(this.appController.isLightProperty());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -146,6 +152,7 @@ public class MenuController extends mainControllers.Controllers {
             this.loadFileParent = fxmlLoader.load(url.openStream());
             this.loadFileComponentController= fxmlLoader.getController();
             this.loadFileComponentController.setAppController(this.appController);
+            this.loadFileComponentController.isLightProperty().bind(this.appController.isLightProperty());
         } catch (IOException e) {
             e.printStackTrace();
         }

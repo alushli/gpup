@@ -3,7 +3,7 @@
 }
 
 .list-view{
-    -fx-background-color: #F5FAFF;
+    -fx-background-color: #4F545C !important;
 }
 
 .sub_header_label{
@@ -13,7 +13,7 @@
 .summery_label{
     -fx-font-weight: 700;
     -fx-font-size: 30;
-    -fx-text-fill: #008AFF;
+    -fx-text-fill: #7086DD;
 }
 
 #error_label{
@@ -21,22 +21,26 @@
 }
 
 .file_path_label{
-    -fx-background-color: white;
+    -fx-background-color: transparent;
     -fx-padding: 2 10 2 10;
     -fx-border-style: hidden hidden solid hidden;
-    -fx-border-color: #008AFF;
+    -fx-border-color: #7086DD;
 }
 
 #select_folder_btn{
-    -fx-background-color: #008AFF;
+    -fx-background-color: #7086DD;
     -fx-text-fill: #FFFFFF;
 }
 
 #export_btn{
-    -fx-background-color: #008AFF;
+    -fx-background-color: #7086DD;
     -fx-text-fill: #FFFFFF;
 }
 
 .target_name{
-    -fx-text-fill: #008AFF;
+    -fx-text-fill: #7086DD !important;
+}
+
+.scroll_border{
+
 }

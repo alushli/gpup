@@ -5,6 +5,7 @@ import dtoObjects.TargetDTO;
 import dtoObjects.TargetFXDTO;
 import engineManager.EngineManager;
 import enums.FxmlPath;
+import enums.StyleSheetsPath;
 import exceptions.XmlException;
 import generalComponents.GeneralComponent;
 import javafx.beans.property.BooleanProperty;
@@ -12,6 +13,8 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import menu.MenuController;
@@ -33,19 +36,35 @@ public class AppController {
     private GeneralComponent generalComponent;
     private BooleanProperty isLight;
 
+    @FXML
+    private BorderPane main_screen;
+
     public AppController(){
         this.engineManager = new EngineManager();
         this.generalComponent = new GeneralComponent();
         this.generalComponent.setAppController(this);
         this.isLight = new SimpleBooleanProperty(true);
+        this.isLight.addListener((a,b,c)->{
+            if(this.isLight.getValue()){
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.APP_SCREEN_DARK.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.APP_SCREEN_LIGHT.toString());
+            }else{
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.APP_SCREEN_LIGHT.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.APP_SCREEN_DARK.toString());
+            }
+        });
     }
 
     @FXML
     public void initialize() {
-            if(menuComponentController == null) {
-                setMenuFxml();
-            }
-            setMenu(this.menuParent);
+        if (menuComponentController == null) {
+            setMenuFxml();
+        }
+        setMenu(this.menuParent);
     }
 
 

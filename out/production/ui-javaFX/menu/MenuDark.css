@@ -1,0 +1,42 @@
+#menu-scroll-pane{
+    -fx-background-color:transparent;
+}
+
+#menu-header{
+    -fx-background-color: transparent;
+    -fx-padding: 10 0 0 10;
+    -fx-font-weight: 900;
+    -fx-font-size: 24;
+    -fx-text-fill: #FFFFFF;
+}
+#menu-buttons-vbox{
+    -fx-padding:20 0 0 0 ;
+    -fx-background-color: #121212;
+}
+
+#skin_combo_box{
+    -fx-border-color: #7086DD;
+}
+
+#back_btn{
+    -fx-background-color: transparent;
+}
+
+#back_img{
+    -fx-background-color: transparent;
+}
+
+#sub_header_label {
+    -fx-padding:5px 0 10px 5px ;
+    -fx-font-weight: 700;
+}
+
+.menu-btn{
+    -fx-background-color: transparent;
+    -fx-padding: 13px 0 0 5px;
+}
+
+.menu-btn:hover{
+    -fx-background-color: #333333;
+    -fx-text-fill: #7086DD;
+}

@@ -4,7 +4,9 @@ import actions.ActionsController;
 import actions.showPaths.detailsPathsScreen.PathsScreenController;
 import appScreen.AppController;
 import enums.FxmlPath;
+import enums.StyleSheetsPath;
 import generalComponents.targetsTable.TargetsTableController;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -19,6 +21,10 @@ public class ShowPathsController extends mainControllers.Controllers{
     private TargetsTableController targetsTableController;
     private IntegerProperty curSelectedCount;
     private PathsScreenController pathsScreenController;
+    private BooleanProperty isLight;
+
+    @FXML
+    private StackPane main_screen;
 
     @FXML
     private StackPane data_area;
@@ -31,6 +37,28 @@ public class ShowPathsController extends mainControllers.Controllers{
 
     @FXML
     private GridPane details_grid;
+
+    @FXML
+    public void initialize() {
+        this.isLight = new SimpleBooleanProperty(true);
+        this.isLight.addListener((a,b,c)->{
+            if(this.isLight.getValue()){
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.ACTIONS_DARK.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.ACTIONS_LIGHT.toString());
+            }else{
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.ACTIONS_LIGHT.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.ACTIONS_DARK.toString());
+            }
+        });
+    }
+
+    public BooleanProperty isLightProperty() {
+        return isLight;
+    }
 
     public StackPane getDataArea() { return data_area; }
 
@@ -55,6 +83,7 @@ public class ShowPathsController extends mainControllers.Controllers{
             this.pathsScreenController = fxmlLoader.getController();
             this.pathsScreenController.setMainController(this);
             this.pathsScreenController.setAppController(this.appController);
+            this.pathsScreenController.isLightProperty().bind(this.appController.isLightProperty());
             setTargetsLabels();
             pathsScreenController.getFall_screen_SP().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.99));
         } catch (Exception e){

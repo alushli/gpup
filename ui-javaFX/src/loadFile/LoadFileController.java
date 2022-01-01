@@ -1,19 +1,27 @@
 package loadFile;
 
 import appScreen.AppController;
+import enums.StyleSheetsPath;
 import exceptions.XmlException;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import java.io.File;
 
 
 public class LoadFileController extends mainControllers.Controllers{
     private static String workFile = null;
+    private BooleanProperty isLight;
+
+    @FXML
+    private StackPane main_screen;
 
     @FXML
     private TextArea load_message_ta;
@@ -42,6 +50,27 @@ public class LoadFileController extends mainControllers.Controllers{
     @FXML
     private Button compiler_label;
 
+    @FXML
+    public void initialize() {
+        this.isLight = new SimpleBooleanProperty(true);
+        this.isLight.addListener((a,b,c)->{
+            if(this.isLight.getValue()){
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.LOAD_FILE_DARK.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.LOAD_FILE_LIGHT.toString());
+            }else{
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.LOAD_FILE_LIGHT.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.LOAD_FILE_DARK.toString());
+            }
+        });
+    }
+
+    public BooleanProperty isLightProperty() {
+        return isLight;
+    }
 
     @FXML
     void clickActions(ActionEvent event) {

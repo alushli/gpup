@@ -25,20 +25,21 @@
 }
 
 .what_next_buttons{
-    -fx-background-color: #87CEEB;
+    -fx-background-color: rgba(0, 138, 255, 0.75);
     -fx-text-fill: #FFFFFF;
 }
 
 .what_next_buttons:hover{
-    -fx-background-color: #87CEEB;
+    -fx-background-color: #008AFF;
 }
 
 .load_file_btn{
     -fx-background-color: #008AFF;
     -fx-text-fill: #FFFFFF;
 }
+
 .load_file_btn:hover{
-    -fx-background-color: #87CEEB;
+    -fx-background-color: rgba(0, 138, 255, 0.75);
 }
 
 .load_btn{

@@ -1,16 +1,32 @@
 package menu.subMenu;
 
 import appScreen.AppController;
+import enums.StyleSheetsPath;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import menu.MenuController;
 
 public class SubMenuController extends  mainControllers.Controllers{
     private MenuController mainController;
+    private BooleanProperty isLight;
+    private Image backDarkImg;
+    private Image backLightImg;
+
+
+    @FXML
+    private ImageView back_img;
+
+    @FXML
+    private GridPane main_screen;
 
     @FXML
     private VBox buttons_vbox;
@@ -21,6 +37,27 @@ public class SubMenuController extends  mainControllers.Controllers{
     @FXML
     private Button back_btn;
 
+    @FXML
+    public void initialize() {
+        this.backDarkImg = new Image("/menu/subMenu/back_arrow_dark.png");
+        this.backLightImg = new Image("/menu/subMenu/back_arrow_light.png");
+        this.isLight = new SimpleBooleanProperty(true);
+        this.isLight.addListener((a,b,c)->{
+            if(this.isLight.getValue()){
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MENU_DARK.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MENU_LIGHT.toString());
+                this.back_img.setImage(this.backLightImg);
+            }else{
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MENU_LIGHT.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MENU_DARK.toString());
+                this.back_img.setImage(this.backDarkImg);
+            }
+        });
+    }
 
     @FXML
     void clickBack(ActionEvent event) {
@@ -57,6 +94,10 @@ public class SubMenuController extends  mainControllers.Controllers{
         graphInfoBtn.setOnAction(e -> {
             this.mainController.getGeneralInfoController().setGraphInfoControllers();
         });
+    }
+
+    public BooleanProperty isLightProperty() {
+        return isLight;
     }
 
     public void setTasksButtons(){

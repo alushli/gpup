@@ -54,6 +54,7 @@ public class ActionsController extends mainControllers.Controllers {
             this.showPathsComponentController= fxmlLoader.getController();
             this.showPathsComponentController.setAppController(this.appController);
             this.showPathsComponentController.setMainController(this);
+            this.showPathsComponentController.isLightProperty().bind(this.appController.isLightProperty());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -80,6 +81,7 @@ public class ActionsController extends mainControllers.Controllers {
             this.showCirclesComponentController= fxmlLoader.getController();
             this.showCirclesComponentController.setAppController(this.appController);
             this.showCirclesComponentController.setMainController(this);
+            this.showCirclesComponentController.isLightProperty().bind(this.appController.isLightProperty());
         } catch (IOException e) {
             e.printStackTrace();
         }
