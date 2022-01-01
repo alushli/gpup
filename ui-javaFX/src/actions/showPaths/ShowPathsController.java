@@ -122,6 +122,7 @@ public class ShowPathsController extends mainControllers.Controllers{
             this.targetsTableController.setAppController(this.appController);
             this.targetsTableController.getTable().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.925));
             this.targetsTableController.setMaxSelect(2);
+            this.targetsTableController.isLightProperty().bind(this.appController.isLightProperty());
         }catch (Exception e){
             System.out.println("Error in setTableScreen() - showPathController");
         }

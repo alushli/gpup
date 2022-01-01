@@ -119,6 +119,7 @@ public class ShowGraphInfoController extends mainControllers.Controllers{
             this.targetsTableController.setAppController(this.appController);
             this.targetsTableController.getTable().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.965));
             this.targetsTableController.setSelectDisable();
+            this.targetsTableController.isLightProperty().bind(this.appController.isLightProperty());
         }catch (Exception e){
 
         }

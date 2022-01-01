@@ -113,6 +113,7 @@ public class ShowCirclesController extends mainControllers.Controllers{
             this.targetsTableController.setAppController(this.appController);
             this.targetsTableController.getTable().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.925));
             this.targetsTableController.setMaxSelect(1);
+            this.targetsTableController.isLightProperty().bind(this.appController.isLightProperty());
         }catch (Exception e){
             System.out.println("Error in setTableScreen() - showCircleController");
         }

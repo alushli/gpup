@@ -2,17 +2,26 @@ package generalComponents.serialSetTable;
 
 import dtoObjects.SerialSetFXDTO;
 import dtoObjects.TargetFXDTO;
+import enums.StyleSheetsPath;
 import generalComponents.GeneralComponent;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.StackPane;
 
 import java.util.Collection;
 
 public class SerialSetTableController extends GeneralComponent {
+    private BooleanProperty isLight;
+
+    @FXML
+    private StackPane main_screen;
+
     public SerialSetTableController(){
     }
 
@@ -29,6 +38,10 @@ public class SerialSetTableController extends GeneralComponent {
         return table;
     }
 
+    public BooleanProperty isLightProperty() {
+        return isLight;
+    }
+
     @FXML
     public void initialize(){
         this.nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -36,6 +49,17 @@ public class SerialSetTableController extends GeneralComponent {
         //Collection<SerialSetFXDTO> serialSets = null;
        //this.table.setItems(getSerialSets(serialSets));
         this.table.setItems(getSerialSetsDemo());
+
+        this.isLight = new SimpleBooleanProperty(true);
+        this.isLight.addListener((a,b,c)->{
+            if(this.isLight.getValue()){
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.SERIAL_SET_TABLE_DARK.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.SERIAL_SET_TABLE_LIGHT.toString());
+            }else{
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.SERIAL_SET_TABLE_LIGHT.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.SERIAL_SET_TABLE_DARK.toString());
+            }
+        });
     }
 
     public ObservableList<SerialSetFXDTO> getSerialSets(Collection<SerialSetFXDTO> serialSets){

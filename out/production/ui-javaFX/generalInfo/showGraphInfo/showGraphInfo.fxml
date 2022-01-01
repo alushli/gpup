@@ -48,15 +48,11 @@
                               <RowConstraints maxHeight="1.7976931348623157E308" valignment="CENTER" vgrow="ALWAYS" />
                            </rowConstraints>
                            <children>
-                              <ScrollPane maxHeight="640.0" maxWidth="1.7976931348623157E308" styleClass="main_screen_content" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
-                                 <content>
-                                    <VBox fx:id="table_VB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_screen_content">
-                                       <children>
-                                          <StackPane fx:id="table_SP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
-                                       </children>
-                                    </VBox>
-                                 </content>
-                              </ScrollPane>
+                              <VBox fx:id="table_VB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_screen_content">
+                                 <children>
+                                    <StackPane fx:id="table_SP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                                 </children>
+                              </VBox>
                               <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="402.0" minWidth="402.0" prefWidth="402.0" styleClass="main_screen_content" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.vgrow="SOMETIMES">
                                  <content>
                                     <StackPane fx:id="page_SP" alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_screen_content" />

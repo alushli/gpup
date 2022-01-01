@@ -44,25 +44,21 @@
                               <RowConstraints maxHeight="1.7976931348623157E308" valignment="CENTER" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <ScrollPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_screen_content" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
-                                 <content>
-                                    <VBox fx:id="table_VB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_screen_content">
-                                       <children>
-                                          <Label id="explanation_label" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Please select only one target from the table">
-                                             <padding>
-                                                <Insets bottom="5.0" />
-                                             </padding>
-                                          </Label>
-                                          <StackPane fx:id="table_SP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_screen_content" />
-                                       </children>
-                                    </VBox>
-                                 </content>
-                              </ScrollPane>
                               <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_screen_content" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.vgrow="ALWAYS">
                                  <content>
                                     <StackPane fx:id="page_SP" alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_screen_content" />
                                  </content>
                               </ScrollPane>
+                              <VBox fx:id="table_VB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_screen_content">
+                                 <children>
+                                    <Label id="explanation_label" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Please select only one target from the table">
+                                       <padding>
+                                          <Insets bottom="5.0" />
+                                       </padding>
+                                    </Label>
+                                    <StackPane fx:id="table_SP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_screen_content" />
+                                 </children>
+                              </VBox>
                            </children>
                            <styleClass>
                               <String fx:value="grid_ares" />

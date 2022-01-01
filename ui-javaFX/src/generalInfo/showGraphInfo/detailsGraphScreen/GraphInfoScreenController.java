@@ -175,6 +175,8 @@ public class GraphInfoScreenController extends mainControllers.Controllers{
             generalInfoController.setArea(this.table_SP ,fxmlLoader.load(url.openStream()));
             SerialSetTableController serialSetTableController = fxmlLoader.getController();
             serialSetTableController.getTable().prefHeightProperty().bind(this.table_SP.heightProperty().multiply(0.895));
+            serialSetTableController.isLightProperty().bind(this.appController.isLightProperty());
+
         } catch (Exception e){
             System.out.println("Error in setSerialSetTable() - GraphInfoScreenController");
         }

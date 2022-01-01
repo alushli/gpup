@@ -12,7 +12,11 @@ public enum StyleSheetsPath {
     GENERAL_INFO_LIGHT("/generalInfo/GeneralInfoLight.css"),
     GENERAL_INFO_DARK("/generalInfo/GeneralInfoDark.css"),
     ACTIONS_LIGHT("/actions/ActionsLight.css"),
-    ACTIONS_DARK("/actions/ActionsDark.css");
+    ACTIONS_DARK("/actions/ActionsDark.css"),
+    TARGETS_TABLE_LIGHT("/generalComponents/targetsTable/TargetsTableLight.css"),
+    TARGETS_TABLE_DARK("/generalComponents/targetsTable/TargetsTableDark.css"),
+    SERIAL_SET_TABLE_LIGHT("/generalComponents/serialSetTable/SerialSetTableLight.css"),
+    SERIAL_SET_TABLE_DARK("/generalComponents/serialSetTable/SerialSetTableDark.css");
 
     private String name;
 

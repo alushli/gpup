@@ -3,6 +3,7 @@ package generalComponents.targetsTable;
 
 import Enums.TargetPosition;
 import dtoObjects.TargetFXDTO;
+import enums.StyleSheetsPath;
 import generalComponents.GeneralComponent;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
@@ -13,6 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.StackPane;
 
 import javax.sound.midi.Soundbank;
 import java.util.ArrayList;
@@ -23,6 +25,10 @@ public class TargetsTableController extends GeneralComponent {
     private ArrayList<TargetFXDTO> curSelected;
     private IntegerProperty selectedCounter;
     private BooleanProperty isMaxSelected;
+    private BooleanProperty isLight;
+
+    @FXML
+    private StackPane main_screen;
 
     @FXML
     private TableView<TargetFXDTO> table;
@@ -109,6 +115,20 @@ public class TargetsTableController extends GeneralComponent {
         this.selectCol.setSortable(false);
         Collection<TargetFXDTO> targets = this.getAppController().getAllTargets();
         this.table.setItems(getTargets(targets));
+        this.isLight = new SimpleBooleanProperty(true);
+        this.isLight.addListener((a,b,c)->{
+            if(this.isLight.getValue()){
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.TARGETS_TABLE_DARK.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.TARGETS_TABLE_LIGHT.toString());
+            }else{
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.TARGETS_TABLE_LIGHT.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.TARGETS_TABLE_DARK.toString());
+            }
+        });
+    }
+
+    public BooleanProperty isLightProperty() {
+        return isLight;
     }
 
     private void setSelectOnClick(Collection<TargetFXDTO> targets){
