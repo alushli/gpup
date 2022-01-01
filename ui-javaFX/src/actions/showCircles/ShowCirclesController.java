@@ -11,6 +11,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -117,6 +118,11 @@ public class ShowCirclesController extends mainControllers.Controllers{
         }catch (Exception e){
             System.out.println("Error in setTableScreen() - showCircleController");
         }
+    }
+
+    @FXML
+    void clickDeselectAll(ActionEvent event) {
+        this.targetsTableController.deselectAll();
     }
 
     @Override

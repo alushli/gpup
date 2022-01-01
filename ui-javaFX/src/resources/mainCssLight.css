@@ -102,3 +102,8 @@
     -fx-background-insets : 2.0, 0.0, 0.0;
     -fx-background-radius : 2.0em;
 }
+
+.deselect_btn{
+    -fx-background-color: #008AFF;
+    -fx-text-fill: #FFFFFF;
+}

@@ -11,6 +11,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -67,6 +68,12 @@ public class ShowTargetInfoController extends mainControllers.Controllers{
             }
         });
     }
+
+    @FXML
+    void clickDeselectAll(ActionEvent event) {
+        this.targetsTableController.deselectAll();
+    }
+
 
     public BooleanProperty isLightProperty() {
         return isLight;

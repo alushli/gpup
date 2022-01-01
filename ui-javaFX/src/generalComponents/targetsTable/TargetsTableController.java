@@ -154,6 +154,14 @@ public class TargetsTableController extends GeneralComponent {
         }
     }
 
+    public void deselectAll(){
+        for(TargetFXDTO targetFXDTO: this.table.getItems()){
+            if(targetFXDTO.getSelect().isSelected()){
+                targetFXDTO.getSelect().setSelected(false);
+            }
+        }
+    }
+
 
     public TargetsTableController(){
 
