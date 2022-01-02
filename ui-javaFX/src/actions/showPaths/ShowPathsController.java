@@ -90,6 +90,7 @@ public class ShowPathsController extends mainControllers.Controllers{
             this.pathsScreenController.setMainController(this);
             this.pathsScreenController.setAppController(this.appController);
             this.pathsScreenController.isLightProperty().bind(this.appController.isLightProperty());
+            this.pathsScreenController.isAnimationProperty().bind(this.appController.isAnimationProperty());
             setTargetsLabels();
             pathsScreenController.getFall_screen_SP().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.99));
         } catch (Exception e){

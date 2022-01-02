@@ -4,6 +4,7 @@ import actions.showPaths.ShowPathsController;
 import appScreen.AppController;
 import dtoObjects.TargetDTO;
 import enums.StyleSheetsPath;
+import javafx.animation.RotateTransition;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -16,6 +17,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,7 @@ import java.util.List;
 public class PathsScreenController extends mainControllers.Controllers{
     private ShowPathsController mainController;
     private BooleanProperty isLight;
+    private BooleanProperty isAnimation;
     private Image switchDarkImg;
     private Image switchLightImg;
 
@@ -54,6 +57,10 @@ public class PathsScreenController extends mainControllers.Controllers{
         return isLight;
     }
 
+    public BooleanProperty isAnimationProperty() {
+        return isAnimation;
+    }
+
     @FXML
     public void initialize() {
         this.switchDarkImg = new Image("/actions/showPaths/detailsPathsScreen/switch_icon_dark.png");
@@ -62,6 +69,7 @@ public class PathsScreenController extends mainControllers.Controllers{
         direction_CB.getItems().addAll("Depends On", "Required For");
         direction_CB.getSelectionModel().select("Depends On");
         this.isLight = new SimpleBooleanProperty(true);
+        this.isAnimation = new SimpleBooleanProperty(false);
         this.isLight.addListener((a,b,c)->{
             if(this.isLight.getValue()){
                 this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
@@ -117,6 +125,11 @@ public class PathsScreenController extends mainControllers.Controllers{
 
     @FXML
     void clickSwitch(ActionEvent event) {
+        if(this.isAnimation.getValue().booleanValue()){
+            RotateTransition rotateTransition = new RotateTransition(Duration.millis(1500),this.switch_img);
+            rotateTransition.setByAngle(720);
+            rotateTransition.play();
+        }
         String temp = target2_label.getText();
         target2_label.setText(target1_label.getText());
         target1_label.setText(temp);

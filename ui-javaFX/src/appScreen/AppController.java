@@ -35,6 +35,7 @@ public class AppController {
     private EngineManager engineManager;
     private GeneralComponent generalComponent;
     private BooleanProperty isLight;
+    private BooleanProperty isAnimation;
 
     @FXML
     private BorderPane main_screen;
@@ -44,6 +45,7 @@ public class AppController {
         this.generalComponent = new GeneralComponent();
         this.generalComponent.setAppController(this);
         this.isLight = new SimpleBooleanProperty(true);
+        this.isAnimation = new SimpleBooleanProperty(false);
         this.isLight.addListener((a,b,c)->{
             if(this.isLight.getValue()){
                 this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
@@ -67,7 +69,13 @@ public class AppController {
         setMenu(this.menuParent);
     }
 
+    public BooleanProperty isAnimationProperty() {
+        return isAnimation;
+    }
 
+    public void setIsAnimation(boolean isAnimation) {
+        this.isAnimation.set(isAnimation);
+    }
 
     public void setIsLight(boolean isLight) {
         this.isLight.set(isLight);

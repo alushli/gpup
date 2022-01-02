@@ -183,7 +183,7 @@ public class MenuController extends mainControllers.Controllers {
 
     @FXML
     void clickAnimation(ActionEvent event) {
-
+        this.appController.setIsAnimation(this.animation_cb.isSelected());
     }
 
     @FXML
