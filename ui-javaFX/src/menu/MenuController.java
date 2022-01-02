@@ -4,7 +4,10 @@ import actions.ActionsController;
 import appScreen.AppController;
 import enums.FxmlPath;
 import enums.ScreenTypes;
+import enums.StyleSheetsPath;
 import generalInfo.GeneralInfoController;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.layout.GridPane;
 import loadFile.LoadFileController;
 import menu.subMenu.SubMenuController;
 import tasks.TasksController;
@@ -30,6 +34,10 @@ public class MenuController extends mainControllers.Controllers {
     private static Parent actionsParent;
     private static SubMenuController subMenuComponentController = null;
     private Parent subMenuParent;
+    private BooleanProperty isLight;
+
+    @FXML
+    private GridPane main_screen;
 
     @FXML
     private CheckBox animation_cb;
@@ -42,6 +50,20 @@ public class MenuController extends mainControllers.Controllers {
         skin_combo_box.getItems().removeAll(skin_combo_box.getItems());
         skin_combo_box.getItems().addAll("Light", "Dark");
         skin_combo_box.getSelectionModel().select("Light");
+        this.isLight = new SimpleBooleanProperty(true);
+        this.isLight.addListener((a,b,c)->{
+            if(this.isLight.getValue()){
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MENU_DARK.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MENU_LIGHT.toString());
+            }else{
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MENU_LIGHT.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MENU_DARK.toString());
+            }
+        });
     }
 
     public void setSubMenu(){
@@ -53,6 +75,7 @@ public class MenuController extends mainControllers.Controllers {
             this.subMenuComponentController= fxmlLoader.getController();
             this.subMenuComponentController.setAppController(this.appController);
             this.subMenuComponentController.setMainController(this);
+            this.subMenuComponentController.isLightProperty().bind(this.appController.isLightProperty());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -80,6 +103,14 @@ public class MenuController extends mainControllers.Controllers {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean isIsLight() {
+        return isLight.get();
+    }
+
+    public BooleanProperty isLightProperty() {
+        return isLight;
     }
 
     @FXML
@@ -121,6 +152,7 @@ public class MenuController extends mainControllers.Controllers {
             this.loadFileParent = fxmlLoader.load(url.openStream());
             this.loadFileComponentController= fxmlLoader.getController();
             this.loadFileComponentController.setAppController(this.appController);
+            this.loadFileComponentController.isLightProperty().bind(this.appController.isLightProperty());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -151,12 +183,16 @@ public class MenuController extends mainControllers.Controllers {
 
     @FXML
     void clickAnimation(ActionEvent event) {
-
+        this.appController.setIsAnimation(this.animation_cb.isSelected());
     }
 
     @FXML
     void clickSkin(ActionEvent event) {
-
+        if(this.skin_combo_box.getValue().equals("Light")){
+            this.appController.setIsLight(true);
+        }else{
+            this.appController.setIsLight(false);
+        }
     }
 
     @Override

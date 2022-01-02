@@ -1,0 +1,9 @@
+#left_area{
+    -fx-border-style: hidden solid hidden hidden;
+    -fx-border-width: 3px;
+    -fx-border-color: #333333;
+}
+
+#content_area{
+    -fx-background-color: #121212;
+}

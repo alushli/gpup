@@ -27,7 +27,7 @@ public class LoadFileError {
     static void designBtn(VBox vBox, Label label, Button btn){
         vBox.setSpacing(10);
         btn.getStyleClass().add("load_btn");
-        btn.setMaxWidth(1.7976931348623157E308);
+        btn.setMaxWidth(1.7976931348623157E307);
         label.getStyleClass().add("load_error_label");
     }
 

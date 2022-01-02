@@ -14,11 +14,32 @@
 #file_path_label{
     -fx-background-color: white;
     -fx-padding: 2 10 2 10;
-    -fx-border-color: black;
+    -fx-border-style: hidden hidden solid hidden;
+    -fx-border-color: #008AFF;
 }
 
 .what_next_main_buttons{
     -fx-font-size: 18px;
+    -fx-background-color: #008AFF;
+    -fx-text-fill: #FFFFFF;
+}
+
+.what_next_buttons{
+    -fx-background-color: rgba(0, 138, 255, 0.75);
+    -fx-text-fill: #FFFFFF;
+}
+
+.what_next_buttons:hover{
+    -fx-background-color: #008AFF;
+}
+
+.load_file_btn{
+    -fx-background-color: #008AFF;
+    -fx-text-fill: #FFFFFF;
+}
+
+.load_file_btn:hover{
+    -fx-background-color: rgba(0, 138, 255, 0.75);
 }
 
 .load_btn{

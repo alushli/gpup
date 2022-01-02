@@ -3,9 +3,12 @@ package generalInfo.showGraphInfo;
 import appScreen.AppController;
 import dtoObjects.GraphDTO;
 import enums.FxmlPath;
+import enums.StyleSheetsPath;
 import generalComponents.targetsTable.TargetsTableController;
 import generalInfo.GeneralInfoController;
 import generalInfo.showGraphInfo.detailsGraphScreen.GraphInfoScreenController;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.GridPane;
@@ -17,6 +20,10 @@ public class ShowGraphInfoController extends mainControllers.Controllers{
     private GeneralInfoController mainController;
     private GraphInfoScreenController graphInfoScreenController;
     private TargetsTableController targetsTableController;
+    private BooleanProperty isLight;
+
+    @FXML
+    private StackPane main_screen;
 
     @FXML
     private StackPane data_area;
@@ -37,6 +44,28 @@ public class ShowGraphInfoController extends mainControllers.Controllers{
 
     public StackPane getDataArea() {
         return data_area;
+    }
+
+    @FXML
+    public void initialize() {
+        this.isLight = new SimpleBooleanProperty(true);
+        this.isLight.addListener((a,b,c)->{
+            if(this.isLight.getValue()){
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.GENERAL_INFO_DARK.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.GENERAL_INFO_LIGHT.toString());
+            }else{
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.GENERAL_INFO_LIGHT.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.GENERAL_INFO_DARK.toString());
+            }
+        });
+    }
+
+    public BooleanProperty isLightProperty() {
+        return isLight;
     }
 
     @Override
@@ -61,9 +90,9 @@ public class ShowGraphInfoController extends mainControllers.Controllers{
             this.graphInfoScreenController = fxmlLoader.getController();
             this.graphInfoScreenController.setMainController(this);
             this.graphInfoScreenController.setAppController(this.appController);
+            this.graphInfoScreenController.isLightProperty().bind(this.appController.isLightProperty());
             this.graphInfoScreenController.setSerialSetTable();
             this.graphInfoScreenController.restartExportLabel();
-            this.graphInfoScreenController.getFall_screen_SP().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.99));
             setPageLabels();
         } catch (Exception e){
         }
@@ -90,6 +119,7 @@ public class ShowGraphInfoController extends mainControllers.Controllers{
             this.targetsTableController.setAppController(this.appController);
             this.targetsTableController.getTable().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.965));
             this.targetsTableController.setSelectDisable();
+            this.targetsTableController.isLightProperty().bind(this.appController.isLightProperty());
         }catch (Exception e){
 
         }

@@ -1,8 +1,11 @@
 package generalInfo.showTargetInfo.detailsTargetScreen;
 
 import appScreen.AppController;
+import enums.StyleSheetsPath;
 import generalInfo.showGraphInfo.ShowGraphInfoController;
 import generalInfo.showTargetInfo.ShowTargetInfoController;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -12,6 +15,7 @@ import javafx.scene.layout.StackPane;
 
 public class TargetInfoScreenController extends mainControllers.Controllers{
     private ShowTargetInfoController mainController;
+    private BooleanProperty isLight;
 
     @FXML
     private StackPane fall_screen_SP;
@@ -45,6 +49,30 @@ public class TargetInfoScreenController extends mainControllers.Controllers{
 
     @FXML
     private Label error_message;
+
+    @FXML
+    public void initialize() {
+        this.isLight = new SimpleBooleanProperty(true);
+        this.isLight.addListener((a,b,c)->{
+            if(this.isLight.getValue()){
+                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.GENERAL_INFO_DARK.toString());
+                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.GENERAL_INFO_LIGHT.toString());
+            }else{
+                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.GENERAL_INFO_LIGHT.toString());
+                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.GENERAL_INFO_DARK.toString());
+            }
+        });
+    }
+
+
+
+    public BooleanProperty isLightProperty() {
+        return isLight;
+    }
 
     public Label getError_message() {
         return error_message;

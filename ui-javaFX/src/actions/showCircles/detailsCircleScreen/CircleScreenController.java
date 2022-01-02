@@ -4,6 +4,9 @@ import actions.showCircles.ShowCirclesController;
 import actions.showPaths.ShowPathsController;
 import appScreen.AppController;
 import dtoObjects.TargetDTO;
+import enums.StyleSheetsPath;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -16,6 +19,7 @@ import java.util.List;
 
 public class CircleScreenController extends mainControllers.Controllers {
     private ShowCirclesController mainController;
+    private BooleanProperty isLight;
 
     @FXML
     private StackPane fall_screen_SP;
@@ -31,6 +35,28 @@ public class CircleScreenController extends mainControllers.Controllers {
 
     @FXML
     private Button find_btn;
+
+    @FXML
+    public void initialize() {
+        this.isLight = new SimpleBooleanProperty(true);
+        this.isLight.addListener((a,b,c)->{
+            if(this.isLight.getValue()){
+                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.ACTIONS_DARK.toString());
+                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.ACTIONS_LIGHT.toString());
+            }else{
+                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.ACTIONS_LIGHT.toString());
+                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.ACTIONS_DARK.toString());
+            }
+        });
+    }
+
+    public BooleanProperty isLightProperty() {
+        return isLight;
+    }
 
     @FXML
     void clickFind(ActionEvent event) {

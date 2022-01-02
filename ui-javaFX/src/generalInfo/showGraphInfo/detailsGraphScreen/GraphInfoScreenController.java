@@ -1,38 +1,31 @@
 package generalInfo.showGraphInfo.detailsGraphScreen;
 
 import appScreen.AppController;
-import dtoObjects.GraphDTO;
 import enums.FxmlPath;
+import enums.StyleSheetsPath;
 import generalComponents.serialSetTable.SerialSetTableController;
-import generalComponents.targetsTable.TargetsTableController;
 import generalInfo.GeneralInfoController;
 import generalInfo.showGraphInfo.ShowGraphInfoController;
 import generalInfo.showGraphInfo.detailsGraphScreen.exportGraphScreen.ExportGraphScreenController;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.HBox;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-
-import javax.swing.plaf.basic.BasicTabbedPaneUI;
-import java.io.File;
 import java.net.URL;
 
 public class GraphInfoScreenController extends mainControllers.Controllers{
     private ShowGraphInfoController mainController;
     private String fullPathExport;
     private Stage popupWindow;
+    private BooleanProperty isLight;
 
     @FXML
     private StackPane fall_screen_SP;
@@ -70,6 +63,28 @@ public class GraphInfoScreenController extends mainControllers.Controllers{
     @FXML
     private StackPane table_SP;
 
+    @FXML
+    public void initialize() {
+        this.isLight = new SimpleBooleanProperty(true);
+        this.isLight.addListener((a,b,c)->{
+            if(this.isLight.getValue()){
+                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.GENERAL_INFO_DARK.toString());
+                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.GENERAL_INFO_LIGHT.toString());
+            }else{
+                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.GENERAL_INFO_LIGHT.toString());
+                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.GENERAL_INFO_DARK.toString());
+            }
+        });
+    }
+
+    public BooleanProperty isLightProperty() {
+        return isLight;
+    }
+
     public void setFullPathExport(String fullPathExport) {
         this.fullPathExport = fullPathExport;
     }
@@ -99,6 +114,7 @@ public class GraphInfoScreenController extends mainControllers.Controllers{
             ExportGraphScreenController exportGraphScreenController = loader.getController();
             exportGraphScreenController.setAppController(this.appController);
             exportGraphScreenController.setMainController(this);
+            exportGraphScreenController.isLightProperty().bind(this.appController.isLightProperty());
             Scene secondScene = new Scene(popup, 520, 200);
             this.popupWindow = new Stage();
             this.popupWindow.setResizable(false);
@@ -159,6 +175,8 @@ public class GraphInfoScreenController extends mainControllers.Controllers{
             generalInfoController.setArea(this.table_SP ,fxmlLoader.load(url.openStream()));
             SerialSetTableController serialSetTableController = fxmlLoader.getController();
             serialSetTableController.getTable().prefHeightProperty().bind(this.table_SP.heightProperty().multiply(0.895));
+            serialSetTableController.isLightProperty().bind(this.appController.isLightProperty());
+
         } catch (Exception e){
             System.out.println("Error in setSerialSetTable() - GraphInfoScreenController");
         }

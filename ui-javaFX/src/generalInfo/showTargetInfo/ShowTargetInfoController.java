@@ -3,11 +3,15 @@ package generalInfo.showTargetInfo;
 import appScreen.AppController;
 import dtoObjects.TargetDTO;
 import enums.FxmlPath;
+import enums.StyleSheetsPath;
 import generalComponents.targetsTable.TargetsTableController;
 import generalInfo.GeneralInfoController;
 import generalInfo.showTargetInfo.detailsTargetScreen.TargetInfoScreenController;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -27,6 +31,10 @@ public class ShowTargetInfoController extends mainControllers.Controllers{
     private IntegerProperty curSelectedCount;
     private TargetInfoScreenController targetInfoScreenController;
     private TargetsTableController targetsTableController;
+    private BooleanProperty isLight;
+
+    @FXML
+    private StackPane main_screen;
 
     @FXML
     private StackPane data_area;
@@ -42,6 +50,34 @@ public class ShowTargetInfoController extends mainControllers.Controllers{
 
     @FXML
     private StackPane page_SP;
+
+    @FXML
+    public void initialize() {
+        this.isLight = new SimpleBooleanProperty(true);
+        this.isLight.addListener((a,b,c)->{
+            if(this.isLight.getValue()){
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.GENERAL_INFO_DARK.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.GENERAL_INFO_LIGHT.toString());
+            }else{
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.GENERAL_INFO_LIGHT.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.GENERAL_INFO_DARK.toString());
+            }
+        });
+    }
+
+    @FXML
+    void clickDeselectAll(ActionEvent event) {
+        this.targetsTableController.deselectAll();
+    }
+
+
+    public BooleanProperty isLightProperty() {
+        return isLight;
+    }
 
     public StackPane getDataArea() { return data_area; }
 
@@ -67,7 +103,6 @@ public class ShowTargetInfoController extends mainControllers.Controllers{
             this.targetInfoScreenController = fxmlLoader.getController();
             this.targetInfoScreenController.setMainController(this);
             this.targetInfoScreenController.setAppController(this.appController);
-            this.targetInfoScreenController.getFall_screen_SP().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.99));
             setPageLabels();
         } catch (Exception e){
         }
@@ -120,20 +155,9 @@ public class ShowTargetInfoController extends mainControllers.Controllers{
             this.targetsTableController.setAppController(this.appController);
             this.targetsTableController.getTable().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.925));
             this.targetsTableController.setMaxSelect(1);
+            this.targetsTableController.isLightProperty().bind(this.appController.isLightProperty());
         }catch (Exception e){
 
         }
-    }
-
-    public void setTable(){
-        try{
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            URL url = getClass().getResource(FxmlPath.TARGET_TABLE.toString());
-            fxmlLoader.setLocation(url);
-            this.appController.setArea(fxmlLoader.load(url.openStream()));
-        }catch (Exception e){
-            System.out.println("problem with table");
-        }
-
     }
 }

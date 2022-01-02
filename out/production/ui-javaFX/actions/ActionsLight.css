@@ -4,6 +4,8 @@
 
 #find_btn{
     -fx-font-size: 16px;
+    -fx-background-color: #008AFF;
+    -fx-text-fill: #FFFFFF;
 }
 
 #explanation_label{
@@ -19,11 +21,16 @@
     -fx-font-size: 16px;
 }
 
+#direction_CB{
+    -fx-background-color: #F5FAFF;
+    -fx-border-color: #008AFF;
+}
+
 .target_label{
     -fx-padding: 5 10 5 10;
-    -fx-border-color: black ;
+    -fx-border-color: #008AFF ;
+    -fx-border-style: hidden hidden solid hidden;
     -fx-border-width: 2 ;
-    -fx-background-color: white;
 }
 
 .from_to_label{

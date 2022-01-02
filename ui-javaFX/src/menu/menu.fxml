@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<GridPane id="menu" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="menu.MenuController">
+<GridPane id="main_grid" fx:id="main_screen" maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" styleClass="main_screen_content" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="menu.MenuController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" />
   </columnConstraints>
@@ -24,7 +24,7 @@
       <RowConstraints valignment="BOTTOM" />
   </rowConstraints>
    <children>
-      <ScrollPane id="menu-scroll-pane" fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" prefHeight="300.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="NEVER">
+      <ScrollPane id="menu-scroll-pane" fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" prefHeight="300.0" styleClass="main_screen_content" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="NEVER">
          <content>
             <VBox id="menu-buttons-vbox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                <children>
@@ -44,14 +44,14 @@
             <Insets bottom="5.0" />
          </GridPane.margin>
       </Label>
-      <HBox maxHeight="60.0" maxWidth="200.0" minHeight="60.0" minWidth="200.0" prefHeight="60.0" prefWidth="200.0" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+      <HBox maxHeight="60.0" maxWidth="200.0" minHeight="60.0" minWidth="200.0" prefHeight="60.0" prefWidth="200.0" styleClass="main_screen_content" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
          <children>
             <CheckBox fx:id="animation_cb" mnemonicParsing="false" onAction="#clickAnimation" prefHeight="26.0" prefWidth="103.0" text="Animation" HBox.hgrow="SOMETIMES">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
             </CheckBox>
-            <ComboBox fx:id="skin_combo_box" onAction="#clickSkin" prefHeight="27.0" prefWidth="88.0" visibleRowCount="3" />
+            <ComboBox fx:id="skin_combo_box" onAction="#clickSkin" prefHeight="30.0" prefWidth="98.0" visibleRowCount="3" />
          </children>
          <padding>
             <Insets left="10.0" right="10.0" top="20.0" />

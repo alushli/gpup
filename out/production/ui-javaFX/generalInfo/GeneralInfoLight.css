@@ -2,6 +2,10 @@
     -fx-text-fill: red;
 }
 
+.list-view{
+    -fx-background-color: #F5FAFF;
+}
+
 .sub_header_label{
     -fx-font-size: 16px;
 }
@@ -9,6 +13,7 @@
 .summery_label{
     -fx-font-weight: 700;
     -fx-font-size: 30;
+    -fx-text-fill: #008AFF;
 }
 
 #error_label{
@@ -18,5 +23,20 @@
 .file_path_label{
     -fx-background-color: white;
     -fx-padding: 2 10 2 10;
-    -fx-border-color: black;
+    -fx-border-style: hidden hidden solid hidden;
+    -fx-border-color: #008AFF;
+}
+
+#select_folder_btn{
+    -fx-background-color: #008AFF;
+    -fx-text-fill: #FFFFFF;
+}
+
+#export_btn{
+    -fx-background-color: #008AFF;
+    -fx-text-fill: #FFFFFF;
+}
+
+.target_name{
+    -fx-text-fill: #008AFF;
 }

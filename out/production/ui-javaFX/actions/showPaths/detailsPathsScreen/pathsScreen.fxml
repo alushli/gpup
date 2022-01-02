@@ -16,14 +16,14 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane fx:id="fall_screen_SP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="402.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="actions.showPaths.detailsPathsScreen.PathsScreenController">
+<StackPane fx:id="fall_screen_SP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="400.0" styleClass="main_screen_content" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="actions.showPaths.detailsPathsScreen.PathsScreenController">
    <children>
-      <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+      <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_screen_content">
          <content>
-            <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="598.0" prefWidth="398.0">
+            <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="598.0" prefWidth="398.0" styleClass="main_screen_content">
               <columnConstraints>
                   <ColumnConstraints hgrow="NEVER" minWidth="20.0" prefWidth="20.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="360.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="340.0" />
                 <ColumnConstraints hgrow="NEVER" minWidth="20.0" prefWidth="20.0" />
               </columnConstraints>
               <rowConstraints>
@@ -55,9 +55,9 @@
                               </VBox>
                               <Button id="switch_btn" fx:id="switch_btn" maxHeight="40.0" maxWidth="40.0" minHeight="40.0" minWidth="40.0" mnemonicParsing="false" onAction="#clickSwitch" prefHeight="40.0" prefWidth="40.0">
                                  <graphic>
-                                    <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="switch_img" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@switchIcon.png" />
+                                          <Image url="@switch_icon_light.png" />
                                        </image>
                                     </ImageView>
                                  </graphic>
