@@ -19,6 +19,7 @@ import javafx.scene.layout.GridPane;
 import loadFile.LoadFileController;
 import menu.subMenu.SubMenuController;
 import tasks.TasksController;
+import templates.LoadFileError;
 
 import java.io.IOException;
 import java.net.URL;
@@ -89,7 +90,6 @@ public class MenuController extends mainControllers.Controllers {
         if(actionsComponentController == null) {
             setActionsFxml();
         }
-        //appController.setArea(this.actionsParent);
     }
 
     void setActionsFxml() {
@@ -120,7 +120,6 @@ public class MenuController extends mainControllers.Controllers {
         if(generalInfoComponentController == null) {
             setGeneralInfoFxml();
         }
-        //appController.setArea(this.generalInfoParent);
     }
 
     void setGeneralInfoFxml() {
@@ -160,12 +159,23 @@ public class MenuController extends mainControllers.Controllers {
 
     @FXML
     public void clickTasks(ActionEvent event) {
-        setSubMenu();
-        this.subMenuComponentController.setTasksButtons();
         if(tasksComponentController == null) {
             setTasksFxml();
         }
-        //appController.setArea(this.tasksParent);
+        this.setLoadFileHandlingTask();
+    }
+
+    public void setLoadFileHandlingTask(){
+        this.appController.setArea(this.tasksParent);
+        if(!this.appController.getLoadFile()){
+            tasksComponentController.getDetails_grid().setVisible(false);
+            LoadFileError.setLoadFileError(tasksComponentController.getData_area(), this.appController);
+        } else {
+            LoadFileError.removeLoadFileError(tasksComponentController.getData_area());
+            tasksComponentController.getDetails_grid().setVisible(true);
+            tasksComponentController.setTableScreen();
+            tasksComponentController.setPageScreen(true);
+        }
     }
 
     void setTasksFxml() {

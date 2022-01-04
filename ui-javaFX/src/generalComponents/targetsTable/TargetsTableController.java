@@ -5,10 +5,7 @@ import Enums.TargetPosition;
 import dtoObjects.TargetFXDTO;
 import enums.StyleSheetsPath;
 import generalComponents.GeneralComponent;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -26,6 +23,7 @@ public class TargetsTableController extends GeneralComponent {
     private IntegerProperty selectedCounter;
     private BooleanProperty isMaxSelected;
     private BooleanProperty isLight;
+    private StringProperty countSelectedTargetsAsString;
 
     @FXML
     private StackPane main_screen;
@@ -102,6 +100,7 @@ public class TargetsTableController extends GeneralComponent {
         this.curSelected = new ArrayList<>();
         this.isMaxSelected = new SimpleBooleanProperty();
         this.selectedCounter = new SimpleIntegerProperty();
+        this.countSelectedTargetsAsString = new SimpleStringProperty();
 
         this.nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         this.directDependsOnCol.setCellValueFactory(new PropertyValueFactory<>("directDependsOn"));
@@ -127,23 +126,31 @@ public class TargetsTableController extends GeneralComponent {
         });
     }
 
+
     public BooleanProperty isLightProperty() {
         return isLight;
     }
 
-    private void setSelectOnClick(Collection<TargetFXDTO> targets){
+
+    public StringProperty countSelectedTargetsAsStringProperty() {
+        return countSelectedTargetsAsString;
+    }
+
+    public void setSelectOnClick(Collection<TargetFXDTO> targets){
         for (TargetFXDTO targetFXDTO : targets){
             CheckBox selectCheckBox = targetFXDTO.getSelect();
             selectCheckBox.selectedProperty().addListener((a,b,c)->{
                 if(selectCheckBox.isSelected()){
                     this.curSelected.add(targetFXDTO);
                     this.selectedCounter.setValue(this.curSelected.size());
+                    this.countSelectedTargetsAsString.setValue(this.selectedCounter.getValue().toString());
                     if(this.selectedCounter.getValue() == this.maxSelect){
                         this.isMaxSelected.set(true);
                     }
                 }else{
                     this.curSelected.remove(targetFXDTO);
                     this.selectedCounter.setValue(this.curSelected.size());
+                    this.countSelectedTargetsAsString.setValue(this.selectedCounter.getValue().toString());
                     if(this.selectedCounter.getValue() < this.maxSelect) {
                         this.isMaxSelected.set(false);
                     }
@@ -162,14 +169,39 @@ public class TargetsTableController extends GeneralComponent {
         }
     }
 
+    public void SelectAll(){
+        for(TargetFXDTO targetFXDTO: this.table.getItems()){
+            if(!targetFXDTO.getSelect().isSelected()){
+                targetFXDTO.getSelect().setSelected(true);
+            }
+        }
+    }
+
 
     public TargetsTableController(){
 
     }
 
+    public void setSelectedTargets(ArrayList<TargetFXDTO> arrayList){
+        for(TargetFXDTO targetFXDTO: arrayList)
+            targetFXDTO.getSelect().setSelected(true);
+    }
+
+    public int getCountTargets(){
+        return this.table.getItems().size();
+    }
+
     public void setSelectDisable(){
         for(TargetFXDTO targetFXDTO: this.table.getItems()){
+            targetFXDTO.getSelect().disableProperty().unbind();
             targetFXDTO.getSelect().setDisable(true);
+        }
+    }
+
+    public void setSelectActive(){
+        for(TargetFXDTO targetFXDTO: this.table.getItems()){
+            targetFXDTO.getSelect().disableProperty().unbind();
+            targetFXDTO.getSelect().setDisable(false);
         }
     }
 

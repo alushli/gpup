@@ -21,7 +21,7 @@ public class Main extends Application {
         Parent rootContainer = fxmlLoader.load(url.openStream());
         AppController appController = fxmlLoader.getController();
         appController.setPrimaryStage(primaryStage);
-        primaryStage.setScene(new Scene(rootContainer, 1200, 750));
+        primaryStage.setScene(new Scene(rootContainer, 1300, 750));
         primaryStage.setTitle("GPUP");
         primaryStage.show();
     }

@@ -100,22 +100,6 @@ public class SubMenuController extends  mainControllers.Controllers{
         return isLight;
     }
 
-    public void setTasksButtons(){
-        this.sub_header_label.setText("Tasks");
-        Button simulationBtn = new Button("Simulation Task");
-        Button compilerBtn = new Button("Java Compiler Task");
-        designBtn(simulationBtn);
-        designBtn(compilerBtn);
-        buttons_vbox.getChildren().add(simulationBtn);
-        buttons_vbox.getChildren().add(compilerBtn);
-        simulationBtn.setOnAction(e -> {
-            this.mainController.getTasksController().setSimulationControllers();
-        });
-        compilerBtn.setOnAction(e -> {
-            this.mainController.getTasksController().setCompilerControllers();
-        });
-    }
-
     @Override
     public void setAppController(AppController mainControllers) {
         this.appController = mainControllers;

@@ -20,9 +20,6 @@ public class GeneralInfoController extends mainControllers.Controllers {
     private static ShowGraphInfoController showGraphInfoComponentController = null;
     private static Parent showGraphInfoParent;
 
-    @FXML
-    private Label lable;
-
     @Override
     public void setAppController(AppController mainControllers) {
         this.appController = mainControllers;

@@ -63,6 +63,10 @@ public class AppController {
 
     @FXML
     public void initialize() {
+        setMainMenu();
+    }
+
+    public void setMainMenu(){
         if (menuComponentController == null) {
             setMenuFxml();
         }
@@ -115,6 +119,11 @@ public class AppController {
     public void setMenu(Parent data){
         menu_area.getChildren().removeAll();
         menu_area.getChildren().setAll(data);
+    }
+
+    public void setArea(StackPane area, Parent data){
+        area.getChildren().removeAll();
+        area.getChildren().setAll(data);
     }
 
     public MenuController getMenuComponentController() {
