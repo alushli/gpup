@@ -1,0 +1,7 @@
+Target B start run.
+Target B start sleep
+Target B done sleep
+Target: B done with status: warning
+Target B time: 00:00:00
+Target D turned WAITING.
+
