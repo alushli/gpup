@@ -20,6 +20,8 @@ public enum FxmlPath {
     SERIAL_SET_TABLE("/generalComponents/serialSetTable/serialSetTable.fxml"),
     TASK_SELECT_TARGET("/tasks/runTaskScreen/selectTargets.fxml"),
     TASK_SELECT_TASK("/tasks/runTaskScreen/selectTaskScreen.fxml"),
+    TASK_RUN_TASK("/tasks/runTaskScreen/runTask.fxml"),
+    TARGET_BOX_TASK("/tasks/runTaskScreen/target.fxml"),
     EXPORT_GRAPH_POPUP("/generalInfo/showGraphInfo/detailsGraphScreen/exportGraphScreen/exportGraphPopup.fxml");
 
     private String name;

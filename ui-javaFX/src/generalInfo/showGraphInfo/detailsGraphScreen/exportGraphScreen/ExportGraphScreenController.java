@@ -18,6 +18,8 @@ import javafx.stage.DirectoryChooser;
 
 import javax.xml.soap.Text;
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class ExportGraphScreenController extends mainControllers.Controllers {
     private GraphInfoScreenController mainController;
@@ -76,8 +78,8 @@ public class ExportGraphScreenController extends mainControllers.Controllers {
 
     @FXML
     void clickExport(ActionEvent event) {
-        String path = this.folder_path_label.getText() + "/" + this.file_name_txt.getText();
-        this.mainController.setFullPathExport(path);
+        Path path = Paths.get(this.folder_path_label.getText(),this.file_name_txt.getText());
+        this.mainController.setFullPathExport(path.toString());
         this.mainController.exitPopup();
         this.mainController.exportGraph();
     }

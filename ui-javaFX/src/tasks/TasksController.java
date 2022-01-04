@@ -3,6 +3,7 @@ package tasks;
 import appScreen.AppController;
 import dtoObjects.TargetFXDTO;
 import enums.FxmlPath;
+import enums.StyleSheetsPath;
 import generalComponents.targetsTable.TargetsTableController;
 import generalInfo.GeneralInfoController;
 import generalInfo.showTargetInfo.detailsTargetScreen.TargetInfoScreenController;
@@ -17,6 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import tasks.runTaskScreen.RunTaskController;
 import tasks.runTaskScreen.SelectTargetController;
 import tasks.runTaskScreen.SelectTaskScreenController;
 
@@ -27,8 +29,10 @@ public class TasksController extends mainControllers.Controllers{
     private TargetsTableController targetsTableController;
     private SelectTargetController selectTargetController;
     private SelectTaskScreenController selectTaskScreenController;
+    private RunTaskController runTaskController;
     private boolean isWhatIf = false;
     private ArrayList<TargetFXDTO> selectedTargets;
+    private BooleanProperty isLight;
 
     @FXML
     private Button select_all_btn;
@@ -77,9 +81,34 @@ public class TasksController extends mainControllers.Controllers{
         isWhatIf = whatIf;
     }
 
+    public BooleanProperty isLightProperty() {
+        return isLight;
+    }
+
     @FXML
     public void initialize() {
+        this.isLight = new SimpleBooleanProperty(true);
+        setLightListener(this.isLight);
+    }
 
+    public void setLightListener(BooleanProperty booleanProperty){
+        booleanProperty.addListener((a,b,c)->{
+            if(booleanProperty.getValue()){
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.TASK_DARK.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.TASK_LIGHT.toString());
+            }else{
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.TASK_LIGHT.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.TASK_DARK.toString());
+            }
+        });
+    }
+
+    public void updateTaskName(String name){
+        this.runTaskController.getTask_name_label().setText(name);
     }
 
     @Override
@@ -90,7 +119,6 @@ public class TasksController extends mainControllers.Controllers{
     public void setSelectedTargets(ArrayList<TargetFXDTO> selectedTargets) {
         this.selectedTargets = selectedTargets;
     }
-
 
     public void setPageScreen(boolean firstTime){
         try{
@@ -103,6 +131,8 @@ public class TasksController extends mainControllers.Controllers{
             this.selectTargetController.setAppController(this.appController);
             this.selectTargetController.getCount_selected_targets().textProperty().bind(this.getTargetsTableController().countSelectedTargetsAsStringProperty());
             selectTargetController.getFall_screen_SP().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.99));
+            this.selectTargetController.isLightProperty().bind(this.appController.isLightProperty());
+            setLightListener(this.selectTargetController.isLightProperty());
             if(!firstTime){
                 this.targetsTableController.setSelectedTargets(this.selectedTargets);
                this.selectTargetController.getWhat_if_CB().setSelected(this.isWhatIf);
@@ -130,6 +160,26 @@ public class TasksController extends mainControllers.Controllers{
             this.selectTaskScreenController.setMainController(this);
             this.selectTaskScreenController.setAppController(this.appController);
             selectTaskScreenController.getFall_screen_SP().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.99));
+            this.selectTaskScreenController.isLightProperty().bind(this.appController.isLightProperty());
+            setLightListener(this.selectTaskScreenController.isLightProperty());
+        } catch (Exception e){
+            System.out.println("Error in setPageScreen() - showPathController");
+        }
+    }
+
+    public void setRunTaskScreen(){
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            URL url = getClass().getResource(FxmlPath.TASK_RUN_TASK.toString());
+            fxmlLoader.setLocation(url);
+            this.appController.setArea(this.main_screen ,fxmlLoader.load(url.openStream()));
+            this.runTaskController = fxmlLoader.getController();
+            this.runTaskController.setMainController(this);
+            this.runTaskController.setAppController(this.appController);
+            runTaskController.getFall_screen_SP().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.99));
+            this.runTaskController.isLightProperty().bind(this.appController.isLightProperty());
+            setLightListener(this.runTaskController.isLightProperty());
+            this.runTaskController.setFrozenTargets(this.targetsTableController.getCurSelected());
         } catch (Exception e){
             System.out.println("Error in setPageScreen() - showPathController");
         }
@@ -145,8 +195,7 @@ public class TasksController extends mainControllers.Controllers{
             this.targetsTableController.setAppController(this.appController);
             this.targetsTableController.setMaxSelect(this.targetsTableController.getCountTargets());
             this.targetsTableController.getTable().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.925));
-
-            //this.targetsTableController.isLightProperty().bind(this.appController.isLightProperty());
+            this.targetsTableController.isLightProperty().bind(this.appController.isLightProperty());
         }catch (Exception e){
 
         }

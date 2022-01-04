@@ -1,22 +1,19 @@
 package tasks.runTaskScreen;
 
-import actions.ActionsController;
 import appScreen.AppController;
-import enums.FxmlPath;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import tasks.TasksController;
 
-import java.net.URL;
-
 public class SelectTargetController extends mainControllers.Controllers {
     private TasksController mainController;
+    private BooleanProperty isLight;
 
     @FXML
     private StackPane fall_screen_SP;
@@ -46,8 +43,13 @@ public class SelectTargetController extends mainControllers.Controllers {
         return what_if_CB;
     }
 
+    public BooleanProperty isLightProperty() {
+        return isLight;
+    }
+
     @FXML
     public void initialize() {
+        this.isLight = new SimpleBooleanProperty(true);
         direction_CB.getItems().removeAll(direction_CB.getItems());
         direction_CB.getItems().addAll("Depends On", "Required For");
         direction_CB.getSelectionModel().select("Depends On");
@@ -65,6 +67,4 @@ public class SelectTargetController extends mainControllers.Controllers {
     public void setMainController(TasksController mainControllers) {
         this.mainController = mainControllers;
     }
-
-
 }

@@ -159,9 +159,7 @@ public class MenuController extends mainControllers.Controllers {
 
     @FXML
     public void clickTasks(ActionEvent event) {
-        if(tasksComponentController == null) {
-            setTasksFxml();
-        }
+        setTasksFxml();
         this.setLoadFileHandlingTask();
     }
 
@@ -186,6 +184,7 @@ public class MenuController extends mainControllers.Controllers {
             this.tasksParent = fxmlLoader.load(url.openStream());
             this.tasksComponentController= fxmlLoader.getController();
             this.tasksComponentController.setAppController(this.appController);
+            this.tasksComponentController.isLightProperty().bind(this.appController.isLightProperty());
         } catch (IOException e) {
             e.printStackTrace();
         }

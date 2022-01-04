@@ -119,7 +119,7 @@
                         <Label id="sub_header_label" text="Task setting" />
                         <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0">
                            <children>
-                              <CheckBox fx:id="incremental_CB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clickIncremental" styleClass="check_box_screen" />
+                              <CheckBox fx:id="incremental_CB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="check_box_screen" />
                               <Label id="incremental_label" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Run incremental" />
                            </children>
                         </HBox>

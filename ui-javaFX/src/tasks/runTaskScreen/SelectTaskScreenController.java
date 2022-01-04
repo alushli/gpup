@@ -8,7 +8,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.DirectoryChooser;
 import tasks.TasksController;
+
+import java.io.File;
 
 public class SelectTaskScreenController extends mainControllers.Controllers {
     private TasksController mainController;
@@ -17,9 +20,9 @@ public class SelectTaskScreenController extends mainControllers.Controllers {
     private BooleanProperty processTimeValid;
     private BooleanProperty endSuccessValid;
     private BooleanProperty endWarningValid;
-    private int processTime;
-    private double endSuccess;
-    private double endWarnings;
+    private BooleanProperty srcFolderValid;
+    private BooleanProperty compiledFolderValid;
+    private BooleanProperty isLight;
 
     @FXML
     private StackPane fall_screen_SP;
@@ -69,6 +72,10 @@ public class SelectTaskScreenController extends mainControllers.Controllers {
     @FXML
     private Button next_btn;
 
+    public BooleanProperty isLightProperty() {
+        return isLight;
+    }
+
     @FXML
     void clickBack(ActionEvent event) {
         this.mainController.setSelectedTargets(this.mainController.getTargetsTableController().getCurSelected());
@@ -77,24 +84,37 @@ public class SelectTaskScreenController extends mainControllers.Controllers {
         this.mainController.setTableButtonEnable();
     }
 
-    @FXML
-    void clickIncremental(ActionEvent event) {
-
-    }
 
     @FXML
     void clickLoadCompiledCompiler(ActionEvent event) {
-
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Select folder");
+        File selectedDirectory = directoryChooser.showDialog(null);
+        if (selectedDirectory == null) {
+            return;
+        }
+        String absolutePath = selectedDirectory.getAbsolutePath();
+        this.compiled_compiler_label.setText(absolutePath);
+        this.compiledFolderValid.set(true);
     }
 
     @FXML
     void clickLoadSourceCompiler(ActionEvent event) {
-
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Select folder");
+        File selectedDirectory = directoryChooser.showDialog(null);
+        if (selectedDirectory == null) {
+            return;
+        }
+        String absolutePath = selectedDirectory.getAbsolutePath();
+        this.source_compiler_label.setText(absolutePath);
+        this.srcFolderValid.set(true);
     }
 
     @FXML
     void clickNext(ActionEvent event) {
-
+        this.mainController.setRunTaskScreen();
+        this.mainController.updateTaskName(this.task_CB.getValue());
     }
 
     public StackPane getFall_screen_SP() {
@@ -103,10 +123,83 @@ public class SelectTaskScreenController extends mainControllers.Controllers {
 
     @FXML
     public void initialize() {
+        this.isLight = new SimpleBooleanProperty(true);
         this.isSimulation = new SimpleBooleanProperty(true);
         this.processTimeValid = new SimpleBooleanProperty(false);
         this.endSuccessValid = new SimpleBooleanProperty(false);
         this.endWarningValid = new SimpleBooleanProperty(false);
+        this.srcFolderValid = new SimpleBooleanProperty(false);
+        this.compiledFolderValid = new SimpleBooleanProperty(false);
+        setPreInformationOnScreen();
+        this.isSimulation.addListener((a,b,c)->{
+            if(this.isSimulation.getValue()){
+               this.compiler_content.setVisible(false);
+               this.simulation_content.setVisible(true);
+            }else{
+                this.simulation_content.setVisible(false);
+                this.compiler_content.setVisible(true);
+            }
+        });
+        if(this.task_CB.getValue().equals("Simulation Task"))
+            this.next_btn.disableProperty().bind((this.processTimeValid.and(this.endSuccessValid.and(this.endWarningValid)).not()));
+        addListeners();
+        this.task_CB.selectionModelProperty().addListener((a,b,c)->{
+            if(this.task_CB.getValue().equals("Simulation Task")){
+                this.compiler_content.setVisible(false);
+                this.simulation_content.setVisible(true);
+            } else{
+                this.simulation_content.setVisible(false);
+                this.compiler_content.setVisible(true);
+            }
+        });
+    }
+
+    private void addListeners() {
+        this.processing_time_simulation.textProperty().addListener((a, b, c) -> {
+            try {
+                if (!this.processing_time_simulation.getText().isEmpty()) {
+                    int processTime = Integer.parseInt(this.processing_time_simulation.getText());
+                    if (processTime <= 0)
+                        setInvalidArguments(this.processing_time_simulation, true, this.processTimeValid);
+                    else
+                        setInvalidArguments(this.processing_time_simulation, false, this.processTimeValid);
+                } else
+                    setInvalidArguments(this.processing_time_simulation, true, this.processTimeValid);
+            } catch (NumberFormatException e) {
+                setInvalidArguments(this.processing_time_simulation, true, this.processTimeValid);
+            }
+        });
+        this.end_success_simulation.textProperty().addListener((a, b, c) -> {
+            try {
+                if (!this.end_success_simulation.getText().isEmpty()) {
+                    double endSuccess = Double.parseDouble(this.end_success_simulation.getText());
+                    if (endSuccess < 0 || endSuccess > 1)
+                        setInvalidArguments(this.end_success_simulation, true, this.endSuccessValid);
+                    else
+                        setInvalidArguments(this.end_success_simulation, false, this.endSuccessValid);
+                } else
+                    setInvalidArguments(this.end_success_simulation, true, this.endSuccessValid);
+            } catch (NumberFormatException e) {
+                setInvalidArguments(this.end_success_simulation, true, this.endSuccessValid);
+            }
+        });
+        this.end_warnings_after_success_simulation.textProperty().addListener((a, b, c) -> {
+            try {
+                if (!this.end_warnings_after_success_simulation.getText().isEmpty()) {
+                    double endWarnings = Double.parseDouble(this.end_warnings_after_success_simulation.getText());
+                    if (endWarnings < 0 || endWarnings > 1)
+                        setInvalidArguments(this.end_warnings_after_success_simulation, true, this.endWarningValid);
+                     else
+                        setInvalidArguments(this.end_warnings_after_success_simulation, false, this.endWarningValid);
+                } else
+                    setInvalidArguments(this.end_warnings_after_success_simulation, true, this.endWarningValid);
+            } catch (NumberFormatException e) {
+                setInvalidArguments(this.end_warnings_after_success_simulation, true, this.endWarningValid);
+            }
+        });
+    }
+
+    private void setPreInformationOnScreen(){
         this.processing_time_simulation.setPromptText("Positive integer");
         this.end_success_simulation.setPromptText("Number between 0 to 1");
         this.end_warnings_after_success_simulation.setPromptText("Number between 0 to 1");
@@ -121,62 +214,6 @@ public class SelectTaskScreenController extends mainControllers.Controllers {
             thread_amount_CB.getItems().add(i);
         }
         thread_amount_CB.getSelectionModel().select(0);
-        this.isSimulation.addListener((a,b,c)->{
-            if(this.isSimulation.getValue()){
-               this.compiler_content.setVisible(false);
-               this.simulation_content.setVisible(true);
-            }else{
-                this.simulation_content.setVisible(false);
-                this.compiler_content.setVisible(true);
-            }
-        });
-        this.next_btn.disableProperty().bind((this.processTimeValid.and(this.endSuccessValid.and(this.endWarningValid)).not()));
-        addListeners();
-    }
-
-    private void addListeners() {
-        this.processing_time_simulation.textProperty().addListener((a, b, c) -> {
-            try {
-                if (!this.processing_time_simulation.getText().isEmpty()) {
-                    this.processTime = Integer.parseInt(this.processing_time_simulation.getText());
-                    if (processTime <= 0)
-                        setInvalidArguments(this.processing_time_simulation, true, this.processTimeValid);
-                    else
-                        setInvalidArguments(this.processing_time_simulation, false, this.processTimeValid);
-                } else
-                    setInvalidArguments(this.processing_time_simulation, true, this.processTimeValid);
-            } catch (NumberFormatException e) {
-                setInvalidArguments(this.processing_time_simulation, true, this.processTimeValid);
-            }
-        });
-        this.end_success_simulation.textProperty().addListener((a, b, c) -> {
-            try {
-                if (!this.end_success_simulation.getText().isEmpty()) {
-                    this.endSuccess = Double.parseDouble(this.end_success_simulation.getText());
-                    if (endSuccess < 0 || endSuccess > 1)
-                        setInvalidArguments(this.end_success_simulation, true, this.endSuccessValid);
-                    else
-                        setInvalidArguments(this.end_success_simulation, false, this.endSuccessValid);
-                } else
-                    setInvalidArguments(this.end_success_simulation, true, this.endSuccessValid);
-            } catch (NumberFormatException e) {
-                setInvalidArguments(this.end_success_simulation, true, this.endSuccessValid);
-            }
-        });
-        this.end_warnings_after_success_simulation.textProperty().addListener((a, b, c) -> {
-            try {
-                if (!this.end_warnings_after_success_simulation.getText().isEmpty()) {
-                    this.endWarnings = Double.parseDouble(this.end_warnings_after_success_simulation.getText());
-                    if (endWarnings < 0 || endWarnings > 1)
-                        setInvalidArguments(this.end_warnings_after_success_simulation, true, this.endWarningValid);
-                     else
-                        setInvalidArguments(this.end_warnings_after_success_simulation, false, this.endWarningValid);
-                } else
-                    setInvalidArguments(this.end_warnings_after_success_simulation, true, this.endWarningValid);
-            } catch (NumberFormatException e) {
-                setInvalidArguments(this.end_warnings_after_success_simulation, true, this.endWarningValid);
-            }
-        });
     }
 
     private void setInvalidArguments(TextField textField, boolean set, BooleanProperty booleanProperty){
@@ -195,8 +232,10 @@ public class SelectTaskScreenController extends mainControllers.Controllers {
     void clickTask(ActionEvent event) {
         if(this.task_CB.getValue().equals("Simulation Task")){
             this.isSimulation.set(true);
-        }else{
+            this.next_btn.disableProperty().bind((this.processTimeValid.and(this.endSuccessValid.and(this.endWarningValid)).not()));
+        }else {
             this.isSimulation.set(false);
+            this.next_btn.disableProperty().bind((this.srcFolderValid.and(this.compiledFolderValid)).not());
         }
     }
 
