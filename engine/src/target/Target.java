@@ -3,6 +3,9 @@ package target;
 import Enums.TargetPosition;
 import Enums.TargetRunStatus;
 import Enums.TargetStatus;
+import com.sun.tools.classfile.ConstantPool;
+import graph.SerialSet;
+
 import java.util.*;
 
 public class Target {
@@ -12,6 +15,33 @@ public class Target {
     private Set<Target> dependsOnList;
     private Set<Target> requiredForList;
     private String generalInfo;
+    private Map<String, SerialSet> serialSetMap;
+
+    public Map<String, SerialSet> getSerialSetMap() {
+        return serialSetMap;
+    }
+
+    public Map<String, Target> getAllHangingByTypeOfTargets(String typeOfDependency){
+        Map<String, Target> map = new HashMap<>();
+        getAllDepRec(map, typeOfDependency,this);
+        return map;
+    }
+
+    private void getAllDepRec(Map<String, Target> map, String typeOfDependency, Target root){
+        Collection<Target> targets = root.getHangingListByType(typeOfDependency);
+        for (Target target : targets){
+            map.put(target.getName(), target);
+            getAllDepRec(map,typeOfDependency,target);
+        }
+    }
+
+    public Set<Target> getHangingListByType(String type){
+        if(type.equals("dependsOn")){
+            return dependsOnList;
+        }else{
+            return requiredForList;
+        }
+    }
 
     /* the function update run status property */
     public void setRunStatus(TargetRunStatus runStatus) {
@@ -23,6 +53,10 @@ public class Target {
         this.status = status;
     }
 
+    public void addSerialSet(SerialSet serialSet){
+        this.serialSetMap.put(serialSet.getName(), serialSet);
+    }
+
     /* the function create new target */
     public Target(String name){
         this.name = name.trim().toUpperCase();
@@ -30,6 +64,7 @@ public class Target {
         requiredForList = new HashSet<>();
         this.runStatus = TargetRunStatus.NONE;
         this.status = TargetStatus.NONE;
+        this.serialSetMap = new HashMap<>();
     }
 
     /* copy constructor */
@@ -40,6 +75,7 @@ public class Target {
         this.generalInfo = other.getGeneralInfo();
         duplicateDependsOnList(other.getDependsOnList());
         duplicateRequiredForList(other.getRequiredForList());
+        this.serialSetMap = other.serialSetMap;
     }
 
     /* the function duplicate dependsOn list of target */
@@ -153,5 +189,34 @@ public class Target {
     /* the function return true if target exist on requiredFor list */
     public boolean isInRequiredForList(Target target){
         return requiredForList.contains(target);
+    }
+
+    public boolean isCanRunSerial(){
+        for (SerialSet serialSet : this.serialSetMap.values()){
+            if(serialSet.isRun()){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void openAllSerialSets(){
+        for (SerialSet serialSet : this.serialSetMap.values()){
+           serialSet.setRun(false);
+        }
+    }
+
+    public void moveToWaitingInAllSerials(){
+        for (SerialSet serialSet : serialSetMap.values()){
+            serialSet.moveToWait(this);
+        }
+    }
+
+    public void handleOpenSerials(){
+        for (SerialSet serialSet : this.serialSetMap.values()){
+            if(serialSet.getWaiting().size() > 0){
+
+            }
+        }
     }
 }

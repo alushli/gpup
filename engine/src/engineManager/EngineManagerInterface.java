@@ -1,7 +1,7 @@
 package engineManager;
 
 import dtoObjects.GraphDTO;
-import dtoObjects.SimulationSummeryDTO;
+import dtoObjects.TaskSummeryDTO;
 import dtoObjects.TargetDTO;
 import exceptions.MenuOptionException;
 import exceptions.TaskException;
@@ -32,7 +32,7 @@ public interface EngineManagerInterface {
     List<List<TargetDTO>> getTargetsPath(String src, String des, String typeOfConnection) throws MenuOptionException;
 
     /* the function return simulation info */
-    SimulationSummeryDTO runSimulate(int timePerTarget, double chancePerTarget, double chanceWarning, boolean isRandom, SimulationEntryPoint entryPoint, Consumer<String> consumer) throws TaskException;
+    TaskSummeryDTO runSimulate(int timePerTarget, double chancePerTarget, double chanceWarning, boolean isRandom, SimulationEntryPoint entryPoint, Consumer<String> consumer) throws TaskException;
 
     /* the function return target circle */
     LinkedHashSet<TargetDTO> getTargetCircle(String targetName) throws MenuOptionException;

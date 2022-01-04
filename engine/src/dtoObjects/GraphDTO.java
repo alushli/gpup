@@ -2,12 +2,16 @@ package dtoObjects;
 
 import Enums.TargetPosition;
 import graph.Graph;
+import graph.SerialSet;
+
+import java.util.HashMap;
 import java.util.Map;
 
 public class GraphDTO {
     private String graphName;
     private String workingDirectory;
     private int countTargets, countRoots, countMiddles, countLeaves, countIndependents;
+    private Map<String, SerialSetFXDTO> serialSetFXDTOMap;
 
     /* constructor */
     public GraphDTO(Graph graph) {
@@ -19,6 +23,10 @@ public class GraphDTO {
         this.countLeaves = targetPositionMap.get(TargetPosition.LEAF);
         this.countIndependents = targetPositionMap.get(TargetPosition.INDEPENDENT);
         this.countTargets = this.countRoots + this.countMiddles + this.countLeaves + this.countIndependents;
+        this.serialSetFXDTOMap = new HashMap<>();
+        for (SerialSet serialSet : graph.getSerialSetMap().values()){
+            serialSetFXDTOMap.put(serialSet.getName(), new SerialSetFXDTO(serialSet));
+        }
     }
 
     /* the function return graph name */

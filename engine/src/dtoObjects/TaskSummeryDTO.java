@@ -3,13 +3,13 @@ package dtoObjects;
 import target.Target;
 import java.util.*;
 
-public class SimulationSummeryDTO {
+public class TaskSummeryDTO {
     private String HMS;
     private Set<TargetRunSimulationSum> targets;
     private int countSkipped, countSuccess, countWarning, countFailed;
 
     /* constructor */
-    public SimulationSummeryDTO(){
+    public TaskSummeryDTO(){
         this.targets = new HashSet<>();
         this.countFailed = 0;
         this.countSkipped = 0;

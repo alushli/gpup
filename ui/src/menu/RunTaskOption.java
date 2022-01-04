@@ -1,7 +1,7 @@
 package menu;
 
 import Enums.SimulationEntryPoint;
-import dtoObjects.SimulationSummeryDTO;
+import dtoObjects.TaskSummeryDTO;
 import engineManager.EngineManager;
 import exceptions.MenuOptionException;
 import exceptions.TaskException;
@@ -21,7 +21,7 @@ public class RunTaskOption implements MenuOption{
             int processTime = 0;
             String isRandomString, entryPointString;
             boolean isRandom = false;
-            SimulationSummeryDTO simulationSummeryDTO;
+            TaskSummeryDTO taskSummeryDTO;
             engineManager.checkRunXml();
             processTime = askForProcessTime(scanner);
             scanner.nextLine();
@@ -33,12 +33,12 @@ public class RunTaskOption implements MenuOption{
             if (isRandomString.equalsIgnoreCase("Y"))
                 isRandom = true;
             if (entryPointString.equalsIgnoreCase("Y"))
-                simulationSummeryDTO = engineManager.runSimulate(processTime, chanceTargetSuccess, chanceTargetWarning, isRandom, SimulationEntryPoint.FROM_SCRATCH, consumer);
+                taskSummeryDTO = engineManager.runSimulate(processTime, chanceTargetSuccess, chanceTargetWarning, isRandom, SimulationEntryPoint.FROM_SCRATCH, consumer);
             else
-                simulationSummeryDTO = engineManager.runSimulate(processTime, chanceTargetSuccess, chanceTargetWarning, isRandom, SimulationEntryPoint.INCREMENTAL,consumer);
+                taskSummeryDTO = engineManager.runSimulate(processTime, chanceTargetSuccess, chanceTargetWarning, isRandom, SimulationEntryPoint.INCREMENTAL,consumer);
 
             /* ********************** */
-            System.out.println(simulationSummeryDTO.toString());
+            System.out.println(taskSummeryDTO.toString());
             /* ********************** */
         } catch (MenuOptionException e) {
             System.out.println(e.errorInfo() + e.getMessage());
