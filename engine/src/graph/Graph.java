@@ -8,20 +8,29 @@ public class Graph {
     private String graphName;
     private String workingDirectory;
     private Map<Target, Set<Target>> map;
+    private Map<String, SerialSet> serialSetMap;
 
     /* the function create new graph */
     public Graph(String name, String workingDirectory){
         this.graphName = name.trim();
         this.workingDirectory = workingDirectory.trim();
         this.map = new HashMap<>();
+        this.serialSetMap = new HashMap<>();
     }
 
-    /* copy constructor */
+    /* copy constructor - create copy of depends-on sets, but same targets and serial sets remains*/
     public Graph(Graph graph){
         this.graphName = graph.getGraphName();
         this.workingDirectory = graph.getWorkingDirectory();
         this.map = new HashMap<>();
         duplicateMap(graph.getGraphMap());
+        this.serialSetMap = graph.serialSetMap;
+    }
+
+    private void duplicateSerialSetMap(Map<String, SerialSet> origin, Map<String, SerialSet> copy){
+        for (Map.Entry<String, SerialSet> entry : origin.entrySet()){
+            copy.put(entry.getKey(), new SerialSet(entry.getValue()));
+        }
     }
 
     /* the function duplicate the graph map */
@@ -184,13 +193,13 @@ public class Graph {
     }
 
     /* the function remove connection from target1 to target 2 in graph */
-    public void removeConnection(Target target1, Target target2){
+    public synchronized void removeConnection(Target target1, Target target2){
         Set<Target> list = map.get(target1);
         list.remove(target2);
     }
 
     /* the function remove target from graph */
-    public void removeFromGraph(Target target){
+    public synchronized void removeFromGraph(Target target){
         map.remove(target);
     }
 
@@ -199,6 +208,26 @@ public class Graph {
         if(map.get(target) != null){
             this.map.get(target).add(targetToAdd);
         }
+    }
+
+    public void addSerialSet(SerialSet serialSet, Set<String> errors){
+        if(this.serialSetMap.containsKey(serialSet.getName())){
+            errors.add("Serial set with name:" +serialSet.getName() + " appears twice.");
+        }else{
+            this.serialSetMap.put(serialSet.getName(), serialSet);
+        }
+    }
+
+    public Map<String, SerialSet> getSerialSetMap() {
+        return serialSetMap;
+    }
+
+    /*Open all target's serial sets*/
+    public void handleOpenSerialSetsOfTarget(Target target){
+        for (String serialSetName : target.getSerialSetMap().keySet()){
+            this.serialSetMap.get(serialSetName).setRun(false);
+        }
+
     }
 
     /* ******************************** for sort graph */
@@ -249,6 +278,5 @@ public class Graph {
 
         orderMap.put(root,new ArrayList<>(root.getDependsOnList()));
     }
-
 
 }

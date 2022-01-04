@@ -1,21 +1,22 @@
 package engineManager;
 
 import Enums.DependencyTypes;
+import Enums.TasksName;
 import dtoObjects.GraphDTO;
-import dtoObjects.SimulationSummeryDTO;
+import dtoObjects.TaskSummeryDTO;
 import dtoObjects.TargetDTO;
 import dtoObjects.TargetFXDTO;
 import exceptions.MenuOptionException;
 import exceptions.TaskException;
 import graph.Graph;
+import graph.SerialSet;
 import scema.generated.*;
 import Enums.SimulationEntryPoint;
 import target.Target;
-import task.SimulationTask;
+import task.simulation.SimulationTaskManager;
 import xml.Xml;
 import exceptions.XmlException;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
@@ -23,6 +24,8 @@ import java.util.function.Consumer;
 
 public class EngineManager implements EngineManagerInterface{
     private Graph graph;
+    public static Graph graphStatic; //save last graph(copy)
+
 
     @Override
     /* the function load the graph */
@@ -33,9 +36,9 @@ public class EngineManager implements EngineManagerInterface{
         if(graphOrigin != null)
             this.graph = graphOrigin;
         if(!graphIncremental.getGraphMap().isEmpty())
-            SimulationTask.graphStatic = graphIncremental;
+            graphStatic = graphIncremental;
         else
-            SimulationTask.graphStatic = null;
+            graphStatic = null;
     }
 
     @Override
@@ -57,8 +60,8 @@ public class EngineManager implements EngineManagerInterface{
             GPUPTargets gpupTargets = new GPUPTargets();
             List<GPUPTarget> gpupTargetList = new ArrayList<>();
             setTargetListGraphForFile(gpupTargetList, this.graph, true);
-            if(SimulationTask.graphStatic != null)
-                setTargetListGraphForFile(gpupTargetList, SimulationTask.graphStatic, false);
+            if(graphStatic != null)
+                setTargetListGraphForFile(gpupTargetList, graphStatic, false);
             gpupTargets.setGpupTarget(gpupTargetList);
             gpupDescriptor.setGPUPTargets(gpupTargets);
         }
@@ -166,11 +169,13 @@ public class EngineManager implements EngineManagerInterface{
 
     @Override
     /* the function return simulation info */
-    public SimulationSummeryDTO runSimulate(int processTime, double chanceTargetSuccess, double chanceTargetWarning, boolean isRandom,
-                                            SimulationEntryPoint entryPoint, Consumer<String> consumer) throws TaskException {
+    public TaskSummeryDTO runSimulate(int processTime, double chanceTargetSuccess, double chanceTargetWarning, boolean isRandom,
+                                      SimulationEntryPoint entryPoint, Consumer<String> consumer) throws TaskException {
+
         boolean fromScratch = entryPoint.equals(SimulationEntryPoint.FROM_SCRATCH);
-        SimulationTask simulationTask = new SimulationTask(this.graph,processTime,chanceTargetSuccess,chanceTargetWarning,isRandom,fromScratch, consumer);
-        return simulationTask.getSummery();
+        SimulationTaskManager taskManager = new SimulationTaskManager(this.graph,processTime,chanceTargetSuccess,chanceTargetWarning,
+                isRandom,fromScratch,consumer,5);
+        return taskManager.getSummeryDTO();
     }
 
     @Override
@@ -280,6 +285,10 @@ public class EngineManager implements EngineManagerInterface{
             if (errors.isEmpty()) {
                 addToTargetList(mapsList.get(0), root, graphOrigin, true, errors);
                 addToTargetList(mapsList.get(1), root, graphIncremental, false, errors);
+                /*Because serial sets are optional*/
+                if(root.getGPUPSerialSets() != null){
+                    addSerialSetsToGraph(root.getGPUPSerialSets().getGPUPSerialSet(), graphOrigin, errors);
+                }
             }
             if (!errors.isEmpty()) {
                 throw new XmlException(errors.toString());
@@ -292,7 +301,17 @@ public class EngineManager implements EngineManagerInterface{
         }
     }
 
-
+    private void addSerialSetsToGraph(List<GPUPDescriptor.GPUPSerialSets.GPUPSerialSet> sets, Graph graph,  Set<String> errors){
+        if(sets != null){
+            for (GPUPDescriptor.GPUPSerialSets.GPUPSerialSet set : sets){
+                SerialSet newSerialSet = new SerialSet(set.getTargets(), graph,errors,set.getName());
+                graph.addSerialSet(newSerialSet, errors);
+                for (Target target : newSerialSet.getAllSet().values()){
+                    target.addSerialSet(newSerialSet);
+                }
+            }
+        }
+    }
 
     /* the function add targets to target list */
     private void addToTargetList(Map<String, Target> map, GPUPDescriptor root, Graph graph, boolean isOrigin, Set<String> errors) {
@@ -382,8 +401,6 @@ public class EngineManager implements EngineManagerInterface{
         }
         file.write("}");
     }
-
-
 }
 
 
