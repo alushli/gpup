@@ -24,6 +24,8 @@ public class TargetFXDTO {
     private String generalInfo;
     private int serialSets;
     private CheckBox select;
+    private Set<String> totalDependsOnString;
+    private Set<String> totalRequiredForString;
 
     private BooleanProperty isSelected;
 
@@ -51,6 +53,14 @@ public class TargetFXDTO {
         return totalRequiredFor;
     }
 
+    public Set<String> getTotalDependsOnString() {
+        return totalDependsOnString;
+    }
+
+    public Set<String> getTotalRequiredForString() {
+        return totalRequiredForString;
+    }
+
     public String getGeneralInfo() {
         return generalInfo;
     }
@@ -62,7 +72,7 @@ public class TargetFXDTO {
 
     public TargetFXDTO(String name, TargetPosition position, int directDependsOn,
                        int directRequiredFor, int totalDependsOn, int totalRequiredFor,
-                       String generalInfo, int serialSets) {
+                       String generalInfo, int serialSets, Set<String> totalDependsOnString, Set<String> totalRequiredForString) {
         this.name = name;
         this.position = position;
         this.directDependsOn = directDependsOn;
@@ -72,6 +82,8 @@ public class TargetFXDTO {
         this.generalInfo = generalInfo;
         this.serialSets = serialSets;
         this.select = new CheckBox();
+        this.totalDependsOnString = totalDependsOnString;
+        this.totalRequiredForString = totalRequiredForString;
     }
 
     public CheckBox getSelect() {
@@ -92,19 +104,21 @@ public class TargetFXDTO {
         this.serialSets = other.serialSets;
         this.generalInfo = other.generalInfo;
         this.select = new CheckBox();
+        this.totalDependsOnString = other.totalDependsOnString;
+        this.totalRequiredForString = other.totalRequiredForString;
     }
+
     public TargetFXDTO(Target other){
         this.name = other.getName();
         this.directRequiredFor = other.getRequiredForList().size();
         this.position = other.getPosition();
         this.directDependsOn = other.getDependsOnList().size();
 
-        /* Need to handle it ******************************************************************/
         this.totalRequiredFor = other.getAllHangingByTypeOfTargets("requiredFor").size();
         this.totalDependsOn = other.getAllHangingByTypeOfTargets("dependsOn").size();
         this.serialSets = other.getSerialSetMap().size();
-        /* Need to handle it ******************************************************************/
-
+        this.totalDependsOnString = other.getAllHangingByTypeOfTargets("dependsOn").keySet();
+        this.totalRequiredForString = other.getAllHangingByTypeOfTargets("requiredFor").keySet();
         this.generalInfo = other.getGeneralInfo();
         this.select = new CheckBox();
         this.select.setSelected(true);

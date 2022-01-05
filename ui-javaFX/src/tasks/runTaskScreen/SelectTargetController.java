@@ -28,6 +28,14 @@ public class SelectTargetController extends mainControllers.Controllers {
     private ComboBox<String> direction_CB;
 
     @FXML
+    void clickDirection(ActionEvent event) {
+        if(this.direction_CB.getValue().equals("Depends On"))
+            this.mainController.setWhatIfTableDirection("dependsOn");
+        else
+            this.mainController.setWhatIfTableDirection("requiredFor");
+    }
+
+    @FXML
     void clickNext(ActionEvent event) {
         this.mainController.setSelectTaskScreen();
         this.mainController.getTargetsTableController().setSelectDisable();
@@ -52,7 +60,7 @@ public class SelectTargetController extends mainControllers.Controllers {
         this.isLight = new SimpleBooleanProperty(true);
         direction_CB.getItems().removeAll(direction_CB.getItems());
         direction_CB.getItems().addAll("Depends On", "Required For");
-        direction_CB.getSelectionModel().select("Depends On");
+        direction_CB.getSelectionModel().select(0);
     }
 
     public Label getCount_selected_targets() {

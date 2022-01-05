@@ -417,6 +417,17 @@ public class EngineManager implements EngineManagerInterface{
         }
         return null;
     }
+
+    public Set<String> getWhatIfTargets(String name, String typeOfDependency){
+        if(this.graph != null){
+            for (Target target : graph.getGraphMap().keySet()){
+                if(target.getName().equals(name)){
+                    return target.getAllHangingByTypeOfTargets(typeOfDependency).keySet();
+                }
+            }
+        }
+        return null;
+    }
 }
 
 

@@ -19,6 +19,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import menu.MenuController;
+import target.Target;
 
 import java.io.IOException;
 import java.net.URL;
@@ -198,5 +199,9 @@ public class AppController {
 
     public Set<String> getTargetSerialSet(String target){
         return this.engineManager.getSerialSetOfTarget(target);
+    }
+
+    public Set<String> getWhatIfTargets(String name, String typeOfDependency){
+        return this.engineManager.getWhatIfTargets(name, typeOfDependency);
     }
 }

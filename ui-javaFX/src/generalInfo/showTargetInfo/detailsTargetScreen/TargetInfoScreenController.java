@@ -56,6 +56,14 @@ public class TargetInfoScreenController extends mainControllers.Controllers{
         return serial_list;
     }
 
+    public ListView<String> getTotal_DO_list() {
+        return total_DO_list;
+    }
+
+    public ListView<String> getTotal_RF_list() {
+        return total_RF_list;
+    }
+
     @FXML
     public void initialize() {
         this.isLight = new SimpleBooleanProperty(true);

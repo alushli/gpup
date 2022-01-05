@@ -74,7 +74,7 @@
                               <Label id="what_if_label" maxWidth="1.7976931348623157E308" text="WHAT IF" />
                            </children>
                         </HBox>
-                        <ComboBox id="direction_cb" fx:id="direction_CB" maxWidth="1.7976931348623157E308" />
+                        <ComboBox id="direction_cb" fx:id="direction_CB" maxWidth="1.7976931348623157E308" onAction="#clickDirection" />
                         <Label styleClass="explanation_label" text="Select a specific target from the table and the system will automatically select all the targets affected by him in the selected direction" wrapText="true" />
                      </children>
                   </VBox>
