@@ -13,6 +13,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
+import java.util.Set;
+
 public class TargetInfoScreenController extends mainControllers.Controllers{
     private ShowTargetInfoController mainController;
     private BooleanProperty isLight;
@@ -50,6 +52,18 @@ public class TargetInfoScreenController extends mainControllers.Controllers{
     @FXML
     private Label error_message;
 
+    public ListView<String> getSerial_list() {
+        return serial_list;
+    }
+
+    public ListView<String> getTotal_DO_list() {
+        return total_DO_list;
+    }
+
+    public ListView<String> getTotal_RF_list() {
+        return total_RF_list;
+    }
+
     @FXML
     public void initialize() {
         this.isLight = new SimpleBooleanProperty(true);
@@ -68,7 +82,13 @@ public class TargetInfoScreenController extends mainControllers.Controllers{
         });
     }
 
-
+    public void setSerialSet(Set<String> set){
+        if(!set.isEmpty()) {
+            for (String str : set) {
+                this.serial_list.getItems().add(str);
+            }
+        }
+    }
 
     public BooleanProperty isLightProperty() {
         return isLight;

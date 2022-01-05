@@ -67,7 +67,7 @@ public class PathsScreenController extends mainControllers.Controllers{
         this.switchLightImg = new Image("/actions/showPaths/detailsPathsScreen/switch_icon_light.png");
         direction_CB.getItems().removeAll(direction_CB.getItems());
         direction_CB.getItems().addAll("Depends On", "Required For");
-        direction_CB.getSelectionModel().select("Depends On");
+        direction_CB.getSelectionModel().select(0);
         this.isLight = new SimpleBooleanProperty(true);
         this.isAnimation = new SimpleBooleanProperty(false);
         this.isLight.addListener((a,b,c)->{

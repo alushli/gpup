@@ -45,12 +45,6 @@ public class LoadFileController extends mainControllers.Controllers{
     private Button find_circle_label;
 
     @FXML
-    private Button simulation_label;
-
-    @FXML
-    private Button compiler_label;
-
-    @FXML
     public void initialize() {
         this.isLight = new SimpleBooleanProperty(true);
         this.isLight.addListener((a,b,c)->{
@@ -91,9 +85,9 @@ public class LoadFileController extends mainControllers.Controllers{
     @FXML
     void clickTasks(ActionEvent event) {
         setVisibleButtons();
-        this.simulation_label.setVisible(true);
-        this.compiler_label.setVisible(true);
+        this.appController.setMainMenu();
         this.appController.getMenuComponentController().clickTasks(event);
+
     }
 
     private void setVisibleButtons(){
@@ -101,20 +95,6 @@ public class LoadFileController extends mainControllers.Controllers{
         this.show_target_info_label.setVisible(false);
         this.find_path_label.setVisible(false);
         this.find_circle_label.setVisible(false);
-        this.simulation_label.setVisible(false);
-        this.compiler_label.setVisible(false);
-    }
-
-    @FXML
-    void clickCompiler(ActionEvent event) {
-        this.appController.getMenuComponentController().getTasksController().setCompilerControllers();
-        setVisibleButtons();
-    }
-
-    @FXML
-    void clickSimulation(ActionEvent event) {
-        this.appController.getMenuComponentController().getTasksController().setSimulationControllers();
-        setVisibleButtons();
     }
 
     @FXML

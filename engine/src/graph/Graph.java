@@ -1,6 +1,7 @@
 package graph;
 
 import Enums.TargetPosition;
+import dtoObjects.SerialSetFXDTO;
 import target.Target;
 import java.util.*;
 
@@ -222,12 +223,26 @@ public class Graph {
         return serialSetMap;
     }
 
+    public Set<SerialSetFXDTO> getSerialSetFXDTO() {
+        Set<SerialSetFXDTO> serialSetsList = new HashSet<>();
+        if(this.serialSetMap.isEmpty())
+            return null;
+        for(SerialSet serialSet: this.serialSetMap.values()){
+            SerialSetFXDTO serialSetFXDTO = new SerialSetFXDTO(serialSet);
+            serialSetsList.add(serialSetFXDTO);
+        }
+        return serialSetsList;
+    }
+
+    public boolean hesSerialSets() {
+        return !this.serialSetMap.isEmpty();
+    }
+
     /*Open all target's serial sets*/
     public void handleOpenSerialSetsOfTarget(Target target){
         for (String serialSetName : target.getSerialSetMap().keySet()){
             this.serialSetMap.get(serialSetName).setRun(false);
         }
-
     }
 
     /* ******************************** for sort graph */

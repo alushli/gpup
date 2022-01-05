@@ -182,6 +182,12 @@ public class GraphInfoScreenController extends mainControllers.Controllers{
         }
     }
 
+    public void setNoSerialSet(){
+        Label label = new Label();
+        label.setText("There are no serial sets for this graph.");
+        this.table_SP.getChildren().add(label);
+    }
+
     public StackPane getFall_screen_SP() {
         return fall_screen_SP;
     }

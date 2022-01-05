@@ -16,7 +16,9 @@ public enum StyleSheetsPath {
     TARGETS_TABLE_LIGHT("/generalComponents/targetsTable/TargetsTableLight.css"),
     TARGETS_TABLE_DARK("/generalComponents/targetsTable/TargetsTableDark.css"),
     SERIAL_SET_TABLE_LIGHT("/generalComponents/serialSetTable/SerialSetTableLight.css"),
-    SERIAL_SET_TABLE_DARK("/generalComponents/serialSetTable/SerialSetTableDark.css");
+    SERIAL_SET_TABLE_DARK("/generalComponents/serialSetTable/SerialSetTableDark.css"),
+    TASK_LIGHT("/tasks/TasksLight.css"),
+    TASK_DARK("/tasks/TasksDark.css");
 
     private String name;
 

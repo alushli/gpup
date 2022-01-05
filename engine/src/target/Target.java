@@ -4,6 +4,7 @@ import Enums.TargetPosition;
 import Enums.TargetRunStatus;
 import Enums.TargetStatus;
 import com.sun.tools.classfile.ConstantPool;
+import dtoObjects.SerialSetFXDTO;
 import graph.SerialSet;
 
 import java.util.*;
@@ -20,6 +21,11 @@ public class Target {
     public Map<String, SerialSet> getSerialSetMap() {
         return serialSetMap;
     }
+
+    public Set<String> getSerialSetFXDTO() {
+        return serialSetMap.keySet();
+    }
+
 
     public Map<String, Target> getAllHangingByTypeOfTargets(String typeOfDependency){
         Map<String, Target> map = new HashMap<>();

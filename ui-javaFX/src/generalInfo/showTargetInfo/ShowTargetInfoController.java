@@ -129,6 +129,9 @@ public class ShowTargetInfoController extends mainControllers.Controllers{
         this.targetInfoScreenController.getPosition_label().setText("");
         this.targetInfoScreenController.getDirect_DO_list().getItems().clear();
         this.targetInfoScreenController.getDirect_RF_list().getItems().clear();
+        this.targetInfoScreenController.getTotal_DO_list().getItems().clear();
+        this.targetInfoScreenController.getTotal_RF_list().getItems().clear();
+        this.targetInfoScreenController.getSerial_list().getItems().clear();
     }
 
     private void setTargetInfo(TargetDTO target){
@@ -137,6 +140,9 @@ public class ShowTargetInfoController extends mainControllers.Controllers{
         this.targetInfoScreenController.getPosition_label().setText(target.getPosition().toString());
         setTargetList(this.targetInfoScreenController.getDirect_DO_list(),target.getDependsOnList());
         setTargetList(this.targetInfoScreenController.getDirect_RF_list(),target.getRequiredForList());
+        setTargetList(this.targetInfoScreenController.getTotal_DO_list(),this.appController.getWhatIfTargets(target.getName(),"dependsOn"));
+        setTargetList(this.targetInfoScreenController.getTotal_RF_list(),this.appController.getWhatIfTargets(target.getName(),"requiredFor"));
+        this.targetInfoScreenController.setSerialSet(this.appController.getTargetSerialSet(target.getName()));
     }
 
     private void setTargetList(ListView<String> listView, Set<String> list){

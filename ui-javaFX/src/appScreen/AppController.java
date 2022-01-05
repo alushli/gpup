@@ -1,6 +1,7 @@
 package appScreen;
 
 import dtoObjects.GraphDTO;
+import dtoObjects.SerialSetFXDTO;
 import dtoObjects.TargetDTO;
 import dtoObjects.TargetFXDTO;
 import engineManager.EngineManager;
@@ -18,12 +19,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import menu.MenuController;
+import target.Target;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 public class AppController {
     @FXML private StackPane menu_area;
@@ -63,6 +66,10 @@ public class AppController {
 
     @FXML
     public void initialize() {
+        setMainMenu();
+    }
+
+    public void setMainMenu(){
         if (menuComponentController == null) {
             setMenuFxml();
         }
@@ -115,6 +122,11 @@ public class AppController {
     public void setMenu(Parent data){
         menu_area.getChildren().removeAll();
         menu_area.getChildren().setAll(data);
+    }
+
+    public void setArea(StackPane area, Parent data){
+        area.getChildren().removeAll();
+        area.getChildren().setAll(data);
     }
 
     public MenuController getMenuComponentController() {
@@ -175,5 +187,21 @@ public class AppController {
 
     public void exportGraph(String path) throws IOException {
         this.engineManager.exportGraph(path);
+    }
+
+    public Set<SerialSetFXDTO> getGraphSerialSet(){
+        return this.engineManager.getSerialSetOfGraph();
+    }
+
+    public boolean hasSerialSets(){
+        return this.engineManager.hasSerialSet();
+    }
+
+    public Set<String> getTargetSerialSet(String target){
+        return this.engineManager.getSerialSetOfTarget(target);
+    }
+
+    public Set<String> getWhatIfTargets(String name, String typeOfDependency){
+        return this.engineManager.getWhatIfTargets(name, typeOfDependency);
     }
 }

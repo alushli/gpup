@@ -9,35 +9,29 @@ import java.util.HashSet;
 
 public class SerialSetFXDTO {
     private String name;
-    private String list;
     private HashSet<String> set;
 
     public SerialSetFXDTO(SerialSetFXDTO other){
         this.name = other.name;
-        //this.list = other.list;
         this.set = new HashSet<>(other.set);
     }
+
+    public SerialSetFXDTO(){}
 
     public String getName() {
         return name;
     }
 
-    public String getList() {
-        return list;
+    public HashSet<String> getSet() {
+        return set;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setList(String list) {
-        this.list = list;
-    }
-
-    /* ******************** */
-    public SerialSetFXDTO(String name, String list) {
-        this.name = name;
-        this.list = list;
+    public void setSet(HashSet<String> set) {
+        this.set = set;
     }
 
     public SerialSetFXDTO(SerialSet serialSet){
