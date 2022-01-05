@@ -32,7 +32,8 @@ public class TargetRuntimeDTO {
         }
     }
 
-    public void setStatus(TargetRuntimeStatus status) {
+
+    public synchronized void setStatus(TargetRuntimeStatus status) {
         this.status = status;
         if(status.equals(TargetRuntimeStatus.IN_PROCESS)){
             this.processStartTimeStamp = System.currentTimeMillis();
@@ -84,7 +85,7 @@ public class TargetRuntimeDTO {
     public void removeDependency(String targetToRemove){
         this.dependsOn.remove(targetToRemove);
     }
-    public void addToSkippedBecause(String targetToAdd){
+    public synchronized void addToSkippedBecause(String targetToAdd){
         this.skippedBecause.add(targetToAdd);
     }
 

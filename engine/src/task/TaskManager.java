@@ -3,6 +3,7 @@ package task;
 import Enums.TargetRunStatus;
 import Enums.TargetStatus;
 import Enums.TasksName;
+import dtoObjects.TaskRuntimeDTO;
 import dtoObjects.TaskSummeryDTO;
 import engineManager.EngineManager;
 import exceptions.TaskException;
@@ -32,6 +33,7 @@ public abstract class TaskManager {
     protected ExecutorService pool;
     protected int counter;
     protected String folderPath;
+    protected TaskRuntimeDTO taskRuntimeDTO;
 
 
 
@@ -49,11 +51,9 @@ public abstract class TaskManager {
             throw new TaskException("The path doesn't exist or has invalid characters, please change the xml and upload again.");
     }
 
-
-
     protected void handleFailureRec(Target target, List<Consumer<String>> consumersList , Task task,Target dad ){
+        this.taskRuntimeDTO.getTargetByName(target.getName()).addToSkippedBecause(dad.getName());
         addToSkipped(target);
-        //upCounter();
         task.writeToConsumers(consumersList,"Target: "+target.getName()+ " turned skipped (because "+ dad.getName()+" failed/skipped)" );
         target.setRunStatus(TargetRunStatus.SKIPPED);
         Set<Target> requireForTargets = target.getRequiredForList();
@@ -114,8 +114,6 @@ public abstract class TaskManager {
         return warnings;
     }
 
-
-
     public synchronized void upCounter(){
         this.counter+= 1;
         if(counter==initSize){
@@ -129,5 +127,9 @@ public abstract class TaskManager {
 
     public String getFolderPath() {
         return folderPath;
+    }
+
+    public TaskRuntimeDTO getTaskRuntimeDTO(){
+        return this.taskRuntimeDTO;
     }
 }

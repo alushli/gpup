@@ -10,6 +10,25 @@ public class Graph {
     private Map<Target, Set<Target>> map;
     private Map<String, SerialSet> serialSetMap;
 
+
+    /*constructor of sub graph given a collection of targets.*/
+    public Graph(Collection<String> subGr, Graph origin){
+        this.graphName = origin.graphName;
+        this.workingDirectory = origin.workingDirectory;
+        this.serialSetMap = origin.serialSetMap;
+        this.map = new HashMap<>();
+        for (String targetName: subGr){
+            Target target = origin.getTargetByName(targetName);
+            Set<Target> dependsOn = new HashSet<>();
+            for (Target target1 : target.getDependsOnList()){
+                if(subGr.contains(target1.getName())){
+                    dependsOn.add(target1);
+                }
+            }
+            this.map.put(target, dependsOn);
+        }
+    }
+
     /* the function create new graph */
     public Graph(String name, String workingDirectory){
         this.graphName = name.trim();
@@ -229,6 +248,7 @@ public class Graph {
         }
 
     }
+
 
     /* ******************************** for sort graph */
     public void printOrderMap(Map<Target, List<Target>> map){
