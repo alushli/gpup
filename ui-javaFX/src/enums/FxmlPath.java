@@ -22,6 +22,7 @@ public enum FxmlPath {
     TASK_SELECT_TASK("/tasks/runTaskScreen/selectTaskScreen.fxml"),
     TASK_RUN_TASK("/tasks/runTaskScreen/runTask.fxml"),
     TARGET_BOX_TASK("/tasks/runTaskScreen/target.fxml"),
+    TARGET_INFO_POPUP_TASK("/tasks/runTaskScreen/targetInfo.fxml"),
     EXPORT_GRAPH_POPUP("/generalInfo/showGraphInfo/detailsGraphScreen/exportGraphScreen/exportGraphPopup.fxml");
 
     private String name;

@@ -97,6 +97,18 @@ public class RunTaskController extends mainControllers.Controllers{
     private Label count_success;
 
     @FXML
+    private Button cancel_btn;
+
+    @FXML
+    private Button pause_btn;
+
+    @FXML
+    private Button resume_btn;
+
+    @FXML
+    private Button start_brn;
+
+    @FXML
     public void initialize() {
         this.isLight = new SimpleBooleanProperty(true);
         this.skippedTargets = new SimpleStringProperty();
@@ -220,20 +232,25 @@ public class RunTaskController extends mainControllers.Controllers{
 
     @FXML
     void clickCancel(ActionEvent event) {
-
+        this.appController.getMenuComponentController().clickTasks(event);
     }
 
     @FXML
     void clickPause(ActionEvent event) {
+        this.pause_btn.setDisable(true);
+        this.resume_btn.setDisable(false);
     }
 
     @FXML
     void clickResume(ActionEvent event) {
-
+        this.resume_btn.setDisable(true);
+        this.pause_btn.setDisable(false);
     }
 
     @FXML
     void clickStart(ActionEvent event) {
+        this.cancel_btn.setDisable(false);
+       // this.start_brn.setDisable(true);
         if(count ==1)
             moveTargetFrozenToSkipped("A");
         else if(count ==2){

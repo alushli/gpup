@@ -231,9 +231,11 @@ public class SelectTaskScreenController extends mainControllers.Controllers {
     @FXML
     void clickTask(ActionEvent event) {
         if(this.task_CB.getValue().equals("Simulation Task")){
+            this.error_label.setVisible(true);
             this.isSimulation.set(true);
             this.next_btn.disableProperty().bind((this.processTimeValid.and(this.endSuccessValid.and(this.endWarningValid)).not()));
         }else {
+            this.error_label.setVisible(false);
             this.isSimulation.set(false);
             this.next_btn.disableProperty().bind((this.srcFolderValid.and(this.compiledFolderValid)).not());
         }

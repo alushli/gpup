@@ -88,3 +88,23 @@
 .target_box_btn{
 
 }
+
+.header_label{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 40px !important;
+    -fx-font-weight: 700;
+    -fx-text-fill: black;
+}
+
+#target_icon{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 16px;
+    -fx-text-fill: black;
+    -fx-font-weight: normal;
+    -fx-cursor:none;
+}
+
+.sub_header_popup{
+    -fx-font-size: 16px !important;
+    -fx-font-weight: 700;
+}

@@ -36,12 +36,12 @@
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
                      <children>
                         <Label id="header_label" fx:id="task_name_label" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Simulation Task" HBox.hgrow="SOMETIMES" />
-                        <Button maxHeight="1.7976931348623157E308" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#clickStart" prefWidth="100.0" styleClass="tasks_btn_blue" text="Start">
+                        <Button fx:id="start_brn" maxHeight="1.7976931348623157E308" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#clickStart" prefWidth="100.0" styleClass="tasks_btn_blue" text="Start">
                            <HBox.margin>
                               <Insets bottom="5.0" top="5.0" />
                            </HBox.margin>
                         </Button>
-                        <Button disable="true" maxHeight="1.7976931348623157E308" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#clickCancel" prefWidth="100.0" styleClass="tasks_btn_gray" text="Cancel">
+                        <Button fx:id="cancel_btn" disable="true" maxHeight="1.7976931348623157E308" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#clickCancel" prefWidth="100.0" styleClass="tasks_btn_gray" text="Cancel">
                            <HBox.margin>
                               <Insets bottom="5.0" left="10.0" top="5.0" />
                            </HBox.margin>
@@ -123,8 +123,8 @@
                               <ProgressBar id="progress_bar" fx:id="progress_bar" maxHeight="30.0" maxWidth="1.7976931348623157E308" minHeight="30.0" prefHeight="30.0" progress="0.5" GridPane.columnIndex="1" />
                               <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" GridPane.columnIndex="2" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
                                  <children>
-                                    <Button maxHeight="30.0" maxWidth="70.0" minHeight="30.0" minWidth="70.0" mnemonicParsing="false" onAction="#clickPause" prefHeight="30.0" prefWidth="70.0" styleClass="tasks_btn_gray" text="Pause" HBox.hgrow="SOMETIMES" />
-                                    <Button disable="true" maxHeight="30.0" maxWidth="70.0" minHeight="30.0" minWidth="70.0" mnemonicParsing="false" onAction="#clickResume" prefHeight="30.0" prefWidth="70.0" styleClass="tasks_btn_blue" text="Resume" HBox.hgrow="SOMETIMES" />
+                                    <Button fx:id="pause_btn" maxHeight="30.0" maxWidth="70.0" minHeight="30.0" minWidth="70.0" mnemonicParsing="false" onAction="#clickPause" prefHeight="30.0" prefWidth="70.0" styleClass="tasks_btn_gray" text="Pause" HBox.hgrow="SOMETIMES" />
+                                    <Button fx:id="resume_btn" disable="true" maxHeight="30.0" maxWidth="70.0" minHeight="30.0" minWidth="70.0" mnemonicParsing="false" onAction="#clickResume" prefHeight="30.0" prefWidth="70.0" styleClass="tasks_btn_blue" text="Resume" HBox.hgrow="SOMETIMES" />
                                  </children>
                                  <GridPane.margin>
                                     <Insets left="10.0" />
