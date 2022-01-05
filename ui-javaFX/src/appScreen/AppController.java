@@ -1,6 +1,7 @@
 package appScreen;
 
 import dtoObjects.GraphDTO;
+import dtoObjects.SerialSetFXDTO;
 import dtoObjects.TargetDTO;
 import dtoObjects.TargetFXDTO;
 import engineManager.EngineManager;
@@ -24,6 +25,7 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 public class AppController {
     @FXML private StackPane menu_area;
@@ -184,5 +186,9 @@ public class AppController {
 
     public void exportGraph(String path) throws IOException {
         this.engineManager.exportGraph(path);
+    }
+
+    public Set<SerialSetFXDTO> getGraphSerialSet(){
+        return this.engineManager.getSerialSetOfGraph();
     }
 }

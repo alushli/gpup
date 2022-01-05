@@ -15,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 
 import java.util.Collection;
+import java.util.Set;
 
 public class SerialSetTableController extends GeneralComponent {
     private BooleanProperty isLight;
@@ -45,11 +46,8 @@ public class SerialSetTableController extends GeneralComponent {
     @FXML
     public void initialize(){
         this.nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-        this.listCol.setCellValueFactory(new PropertyValueFactory<>("list"));
-        //Collection<SerialSetFXDTO> serialSets = null;
-       //this.table.setItems(getSerialSets(serialSets));
-        this.table.setItems(getSerialSetsDemo());
-
+        this.listCol.setCellValueFactory(new PropertyValueFactory<>("set"));
+        this.table.setItems(getSerialSets(this.getAppController().getGraphSerialSet()));
         this.isLight = new SimpleBooleanProperty(true);
         this.isLight.addListener((a,b,c)->{
             if(this.isLight.getValue()){
@@ -70,12 +68,4 @@ public class SerialSetTableController extends GeneralComponent {
         return serialSetFXDTOS;
     }
 
-
-    public ObservableList<SerialSetFXDTO> getSerialSetsDemo(){
-        ObservableList<SerialSetFXDTO> serialSetFXDTOS = FXCollections.observableArrayList();
-       for(int i=0;i<5;i++){
-           serialSetFXDTOS.add(new SerialSetFXDTO("li","a,b,c"));
-       }
-        return serialSetFXDTOS;
-    }
 }

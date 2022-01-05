@@ -2,10 +2,7 @@ package engineManager;
 
 import Enums.DependencyTypes;
 import Enums.TasksName;
-import dtoObjects.GraphDTO;
-import dtoObjects.TaskSummeryDTO;
-import dtoObjects.TargetDTO;
-import dtoObjects.TargetFXDTO;
+import dtoObjects.*;
 import exceptions.MenuOptionException;
 import exceptions.TaskException;
 import graph.Graph;
@@ -400,6 +397,10 @@ public class EngineManager implements EngineManagerInterface{
             }
         }
         file.write("}");
+    }
+
+    public Set<SerialSetFXDTO> getSerialSetOfGraph(){
+        return this.graph.getSerialSetFXDTO();
     }
 }
 
