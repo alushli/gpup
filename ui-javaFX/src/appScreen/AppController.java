@@ -191,4 +191,12 @@ public class AppController {
     public Set<SerialSetFXDTO> getGraphSerialSet(){
         return this.engineManager.getSerialSetOfGraph();
     }
+
+    public boolean hasSerialSets(){
+        return this.engineManager.hasSerialSet();
+    }
+
+    public Set<String> getTargetSerialSet(String target){
+        return this.engineManager.getSerialSetOfTarget(target);
+    }
 }

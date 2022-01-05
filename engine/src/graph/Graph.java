@@ -234,12 +234,15 @@ public class Graph {
         return serialSetsList;
     }
 
+    public boolean hesSerialSets() {
+        return !this.serialSetMap.isEmpty();
+    }
+
     /*Open all target's serial sets*/
     public void handleOpenSerialSetsOfTarget(Target target){
         for (String serialSetName : target.getSerialSetMap().keySet()){
             this.serialSetMap.get(serialSetName).setRun(false);
         }
-
     }
 
     /* ******************************** for sort graph */

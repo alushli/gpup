@@ -91,7 +91,10 @@ public class ShowGraphInfoController extends mainControllers.Controllers{
             this.graphInfoScreenController.setMainController(this);
             this.graphInfoScreenController.setAppController(this.appController);
             this.graphInfoScreenController.isLightProperty().bind(this.appController.isLightProperty());
-            this.graphInfoScreenController.setSerialSetTable();
+            if(this.appController.hasSerialSets())
+                this.graphInfoScreenController.setSerialSetTable();
+            else
+                this.graphInfoScreenController.setNoSerialSet();
             this.graphInfoScreenController.restartExportLabel();
             setPageLabels();
         } catch (Exception e){

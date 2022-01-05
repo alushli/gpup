@@ -402,6 +402,21 @@ public class EngineManager implements EngineManagerInterface{
     public Set<SerialSetFXDTO> getSerialSetOfGraph(){
         return this.graph.getSerialSetFXDTO();
     }
+
+    public boolean hasSerialSet(){
+        return this.graph.hesSerialSets();
+    }
+
+    public Set<String> getSerialSetOfTarget(String target){
+        if(this.graph != null){
+            for (Target target1 : graph.getGraphMap().keySet()){
+               if(target1.getName().equals(target)){
+                    return target1.getSerialSetFXDTO();
+               }
+            }
+        }
+        return null;
+    }
 }
 
 

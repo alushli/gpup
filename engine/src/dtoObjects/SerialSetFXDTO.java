@@ -16,6 +16,8 @@ public class SerialSetFXDTO {
         this.set = new HashSet<>(other.set);
     }
 
+    public SerialSetFXDTO(){}
+
     public String getName() {
         return name;
     }
