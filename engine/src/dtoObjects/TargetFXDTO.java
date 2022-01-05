@@ -100,9 +100,9 @@ public class TargetFXDTO {
         this.directDependsOn = other.getDependsOnList().size();
 
         /* Need to handle it ******************************************************************/
-        this.totalRequiredFor = 0;
-        this.totalDependsOn = 0;
-        this.serialSets = 0;
+        this.totalRequiredFor = other.getAllHangingByTypeOfTargets("requiredFor").size();
+        this.totalDependsOn = other.getAllHangingByTypeOfTargets("dependsOn").size();
+        this.serialSets = other.getSerialSetMap().size();
         /* Need to handle it ******************************************************************/
 
         this.generalInfo = other.getGeneralInfo();

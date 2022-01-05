@@ -1,7 +1,8 @@
 package Enums;
 
 public enum TasksName {
-    SIMULATION ("Simulation");
+    SIMULATION ("Simulation"),
+    COMPILATION("Compilation");
 
     private String name;
 

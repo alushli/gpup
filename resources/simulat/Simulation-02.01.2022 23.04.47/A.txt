@@ -1,0 +1,7 @@
+Target A start run.
+General info of the target: freeText
+Target A start sleep
+Target A done sleep
+Target: A done with status: warning
+Target A time: 00:00:01
+
