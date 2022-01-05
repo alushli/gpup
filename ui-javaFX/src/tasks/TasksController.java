@@ -33,13 +33,13 @@ public class TasksController extends mainControllers.Controllers{
     private boolean isWhatIf = false;
     private ArrayList<TargetFXDTO> selectedTargets;
     private BooleanProperty isLight;
+    private String whatIfDirection;
 
     @FXML
     private Button select_all_btn;
 
     @FXML
     private Button deselect_all_btn;
-
 
     @FXML
     private StackPane main_screen;
@@ -62,6 +62,7 @@ public class TasksController extends mainControllers.Controllers{
     @FXML
     void clickDeselectAll(ActionEvent event) {
         this.targetsTableController.deselectAll();
+        this.targetsTableController.setWhatIfHappened(false);
     }
 
     @FXML
@@ -81,6 +82,10 @@ public class TasksController extends mainControllers.Controllers{
         isWhatIf = whatIf;
     }
 
+    public boolean isWhatIf() {
+        return isWhatIf;
+    }
+
     public BooleanProperty isLightProperty() {
         return isLight;
     }
@@ -88,6 +93,7 @@ public class TasksController extends mainControllers.Controllers{
     @FXML
     public void initialize() {
         this.isLight = new SimpleBooleanProperty(true);
+        this.whatIfDirection = "dependsOn";
         setLightListener(this.isLight);
     }
 
@@ -167,6 +173,14 @@ public class TasksController extends mainControllers.Controllers{
         }
     }
 
+    public void setWhatIfTableDirection(String direction){
+        this.whatIfDirection = direction;
+    }
+
+    public String getWhatIfDirection() {
+        return whatIfDirection;
+    }
+
     public void setRunTaskScreen(){
         try{
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -193,6 +207,7 @@ public class TasksController extends mainControllers.Controllers{
             this.appController.setArea(this.table_SP ,fxmlLoader.load(url.openStream()));
             this.targetsTableController = fxmlLoader.getController();
             this.targetsTableController.setAppController(this.appController);
+            this.targetsTableController.setTasksController(this);
             this.targetsTableController.setMaxSelect(this.targetsTableController.getCountTargets());
             this.targetsTableController.getTable().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.925));
             this.targetsTableController.isLightProperty().bind(this.appController.isLightProperty());

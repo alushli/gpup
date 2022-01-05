@@ -70,7 +70,7 @@
                         </Separator>
                         <HBox>
                            <children>
-                              <CheckBox id="what_if_cb" fx:id="what_if_CB" mnemonicParsing="false" styleClass="check_box_screen" />
+                              <CheckBox id="what_if_cb" fx:id="what_if_CB" mnemonicParsing="false" onAction="#clickWhatIf" styleClass="check_box_screen" />
                               <Label id="what_if_label" maxWidth="1.7976931348623157E308" text="WHAT IF" />
                            </children>
                         </HBox>

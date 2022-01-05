@@ -35,6 +35,12 @@ public class SelectTargetController extends mainControllers.Controllers {
             this.mainController.setWhatIfTableDirection("requiredFor");
     }
 
+
+    @FXML
+    void clickWhatIf(ActionEvent event) {
+        this.mainController.setWhatIf(this.what_if_CB.isSelected());
+    }
+
     @FXML
     void clickNext(ActionEvent event) {
         this.mainController.setSelectTaskScreen();
