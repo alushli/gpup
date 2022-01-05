@@ -20,7 +20,7 @@ import java.util.*;
 import java.util.function.Consumer;
 
 public class EngineManager implements EngineManagerInterface{
-    private Graph graph;
+    private Graph graph;//whole graph from xml
     public static Graph graphStatic; //save last graph(copy)
 
 

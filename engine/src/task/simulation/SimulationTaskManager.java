@@ -1,8 +1,10 @@
 package task.simulation;
 
 import Enums.TargetRunStatus;
+import Enums.TargetRuntimeStatus;
 import Enums.TargetStatus;
 import Enums.TasksName;
+import dtoObjects.TaskRuntimeDTO;
 import dtoObjects.TaskSummeryDTO;
 import engineManager.EngineManager;
 import exceptions.TaskException;
@@ -66,6 +68,7 @@ public class SimulationTaskManager extends TaskManager {
         }
         this.folderPath =saveSimulationFolder();
         handleRunSimulation(timePerTarget, chancePerTarget, chanceWarning, isRandom, consumer);
+        this.taskRuntimeDTO = new TaskRuntimeDTO(graph.getGraphMap().keySet());
     }
 
 
@@ -77,6 +80,7 @@ public class SimulationTaskManager extends TaskManager {
                     serialSet.setRun(true);
                     serialSet.setInProccess(target);
                     target.setStatus(TargetStatus.WAITING);
+                    taskRuntimeDTO.getTargetByName(target.getName()).setStatus(TargetRuntimeStatus.WAITING);
                 }
                 filtered.add(target);
             }
@@ -84,6 +88,7 @@ public class SimulationTaskManager extends TaskManager {
         for (Target target: targets){
             if(target.getStatus().equals(TargetStatus.FROZEN)){
                 target.moveToWaitingInAllSerials();
+                taskRuntimeDTO.getTargetByName(target.getName()).setStatus(TargetRuntimeStatus.WAITING);
             }
         }
         return filtered;
@@ -130,8 +135,12 @@ public class SimulationTaskManager extends TaskManager {
 
     public synchronized void handleSucceed(Target target, List<Consumer<String>> consumerList, Task task){
         if(target.getRunStatus() == TargetRunStatus.WARNING){
+            taskRuntimeDTO.getTargetByName(target.getName()).setStatus(TargetRuntimeStatus.FINISHED);
+            taskRuntimeDTO.getTargetByName(target.getName()).setFinishStatus(TargetRunStatus.WARNING);
             addToWarnings(target);
         }else {
+            taskRuntimeDTO.getTargetByName(target.getName()).setStatus(TargetRuntimeStatus.FINISHED);
+            taskRuntimeDTO.getTargetByName(target.getName()).setFinishStatus(TargetRunStatus.SUCCESS);
             addToSucceed(target);
         }
         System.out.println("Up counter from:"+this.counter + "becuase success target:" + target.getName());
@@ -143,6 +152,7 @@ public class SimulationTaskManager extends TaskManager {
                 task.writeToConsumers(consumerList, "Target " + target1.getName() + " turned WAITING.");
                 target1.setStatus(TargetStatus.WAITING);
                 target1.moveToWaitingInAllSerials();
+                taskRuntimeDTO.getTargetByName(target.getName()).setStatus(TargetRuntimeStatus.WAITING);
                 if(target1.isCanRunSerial()){
                     pool.execute(getSimulationTask(processTime,chanceSuccess,chanceWarning,isRandom,consumerList.get(0),target1));
                 }
@@ -152,6 +162,7 @@ public class SimulationTaskManager extends TaskManager {
         for (SerialSet serialSet : target.getSerialSetMap().values()){
             serialSet.setRun(false);
             Target target1 = serialSet.handleFinish();
+            taskRuntimeDTO.getTargetByName(target.getName()).setStatus(TargetRuntimeStatus.WAITING);
             if(target1 != null){
                 addToPool(getSimulationTask(processTime,chanceSuccess,chanceWarning,isRandom,consumerList.get(0),target1));
             }
@@ -166,9 +177,12 @@ public class SimulationTaskManager extends TaskManager {
     }
 
     public synchronized void handleFail(Target failedTarget, List<Consumer<String>> consumersList, Task task){
+        taskRuntimeDTO.getTargetByName(failedTarget.getName()).setStatus(TargetRuntimeStatus.FINISHED);
+        taskRuntimeDTO.getTargetByName(failedTarget.getName()).setFinishStatus(TargetRunStatus.FAILURE);
         addToFailed(failedTarget);
         for (SerialSet serialSet : failedTarget.getSerialSetMap().values()){
             Target target = serialSet.handleFinish();
+            taskRuntimeDTO.getTargetByName(target.getName()).setStatus(TargetRuntimeStatus.WAITING);
             if(target != null)
                 addToPool(getSimulationTask(processTime,chanceSuccess,chanceWarning,isRandom,consumersList.get(0),target));
         }
