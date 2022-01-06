@@ -204,4 +204,8 @@ public class AppController {
     public Set<String> getWhatIfTargets(String name, String typeOfDependency){
         return this.engineManager.getWhatIfTargets(name, typeOfDependency);
     }
+
+    public int getMaxThreadsForTask(){
+        return this.engineManager.getMaxThreadsForTask();
+    }
 }

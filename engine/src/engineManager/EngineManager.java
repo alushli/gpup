@@ -22,7 +22,12 @@ import java.util.function.Consumer;
 public class EngineManager implements EngineManagerInterface{
     private Graph graph;//whole graph from xml
     public static Graph graphStatic; //save last graph(copy)
+    private int maxThreadsForTask = 1;
+    private int maxTreads;
 
+    public int getMaxThreadsForTask() {
+        return maxThreadsForTask;
+    }
 
     @Override
     /* the function load the graph */
@@ -30,8 +35,10 @@ public class EngineManager implements EngineManagerInterface{
         List<Graph> graphsList = loadHelper(filePath);
         Graph graphOrigin = graphsList.get(0);
         Graph graphIncremental = graphsList.get(1);
-        if(graphOrigin != null)
+        if(graphOrigin != null) {
             this.graph = graphOrigin;
+            this.maxThreadsForTask = this.maxTreads;
+        }
         if(!graphIncremental.getGraphMap().isEmpty())
             graphStatic = graphIncremental;
         else
@@ -276,6 +283,7 @@ public class EngineManager implements EngineManagerInterface{
         GPUPDescriptor root = (GPUPDescriptor) Xml.readFromXml(filePath, new GPUPDescriptor());
         Set<String> errors = new HashSet<>();
         if(root.getGPUPTargets() != null && root.getGPUPConfiguration() != null) {
+            this.maxTreads = root.getGPUPConfiguration().getGPUPMaxParallelism();
             List<Map<String, Target>> mapsList = getMapsOfTargets(root.getGPUPTargets(), errors);
             Graph graphOrigin = new Graph(root.getGPUPConfiguration().getGPUPGraphName(), root.getGPUPConfiguration().getGPUPWorkingDirectory());
             Graph graphIncremental = new Graph(root.getGPUPConfiguration().getGPUPGraphName(), root.getGPUPConfiguration().getGPUPWorkingDirectory());
