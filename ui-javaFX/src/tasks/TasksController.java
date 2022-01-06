@@ -165,6 +165,7 @@ public class TasksController extends mainControllers.Controllers{
             this.selectTaskScreenController = fxmlLoader.getController();
             this.selectTaskScreenController.setMainController(this);
             this.selectTaskScreenController.setAppController(this.appController);
+            this.selectTaskScreenController.setMaxThreads();
             selectTaskScreenController.getFall_screen_SP().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.99));
             this.selectTaskScreenController.isLightProperty().bind(this.appController.isLightProperty());
             setLightListener(this.selectTaskScreenController.isLightProperty());

@@ -15,7 +15,6 @@ import java.io.File;
 
 public class SelectTaskScreenController extends mainControllers.Controllers {
     private TasksController mainController;
-    private Integer maxThreadAmount = 5;
     private BooleanProperty isSimulation;
     private BooleanProperty processTimeValid;
     private BooleanProperty endSuccessValid;
@@ -209,8 +208,11 @@ public class SelectTaskScreenController extends mainControllers.Controllers {
         random_simulation.getItems().removeAll(random_simulation.getItems());
         random_simulation.getItems().addAll("Yes", "No");
         random_simulation.getSelectionModel().select(0);
+    }
+
+    public void setMaxThreads(){
         thread_amount_CB.getItems().removeAll(thread_amount_CB.getItems());
-        for(int i = 1;i <= this.maxThreadAmount;i++){
+        for(int i = 1;i <= this.appController.getMaxThreadsForTask();i++){
             thread_amount_CB.getItems().add(i);
         }
         thread_amount_CB.getSelectionModel().select(0);
