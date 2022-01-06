@@ -1,5 +1,6 @@
 package tasks.runTaskScreen;
 
+import Enums.SimulationEntryPoint;
 import appScreen.AppController;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -114,6 +115,14 @@ public class SelectTaskScreenController extends mainControllers.Controllers {
     void clickNext(ActionEvent event) {
         this.mainController.setRunTaskScreen();
         this.mainController.updateTaskName(this.task_CB.getValue());
+        if(this.task_CB.getValue().equals("Simulation Task")){
+            boolean isRandom = this.random_simulation.getValue().equals("Yes") ? true : false;
+            if(this.incremental_CB.isSelected())
+                this.mainController.updateSimulationTaskProperties(Integer.parseInt(this.processing_time_simulation.getText()), Double.parseDouble(this.end_success_simulation.getText()), Double.parseDouble(this.end_warnings_after_success_simulation.getText()), isRandom, SimulationEntryPoint.INCREMENTAL);
+            else
+                this.mainController.updateSimulationTaskProperties(Integer.parseInt(this.processing_time_simulation.getText()), Double.parseDouble(this.end_success_simulation.getText()), Double.parseDouble(this.end_warnings_after_success_simulation.getText()),isRandom, SimulationEntryPoint.FROM_SCRATCH);
+
+        }
     }
 
     public StackPane getFall_screen_SP() {

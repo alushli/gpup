@@ -1,5 +1,6 @@
 package tasks;
 
+import Enums.SimulationEntryPoint;
 import appScreen.AppController;
 import dtoObjects.TargetFXDTO;
 import enums.FxmlPath;
@@ -115,6 +116,11 @@ public class TasksController extends mainControllers.Controllers{
 
     public void updateTaskName(String name){
         this.runTaskController.getTask_name_label().setText(name);
+        this.runTaskController.setTaskType(name);
+    }
+
+    public void updateSimulationTaskProperties(int processTime, double chanceTargetSuccess, double chanceTargetWarning, boolean isRandom, SimulationEntryPoint entryPoint){
+        this.runTaskController.setSimulationProperties(processTime, chanceTargetSuccess, chanceTargetWarning, isRandom, entryPoint);
     }
 
     @Override
@@ -194,7 +200,7 @@ public class TasksController extends mainControllers.Controllers{
             runTaskController.getFall_screen_SP().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.99));
             this.runTaskController.isLightProperty().bind(this.appController.isLightProperty());
             setLightListener(this.runTaskController.isLightProperty());
-            this.runTaskController.setFrozenTargets(this.targetsTableController.getCurSelected());
+            //this.runTaskController.setFrozenTargets(this.targetsTableController.getCurSelected());
         } catch (Exception e){
             System.out.println("Error in setPageScreen() - showPathController");
         }

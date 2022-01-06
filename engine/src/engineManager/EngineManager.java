@@ -10,6 +10,7 @@ import graph.SerialSet;
 import scema.generated.*;
 import Enums.SimulationEntryPoint;
 import target.Target;
+import task.TaskManager;
 import task.simulation.SimulationTaskManager;
 import xml.Xml;
 import exceptions.XmlException;
@@ -24,6 +25,26 @@ public class EngineManager implements EngineManagerInterface{
     public static Graph graphStatic; //save last graph(copy)
     private int maxThreadsForTask = 1;
     private int maxTreads;
+    private SimulationTaskManager simulationTaskManager = null;
+    private TaskManager taskManager = null;
+    private boolean isTaskRun = false;
+    private Boolean synchroObj;
+
+    public EngineManager(){
+        this.synchroObj = new Boolean(true);
+    }
+
+    public boolean isTaskRun() {
+        return isTaskRun;
+    }
+
+    public TaskManager getTaskManager() {
+        return taskManager;
+    }
+
+    public SimulationTaskManager getSimulationTaskManager() {
+        return simulationTaskManager;
+    }
 
     public int getMaxThreadsForTask() {
         return maxThreadsForTask;
@@ -171,15 +192,25 @@ public class EngineManager implements EngineManagerInterface{
         return listDTO;
     }
 
-    @Override
     /* the function return simulation info */
-    public TaskSummeryDTO runSimulate(int processTime, double chanceTargetSuccess, double chanceTargetWarning, boolean isRandom,
-                                      SimulationEntryPoint entryPoint, Consumer<String> consumer) throws TaskException {
+    public TaskSummeryDTO runSimulateConsole(int processTime, double chanceTargetSuccess, double chanceTargetWarning, boolean isRandom,
+                                             SimulationEntryPoint entryPoint, Consumer<String> consumer) throws TaskException {
 
         boolean fromScratch = entryPoint.equals(SimulationEntryPoint.FROM_SCRATCH);
         SimulationTaskManager taskManager = new SimulationTaskManager(this.graph,processTime,chanceTargetSuccess,chanceTargetWarning,
-                isRandom,fromScratch,consumer,5);
+                isRandom,fromScratch,consumer,5, this.synchroObj);
         return taskManager.getSummeryDTO();
+    }
+
+    public void runSimulate(int processTime, double chanceTargetSuccess, double chanceTargetWarning, boolean isRandom,
+                                             SimulationEntryPoint entryPoint, Consumer<String> consumer) throws TaskException {
+
+        boolean fromScratch = entryPoint.equals(SimulationEntryPoint.FROM_SCRATCH);
+        this.isTaskRun = true;
+        this.simulationTaskManager = new SimulationTaskManager(this.graph,processTime,chanceTargetSuccess,chanceTargetWarning,
+                isRandom,fromScratch,consumer,5, this.synchroObj);
+        this.simulationTaskManager.handleRunSimulation(processTime, chanceTargetSuccess, chanceTargetWarning, isRandom, consumer);
+        this.isTaskRun = false;
     }
 
     @Override
@@ -435,6 +466,10 @@ public class EngineManager implements EngineManagerInterface{
             }
         }
         return null;
+    }
+
+    public Boolean getSynchroObj() {
+        return synchroObj;
     }
 }
 

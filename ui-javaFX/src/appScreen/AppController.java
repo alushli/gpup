@@ -208,4 +208,8 @@ public class AppController {
     public int getMaxThreadsForTask(){
         return this.engineManager.getMaxThreadsForTask();
     }
+
+    public EngineManager getEngineManager() {
+        return engineManager;
+    }
 }

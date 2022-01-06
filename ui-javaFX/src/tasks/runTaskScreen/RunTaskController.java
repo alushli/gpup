@@ -1,7 +1,9 @@
 package tasks.runTaskScreen;
 
+import Enums.SimulationEntryPoint;
 import appScreen.AppController;
 import dtoObjects.TargetFXDTO;
+import dtoObjects.TargetRuntimeDTO;
 import enums.FxmlPath;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -18,10 +20,13 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import tasks.TasksController;
+import tasks.UIAdapter;
+import tasks.simulation.SimulationTask;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Set;
+import java.util.function.Consumer;
 
 public class RunTaskController extends mainControllers.Controllers{
     private TasksController mainController;
@@ -31,6 +36,13 @@ public class RunTaskController extends mainControllers.Controllers{
     private StringProperty failedTargets;
     private StringProperty warningTargets;
     private StringProperty successTargets;
+    private String taskType;
+    private int processTimeSimulation;
+    private double chanceTargetSuccessSimulation;
+    private double chanceTargetWarningSimulation;
+    private boolean isRandomSimulation;
+    private SimulationEntryPoint entryPoint;
+
     private int count = 0;
 
     @FXML
@@ -108,6 +120,10 @@ public class RunTaskController extends mainControllers.Controllers{
     @FXML
     private Button start_brn;
 
+    public void setTaskType(String taskType) {
+        this.taskType = taskType;
+    }
+
     @FXML
     public void initialize() {
         this.isLight = new SimpleBooleanProperty(true);
@@ -133,14 +149,14 @@ public class RunTaskController extends mainControllers.Controllers{
         return task_name_label;
     }
 
-    public void setFrozenTargets(ArrayList<TargetFXDTO> arrayList){
-        this.targetsArray = arrayList;
-        for(int i = 0;i < arrayList.size();i++){
-            createTargetBox(arrayList.get(i), this.frozen_FP);
-        }
-    }
+//    public void setFrozenTargets(ArrayList<TargetFXDTO> arrayList){
+//        this.targetsArray = arrayList;
+//        for(int i = 0;i < arrayList.size();i++){
+//            createTargetBox(arrayList.get(i), this.frozen_FP);
+//        }
+//    }
 
-    private void createTargetBox(TargetFXDTO targetFXDTO, FlowPane flowPane) {
+    private void createTargetBox(TargetRuntimeDTO targetFXDTO, FlowPane flowPane) {
       try {
           FXMLLoader fxmlLoader = new FXMLLoader();
           URL url = getClass().getResource(FxmlPath.TARGET_BOX_TASK.toString());
@@ -148,7 +164,7 @@ public class RunTaskController extends mainControllers.Controllers{
           Node targetBox = fxmlLoader.load();
           TargetController targetController = fxmlLoader.getController();
           targetController.setAppController(this.appController);
-          targetController.setTargetFXDTO(targetFXDTO);
+          targetController.setTargetRuntimeDTO(targetFXDTO);
           targetController.getTarget_btn().setText(targetFXDTO.getName());
           targetController.isLightProperty().bind(this.appController.isLightProperty());
           this.mainController.setLightListener(targetController.isLightProperty());
@@ -209,6 +225,69 @@ public class RunTaskController extends mainControllers.Controllers{
         }
     }
 
+    private void moveTargetFrozenToProcess(String name){
+        Node node = getSelectedNodeOfFP(name, this.frozen_FP);
+        if(node != null){
+            this.frozen_FP.getChildren().remove(node);
+            this.in_progress_FP.getChildren().add(0,node);
+        }
+    }
+
+    private void moveTargetFrozenToFailed(String name){
+        Node node = getSelectedNodeOfFP(name, this.frozen_FP);
+        if(node != null){
+            this.frozen_FP.getChildren().remove(node);
+            this.failed_FP.getChildren().add(0,node);
+            this.failedTargets.setValue(String.valueOf(this.failed_FP.getChildren().size()));
+        }
+    }
+
+    private void moveTargetFrozenToSuccess(String name){
+        Node node = getSelectedNodeOfFP(name, this.frozen_FP);
+        if(node != null){
+            this.frozen_FP.getChildren().remove(node);
+            this.success_FP.getChildren().add(0,node);
+            this.successTargets.setValue(String.valueOf(this.success_FP.getChildren().size()));
+        }
+    }
+
+    private void moveTargetFrozenToWarning(String name){
+        Node node = getSelectedNodeOfFP(name, this.frozen_FP);
+        if(node != null){
+            this.frozen_FP.getChildren().remove(node);
+            this.warning_FP.getChildren().add(0,node);
+            this.warningTargets.setValue(String.valueOf(this.warning_FP.getChildren().size()));
+        }
+    }
+
+    private void moveTargetWaitingToWarning(String name){
+        Node node = getSelectedNodeOfFP(name, this.waiting_FP);
+        if(node != null){
+            this.waiting_FP.getChildren().remove(node);
+            this.warning_FP.getChildren().add(0,node);
+            this.warningTargets.setValue(String.valueOf(this.warning_FP.getChildren().size()));
+        }
+    }
+
+    private void moveTargetWaitingToFailed(String name){
+        Node node = getSelectedNodeOfFP(name, this.waiting_FP);
+        if(node != null){
+            this.waiting_FP.getChildren().remove(node);
+            this.failed_FP.getChildren().add(0,node);
+            this.failedTargets.setValue(String.valueOf(this.failed_FP.getChildren().size()));
+        }
+    }
+
+    private void moveTargetWaitingToSuccess(String name){
+        Node node = getSelectedNodeOfFP(name, this.waiting_FP);
+        if(node != null){
+            this.waiting_FP.getChildren().remove(node);
+            this.success_FP.getChildren().add(0,node);
+            this.successTargets.setValue(String.valueOf(this.success_FP.getChildren().size()));
+        }
+    }
+
+
     private Node getSelectedNodeOfFP(String name, FlowPane flowPane){
         Node node = null;
         StackPane stackPane;
@@ -250,29 +329,89 @@ public class RunTaskController extends mainControllers.Controllers{
     @FXML
     void clickStart(ActionEvent event) {
         this.cancel_btn.setDisable(false);
-       // this.start_brn.setDisable(true);
-        if(count ==1)
-            moveTargetFrozenToSkipped("A");
-        else if(count ==2){
-            moveTargetFrozenToSWaiting("B");
-            moveTargetFrozenToSWaiting("C");
-            moveTargetFrozenToSWaiting("D");
-            moveTargetFrozenToSWaiting("E");
-            moveTargetFrozenToSWaiting("F");}
-        else if(count ==3){
-            moveTargetWaitingToProcess("B");
-            moveTargetWaitingToProcess("C");
-            moveTargetWaitingToProcess("D");
-            moveTargetWaitingToProcess("F");}
-        else if(count ==4)
-            moveTargetProcessToFailed("B");
-        else if(count ==5)
-            moveTargetProcessToWarning("C");
-        else if(count ==6){
-            moveTargetProcessToSuccess("D");
-            moveTargetProcessToSuccess("F");}
-        else {}
-        count++;
+        this.start_brn.setDisable(true);
+//        if(count ==1)
+//            moveTargetFrozenToSkipped("A");
+//        else if(count ==2){
+//            moveTargetFrozenToSWaiting("B");
+//            moveTargetFrozenToSWaiting("C");
+//            moveTargetFrozenToSWaiting("D");
+//            moveTargetFrozenToSWaiting("E");
+//            moveTargetFrozenToSWaiting("F");}
+//        else if(count ==3){
+//            moveTargetWaitingToProcess("B");
+//            moveTargetWaitingToProcess("C");
+//            moveTargetWaitingToProcess("D");
+//            moveTargetWaitingToProcess("F");}
+//        else if(count ==4)
+//            moveTargetProcessToFailed("B");
+//        else if(count ==5)
+//            moveTargetProcessToWarning("C");
+//        else if(count ==6){
+//            moveTargetProcessToSuccess("D");
+//            moveTargetProcessToSuccess("F");}
+//        else {}
+//        count++;
+        if(taskType.equals("Simulation Task")) {
+            Consumer<String> consumer = s-> System.out.println(s);
+            UIAdapter uiAdapter = createUIAdapter();
+            SimulationTask task = new SimulationTask(this.appController.getEngineManager(), uiAdapter, this.processTimeSimulation, this.chanceTargetSuccessSimulation, this.chanceTargetWarningSimulation, this.isRandomSimulation, this.entryPoint, consumer);
+            new Thread(task).start();
+        }
+    }
+
+    private UIAdapter createUIAdapter() {
+        UIAdapter uiAdapter = new UIAdapter(
+            list -> {
+                addToFrozen(list);
+            }, name -> {
+                moveTargetFrozenToSWaiting(name);
+            },name -> {
+                moveTargetFrozenToSkipped(name);
+            },name -> {
+                moveTargetFrozenToFailed(name);
+            },name -> {
+                moveTargetFrozenToSuccess(name);
+            },name -> {
+                moveTargetFrozenToWarning(name);
+            },name -> {
+                moveTargetFrozenToProcess(name);
+            },name -> {
+                moveTargetWaitingToProcess(name);
+            },name -> {
+                moveTargetWaitingToFailed(name);
+            },name -> {
+                moveTargetWaitingToSuccess(name);
+            },name -> {
+                moveTargetWaitingToWarning(name);
+            },name -> {
+                moveTargetProcessToFailed(name);
+            },name -> {
+                moveTargetProcessToWarning(name);
+            },name -> {
+                moveTargetProcessToSuccess(name);
+            }, size ->{
+                this.finish_targets_count.setText(size);
+            }, size -> {
+                this.all_targets_to_run_count.setText(size);
+            }, progress -> {
+                this.progress_bar.setProgress(progress);
+        });
+        return uiAdapter;
+    }
+
+    public void addToFrozen(Set<TargetRuntimeDTO> targetRuntimeDTOCollection){
+        for(TargetRuntimeDTO targetRuntimeDTO : targetRuntimeDTOCollection){
+                createTargetBox(targetRuntimeDTO, this.frozen_FP);
+        }
+    }
+
+    public void setSimulationProperties(int processTime, double chanceTargetSuccess, double chanceTargetWarning, boolean isRandom, SimulationEntryPoint entryPoint){
+        this.processTimeSimulation = processTime;
+        this.chanceTargetSuccessSimulation = chanceTargetSuccess;
+        this.chanceTargetWarningSimulation = chanceTargetWarning;
+        this.isRandomSimulation = isRandom;
+        this.entryPoint = entryPoint;
     }
 
     @Override

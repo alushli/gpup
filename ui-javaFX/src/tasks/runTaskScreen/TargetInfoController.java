@@ -2,6 +2,7 @@ package tasks.runTaskScreen;
 
 import appScreen.AppController;
 import dtoObjects.TargetFXDTO;
+import dtoObjects.TargetRuntimeDTO;
 import enums.StyleSheetsPath;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -83,11 +84,10 @@ public class TargetInfoController extends mainControllers.Controllers{
         return isLight;
     }
 
-    public void setPopUp(TargetFXDTO targetFXDTO){
-        this.target_name_label.setText(targetFXDTO.getName());
-        this.target_icon.setText(targetFXDTO.getName());
-        this.target_status_label.setText(targetFXDTO.getPosition());
-
+    public void setPopUp(TargetRuntimeDTO targetRuntimeDTO){
+        this.target_name_label.setText(targetRuntimeDTO.getName());
+        this.target_icon.setText(targetRuntimeDTO.getName());
+        this.target_status_label.setText(targetRuntimeDTO.getPosition().toString());
 
     }
 
