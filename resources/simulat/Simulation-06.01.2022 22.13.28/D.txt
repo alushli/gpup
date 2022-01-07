@@ -1,0 +1,8 @@
+Target D start run.
+General info of the target: freeText
+Target D start sleep
+Target D done sleep
+Target: D done with status: failure
+Target D time: 00:00:00
+Target: E turned skipped (because D failed/skipped)
+
