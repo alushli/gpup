@@ -9,15 +9,18 @@ import enums.FxmlPath;
 import enums.StyleSheetsPath;
 import exceptions.XmlException;
 import generalComponents.GeneralComponent;
+import javafx.animation.*;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import menu.MenuController;
 import target.Target;
 
@@ -115,13 +118,24 @@ public class AppController {
     }
 
     public void setArea(Parent data){
+        FadeTransition ft = null;
+        if(this.isAnimation.getValue()) {
+            ft = new FadeTransition(Duration.millis(1500), data);
+            ft.setToValue(1.0);
+            ft.setFromValue(0.0);
+        }
         content_area.getChildren().removeAll();
         content_area.getChildren().setAll(data);
+        if(this.isAnimation.getValue() && ft != null) {
+            ft.play();
+        }
     }
 
     public void setMenu(Parent data){
+
         menu_area.getChildren().removeAll();
         menu_area.getChildren().setAll(data);
+
     }
 
     public void setArea(StackPane area, Parent data){

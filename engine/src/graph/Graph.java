@@ -216,12 +216,18 @@ public class Graph {
     /* the function remove connection from target1 to target 2 in graph */
     public synchronized void removeConnection(Target target1, Target target2){
         Set<Target> list = map.get(target1);
-        list.remove(target2);
+        if(list !=  null)
+            list.remove(target2);
     }
 
     /* the function remove target from graph */
     public synchronized void removeFromGraph(Target target){
         map.remove(target);
+        for (Set<Target> set : this.map.values()){
+            if(set.contains(target)){
+                set.remove(target);
+            }
+        }
     }
 
     /*add connection between target and targetToAdd in the graph*/

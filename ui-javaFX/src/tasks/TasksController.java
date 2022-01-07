@@ -8,6 +8,7 @@ import enums.StyleSheetsPath;
 import generalComponents.targetsTable.TargetsTableController;
 import generalInfo.GeneralInfoController;
 import generalInfo.showTargetInfo.detailsTargetScreen.TargetInfoScreenController;
+import javafx.animation.FadeTransition;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -19,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import tasks.runTaskScreen.RunTaskController;
 import tasks.runTaskScreen.SelectTargetController;
 import tasks.runTaskScreen.SelectTaskScreenController;
@@ -153,6 +155,7 @@ public class TasksController extends mainControllers.Controllers{
             FXMLLoader fxmlLoader = new FXMLLoader();
             URL url = getClass().getResource(FxmlPath.TASK_SELECT_TARGET.toString());
             fxmlLoader.setLocation(url);
+
             this.appController.setArea(this.page_SP ,fxmlLoader.load(url.openStream()));
             this.selectTargetController = fxmlLoader.getController();
             this.selectTargetController.setMainController(this);

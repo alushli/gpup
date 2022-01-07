@@ -5,25 +5,33 @@ import appScreen.AppController;
 import dtoObjects.TargetFXDTO;
 import dtoObjects.TargetRuntimeDTO;
 import enums.FxmlPath;
+import javafx.animation.*;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.CubicCurveTo;
+import javafx.scene.shape.HLineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+import javafx.util.Duration;
 import tasks.TasksController;
 import tasks.UIAdapter;
 import tasks.simulation.SimulationTask;
 
+import javax.swing.text.Position;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,7 +57,7 @@ public class RunTaskController extends mainControllers.Controllers{
     private int count = 0;
 
     @FXML
-    private ScrollPane logs_SP;
+    private TextArea log_TA;
 
     @FXML
     private StackPane fall_screen_SP;
@@ -141,6 +149,7 @@ public class RunTaskController extends mainControllers.Controllers{
         this.count_failed.textProperty().bind(this.failedTargets);
         this.count_warning.textProperty().bind(this.warningTargets);
         this.count_success.textProperty().bind(this.successTargets);
+
     }
 
     public BooleanProperty isLightProperty() {
@@ -175,7 +184,9 @@ public class RunTaskController extends mainControllers.Controllers{
               }
           }
           flowPane.getChildren().add(targetBox);
-      }catch (Exception e){}
+      }catch (Exception e){
+          e.printStackTrace();
+      }
 
     }
 
@@ -201,7 +212,7 @@ public class RunTaskController extends mainControllers.Controllers{
         this.cancel_btn.setDisable(false);
         this.start_brn.setDisable(true);
         if(taskType.equals("Simulation Task")) {
-            Consumer<String> consumer = s-> System.out.println(s);
+            Consumer<String> consumer = s-> updateLog(s);
             UIAdapter uiAdapter = createUIAdapter();
             SimulationTask task = new SimulationTask(this.appController.getEngineManager(), uiAdapter, this.targetsToRun, this.processTimeSimulation, this.chanceTargetSuccessSimulation, this.chanceTargetWarningSimulation, this.isRandomSimulation, this.entryPoint, consumer, this.maxParallel);
             new Thread(task).start();
@@ -232,6 +243,14 @@ public class RunTaskController extends mainControllers.Controllers{
             this.progress_bar.setProgress(progress);
         });
         return uiAdapter;
+    }
+
+    private void updateLog(String str){
+        Platform.runLater(
+                () -> {
+                    this.log_TA.appendText(str + "\n");
+                }
+        );
     }
 
   private void addToFPWhatDontExist(Set<TargetRuntimeDTO> targetRuntimeDTOCollection, FlowPane flowPane, String colorStatus){
@@ -317,9 +336,11 @@ public class RunTaskController extends mainControllers.Controllers{
         this.warningTargets.setValue(String.valueOf(this.warning_FP.getChildren().size()));
     }
 
+
     public void addToFrozen(Set<TargetRuntimeDTO> targetRuntimeDTOCollection){
         removeFromFPWhatExist(targetRuntimeDTOCollection, this.frozen_FP);
         addToFPWhatDontExist(targetRuntimeDTOCollection, this.frozen_FP, "frozen");
+
     }
 
     public void setSimulationProperties(Collection<String> targetsToRun, int processTime, double chanceTargetSuccess, double chanceTargetWarning, boolean isRandom, SimulationEntryPoint entryPoint, int maxParallel){

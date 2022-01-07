@@ -7,6 +7,7 @@
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
@@ -60,9 +61,9 @@
                     </columnConstraints>
                     <rowConstraints>
                         <RowConstraints maxHeight="10.0" minHeight="10.0" prefHeight="10.0" vgrow="NEVER" />
-                        <RowConstraints prefHeight="50.0" vgrow="SOMETIMES" />
-                      <RowConstraints prefHeight="50.0" vgrow="SOMETIMES" />
-                      <RowConstraints maxHeight="65.0" minHeight="65.0" prefHeight="65.0" vgrow="NEVER" />
+                        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="110.0" prefHeight="110.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="110.0" prefHeight="110.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="NEVER" />
                       <RowConstraints maxHeight="10.0" minHeight="10.0" prefHeight="10.0" vgrow="NEVER" />
                     </rowConstraints>
                      <children>
@@ -89,7 +90,7 @@
                               </Label>
                               <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="targets_status_container" VBox.vgrow="SOMETIMES">
                                  <content>
-                                    <FlowPane fx:id="waiting_FP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_screen_content" />
+                                    <FlowPane fx:id="waiting_FP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="80.0" styleClass="main_screen_content" />
                                  </content>
                               </ScrollPane>
                            </children>
@@ -103,7 +104,7 @@
                               </Label>
                               <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="targets_status_container" VBox.vgrow="SOMETIMES">
                                  <content>
-                                    <FlowPane fx:id="in_progress_FP" maxHeight="80.0" maxWidth="1.7976931348623157E308" minHeight="80.0" prefHeight="80.0" styleClass="main_screen_content" />
+                                    <FlowPane fx:id="in_progress_FP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="80.0" styleClass="main_screen_content" />
                                  </content>
                               </ScrollPane>
                            </children>
@@ -263,7 +264,7 @@
                         <Label maxWidth="1.7976931348623157E308" text="Log" />
                         <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="SOMETIMES">
                            <children>
-                              <ScrollPane fx:id="logs_SP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                              <TextArea fx:id="log_TA" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="log_area" />
                            </children>
                         </StackPane>
                      </children>
