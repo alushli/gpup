@@ -49,10 +49,9 @@ public class SimulationTaskManager extends TaskManager {
             EngineManager.graphStatic = graph;
         }
         else{
-            //Collection<Target> targetToRemove = new HashSet<>();
             for (Target target : graph.getGraphMap().keySet()){
                 if(target.getRunStatus().equals(TargetRunStatus.NONE)){
-                    consumer.accept("Target "+ target.getName() + "didnt include at the last run - so it run from scratch on it.");
+                    consumer.accept("Target "+ target.getName() + "didnt include at the last run - so it run from scratch on it.\n");
                 }else if((target.getRunStatus().equals(TargetRunStatus.SUCCESS) ||(target.getRunStatus().equals(TargetRunStatus.WARNING)))){
                     targetToRemove.add(target);
                 }
@@ -62,7 +61,7 @@ public class SimulationTaskManager extends TaskManager {
             }
             EngineManager.graphStatic = graph;
             if(EngineManager.graphStatic.getGraphMap().size() == 0){
-                consumer.accept("The graph is empty, you can choose to run again from scratch.");
+                consumer.accept("The graph is empty, you can choose to run again from scratch.\n");
             }
         }
         this.summeryDTO = new TaskSummeryDTO();
@@ -143,6 +142,7 @@ public class SimulationTaskManager extends TaskManager {
                 }
                 this.pool.shutdown();
                 this.pool = null;
+                consumer.accept("\nSimulation done!");
                 long endTime = System.currentTimeMillis();
                 summeryDTO.setHMS(Task.convertMillisToHMS(endTime-startTime));
             }catch (Exception e){
