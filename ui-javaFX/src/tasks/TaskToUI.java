@@ -35,6 +35,7 @@ public class TaskToUI implements Runnable {
             Set<TargetRuntimeDTO> success = new HashSet<>();
             int i = 0;
             while (!isDone) {
+
                 if (this.engineManager.getSimulationTaskManager() != null && this.engineManager.getSimulationTaskManager().getTaskRuntimeDTO() != null) {
                     this.taskRuntimeDTO = this.engineManager.getSimulationTaskManager().getTaskRuntimeDTO();
                     synchronized (this.synchroObj) {
@@ -52,8 +53,11 @@ public class TaskToUI implements Runnable {
                 Thread.sleep(100);
             }
             clearSets(frozen, waiting, process, skipped, failed, success, warning);
-            this.taskRuntimeDTO = this.engineManager.getSimulationTaskManager().getTaskRuntimeDTO();
-            updateUI(frozen, waiting, process, skipped, failed, success, warning);
+            synchronized (this.synchroObj){
+                this.taskRuntimeDTO = this.engineManager.getSimulationTaskManager().getTaskRuntimeDTO();
+                updateUI(frozen, waiting, process, skipped, failed, success, warning);
+                this.engineManager.setTaskRuntimeDTO(null);
+            }
         }
         catch(Exception e){
             System.out.println(e.getMessage());

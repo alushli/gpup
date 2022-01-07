@@ -48,13 +48,14 @@
                            <children>
                               <VBox fx:id="table_VB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_screen_content">
                                  <children>
-                                    <HBox spacing="20.0">
+                                    <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="20.0">
                                        <VBox.margin>
                                           <Insets bottom="5.0" />
                                        </VBox.margin>
                                        <children>
                                           <Button fx:id="select_all_btn" maxHeight="1.7976931348623157E308" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#clickSelectAll" prefWidth="100.0" styleClass="deselect_btn" text="Select All" />
                                           <Button fx:id="deselect_all_btn" maxHeight="1.7976931348623157E308" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#clickDeselectAll" prefWidth="100.0" styleClass="deselect_btn" text="Deselect All" />
+                                          <Label id="explanation_label" alignment="BOTTOM_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Select at least one target from the table" />
                                        </children>
                                     </HBox>
                                     <StackPane fx:id="table_SP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />

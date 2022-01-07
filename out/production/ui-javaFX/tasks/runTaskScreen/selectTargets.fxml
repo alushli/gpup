@@ -36,7 +36,7 @@
                <children>
                   <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <children>
-                        <Button id="next_btn" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="100.0" mnemonicParsing="false" onAction="#clickNext" prefHeight="42.0" prefWidth="328.0" text="Next" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" VBox.vgrow="NEVER">
+                        <Button id="next_btn" fx:id="next_btn" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="100.0" mnemonicParsing="false" onAction="#clickNext" prefHeight="42.0" prefWidth="328.0" text="Next" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" VBox.vgrow="NEVER">
                            <VBox.margin>
                               <Insets top="5.0" />
                            </VBox.margin>
@@ -46,16 +46,7 @@
                   <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
                         <Label id="sub_header_label" text="Select target for task" />
-                        <Label maxHeight="200.0" prefHeight="185.0" prefWidth="378.0" styleClass="explanation_label" text="You can select all the targets, some of them or select using the what-if technique: selection of a specific target + marking direction  (including transient). " wrapText="true" VBox.vgrow="SOMETIMES" />
-                        <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" spacing="10.0">
-                           <children>
-                              <Label text="Number of selected targes:" />
-                              <Label fx:id="count_selected_targets" />
-                           </children>
-                           <VBox.margin>
-                              <Insets bottom="10.0" top="20.0" />
-                           </VBox.margin>
-                        </HBox>
+                        <Label maxHeight="200.0" prefHeight="185.0" prefWidth="378.0" styleClass="explanation_label_screen" text="You can select all the targets, some of them or select using the what-if technique: selection of a specific target + marking direction  (including transient). " wrapText="true" VBox.vgrow="SOMETIMES" />
                      </children>
                   </VBox>
                   <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="20.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
@@ -75,7 +66,7 @@
                            </children>
                         </HBox>
                         <ComboBox id="direction_cb" fx:id="direction_CB" maxWidth="1.7976931348623157E308" onAction="#clickDirection" />
-                        <Label styleClass="explanation_label" text="Select a specific target from the table and the system will automatically select all the targets affected by him in the selected direction" wrapText="true" />
+                        <Label styleClass="explanation_label_screen" text="Select a specific target from the table and the system will automatically select all the targets affected by him in the selected direction" wrapText="true" />
                      </children>
                   </VBox>
                </children>

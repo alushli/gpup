@@ -206,12 +206,13 @@ public class EngineManager implements EngineManagerInterface{
                                              SimulationEntryPoint entryPoint, Consumer<String> consumer, int maxParallel) throws TaskException {
 
         boolean fromScratch = entryPoint.equals(SimulationEntryPoint.FROM_SCRATCH);
-        this.isTaskRun = true;
         this.simulationTaskManager = new SimulationTaskManager(new Graph(targets,this.graph),processTime,chanceTargetSuccess,chanceTargetWarning,
                 isRandom,fromScratch,consumer,maxParallel, this.synchroObj);
+        this.isTaskRun = true;
         this.simulationTaskManager.handleRunSimulation(processTime, chanceTargetSuccess, chanceTargetWarning, isRandom, consumer);
         this.isTaskRun = false;
     }
+
 
     @Override
     /* the function return target circle */
@@ -470,6 +471,9 @@ public class EngineManager implements EngineManagerInterface{
 
     public Boolean getSynchroObj() {
         return synchroObj;
+    }
+    public void setTaskRuntimeDTO(TaskRuntimeDTO taskRuntimeDTO){
+        this.simulationTaskManager.setTaskRunTime(taskRuntimeDTO);
     }
 }
 

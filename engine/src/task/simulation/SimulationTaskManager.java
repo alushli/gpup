@@ -29,6 +29,7 @@ public class SimulationTaskManager extends TaskManager {
     public SimulationTaskManager(Graph graph, int timePerTarget, double chancePerTarget, double chanceWarning,
                                  boolean isRandom, boolean fromScratch, Consumer<String> consumer, int maxParallel, Boolean synchroObj) throws TaskException{
         this.synchroObj = synchroObj;
+
         if(fromScratch && EngineManager.graphStatic != null){
             EngineManager.graphStatic = graph;
             for (SerialSet serialSet : EngineManager.graphStatic.getSerialSetMap().values()){
@@ -36,6 +37,7 @@ public class SimulationTaskManager extends TaskManager {
                     target.addSerialSet(serialSet);
                 }
             }
+
         }else if(EngineManager.graphStatic == null && !fromScratch ){
             consumer.accept("Simulation has not run yet on the current graph so it will run from scratch.");
             EngineManager.graphStatic = graph;
@@ -77,7 +79,12 @@ public class SimulationTaskManager extends TaskManager {
             target.setRunStatus(TargetRunStatus.NONE);
         }
         this.folderPath =saveSimulationFolder();
-       this.taskRuntimeDTO = new TaskRuntimeDTO(graph.getGraphMap().keySet());
+
+        this.taskRuntimeDTO = new TaskRuntimeDTO(graph.getGraphMap().keySet());
+    }
+
+    public void setTaskRunTime(TaskRuntimeDTO taskRuntimeDTO){
+        this.taskRuntimeDTO = taskRuntimeDTO;
     }
 
 

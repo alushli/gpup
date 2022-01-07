@@ -19,7 +19,8 @@ public class UIAdapter {
     private Consumer<Float> progressBar;
 
     public UIAdapter(Consumer<Set<TargetRuntimeDTO>> addToFrozen, Consumer<Set<TargetRuntimeDTO>> addToWaiting, Consumer<Set<TargetRuntimeDTO>> addToProcess, Consumer<Set<TargetRuntimeDTO>> addToSkipped,
-                     Consumer<Set<TargetRuntimeDTO>> addToFailed, Consumer<Set<TargetRuntimeDTO>> addToWarning, Consumer<Set<TargetRuntimeDTO>> addToSuccess, Consumer<String> finishTargets, Consumer<String> totalTargets, Consumer<Float> progressBar){
+                     Consumer<Set<TargetRuntimeDTO>> addToFailed, Consumer<Set<TargetRuntimeDTO>> addToWarning, Consumer<Set<TargetRuntimeDTO>> addToSuccess, Consumer<String> finishTargets, Consumer<String> totalTargets,
+                     Consumer<Float> progressBar){
         this.addToFrozen = addToFrozen;
         this.addToWaiting = addToWaiting;
         this.addToProcess = addToProcess;
@@ -105,7 +106,4 @@ public class UIAdapter {
                 }
         );
     }
-
-
-
 }

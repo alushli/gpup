@@ -229,11 +229,10 @@ public class RunTaskController extends mainControllers.Controllers{
             }, size -> {
                 this.all_targets_to_run_count.setText(size);
             }, progress -> {
-                this.progress_bar.setProgress(progress);
+            this.progress_bar.setProgress(progress);
         });
         return uiAdapter;
     }
-
 
   private void addToFPWhatDontExist(Set<TargetRuntimeDTO> targetRuntimeDTOCollection, FlowPane flowPane, String colorStatus){
         for(TargetRuntimeDTO targetRuntimeDTO: targetRuntimeDTOCollection){

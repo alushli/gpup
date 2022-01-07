@@ -103,7 +103,7 @@
                               </Label>
                               <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="targets_status_container" VBox.vgrow="SOMETIMES">
                                  <content>
-                                    <FlowPane fx:id="in_progress_FP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_screen_content" />
+                                    <FlowPane fx:id="in_progress_FP" maxHeight="80.0" maxWidth="1.7976931348623157E308" minHeight="80.0" prefHeight="80.0" styleClass="main_screen_content" />
                                  </content>
                               </ScrollPane>
                            </children>
