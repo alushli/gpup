@@ -1,9 +1,0 @@
-Target F start run.
-Target F start sleep
-Target F done sleep
-Target: F done with status: success
-Target F time: 00:00:00
-Target A turned WAITING.
-Target B turned WAITING.
-Target C turned WAITING.
-

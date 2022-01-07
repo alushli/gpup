@@ -1,8 +1,0 @@
-Target I start run.
-Target I start sleep
-Target I done sleep
-Target: I done with status: warning
-Target I time: 00:00:00
-Target C turned WAITING.
-Target E turned WAITING.
-

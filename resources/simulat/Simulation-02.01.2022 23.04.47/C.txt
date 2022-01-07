@@ -1,7 +1,0 @@
-Target C start run.
-General info of the target: freeText
-Target C start sleep
-Target C done sleep
-Target: C done with status: warning
-Target C time: 00:00:01
-
