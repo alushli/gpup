@@ -16,6 +16,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -46,6 +47,9 @@ public class RunTaskController extends mainControllers.Controllers{
     private int maxParallel;
 
     private int count = 0;
+
+    @FXML
+    private ScrollPane logs_SP;
 
     @FXML
     private StackPane fall_screen_SP;
@@ -151,7 +155,7 @@ public class RunTaskController extends mainControllers.Controllers{
         return task_name_label;
     }
 
-    private void createTargetBox(TargetRuntimeDTO targetFXDTO, FlowPane flowPane) {
+    private void createTargetBox(TargetRuntimeDTO targetFXDTO, FlowPane flowPane, String colorStatus) {
       try {
           FXMLLoader fxmlLoader = new FXMLLoader();
           URL url = getClass().getResource(FxmlPath.TARGET_BOX_TASK.toString());
@@ -163,6 +167,13 @@ public class RunTaskController extends mainControllers.Controllers{
           targetController.getTarget_btn().setText(targetFXDTO.getName());
           targetController.isLightProperty().bind(this.appController.isLightProperty());
           this.mainController.setLightListener(targetController.isLightProperty());
+          if (targetBox instanceof StackPane) {
+              StackPane stackPane = (StackPane) targetBox;
+              if (stackPane.getChildren().get(0) instanceof Button) {
+                  Button button = (Button) stackPane.getChildren().get(0);
+                  button.getStyleClass().add(colorStatus);
+              }
+          }
           flowPane.getChildren().add(targetBox);
       }catch (Exception e){}
 
@@ -224,11 +235,11 @@ public class RunTaskController extends mainControllers.Controllers{
     }
 
 
-  private void addToFPWhatDontExist(Set<TargetRuntimeDTO> targetRuntimeDTOCollection, FlowPane flowPane){
+  private void addToFPWhatDontExist(Set<TargetRuntimeDTO> targetRuntimeDTOCollection, FlowPane flowPane, String colorStatus){
         for(TargetRuntimeDTO targetRuntimeDTO: targetRuntimeDTOCollection){
             Node node = getSelectedNodeOfFP(targetRuntimeDTO.getName(), flowPane);
             if(node == null)
-                createTargetBox(targetRuntimeDTO, flowPane);
+                createTargetBox(targetRuntimeDTO, flowPane, colorStatus);
         }
   }
 
@@ -280,38 +291,36 @@ public class RunTaskController extends mainControllers.Controllers{
 
     public void addToWaiting(Set<TargetRuntimeDTO> targetRuntimeDTOCollection){
         removeFromFPWhatExist(targetRuntimeDTOCollection, this.waiting_FP);
-        addToFPWhatDontExist(targetRuntimeDTOCollection, this.waiting_FP);
+        addToFPWhatDontExist(targetRuntimeDTOCollection, this.waiting_FP, "waiting");
     }
     public void addToProcess(Set<TargetRuntimeDTO> targetRuntimeDTOCollection){
         removeFromFPWhatExist(targetRuntimeDTOCollection, this.in_progress_FP);
-        addToFPWhatDontExist(targetRuntimeDTOCollection, this.in_progress_FP);
+        addToFPWhatDontExist(targetRuntimeDTOCollection, this.in_progress_FP, "process");
     }
     public void addToSkipped(Set<TargetRuntimeDTO> targetRuntimeDTOCollection){
         removeFromFPWhatExist(targetRuntimeDTOCollection, this.skipped_FP);
-        addToFPWhatDontExist(targetRuntimeDTOCollection, this.skipped_FP);
+        addToFPWhatDontExist(targetRuntimeDTOCollection, this.skipped_FP, "skipped");
         this.skippedTargets.setValue(String.valueOf(this.skipped_FP.getChildren().size()));
     }
     public void addToFailed(Set<TargetRuntimeDTO> targetRuntimeDTOCollection){
         removeFromFPWhatExist(targetRuntimeDTOCollection, this.failed_FP);
-        addToFPWhatDontExist(targetRuntimeDTOCollection, this.failed_FP);
+        addToFPWhatDontExist(targetRuntimeDTOCollection, this.failed_FP, "failure");
         this.failedTargets.setValue(String.valueOf(this.failed_FP.getChildren().size()));
     }
     public void addToSuccess(Set<TargetRuntimeDTO> targetRuntimeDTOCollection){
         removeFromFPWhatExist(targetRuntimeDTOCollection, this.success_FP);
-        addToFPWhatDontExist(targetRuntimeDTOCollection, this.success_FP);
+        addToFPWhatDontExist(targetRuntimeDTOCollection, this.success_FP, "success");
         this.successTargets.setValue(String.valueOf(this.success_FP.getChildren().size()));
     }
     public void addToWarning(Set<TargetRuntimeDTO> targetRuntimeDTOCollection){
         removeFromFPWhatExist(targetRuntimeDTOCollection, this.warning_FP);
-        addToFPWhatDontExist(targetRuntimeDTOCollection, this.warning_FP);
+        addToFPWhatDontExist(targetRuntimeDTOCollection, this.warning_FP, "warning");
         this.warningTargets.setValue(String.valueOf(this.warning_FP.getChildren().size()));
     }
 
-    public void addToFrozen(Collection<TargetRuntimeDTO> targetRuntimeDTOCollection){
-        this.frozen_FP.getChildren().clear();
-        for(TargetRuntimeDTO targetRuntimeDTO : targetRuntimeDTOCollection){
-            createTargetBox(targetRuntimeDTO, this.frozen_FP);
-        }
+    public void addToFrozen(Set<TargetRuntimeDTO> targetRuntimeDTOCollection){
+        removeFromFPWhatExist(targetRuntimeDTOCollection, this.frozen_FP);
+        addToFPWhatDontExist(targetRuntimeDTOCollection, this.frozen_FP, "frozen");
     }
 
     public void setSimulationProperties(Collection<String> targetsToRun, int processTime, double chanceTargetSuccess, double chanceTargetWarning, boolean isRandom, SimulationEntryPoint entryPoint, int maxParallel){

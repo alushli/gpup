@@ -68,7 +68,7 @@ public class TargetController extends mainControllers.Controllers{
             this.popupWindow.setY(this.appController.getPrimaryStage().getY() + 100);
             this.popupWindow.show();
         }catch (Exception e){
-
+            System.out.println("Set popup error");
         }
 
     }

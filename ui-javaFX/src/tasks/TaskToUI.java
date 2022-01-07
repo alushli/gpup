@@ -26,7 +26,7 @@ public class TaskToUI implements Runnable {
     @Override
     public void run() {
         try {
-            Collection<TargetRuntimeDTO> frozen = new HashSet<>();
+            Set<TargetRuntimeDTO> frozen = new HashSet<>();
             Set<TargetRuntimeDTO> waiting = new HashSet<>();
             Set<TargetRuntimeDTO> process = new HashSet<>();
             Set<TargetRuntimeDTO> skipped = new HashSet<>();
@@ -40,7 +40,7 @@ public class TaskToUI implements Runnable {
                     synchronized (this.synchroObj) {
                         clearSets(frozen, waiting, process, skipped, failed, success, warning);
                         if (i == 0) {
-                            this.uiAdapter.addFrozen(this.taskRuntimeDTO.getMap().values());
+                            this.uiAdapter.addFrozen(collectionToSet(this.taskRuntimeDTO.getMap().values()));
                             i++;
                         }
                         updateUI(frozen, waiting, process, skipped, failed, success, warning);
@@ -60,7 +60,7 @@ public class TaskToUI implements Runnable {
         }
     }
 
-    private void updateUI(Collection<TargetRuntimeDTO> frozen, Set<TargetRuntimeDTO> waiting, Set<TargetRuntimeDTO> process, Set<TargetRuntimeDTO> skipped,
+    private void updateUI(Set<TargetRuntimeDTO> frozen, Set<TargetRuntimeDTO> waiting, Set<TargetRuntimeDTO> process, Set<TargetRuntimeDTO> skipped,
                           Set<TargetRuntimeDTO> failed, Set<TargetRuntimeDTO> success, Set<TargetRuntimeDTO> warning){
         this.uiAdapter.updateTotalTargets(String.valueOf(this.taskRuntimeDTO.getCountTotal()));
         this.uiAdapter.updateFinishTargets(String.valueOf(this.taskRuntimeDTO.getCountFinished()));
@@ -96,7 +96,7 @@ public class TaskToUI implements Runnable {
         this.uiAdapter.addWarning(warning);
     }
 
-    private void clearSets(Collection<TargetRuntimeDTO> frozen, Set<TargetRuntimeDTO> waiting, Set<TargetRuntimeDTO> process, Set<TargetRuntimeDTO> skipped,
+    private void clearSets(Set<TargetRuntimeDTO> frozen, Set<TargetRuntimeDTO> waiting, Set<TargetRuntimeDTO> process, Set<TargetRuntimeDTO> skipped,
                            Set<TargetRuntimeDTO> failed, Set<TargetRuntimeDTO> success, Set<TargetRuntimeDTO> warning){
         frozen.clear();
         waiting.clear();
@@ -105,5 +105,13 @@ public class TaskToUI implements Runnable {
         failed.clear();
         success.clear();
         warning.clear();
+    }
+
+    private Set<TargetRuntimeDTO> collectionToSet(Collection<TargetRuntimeDTO> targetRuntimeDTOS){
+        Set<TargetRuntimeDTO> setTargets = new HashSet<>();
+        for(TargetRuntimeDTO targetRuntimeDTO:targetRuntimeDTOS){
+            setTargets.add(targetRuntimeDTO);
+        }
+        return setTargets;
     }
 }

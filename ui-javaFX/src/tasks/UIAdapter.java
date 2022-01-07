@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 public class UIAdapter {
-    private Consumer<Collection<TargetRuntimeDTO>> addToFrozen;
+    private Consumer<Set<TargetRuntimeDTO>> addToFrozen;
     private Consumer<Set<TargetRuntimeDTO>> addToWaiting;
     private Consumer<Set<TargetRuntimeDTO>> addToProcess;
     private Consumer<Set<TargetRuntimeDTO>> addToSkipped;
@@ -18,7 +18,7 @@ public class UIAdapter {
     private Consumer<String> totalTargets;
     private Consumer<Float> progressBar;
 
-    public UIAdapter(Consumer<Collection<TargetRuntimeDTO>> addToFrozen, Consumer<Set<TargetRuntimeDTO>> addToWaiting, Consumer<Set<TargetRuntimeDTO>> addToProcess, Consumer<Set<TargetRuntimeDTO>> addToSkipped,
+    public UIAdapter(Consumer<Set<TargetRuntimeDTO>> addToFrozen, Consumer<Set<TargetRuntimeDTO>> addToWaiting, Consumer<Set<TargetRuntimeDTO>> addToProcess, Consumer<Set<TargetRuntimeDTO>> addToSkipped,
                      Consumer<Set<TargetRuntimeDTO>> addToFailed, Consumer<Set<TargetRuntimeDTO>> addToWarning, Consumer<Set<TargetRuntimeDTO>> addToSuccess, Consumer<String> finishTargets, Consumer<String> totalTargets, Consumer<Float> progressBar){
         this.addToFrozen = addToFrozen;
         this.addToWaiting = addToWaiting;
@@ -32,7 +32,7 @@ public class UIAdapter {
         this.progressBar = progressBar;
     }
 
-    public void addFrozen(Collection<TargetRuntimeDTO> targetRuntimeDTOSet) {
+    public void addFrozen(Set<TargetRuntimeDTO> targetRuntimeDTOSet) {
         Platform.runLater(
                 () -> {
                     this.addToFrozen.accept(targetRuntimeDTOSet);

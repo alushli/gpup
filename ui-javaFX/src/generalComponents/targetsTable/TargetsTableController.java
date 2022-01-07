@@ -25,7 +25,6 @@ public class TargetsTableController extends GeneralComponent {
     private IntegerProperty selectedCounter;
     private BooleanProperty isMaxSelected;
     private BooleanProperty isLight;
-    private StringProperty countSelectedTargetsAsString;
     private boolean isWhatIfHappened = false;
     private TasksController tasksController;
 
@@ -108,8 +107,6 @@ public class TargetsTableController extends GeneralComponent {
         this.curSelected = new ArrayList<>();
         this.isMaxSelected = new SimpleBooleanProperty();
         this.selectedCounter = new SimpleIntegerProperty();
-        this.countSelectedTargetsAsString = new SimpleStringProperty();
-
         this.nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         this.directDependsOnCol.setCellValueFactory(new PropertyValueFactory<>("directDependsOn"));
         this.totalDependsOnCol.setCellValueFactory(new PropertyValueFactory<>("totalDependsOn"));
@@ -139,11 +136,6 @@ public class TargetsTableController extends GeneralComponent {
         return isLight;
     }
 
-
-    public StringProperty countSelectedTargetsAsStringProperty() {
-        return countSelectedTargetsAsString;
-    }
-
     public void setSelectOnClick(Collection<TargetFXDTO> targets){
         for (TargetFXDTO targetFXDTO : targets){
             CheckBox selectCheckBox = targetFXDTO.getSelect();
@@ -151,22 +143,22 @@ public class TargetsTableController extends GeneralComponent {
                 if(selectCheckBox.isSelected()){
                     this.curSelected.add(targetFXDTO);
                     this.selectedCounter.setValue(this.curSelected.size());
-                    this.countSelectedTargetsAsString.setValue(this.selectedCounter.getValue().toString());
                     if(this.selectedCounter.getValue() == this.maxSelect){
                         this.isMaxSelected.set(true);
                     }
                     if(this.tasksController != null) {
                         this.tasksController.getSelectedTargets().add(targetFXDTO);
+                        updateSelectedForTask();
                         if (this.tasksController.isWhatIf() && !this.isWhatIfHappened)
                             setWhatIf(targetFXDTO);
                     }
                 }else{
                     if(this.tasksController != null) {
                         this.tasksController.getSelectedTargets().remove(targetFXDTO);
+                        updateSelectedForTask();
                     }
                     this.curSelected.remove(targetFXDTO);
                     this.selectedCounter.setValue(this.curSelected.size());
-                    this.countSelectedTargetsAsString.setValue(this.selectedCounter.getValue().toString());
                     if(this.selectedCounter.getValue() < this.maxSelect) {
                         this.isMaxSelected.set(false);
                     }
@@ -177,12 +169,29 @@ public class TargetsTableController extends GeneralComponent {
         }
     }
 
+    private void updateSelectedForTask(){
+        if(getCountSelectedTargets() >= 1)
+            this.tasksController.setIsOneTargetSelectFromTable(true);
+        else
+            this.tasksController.setIsOneTargetSelectFromTable(false);
+    }
+
     public void deselectAll(){
         for(TargetFXDTO targetFXDTO: this.table.getItems()){
             if(targetFXDTO.getSelect().isSelected()){
                 targetFXDTO.getSelect().setSelected(false);
             }
         }
+    }
+
+    private int getCountSelectedTargets(){
+        int count =0;
+        for(TargetFXDTO targetFXDTO: this.table.getItems()){
+            if(targetFXDTO.getSelect().isSelected()){
+               count++;
+            }
+        }
+        return count;
     }
 
     private void setWhatIf(TargetFXDTO targetFXDTO){

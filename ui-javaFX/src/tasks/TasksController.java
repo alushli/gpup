@@ -157,7 +157,6 @@ public class TasksController extends mainControllers.Controllers{
             this.selectTargetController = fxmlLoader.getController();
             this.selectTargetController.setMainController(this);
             this.selectTargetController.setAppController(this.appController);
-            this.selectTargetController.getCount_selected_targets().textProperty().bind(this.getTargetsTableController().countSelectedTargetsAsStringProperty());
             selectTargetController.getFall_screen_SP().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.99));
             this.selectTargetController.isLightProperty().bind(this.appController.isLightProperty());
             setLightListener(this.selectTargetController.isLightProperty());
@@ -216,10 +215,13 @@ public class TasksController extends mainControllers.Controllers{
             runTaskController.getFall_screen_SP().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.99));
             this.runTaskController.isLightProperty().bind(this.appController.isLightProperty());
             setLightListener(this.runTaskController.isLightProperty());
-            //this.runTaskController.setFrozenTargets(this.targetsTableController.getCurSelected());
         } catch (Exception e){
             System.out.println("Error in setPageScreen() - showPathController");
         }
+    }
+
+    public void setIsOneTargetSelectFromTable(boolean select){
+        this.selectTargetController.oneTargetSelectProperty().set(select);
     }
 
     public void setTableScreen(){
