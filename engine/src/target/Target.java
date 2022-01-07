@@ -36,8 +36,10 @@ public class Target {
     private void getAllDepRec(Map<String, Target> map, String typeOfDependency, Target root){
         Collection<Target> targets = root.getHangingListByType(typeOfDependency);
         for (Target target : targets){
-            map.put(target.getName(), target);
-            getAllDepRec(map,typeOfDependency,target);
+            if(!map.containsKey(target.name)){
+                map.put(target.getName(), target);
+                getAllDepRec(map,typeOfDependency,target);
+            }
         }
     }
 
