@@ -1,6 +1,7 @@
 package task.simulation;
 
 import Enums.TargetRunStatus;
+import Enums.TargetRuntimeStatus;
 import exceptions.TaskException;
 import graph.Graph;
 import target.Target;
@@ -37,6 +38,12 @@ public class SimulationTask extends Task implements Runnable{
 
     @Override
     public void run() {
+        synchronized (this.manager.getTaskRuntimeDTO()){
+            System.out.println("*********");
+            System.out.println("moving target" + target.getName()+ " to proccess - line 43 sumulation task ");
+            System.out.println("*********");
+            this.manager.getTaskRuntimeDTO().getTargetByName(target.getName()).setStatus(TargetRuntimeStatus.IN_PROCESS);
+        }
         try{
             this.path = createTargetFile(target.getName());
             int time = this.processTime;

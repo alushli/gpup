@@ -7,6 +7,8 @@ import exceptions.MenuOptionException;
 import exceptions.TaskException;
 import exceptions.XmlException;
 import Enums.SimulationEntryPoint;
+
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.function.Consumer;
@@ -32,7 +34,7 @@ public interface EngineManagerInterface {
     List<List<TargetDTO>> getTargetsPath(String src, String des, String typeOfConnection) throws MenuOptionException;
 
     /* the function return simulation info */
-    void runSimulate(int timePerTarget, double chancePerTarget, double chanceWarning, boolean isRandom, SimulationEntryPoint entryPoint, Consumer<String> consumer) throws TaskException;
+    void runSimulate(Collection<String > targets, int timePerTarget, double chancePerTarget, double chanceWarning, boolean isRandom, SimulationEntryPoint entryPoint, Consumer<String> consumer, int maxParallel) throws TaskException;
 
     /* the function return simulation info */
     TaskSummeryDTO runSimulateConsole(int timePerTarget, double chancePerTarget, double chanceWarning, boolean isRandom, SimulationEntryPoint entryPoint, Consumer<String> consumer) throws TaskException;

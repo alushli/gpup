@@ -202,13 +202,13 @@ public class EngineManager implements EngineManagerInterface{
         return taskManager.getSummeryDTO();
     }
 
-    public void runSimulate(int processTime, double chanceTargetSuccess, double chanceTargetWarning, boolean isRandom,
-                                             SimulationEntryPoint entryPoint, Consumer<String> consumer) throws TaskException {
+    public void runSimulate(Collection<String> targets,int processTime, double chanceTargetSuccess, double chanceTargetWarning, boolean isRandom,
+                                             SimulationEntryPoint entryPoint, Consumer<String> consumer, int maxParallel) throws TaskException {
 
         boolean fromScratch = entryPoint.equals(SimulationEntryPoint.FROM_SCRATCH);
         this.isTaskRun = true;
-        this.simulationTaskManager = new SimulationTaskManager(this.graph,processTime,chanceTargetSuccess,chanceTargetWarning,
-                isRandom,fromScratch,consumer,5, this.synchroObj);
+        this.simulationTaskManager = new SimulationTaskManager(new Graph(targets,this.graph),processTime,chanceTargetSuccess,chanceTargetWarning,
+                isRandom,fromScratch,consumer,maxParallel, this.synchroObj);
         this.simulationTaskManager.handleRunSimulation(processTime, chanceTargetSuccess, chanceTargetWarning, isRandom, consumer);
         this.isTaskRun = false;
     }

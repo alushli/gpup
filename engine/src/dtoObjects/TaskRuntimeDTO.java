@@ -10,8 +10,7 @@ public class TaskRuntimeDTO {
     private int countTotal;
     private Boolean synchroObj;
 
-
-    public TaskRuntimeDTO(Collection<Target> targets, Boolean synchroObj){
+    public TaskRuntimeDTO(Collection<Target> targets){
         this.map = new HashMap<>();
         this.synchroObj = true;
         for (Target target : targets){
@@ -47,5 +46,9 @@ public class TaskRuntimeDTO {
 
     public TargetRuntimeDTO getTargetByName(String name){
         return this.map.get(name);
+    }
+
+    public void upFinish(){
+        this.countFinished++;
     }
 }

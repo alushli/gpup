@@ -13,6 +13,8 @@ import javafx.stage.DirectoryChooser;
 import tasks.TasksController;
 
 import java.io.File;
+import java.util.Collection;
+import java.util.HashSet;
 
 public class SelectTaskScreenController extends mainControllers.Controllers {
     private TasksController mainController;
@@ -118,9 +120,9 @@ public class SelectTaskScreenController extends mainControllers.Controllers {
         if(this.task_CB.getValue().equals("Simulation Task")){
             boolean isRandom = this.random_simulation.getValue().equals("Yes") ? true : false;
             if(this.incremental_CB.isSelected())
-                this.mainController.updateSimulationTaskProperties(Integer.parseInt(this.processing_time_simulation.getText()), Double.parseDouble(this.end_success_simulation.getText()), Double.parseDouble(this.end_warnings_after_success_simulation.getText()), isRandom, SimulationEntryPoint.INCREMENTAL);
+                this.mainController.updateSimulationTaskProperties(Integer.parseInt(this.processing_time_simulation.getText()), Double.parseDouble(this.end_success_simulation.getText()), Double.parseDouble(this.end_warnings_after_success_simulation.getText()), isRandom, SimulationEntryPoint.INCREMENTAL, this.thread_amount_CB.getValue());
             else
-                this.mainController.updateSimulationTaskProperties(Integer.parseInt(this.processing_time_simulation.getText()), Double.parseDouble(this.end_success_simulation.getText()), Double.parseDouble(this.end_warnings_after_success_simulation.getText()),isRandom, SimulationEntryPoint.FROM_SCRATCH);
+                this.mainController.updateSimulationTaskProperties(Integer.parseInt(this.processing_time_simulation.getText()), Double.parseDouble(this.end_success_simulation.getText()), Double.parseDouble(this.end_warnings_after_success_simulation.getText()),isRandom, SimulationEntryPoint.FROM_SCRATCH, this.thread_amount_CB.getValue());
 
         }
     }

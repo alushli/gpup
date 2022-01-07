@@ -1,6 +1,7 @@
 package task;
 
 import Enums.TargetRunStatus;
+import Enums.TargetRuntimeStatus;
 import Enums.TargetStatus;
 import Enums.TasksName;
 import com.sun.org.apache.xpath.internal.operations.Bool;
@@ -87,6 +88,14 @@ public abstract class TaskManager {
         int size = this.skipped.size();
         skipped.add(target);
         if(skipped.size() != size){
+            synchronized (this.synchroObj){
+                System.out.println("*********");
+                System.out.println("moving target" + target.getName()+ " skip line 93  task manager");
+                System.out.println("*********");
+                taskRuntimeDTO.getTargetByName(target.getName()).setStatus(TargetRuntimeStatus.SKIPPED);
+                taskRuntimeDTO.upFinish();
+                taskRuntimeDTO.getTargetByName(target.getName()).setFinishStatus(TargetRunStatus.SKIPPED);
+            }
             System.out.println("up counter from:" + counter + " because target:"+ target.getName());
             upCounter();
         }

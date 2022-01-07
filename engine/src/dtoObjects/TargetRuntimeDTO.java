@@ -34,6 +34,7 @@ public class TargetRuntimeDTO {
         }
         this.prevStatus = null;
         this.synchroObj = synchroObj;
+        this.finishStatus = TargetRunStatus.NONE;
     }
 
     public TargetRuntimeStatus getPrevStatus() {

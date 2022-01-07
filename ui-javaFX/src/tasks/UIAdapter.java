@@ -2,149 +2,82 @@ package tasks;
 
 import dtoObjects.TargetRuntimeDTO;
 import javafx.application.Platform;
-
+import java.util.Collection;
 import java.util.Set;
 import java.util.function.Consumer;
 
 public class UIAdapter {
-    private Consumer<Set<TargetRuntimeDTO>> addToFrozen;
-    private Consumer<String> moveFrozenToWaiting;
-    private Consumer<String> moveFrozenToSkipped;
-    private Consumer<String> moveFrozenToFailed;
-    private Consumer<String> moveFrozenToSuccess;
-    private Consumer<String> moveFrozenToWarning;
-    private Consumer<String> moveFrozenToProgress;
-    private Consumer<String> moveWaitingToProgress;
-    private Consumer<String> moveWaitingToFailed;
-    private Consumer<String> moveWaitingToSuccess;
-    private Consumer<String> moveWaitingToWarning;
-    private Consumer<String> moveProgressToFailed;
-    private Consumer<String> moveProgressToWarning;
-    private Consumer<String> moveProgressToSuccess;
+    private Consumer<Collection<TargetRuntimeDTO>> addToFrozen;
+    private Consumer<Set<TargetRuntimeDTO>> addToWaiting;
+    private Consumer<Set<TargetRuntimeDTO>> addToProcess;
+    private Consumer<Set<TargetRuntimeDTO>> addToSkipped;
+    private Consumer<Set<TargetRuntimeDTO>> addToFailed;
+    private Consumer<Set<TargetRuntimeDTO>> addToSuccess;
+    private Consumer<Set<TargetRuntimeDTO>> addToWarning;
     private Consumer<String> finishTargets;
     private Consumer<String> totalTargets;
     private Consumer<Float> progressBar;
 
-
-    public UIAdapter(Consumer<Set<TargetRuntimeDTO>> addToFrozen,Consumer<String> moveFrozenToWaiting, Consumer<String> moveFrozenToSkipped, Consumer<String> moveFrozenToFailed,
-                     Consumer<String> moveFrozenToSuccess, Consumer<String> moveFrozenToWarning,  Consumer<String> moveFrozenToProgress, Consumer<String> moveWaitingToProgress,
-                     Consumer<String> moveWaitingToFailed, Consumer<String> moveWaitingToSuccess, Consumer<String> moveWaitingToWarning, Consumer<String> moveProgressToFailed,
-                     Consumer<String> moveProgressToWarning,Consumer<String> moveProgressToSuccess, Consumer<String> finishTargets, Consumer<String> totalTargets, Consumer<Float> progressBar){
+    public UIAdapter(Consumer<Collection<TargetRuntimeDTO>> addToFrozen, Consumer<Set<TargetRuntimeDTO>> addToWaiting, Consumer<Set<TargetRuntimeDTO>> addToProcess, Consumer<Set<TargetRuntimeDTO>> addToSkipped,
+                     Consumer<Set<TargetRuntimeDTO>> addToFailed, Consumer<Set<TargetRuntimeDTO>> addToWarning, Consumer<Set<TargetRuntimeDTO>> addToSuccess, Consumer<String> finishTargets, Consumer<String> totalTargets, Consumer<Float> progressBar){
         this.addToFrozen = addToFrozen;
-        this.moveFrozenToSkipped = moveFrozenToSkipped;
-        this.moveFrozenToFailed = moveFrozenToFailed;
-        this.moveFrozenToSuccess = moveFrozenToSuccess;
-        this.moveFrozenToWarning = moveFrozenToWarning;
-        this.moveFrozenToProgress = moveFrozenToProgress;
-        this.moveWaitingToProgress = moveWaitingToProgress;
-        this.moveWaitingToFailed = moveWaitingToFailed;
-        this.moveWaitingToSuccess = moveWaitingToSuccess;
-        this.moveWaitingToWarning = moveWaitingToWarning;
-        this.moveProgressToFailed = moveWaitingToFailed;
-        this.moveProgressToWarning = moveProgressToWarning;
-        this.moveProgressToSuccess = moveProgressToSuccess;
+        this.addToWaiting = addToWaiting;
+        this.addToProcess = addToProcess;
+        this.addToSkipped = addToSkipped;
+        this.addToWarning = addToWarning;
+        this.addToFailed = addToFailed;
+        this.addToSuccess = addToSuccess;
         this.finishTargets = finishTargets;
         this.totalTargets = totalTargets;
         this.progressBar = progressBar;
     }
 
-    public void addTargetToFrozen(Set<TargetRuntimeDTO> targetRuntimeDTOSet) {
+    public void addFrozen(Collection<TargetRuntimeDTO> targetRuntimeDTOSet) {
         Platform.runLater(
                 () -> {
                     this.addToFrozen.accept(targetRuntimeDTOSet);
                 }
         );
     }
-
-    public void frozenToWaiting(String name) {
+    public void addWaiting(Set<TargetRuntimeDTO> targetRuntimeDTOSet) {
         Platform.runLater(
                 () -> {
-                    this.moveFrozenToWaiting.accept(name);
+                    this.addToWaiting.accept(targetRuntimeDTOSet);
                 }
         );
     }
-
-    public void frozenToSkipped(String name) {
+    public void addProcess(Set<TargetRuntimeDTO> targetRuntimeDTOSet) {
         Platform.runLater(
                 () -> {
-                    this.moveFrozenToSkipped.accept(name);
+                    this.addToProcess.accept(targetRuntimeDTOSet);
                 }
         );
     }
-    public void frozenToFailed(String name) {
+    public void addSkipped(Set<TargetRuntimeDTO> targetRuntimeDTOSet) {
         Platform.runLater(
                 () -> {
-                    this.moveFrozenToFailed.accept(name);
+                    this.addToSkipped.accept(targetRuntimeDTOSet);
                 }
         );
     }
-    public void frozenToSuccess(String name) {
+    public void addFailed(Set<TargetRuntimeDTO> targetRuntimeDTOSet) {
         Platform.runLater(
                 () -> {
-                    this.moveFrozenToSuccess.accept(name);
+                    this.addToFailed.accept(targetRuntimeDTOSet);
                 }
         );
     }
-    public void frozenToWarning(String name) {
+    public void addSuccess(Set<TargetRuntimeDTO> targetRuntimeDTOSet) {
         Platform.runLater(
                 () -> {
-                    this.moveFrozenToWarning.accept(name);
+                    this.addToSuccess.accept(targetRuntimeDTOSet);
                 }
         );
     }
-    public void frozenToProgress(String name) {
+    public void addWarning(Set<TargetRuntimeDTO> targetRuntimeDTOSet) {
         Platform.runLater(
                 () -> {
-                    this.moveFrozenToProgress.accept(name);
-                }
-        );
-    }
-    public void waitingToProgress(String name) {
-        Platform.runLater(
-                () -> {
-                    this.moveWaitingToProgress.accept(name);
-                }
-        );
-    }
-    public void waitingToFailed(String name) {
-        Platform.runLater(
-                () -> {
-                    this.moveWaitingToFailed.accept(name);
-                }
-        );
-    }
-    public void waitingToSuccess(String name) {
-        Platform.runLater(
-                () -> {
-                    this.moveWaitingToSuccess.accept(name);
-                }
-        );
-    }
-    public void waitingToWarning(String name) {
-        Platform.runLater(
-                () -> {
-                    this.moveWaitingToWarning.accept(name);
-                }
-        );
-    }
-    public void progressToFailed(String name) {
-        Platform.runLater(
-                () -> {
-                    this.moveProgressToFailed.accept(name);
-                }
-        );
-    }
-    public void progressToWarning(String name) {
-        Platform.runLater(
-                () -> {
-                    this.moveProgressToWarning.accept(name);
-                }
-        );
-    }
-    public void progressToSuccess(String name) {
-        Platform.runLater(
-                () -> {
-                    this.moveProgressToSuccess.accept(name);
+                    this.addToWarning.accept(targetRuntimeDTOSet);
                 }
         );
     }

@@ -25,6 +25,8 @@ import tasks.runTaskScreen.SelectTaskScreenController;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 
 public class TasksController extends mainControllers.Controllers{
     private TargetsTableController targetsTableController;
@@ -66,6 +68,10 @@ public class TasksController extends mainControllers.Controllers{
         this.targetsTableController.setWhatIfHappened(false);
     }
 
+    public ArrayList<TargetFXDTO> getSelectedTargets() {
+        return selectedTargets;
+    }
+
     @FXML
     void clickSelectAll(ActionEvent event) {
         this.targetsTableController.SelectAll();
@@ -96,6 +102,7 @@ public class TasksController extends mainControllers.Controllers{
         this.isLight = new SimpleBooleanProperty(true);
         this.whatIfDirection = "dependsOn";
         setLightListener(this.isLight);
+        this.selectedTargets = new ArrayList<>();
     }
 
     public void setLightListener(BooleanProperty booleanProperty){
@@ -119,8 +126,17 @@ public class TasksController extends mainControllers.Controllers{
         this.runTaskController.setTaskType(name);
     }
 
-    public void updateSimulationTaskProperties(int processTime, double chanceTargetSuccess, double chanceTargetWarning, boolean isRandom, SimulationEntryPoint entryPoint){
-        this.runTaskController.setSimulationProperties(processTime, chanceTargetSuccess, chanceTargetWarning, isRandom, entryPoint);
+    public void updateSimulationTaskProperties(int processTime, double chanceTargetSuccess, double chanceTargetWarning, boolean isRandom, SimulationEntryPoint entryPoint, int maxParallel){
+
+        this.runTaskController.setSimulationProperties(getTargetsToRun(this.selectedTargets), processTime, chanceTargetSuccess, chanceTargetWarning, isRandom, entryPoint, maxParallel);
+    }
+
+    private Collection<String> getTargetsToRun(ArrayList<TargetFXDTO> targetFXDTOS){
+        Collection<String> targets = new HashSet<>();
+        for(TargetFXDTO targetFXDTO: targetFXDTOS){
+            targets.add(targetFXDTO.getName());
+        }
+        return targets;
     }
 
     @Override
