@@ -185,7 +185,7 @@
                               </VBox>
                               <VBox fx:id="failed_VB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.vgrow="SOMETIMES">
                                  <children>
-                                    <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="sub_header_status" text="Faild">
+                                    <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="sub_header_status" text="Failed">
                                        <VBox.margin>
                                           <Insets top="10.0" />
                                        </VBox.margin>
