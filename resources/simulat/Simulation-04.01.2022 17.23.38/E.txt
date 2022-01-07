@@ -1,7 +1,0 @@
-Target E start run.
-General info of the target: freeText
-Target E start sleep
-Target E done sleep
-Target: E done with status: warning
-Target E time: 00:00:00
-

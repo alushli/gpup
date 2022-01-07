@@ -1,12 +1,0 @@
-Target K start run.
-Target K start sleep
-Target K done sleep
-Target: K done with status: failure
-Target K time: 00:00:01
-Target: H turned skipped (because K failed/skipped)
-Target: B turned skipped (because H failed/skipped)
-Target: F turned skipped (because H failed/skipped)
-Target: A turned skipped (because F failed/skipped)
-Target: B turned skipped (because F failed/skipped)
-Target: C turned skipped (because F failed/skipped)
-

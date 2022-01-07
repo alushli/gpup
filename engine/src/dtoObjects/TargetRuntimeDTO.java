@@ -18,9 +18,11 @@ public class TargetRuntimeDTO {
     private Set<String> dependsOn;
     private Set<String> skippedBecause;
     private TargetRunStatus finishStatus;
+    private TargetRuntimeStatus prevStatus;
+    private Boolean synchroObj;
 
 
-    public TargetRuntimeDTO(Target target){
+    public TargetRuntimeDTO(Target target, Boolean synchroObj){
         this.name = target.getName();
         this.position = target.getPosition();
         this.serialSets = new HashSet<>(target.getSerialSetMap().keySet());
@@ -30,10 +32,17 @@ public class TargetRuntimeDTO {
         for (Target target1 : target.getDependsOnList()){
             this.dependsOn.add(target1.getName());
         }
+        this.prevStatus = null;
+        this.synchroObj = synchroObj;
+        this.finishStatus = TargetRunStatus.NONE;
     }
 
+    public TargetRuntimeStatus getPrevStatus() {
+        return prevStatus;
+    }
 
-    public synchronized void setStatus(TargetRuntimeStatus status) {
+    public void setStatus(TargetRuntimeStatus status) {
+        this.prevStatus = this.status;
         this.status = status;
         if(status.equals(TargetRuntimeStatus.IN_PROCESS)){
             this.processStartTimeStamp = System.currentTimeMillis();
@@ -85,7 +94,8 @@ public class TargetRuntimeDTO {
     public void removeDependency(String targetToRemove){
         this.dependsOn.remove(targetToRemove);
     }
-    public synchronized void addToSkippedBecause(String targetToAdd){
+
+    public  void addToSkippedBecause(String targetToAdd){
         this.skippedBecause.add(targetToAdd);
     }
 

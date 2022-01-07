@@ -10,6 +10,7 @@ import graph.SerialSet;
 import scema.generated.*;
 import Enums.SimulationEntryPoint;
 import target.Target;
+import task.TaskManager;
 import task.simulation.SimulationTaskManager;
 import xml.Xml;
 import exceptions.XmlException;
@@ -22,7 +23,32 @@ import java.util.function.Consumer;
 public class EngineManager implements EngineManagerInterface{
     private Graph graph;//whole graph from xml
     public static Graph graphStatic; //save last graph(copy)
+    private int maxThreadsForTask = 1;
+    private int maxTreads;
+    private SimulationTaskManager simulationTaskManager = null;
+    private TaskManager taskManager = null;
+    private boolean isTaskRun = false;
+    private Boolean synchroObj;
 
+    public EngineManager(){
+        this.synchroObj = new Boolean(true);
+    }
+
+    public boolean isTaskRun() {
+        return isTaskRun;
+    }
+
+    public TaskManager getTaskManager() {
+        return taskManager;
+    }
+
+    public SimulationTaskManager getSimulationTaskManager() {
+        return simulationTaskManager;
+    }
+
+    public int getMaxThreadsForTask() {
+        return maxThreadsForTask;
+    }
 
     @Override
     /* the function load the graph */
@@ -30,8 +56,10 @@ public class EngineManager implements EngineManagerInterface{
         List<Graph> graphsList = loadHelper(filePath);
         Graph graphOrigin = graphsList.get(0);
         Graph graphIncremental = graphsList.get(1);
-        if(graphOrigin != null)
+        if(graphOrigin != null) {
             this.graph = graphOrigin;
+            this.maxThreadsForTask = this.maxTreads;
+        }
         if(!graphIncremental.getGraphMap().isEmpty())
             graphStatic = graphIncremental;
         else
@@ -164,15 +192,25 @@ public class EngineManager implements EngineManagerInterface{
         return listDTO;
     }
 
-    @Override
     /* the function return simulation info */
-    public TaskSummeryDTO runSimulate(int processTime, double chanceTargetSuccess, double chanceTargetWarning, boolean isRandom,
-                                      SimulationEntryPoint entryPoint, Consumer<String> consumer) throws TaskException {
+    public TaskSummeryDTO runSimulateConsole(int processTime, double chanceTargetSuccess, double chanceTargetWarning, boolean isRandom,
+                                             SimulationEntryPoint entryPoint, Consumer<String> consumer) throws TaskException {
 
         boolean fromScratch = entryPoint.equals(SimulationEntryPoint.FROM_SCRATCH);
         SimulationTaskManager taskManager = new SimulationTaskManager(this.graph,processTime,chanceTargetSuccess,chanceTargetWarning,
-                isRandom,fromScratch,consumer,5);
+                isRandom,fromScratch,consumer,5, this.synchroObj);
         return taskManager.getSummeryDTO();
+    }
+
+    public void runSimulate(Collection<String> targets,int processTime, double chanceTargetSuccess, double chanceTargetWarning, boolean isRandom,
+                                             SimulationEntryPoint entryPoint, Consumer<String> consumer, int maxParallel) throws TaskException {
+
+        boolean fromScratch = entryPoint.equals(SimulationEntryPoint.FROM_SCRATCH);
+        this.isTaskRun = true;
+        this.simulationTaskManager = new SimulationTaskManager(new Graph(targets,this.graph),processTime,chanceTargetSuccess,chanceTargetWarning,
+                isRandom,fromScratch,consumer,maxParallel, this.synchroObj);
+        this.simulationTaskManager.handleRunSimulation(processTime, chanceTargetSuccess, chanceTargetWarning, isRandom, consumer);
+        this.isTaskRun = false;
     }
 
     @Override
@@ -276,6 +314,7 @@ public class EngineManager implements EngineManagerInterface{
         GPUPDescriptor root = (GPUPDescriptor) Xml.readFromXml(filePath, new GPUPDescriptor());
         Set<String> errors = new HashSet<>();
         if(root.getGPUPTargets() != null && root.getGPUPConfiguration() != null) {
+            this.maxTreads = root.getGPUPConfiguration().getGPUPMaxParallelism();
             List<Map<String, Target>> mapsList = getMapsOfTargets(root.getGPUPTargets(), errors);
             Graph graphOrigin = new Graph(root.getGPUPConfiguration().getGPUPGraphName(), root.getGPUPConfiguration().getGPUPWorkingDirectory());
             Graph graphIncremental = new Graph(root.getGPUPConfiguration().getGPUPGraphName(), root.getGPUPConfiguration().getGPUPWorkingDirectory());
@@ -427,6 +466,10 @@ public class EngineManager implements EngineManagerInterface{
             }
         }
         return null;
+    }
+
+    public Boolean getSynchroObj() {
+        return synchroObj;
     }
 }
 

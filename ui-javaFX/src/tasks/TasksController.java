@@ -1,5 +1,6 @@
 package tasks;
 
+import Enums.SimulationEntryPoint;
 import appScreen.AppController;
 import dtoObjects.TargetFXDTO;
 import enums.FxmlPath;
@@ -24,6 +25,8 @@ import tasks.runTaskScreen.SelectTaskScreenController;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 
 public class TasksController extends mainControllers.Controllers{
     private TargetsTableController targetsTableController;
@@ -65,6 +68,10 @@ public class TasksController extends mainControllers.Controllers{
         this.targetsTableController.setWhatIfHappened(false);
     }
 
+    public ArrayList<TargetFXDTO> getSelectedTargets() {
+        return selectedTargets;
+    }
+
     @FXML
     void clickSelectAll(ActionEvent event) {
         this.targetsTableController.SelectAll();
@@ -95,6 +102,7 @@ public class TasksController extends mainControllers.Controllers{
         this.isLight = new SimpleBooleanProperty(true);
         this.whatIfDirection = "dependsOn";
         setLightListener(this.isLight);
+        this.selectedTargets = new ArrayList<>();
     }
 
     public void setLightListener(BooleanProperty booleanProperty){
@@ -115,6 +123,20 @@ public class TasksController extends mainControllers.Controllers{
 
     public void updateTaskName(String name){
         this.runTaskController.getTask_name_label().setText(name);
+        this.runTaskController.setTaskType(name);
+    }
+
+    public void updateSimulationTaskProperties(int processTime, double chanceTargetSuccess, double chanceTargetWarning, boolean isRandom, SimulationEntryPoint entryPoint, int maxParallel){
+
+        this.runTaskController.setSimulationProperties(getTargetsToRun(this.selectedTargets), processTime, chanceTargetSuccess, chanceTargetWarning, isRandom, entryPoint, maxParallel);
+    }
+
+    private Collection<String> getTargetsToRun(ArrayList<TargetFXDTO> targetFXDTOS){
+        Collection<String> targets = new HashSet<>();
+        for(TargetFXDTO targetFXDTO: targetFXDTOS){
+            targets.add(targetFXDTO.getName());
+        }
+        return targets;
     }
 
     @Override
@@ -165,6 +187,7 @@ public class TasksController extends mainControllers.Controllers{
             this.selectTaskScreenController = fxmlLoader.getController();
             this.selectTaskScreenController.setMainController(this);
             this.selectTaskScreenController.setAppController(this.appController);
+            this.selectTaskScreenController.setMaxThreads();
             selectTaskScreenController.getFall_screen_SP().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.99));
             this.selectTaskScreenController.isLightProperty().bind(this.appController.isLightProperty());
             setLightListener(this.selectTaskScreenController.isLightProperty());
@@ -193,7 +216,7 @@ public class TasksController extends mainControllers.Controllers{
             runTaskController.getFall_screen_SP().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.99));
             this.runTaskController.isLightProperty().bind(this.appController.isLightProperty());
             setLightListener(this.runTaskController.isLightProperty());
-            this.runTaskController.setFrozenTargets(this.targetsTableController.getCurSelected());
+            //this.runTaskController.setFrozenTargets(this.targetsTableController.getCurSelected());
         } catch (Exception e){
             System.out.println("Error in setPageScreen() - showPathController");
         }

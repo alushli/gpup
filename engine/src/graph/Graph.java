@@ -1,6 +1,7 @@
 package graph;
 
 import Enums.TargetPosition;
+import Enums.TargetRunStatus;
 import dtoObjects.SerialSetFXDTO;
 import target.Target;
 import java.util.*;

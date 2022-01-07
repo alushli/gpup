@@ -120,7 +120,7 @@
                             <RowConstraints maxHeight="70.0" minHeight="70.0" prefHeight="70.0" vgrow="NEVER" />
                           </rowConstraints>
                            <children>
-                              <ProgressBar id="progress_bar" fx:id="progress_bar" maxHeight="30.0" maxWidth="1.7976931348623157E308" minHeight="30.0" prefHeight="30.0" progress="0.5" GridPane.columnIndex="1" />
+                              <ProgressBar id="progress_bar" fx:id="progress_bar" maxHeight="30.0" maxWidth="1.7976931348623157E308" minHeight="30.0" prefHeight="30.0" progress="0.0" GridPane.columnIndex="1" />
                               <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" GridPane.columnIndex="2" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
                                  <children>
                                     <Button fx:id="pause_btn" maxHeight="30.0" maxWidth="70.0" minHeight="30.0" minWidth="70.0" mnemonicParsing="false" onAction="#clickPause" prefHeight="30.0" prefWidth="70.0" styleClass="tasks_btn_gray" text="Pause" HBox.hgrow="SOMETIMES" />
@@ -134,7 +134,7 @@
                                  <children>
                                     <Label fx:id="finish_targets_count" text="0" />
                                     <Label text="/" />
-                                    <Label fx:id="all_targets_to_run_count" text="100" />
+                                    <Label fx:id="all_targets_to_run_count" text="0" />
                                  </children>
                               </HBox>
                            </children>

@@ -155,9 +155,15 @@ public class TargetsTableController extends GeneralComponent {
                     if(this.selectedCounter.getValue() == this.maxSelect){
                         this.isMaxSelected.set(true);
                     }
-                    if(this.tasksController.isWhatIf() && !this.isWhatIfHappened)
-                        setWhatIf(targetFXDTO);
+                    if(this.tasksController != null) {
+                        this.tasksController.getSelectedTargets().add(targetFXDTO);
+                        if (this.tasksController.isWhatIf() && !this.isWhatIfHappened)
+                            setWhatIf(targetFXDTO);
+                    }
                 }else{
+                    if(this.tasksController != null) {
+                        this.tasksController.getSelectedTargets().remove(targetFXDTO);
+                    }
                     this.curSelected.remove(targetFXDTO);
                     this.selectedCounter.setValue(this.curSelected.size());
                     this.countSelectedTargetsAsString.setValue(this.selectedCounter.getValue().toString());

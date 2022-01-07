@@ -1,5 +1,6 @@
 package tasks.runTaskScreen;
 
+import Enums.SimulationEntryPoint;
 import appScreen.AppController;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -12,10 +13,11 @@ import javafx.stage.DirectoryChooser;
 import tasks.TasksController;
 
 import java.io.File;
+import java.util.Collection;
+import java.util.HashSet;
 
 public class SelectTaskScreenController extends mainControllers.Controllers {
     private TasksController mainController;
-    private Integer maxThreadAmount = 5;
     private BooleanProperty isSimulation;
     private BooleanProperty processTimeValid;
     private BooleanProperty endSuccessValid;
@@ -115,6 +117,14 @@ public class SelectTaskScreenController extends mainControllers.Controllers {
     void clickNext(ActionEvent event) {
         this.mainController.setRunTaskScreen();
         this.mainController.updateTaskName(this.task_CB.getValue());
+        if(this.task_CB.getValue().equals("Simulation Task")){
+            boolean isRandom = this.random_simulation.getValue().equals("Yes") ? true : false;
+            if(this.incremental_CB.isSelected())
+                this.mainController.updateSimulationTaskProperties(Integer.parseInt(this.processing_time_simulation.getText()), Double.parseDouble(this.end_success_simulation.getText()), Double.parseDouble(this.end_warnings_after_success_simulation.getText()), isRandom, SimulationEntryPoint.INCREMENTAL, this.thread_amount_CB.getValue());
+            else
+                this.mainController.updateSimulationTaskProperties(Integer.parseInt(this.processing_time_simulation.getText()), Double.parseDouble(this.end_success_simulation.getText()), Double.parseDouble(this.end_warnings_after_success_simulation.getText()),isRandom, SimulationEntryPoint.FROM_SCRATCH, this.thread_amount_CB.getValue());
+
+        }
     }
 
     public StackPane getFall_screen_SP() {
@@ -209,8 +219,11 @@ public class SelectTaskScreenController extends mainControllers.Controllers {
         random_simulation.getItems().removeAll(random_simulation.getItems());
         random_simulation.getItems().addAll("Yes", "No");
         random_simulation.getSelectionModel().select(0);
+    }
+
+    public void setMaxThreads(){
         thread_amount_CB.getItems().removeAll(thread_amount_CB.getItems());
-        for(int i = 1;i <= this.maxThreadAmount;i++){
+        for(int i = 1;i <= this.appController.getMaxThreadsForTask();i++){
             thread_amount_CB.getItems().add(i);
         }
         thread_amount_CB.getSelectionModel().select(0);

@@ -1,8 +1,10 @@
 package task;
 
 import Enums.TargetRunStatus;
+import Enums.TargetRuntimeStatus;
 import Enums.TargetStatus;
 import Enums.TasksName;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import dtoObjects.TaskRuntimeDTO;
 import dtoObjects.TaskSummeryDTO;
 import engineManager.EngineManager;
@@ -16,6 +18,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
@@ -34,6 +37,7 @@ public abstract class TaskManager {
     protected int counter;
     protected String folderPath;
     protected TaskRuntimeDTO taskRuntimeDTO;
+    protected Boolean synchroObj;
 
 
 
@@ -52,7 +56,10 @@ public abstract class TaskManager {
     }
 
     protected void handleFailureRec(Target target, List<Consumer<String>> consumersList , Task task,Target dad ){
-        this.taskRuntimeDTO.getTargetByName(target.getName()).addToSkippedBecause(dad.getName());
+        synchronized (this.synchroObj){
+            this.taskRuntimeDTO.getTargetByName(target.getName()).addToSkippedBecause(dad.getName());
+        }
+
         addToSkipped(target);
         task.writeToConsumers(consumersList,"Target: "+target.getName()+ " turned skipped (because "+ dad.getName()+" failed/skipped)" );
         target.setRunStatus(TargetRunStatus.SKIPPED);
@@ -81,6 +88,14 @@ public abstract class TaskManager {
         int size = this.skipped.size();
         skipped.add(target);
         if(skipped.size() != size){
+            synchronized (this.synchroObj){
+                System.out.println("*********");
+                System.out.println("moving target" + target.getName()+ " skip line 93  task manager");
+                System.out.println("*********");
+                taskRuntimeDTO.getTargetByName(target.getName()).setStatus(TargetRuntimeStatus.SKIPPED);
+                taskRuntimeDTO.upFinish();
+                taskRuntimeDTO.getTargetByName(target.getName()).setFinishStatus(TargetRunStatus.SKIPPED);
+            }
             System.out.println("up counter from:" + counter + " because target:"+ target.getName());
             upCounter();
         }
@@ -131,5 +146,13 @@ public abstract class TaskManager {
 
     public TaskRuntimeDTO getTaskRuntimeDTO(){
         return this.taskRuntimeDTO;
+//        Set<Target> list = new HashSet<>();
+//        list.add(new Target("A"));
+//        list.add(new Target("B"));
+//        list.add(new Target("C"));
+//        TaskRuntimeDTO taskRuntimeDTO = new TaskRuntimeDTO(list, this.synchroObj);
+//        taskRuntimeDTO.setCountFinished(5);
+//        taskRuntimeDTO.setCountTotal(20);
+//        return taskRuntimeDTO;
     }
 }
