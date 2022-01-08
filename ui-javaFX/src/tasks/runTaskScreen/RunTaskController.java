@@ -17,6 +17,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import tasks.TasksController;
 import tasks.UIAdapter;
+import tasks.compiler.CompilerTask;
 import tasks.simulation.SimulationTask;
 
 import java.net.URL;
@@ -39,6 +40,8 @@ public class RunTaskController extends mainControllers.Controllers{
     private boolean isRandomSimulation;
     private SimulationEntryPoint entryPoint;
     private int maxParallel;
+    private String sourceFolderCompiler;
+    private String productFolderCompiler;
 
     @FXML
     private TextArea log_TA;
@@ -107,9 +110,6 @@ public class RunTaskController extends mainControllers.Controllers{
     private Label count_success;
 
     @FXML
-    private Button cancel_btn;
-
-    @FXML
     private Button pause_btn;
 
     @FXML
@@ -133,7 +133,6 @@ public class RunTaskController extends mainControllers.Controllers{
         this.count_failed.textProperty().bind(this.failedTargets);
         this.count_warning.textProperty().bind(this.warningTargets);
         this.count_success.textProperty().bind(this.successTargets);
-
     }
 
     public StringProperty skinProperty() {
@@ -182,24 +181,35 @@ public class RunTaskController extends mainControllers.Controllers{
     void clickPause(ActionEvent event) {
         this.pause_btn.setDisable(true);
         this.resume_btn.setDisable(false);
-        this.appController.getEngineManager().setPaused(true);
+        if(this.task_name_label.getText().equals("Simulation Task"))
+            this.appController.getEngineManager().setPaused(true, "Simulation Task");
+        else
+            this.appController.getEngineManager().setPaused(true, "Compiler Task");
     }
 
     @FXML
     void clickResume(ActionEvent event) {
         this.resume_btn.setDisable(true);
         this.pause_btn.setDisable(false);
-        this.appController.getEngineManager().setPaused(false);
+        if(this.task_name_label.getText().equals("Simulation Task"))
+            this.appController.getEngineManager().setPaused(false, "Simulation Task");
+        else
+            this.appController.getEngineManager().setPaused(false, "Compiler Task");
+
     }
 
     @FXML
     void clickStart(ActionEvent event) {
-        this.cancel_btn.setDisable(false);
         this.start_brn.setDisable(true);
         if(taskType.equals("Simulation Task")) {
             Consumer<String> consumer = s-> updateLog(s);
             UIAdapter uiAdapter = createUIAdapter();
             SimulationTask task = new SimulationTask(this.appController.getEngineManager(), uiAdapter, this.targetsToRun, this.processTimeSimulation, this.chanceTargetSuccessSimulation, this.chanceTargetWarningSimulation, this.isRandomSimulation, this.entryPoint, consumer, this.maxParallel);
+            new Thread(task).start();
+        } else{
+            Consumer<String> consumer = s-> updateLog(s);
+            UIAdapter uiAdapter = createUIAdapter();
+            CompilerTask task = new CompilerTask(this.appController.getEngineManager(), uiAdapter,this.targetsToRun, this.sourceFolderCompiler, this.productFolderCompiler , this.entryPoint, consumer, this.maxParallel);
             new Thread(task).start();
         }
     }
@@ -334,6 +344,14 @@ public class RunTaskController extends mainControllers.Controllers{
         this.chanceTargetSuccessSimulation = chanceTargetSuccess;
         this.chanceTargetWarningSimulation = chanceTargetWarning;
         this.isRandomSimulation = isRandom;
+        this.entryPoint = entryPoint;
+        this.maxParallel = maxParallel;
+    }
+
+    public void setCompilerProperties(Collection<String> targetsToRun,String sourceFolder,String productFolder, SimulationEntryPoint entryPoint, int maxParallel){
+        this.targetsToRun = targetsToRun;
+        this.sourceFolderCompiler = sourceFolder;
+        this.productFolderCompiler = productFolder;
         this.entryPoint = entryPoint;
         this.maxParallel = maxParallel;
     }

@@ -55,6 +55,20 @@ public abstract class TaskManager {
             throw new TaskException("The path doesn't exist or has invalid characters, please change the xml and upload again.");
     }
 
+    /* the function save the simulation folder */
+    public String saveCompilerFolder() throws TaskException {
+        Graph graph = EngineManager.graphStatic;
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy HH.mm.ss");
+        String strDate = simpleDateFormat.format(date);
+        Path path = Paths.get(graph.getWorkingDirectory(),TasksName.COMPILATION + "-" + strDate);
+        File folder = new File(path.toUri());
+        if(folder.mkdir())
+            return folder.getAbsolutePath();
+        else
+            throw new TaskException("The path doesn't exist or has invalid characters, please change the xml and upload again.");
+    }
+
     protected void handleFailureRec(Target target, List<Consumer<String>> consumersList , Task task,Target dad ){
         synchronized (this.synchroObj){
             this.taskRuntimeDTO.getTargetByName(target.getName()).addToSkippedBecause(dad.getName());

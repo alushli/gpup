@@ -11,6 +11,7 @@ import scema.generated.*;
 import Enums.SimulationEntryPoint;
 import target.Target;
 import task.TaskManager;
+import task.compiler.CompilerTaskManager;
 import task.simulation.SimulationTaskManager;
 import xml.Xml;
 import exceptions.XmlException;
@@ -26,12 +27,17 @@ public class EngineManager implements EngineManagerInterface{
     private int maxThreadsForTask = 1;
     private int maxTreads;
     private SimulationTaskManager simulationTaskManager = null;
+    private CompilerTaskManager compilerTaskManager = null;
     private TaskManager taskManager = null;
     private boolean isTaskRun = false;
     private Boolean synchroObj;
 
     public void setSimulationTaskManager(SimulationTaskManager simulationTaskManager) {
         this.simulationTaskManager = simulationTaskManager;
+    }
+
+    public void setCompilerTaskManager(CompilerTaskManager compilerTaskManager) {
+        this.compilerTaskManager = compilerTaskManager;
     }
 
     public EngineManager(){
@@ -48,6 +54,10 @@ public class EngineManager implements EngineManagerInterface{
 
     public SimulationTaskManager getSimulationTaskManager() {
         return simulationTaskManager;
+    }
+
+    public CompilerTaskManager getCompilerTaskManager() {
+        return compilerTaskManager;
     }
 
     public int getMaxThreadsForTask() {
@@ -214,6 +224,18 @@ public class EngineManager implements EngineManagerInterface{
                 isRandom,fromScratch,consumer,maxParallel, this.synchroObj);
         this.isTaskRun = true;
         this.simulationTaskManager.handleRunSimulation(processTime, chanceTargetSuccess, chanceTargetWarning, isRandom, consumer);
+        this.isTaskRun = false;
+    }
+
+
+    public void runCompiler(Collection<String> targets,String sourceFolder, String productFolder, SimulationEntryPoint entryPoint,
+                            Consumer<String> consumer, int maxParallel) throws TaskException {
+
+        boolean fromScratch = entryPoint.equals(SimulationEntryPoint.FROM_SCRATCH);
+        this.compilerTaskManager = new CompilerTaskManager(new Graph(targets,this.graph), sourceFolder, productFolder,
+                fromScratch,consumer,maxParallel, this.synchroObj);
+        this.isTaskRun = true;
+        this.compilerTaskManager.handleRunCompiler(sourceFolder, productFolder, consumer);
         this.isTaskRun = false;
     }
 
@@ -480,9 +502,15 @@ public class EngineManager implements EngineManagerInterface{
         this.simulationTaskManager.setTaskRunTime(taskRuntimeDTO);
     }
 
-    public void setPaused(boolean paused){
-        if(this.simulationTaskManager != null){
-            this.simulationTaskManager.setIsPaused(paused);
+    public void setPaused(boolean paused, String taskName) {
+        if (taskName.equals("Simulation Task")) {
+            if (this.simulationTaskManager != null) {
+                this.simulationTaskManager.setIsPaused(paused);
+            }
+        } else {
+            if (this.compilerTaskManager != null) {
+                this.compilerTaskManager.setIsPaused(paused);
+            }
         }
     }
 }

@@ -133,9 +133,15 @@ public class TasksController extends mainControllers.Controllers{
         this.runTaskController.setTaskType(name);
     }
 
+
     public void updateSimulationTaskProperties(int processTime, double chanceTargetSuccess, double chanceTargetWarning, boolean isRandom, SimulationEntryPoint entryPoint, int maxParallel){
 
         this.runTaskController.setSimulationProperties(getTargetsToRun(this.selectedTargets), processTime, chanceTargetSuccess, chanceTargetWarning, isRandom, entryPoint, maxParallel);
+    }
+
+    public void updateCompilerTaskProperties(String sourceFolder, String productFolder, SimulationEntryPoint entryPoint, int maxParallel){
+
+        this.runTaskController.setCompilerProperties(getTargetsToRun(this.selectedTargets), sourceFolder, productFolder, entryPoint, maxParallel);
     }
 
     private Collection<String> getTargetsToRun(ArrayList<TargetFXDTO> targetFXDTOS){
