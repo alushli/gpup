@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 public class SimulationTask extends Task implements Runnable{
     private int processTime;
     private boolean isRandom;
-    private double chanceSuccess ,chanceWarning;
+    private double chanceSuccess, chanceWarning;
     List<Consumer<String>> consumersList;
 
 
