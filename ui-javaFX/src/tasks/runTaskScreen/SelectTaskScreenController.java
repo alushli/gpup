@@ -124,7 +124,11 @@ public class SelectTaskScreenController extends mainControllers.Controllers {
                 this.mainController.updateSimulationTaskProperties(Integer.parseInt(this.processing_time_simulation.getText()), Double.parseDouble(this.end_success_simulation.getText()), Double.parseDouble(this.end_warnings_after_success_simulation.getText()), isRandom, SimulationEntryPoint.INCREMENTAL, this.thread_amount_CB.getValue());
             else
                 this.mainController.updateSimulationTaskProperties(Integer.parseInt(this.processing_time_simulation.getText()), Double.parseDouble(this.end_success_simulation.getText()), Double.parseDouble(this.end_warnings_after_success_simulation.getText()),isRandom, SimulationEntryPoint.FROM_SCRATCH, this.thread_amount_CB.getValue());
-
+        } else{
+            if(this.incremental_CB.isSelected())
+                this.mainController.updateCompilerTaskProperties(this.source_compiler_label.getText(), this.compiled_compiler_label.getText(), SimulationEntryPoint.INCREMENTAL, this.thread_amount_CB.getValue());
+            else
+                this.mainController.updateCompilerTaskProperties(this.source_compiler_label.getText(), this.compiled_compiler_label.getText(), SimulationEntryPoint.FROM_SCRATCH, this.thread_amount_CB.getValue());
         }
     }
 

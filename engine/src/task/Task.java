@@ -3,6 +3,7 @@ package task;
 import Enums.TargetStatus;
 import engineManager.EngineManager;
 import target.Target;
+import task.compiler.CompilerTaskManager;
 import task.simulation.SimulationTaskManager;
 
 import java.io.File;
@@ -17,6 +18,7 @@ public abstract class Task implements Runnable{
     protected Target target;
     protected String folderPath, path;
     protected SimulationTaskManager manager;
+    protected CompilerTaskManager managerCompiler;
 
     /* the function initialize the graph */
     protected void initGraph(){

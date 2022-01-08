@@ -1,6 +1,7 @@
 package tasks.simulation;
 
 import Enums.SimulationEntryPoint;
+import Enums.TasksName;
 import engineManager.EngineManager;
 import javafx.concurrent.Task;
 import tasks.TaskToUI;
@@ -21,9 +22,6 @@ public class SimulationTask extends Task<Boolean> {
     private int maxParallel;
     private Consumer<String> consumer;
 
-    private boolean isDone;
-    private boolean isPause;
-
     public SimulationTask(EngineManager engineManager, UIAdapter uiAdapter, Collection<String> targetsToRun, int processTime, double chanceTargetSuccess, double chanceTargetWarning, boolean isRandom, SimulationEntryPoint entryPoint, Consumer<String> consumer, int maxParallel){
         this.engineManager = engineManager;
         this.targetsToRun = targetsToRun;
@@ -34,7 +32,7 @@ public class SimulationTask extends Task<Boolean> {
         this.entryPoint = entryPoint;
         this.consumer = consumer;
         this.maxParallel = maxParallel;
-        this.taskToUI = new TaskToUI(engineManager, uiAdapter);
+        this.taskToUI = new TaskToUI(engineManager, uiAdapter, TasksName.SIMULATION);
     }
 
     @Override

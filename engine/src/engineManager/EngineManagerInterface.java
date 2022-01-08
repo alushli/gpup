@@ -36,6 +36,8 @@ public interface EngineManagerInterface {
     /* the function return simulation info */
     void runSimulate(Collection<String > targets, int timePerTarget, double chancePerTarget, double chanceWarning, boolean isRandom, SimulationEntryPoint entryPoint, Consumer<String> consumer, int maxParallel) throws TaskException;
 
+    void runCompiler(Collection<String> targets,String sourceFolder, String productFolder, SimulationEntryPoint entryPoint, Consumer<String> consumer, int maxParallel) throws TaskException;
+
     /* the function return simulation info */
     TaskSummeryDTO runSimulateConsole(int timePerTarget, double chancePerTarget, double chanceWarning, boolean isRandom, SimulationEntryPoint entryPoint, Consumer<String> consumer) throws TaskException;
 

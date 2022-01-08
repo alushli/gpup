@@ -2,6 +2,7 @@ package tasks;
 
 import Enums.TargetRunStatus;
 import Enums.TargetRuntimeStatus;
+import Enums.TasksName;
 import dtoObjects.TargetRuntimeDTO;
 import dtoObjects.TaskRuntimeDTO;
 import engineManager.EngineManager;
@@ -16,11 +17,13 @@ public class TaskToUI implements Runnable {
     private UIAdapter uiAdapter;
     private boolean isDone = false;
     private Boolean synchroObj;
+    private TasksName tasksName;
 
-    public TaskToUI(EngineManager engineManager, UIAdapter uiAdapter) {
+    public TaskToUI(EngineManager engineManager, UIAdapter uiAdapter, TasksName taskName) {
         this.engineManager = engineManager;
         this.uiAdapter = uiAdapter;
         this.synchroObj = engineManager.getSynchroObj();
+        this.tasksName = taskName;
     }
 
     @Override
@@ -35,9 +38,16 @@ public class TaskToUI implements Runnable {
             Set<TargetRuntimeDTO> success = new HashSet<>();
             int i = 0;
             while (!isDone) {
-
-                if (this.engineManager.getSimulationTaskManager() != null && this.engineManager.getSimulationTaskManager().getTaskRuntimeDTO() != null) {
+                boolean canRun = false;
+                if (this.tasksName.equals(TasksName.SIMULATION) && this.engineManager.getSimulationTaskManager() != null && this.engineManager.getSimulationTaskManager().getTaskRuntimeDTO() != null) {
+                    canRun = true;
                     this.taskRuntimeDTO = this.engineManager.getSimulationTaskManager().getTaskRuntimeDTO();
+                }
+                else if(this.tasksName.equals(TasksName.COMPILATION) && this.engineManager.getCompilerTaskManager() != null && this.engineManager.getCompilerTaskManager().getTaskRuntimeDTO() != null) {
+                    canRun = true;
+                    this.taskRuntimeDTO = this.engineManager.getCompilerTaskManager().getTaskRuntimeDTO();
+                }
+                if(canRun){
                     synchronized (this.synchroObj) {
                         clearSets(frozen, waiting, process, skipped, failed, success, warning);
                         if (i == 0) {
@@ -48,16 +58,19 @@ public class TaskToUI implements Runnable {
                         if (this.taskRuntimeDTO.getCountTotal() == this.taskRuntimeDTO.getCountFinished())
                             isDone = true;
                     }
-
                 }
                 Thread.sleep(100);
             }
             clearSets(frozen, waiting, process, skipped, failed, success, warning);
             synchronized (this.synchroObj){
-                this.taskRuntimeDTO = this.engineManager.getSimulationTaskManager().getTaskRuntimeDTO();
+                if(this.tasksName.equals(TasksName.SIMULATION))
+                    this.taskRuntimeDTO = this.engineManager.getSimulationTaskManager().getTaskRuntimeDTO();
+                else
+                    this.taskRuntimeDTO = this.engineManager.getCompilerTaskManager().getTaskRuntimeDTO();
                 updateUI(frozen, waiting, process, skipped, failed, success, warning);
                 this.engineManager.setTaskRuntimeDTO(null);
                 this.engineManager.setSimulationTaskManager(null);
+                this.engineManager.setCompilerTaskManager(null);
             }
         }
         catch(Exception e){

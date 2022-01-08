@@ -51,7 +51,7 @@ public class SimulationTaskManager extends TaskManager {
         else{
             for (Target target : graph.getGraphMap().keySet()){
                 if(target.getRunStatus().equals(TargetRunStatus.NONE)){
-                    consumer.accept("Target "+ target.getName() + "didnt include at the last run - so it run from scratch on it.\n");
+                    consumer.accept("Target "+ target.getName() + " didnt include at the last run - so it run from scratch on it.\n");
                 }else if((target.getRunStatus().equals(TargetRunStatus.SUCCESS) ||(target.getRunStatus().equals(TargetRunStatus.WARNING)))){
                     targetToRemove.add(target);
                 }
@@ -218,7 +218,7 @@ public class SimulationTaskManager extends TaskManager {
                 addToSucceed(target);
             }
         }
-        System.out.println("Up counter from:"+this.counter + "becuase success target:" + target.getName());
+        System.out.println("Up counter from:"+this.counter + "because success target:" + target.getName());
         upCounter();
         Set<Target> targetsReq = target.getRequiredForList();
         for (Target target1 : targetsReq) {
