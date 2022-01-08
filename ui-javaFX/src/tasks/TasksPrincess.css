@@ -35,7 +35,7 @@
 }
 
 #progress_bar .bar{
-    -fx-background-color: #EE82EE;
+    -fx-background-color: #DAA520;
 }
 
 #progress_bar .track{

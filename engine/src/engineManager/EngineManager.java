@@ -30,6 +30,10 @@ public class EngineManager implements EngineManagerInterface{
     private boolean isTaskRun = false;
     private Boolean synchroObj;
 
+    public void setSimulationTaskManager(SimulationTaskManager simulationTaskManager) {
+        this.simulationTaskManager = simulationTaskManager;
+    }
+
     public EngineManager(){
         this.synchroObj = new Boolean(true);
     }
