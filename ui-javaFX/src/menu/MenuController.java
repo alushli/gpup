@@ -3,16 +3,14 @@ package menu;
 import actions.ActionsController;
 import appScreen.AppController;
 import enums.FxmlPath;
-import enums.ScreenTypes;
 import enums.StyleSheetsPath;
 import generalInfo.GeneralInfoController;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.GridPane;
@@ -35,7 +33,7 @@ public class MenuController extends mainControllers.Controllers {
     private static Parent actionsParent;
     private static SubMenuController subMenuComponentController = null;
     private Parent subMenuParent;
-    private BooleanProperty isLight;
+    private StringProperty skin;
 
     @FXML
     private GridPane main_screen;
@@ -51,20 +49,8 @@ public class MenuController extends mainControllers.Controllers {
         skin_combo_box.getItems().removeAll(skin_combo_box.getItems());
         skin_combo_box.getItems().addAll("Light", "Dark");
         skin_combo_box.getSelectionModel().select("Light");
-        this.isLight = new SimpleBooleanProperty(true);
-        this.isLight.addListener((a,b,c)->{
-            if(this.isLight.getValue()){
-                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
-                this.main_screen.getStylesheets().remove(StyleSheetsPath.MENU_DARK.toString());
-                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
-                this.main_screen.getStylesheets().add(StyleSheetsPath.MENU_LIGHT.toString());
-            }else{
-                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
-                this.main_screen.getStylesheets().remove(StyleSheetsPath.MENU_LIGHT.toString());
-                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_DARK.toString());
-                this.main_screen.getStylesheets().add(StyleSheetsPath.MENU_DARK.toString());
-            }
-        });
+        this.skin = new SimpleStringProperty("Light");
+        skinListener(this.skin, this.main_screen);
     }
 
     public void setSubMenu(){
@@ -76,7 +62,7 @@ public class MenuController extends mainControllers.Controllers {
             this.subMenuComponentController= fxmlLoader.getController();
             this.subMenuComponentController.setAppController(this.appController);
             this.subMenuComponentController.setMainController(this);
-            this.subMenuComponentController.isLightProperty().bind(this.appController.isLightProperty());
+            this.subMenuComponentController.skinProperty().bind(this.appController.skinProperty());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -105,12 +91,12 @@ public class MenuController extends mainControllers.Controllers {
         }
     }
 
-    public boolean isIsLight() {
-        return isLight.get();
+    public String getSkin() {
+        return this.skin.getValue();
     }
 
-    public BooleanProperty isLightProperty() {
-        return isLight;
+    public StringProperty skinProperty() {
+        return skin;
     }
 
     @FXML
@@ -151,7 +137,7 @@ public class MenuController extends mainControllers.Controllers {
             this.loadFileParent = fxmlLoader.load(url.openStream());
             this.loadFileComponentController= fxmlLoader.getController();
             this.loadFileComponentController.setAppController(this.appController);
-            this.loadFileComponentController.isLightProperty().bind(this.appController.isLightProperty());
+            this.loadFileComponentController.skinProperty().bind(this.appController.skinProperty());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -184,10 +170,37 @@ public class MenuController extends mainControllers.Controllers {
             this.tasksParent = fxmlLoader.load(url.openStream());
             this.tasksComponentController= fxmlLoader.getController();
             this.tasksComponentController.setAppController(this.appController);
-            this.tasksComponentController.isLightProperty().bind(this.appController.isLightProperty());
+            this.tasksComponentController.skinProperty().bind(this.appController.skinProperty());
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void skinListener(StringProperty skin, GridPane stackPane){
+        skin.addListener((a, b, c)->{
+            if(skin.getValue().equals("Light")){
+                stackPane.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                stackPane.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_PRINCESS.toString());
+                stackPane.getStylesheets().remove(StyleSheetsPath.MENU_DARK.toString());
+                stackPane.getStylesheets().remove(StyleSheetsPath.MENU_PRINCESS.toString());
+                stackPane.getStylesheets().add(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                stackPane.getStylesheets().add(StyleSheetsPath.MENU_LIGHT.toString());
+            }else if (skin.getValue().equals("Dark")){
+                stackPane.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                stackPane.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_PRINCESS.toString());
+                stackPane.getStylesheets().remove(StyleSheetsPath.MENU_LIGHT.toString());
+                stackPane.getStylesheets().remove(StyleSheetsPath.MENU_PRINCESS.toString());
+                stackPane.getStylesheets().add(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                stackPane.getStylesheets().add(StyleSheetsPath.MENU_DARK.toString());
+            } else {
+                stackPane.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                stackPane.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                stackPane.getStylesheets().remove(StyleSheetsPath.MENU_LIGHT.toString());
+                stackPane.getStylesheets().remove(StyleSheetsPath.MENU_DARK.toString());
+                stackPane.getStylesheets().add(StyleSheetsPath.MAIN_CSS_PRINCESS.toString());
+                stackPane.getStylesheets().add(StyleSheetsPath.MENU_PRINCESS.toString());
+            }
+        });
     }
 
     @FXML
@@ -197,11 +210,7 @@ public class MenuController extends mainControllers.Controllers {
 
     @FXML
     void clickSkin(ActionEvent event) {
-        if(this.skin_combo_box.getValue().equals("Light")){
-            this.appController.setIsLight(true);
-        }else{
-            this.appController.setIsLight(false);
-        }
+        this.appController.setSkin(this.skin_combo_box.getValue());
     }
 
     @Override

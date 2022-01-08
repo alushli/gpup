@@ -4,6 +4,8 @@ import appScreen.AppController;
 import enums.StyleSheetsPath;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -17,10 +19,9 @@ import menu.MenuController;
 
 public class SubMenuController extends  mainControllers.Controllers{
     private MenuController mainController;
-    private BooleanProperty isLight;
+    private StringProperty skin;
     private Image backDarkImg;
     private Image backLightImg;
-
 
     @FXML
     private ImageView back_img;
@@ -41,19 +42,31 @@ public class SubMenuController extends  mainControllers.Controllers{
     public void initialize() {
         this.backDarkImg = new Image("/menu/subMenu/back_arrow_dark.png");
         this.backLightImg = new Image("/menu/subMenu/back_arrow_light.png");
-        this.isLight = new SimpleBooleanProperty(true);
-        this.isLight.addListener((a,b,c)->{
-            if(this.isLight.getValue()){
+        this.skin = new SimpleStringProperty("Light");
+        this.skin.addListener((a,b,c)->{
+            if(skin.getValue().equals("Light")){
                 this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_PRINCESS.toString());
                 this.main_screen.getStylesheets().remove(StyleSheetsPath.MENU_DARK.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MENU_PRINCESS.toString());
                 this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
                 this.main_screen.getStylesheets().add(StyleSheetsPath.MENU_LIGHT.toString());
                 this.back_img.setImage(this.backLightImg);
-            }else{
+            }else if (skin.getValue().equals("Dark")){
                 this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_PRINCESS.toString());
                 this.main_screen.getStylesheets().remove(StyleSheetsPath.MENU_LIGHT.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MENU_PRINCESS.toString());
                 this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_DARK.toString());
                 this.main_screen.getStylesheets().add(StyleSheetsPath.MENU_DARK.toString());
+                this.back_img.setImage(this.backDarkImg);
+            } else{
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MENU_LIGHT.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MENU_DARK.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_PRINCESS.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MENU_PRINCESS.toString());
                 this.back_img.setImage(this.backDarkImg);
             }
         });
@@ -96,8 +109,8 @@ public class SubMenuController extends  mainControllers.Controllers{
         });
     }
 
-    public BooleanProperty isLightProperty() {
-        return isLight;
+    public StringProperty skinProperty() {
+        return skin;
     }
 
     @Override

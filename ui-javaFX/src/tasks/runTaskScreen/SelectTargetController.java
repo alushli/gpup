@@ -3,18 +3,19 @@ package tasks.runTaskScreen;
 import appScreen.AppController;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import tasks.TasksController;
 
 public class SelectTargetController extends mainControllers.Controllers {
     private TasksController mainController;
-    private BooleanProperty isLight;
+    private StringProperty skin;
     private BooleanProperty oneTargetSelect;
 
     @FXML
@@ -28,6 +29,10 @@ public class SelectTargetController extends mainControllers.Controllers {
 
     @FXML
     private ComboBox<String> direction_CB;
+
+    public void skinListener(){
+        this.mainController.setLightListener(this.skin, this.fall_screen_SP);
+    }
 
     @FXML
     void clickDirection(ActionEvent event) {
@@ -58,10 +63,9 @@ public class SelectTargetController extends mainControllers.Controllers {
         return what_if_CB;
     }
 
-    public BooleanProperty isLightProperty() {
-        return isLight;
+    public StringProperty skinProperty() {
+        return skin;
     }
-
 
     public BooleanProperty oneTargetSelectProperty() {
         return oneTargetSelect;
@@ -69,7 +73,7 @@ public class SelectTargetController extends mainControllers.Controllers {
 
     @FXML
     public void initialize() {
-        this.isLight = new SimpleBooleanProperty(true);
+        this.skin = new SimpleStringProperty("Light");
         this.oneTargetSelect = new SimpleBooleanProperty(false);
         direction_CB.getItems().removeAll(direction_CB.getItems());
         direction_CB.getItems().addAll("Depends On", "Required For");

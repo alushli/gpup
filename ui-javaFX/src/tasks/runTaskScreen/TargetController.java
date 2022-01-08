@@ -1,12 +1,10 @@
 package tasks.runTaskScreen;
 
 import appScreen.AppController;
-import dtoObjects.TargetFXDTO;
 import dtoObjects.TargetRuntimeDTO;
 import enums.FxmlPath;
-import generalInfo.showGraphInfo.detailsGraphScreen.exportGraphScreen.ExportGraphScreenController;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,10 +13,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import tasks.TasksController;
 
 public class TargetController extends mainControllers.Controllers{
+    private TasksController mainController;
     private TargetRuntimeDTO targetRuntimeDTO;
-    private BooleanProperty isLight;
+    private StringProperty skin;
     private Stage popupWindow;
 
     @FXML
@@ -35,13 +35,17 @@ public class TargetController extends mainControllers.Controllers{
         return target_btn;
     }
 
-    public BooleanProperty isLightProperty() {
-        return isLight;
+    public StringProperty skinProperty() {
+        return skin;
+    }
+
+    public void skinListener(){
+        this.mainController.setLightListener(this.skin, this.target_SP);
     }
 
     @FXML
     public void initialize() {
-        this.isLight = new SimpleBooleanProperty(true);
+        this.skin = new SimpleStringProperty("Light");
     }
 
     @FXML
@@ -57,7 +61,8 @@ public class TargetController extends mainControllers.Controllers{
             targetInfoController.setAppController(this.appController);
             targetInfoController.setMainController(this);
             targetInfoController.setPopUp(this.targetRuntimeDTO);
-            targetInfoController.isLightProperty().bind(this.appController.isLightProperty());
+            targetInfoController.skinProperty().bind(this.appController.skinProperty());
+            targetInfoController.skinListener();
             Scene secondScene = new Scene(popup, 400, 500);
             this.popupWindow = new Stage();
             this.popupWindow.setResizable(false);
@@ -72,6 +77,12 @@ public class TargetController extends mainControllers.Controllers{
         }
 
     }
+
+    public TasksController getMainController() {
+        return mainController;
+    }
+
+    public void setMainController(TasksController tasksController){ this.mainController = tasksController;}
 
     @Override
     public void setAppController(AppController mainControllers) {

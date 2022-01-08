@@ -1,0 +1,112 @@
+#table-view {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #333333;
+}
+
+.table-view .column-header-background{
+    -fx-background-radius: 0px 0px 0px 0px;
+    -fx-background-insets: 0 0px 0 0;
+    -fx-padding: 0 0 5px 0;
+    -fx-background-color: rgba(0, 0, 0, 0.95);
+    -fx-text-fill: #FFFFFF !important;
+    -fx-border-style: hidden hidden solid hidden;
+    -fx-border-width: 3px;
+    -fx-border-color: #333333;
+}
+
+.table-view .column-header {
+    -fx-alignment: CENTER;
+    -fx-font-family: Tahoma;
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+
+}
+.table-view .table-cell{
+    -fx-border-color: transparent;
+    -fx-padding: 2 0 2 10px;
+    -fx-cell-size: 50px;
+    -fx-text-fill: #FFFFFF;
+}
+
+.table-row-cell:odd{
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+    -fx-background-color: rgba(0, 0, 0, 0.9);
+}
+
+.table-row-cell:even{
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em;
+    -fx-background-color: rgba(0, 0, 0, 0.95);
+}
+
+.table-row-cell {
+    -fx-cell-size: 50px;
+}
+
+.table-column {
+    -fx-alignment: CENTER;
+}
+
+.label{
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 14px;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #7086DD;
+    -fx-text-fill: #FFFFFF !important;
+}
+
+.table-view .virtual-flow .scroll-bar:horizontal .track,
+.table-view .virtual-flow .scroll-bar:vertical .track{
+    -fx-background-color : #121212;
+    -fx-border-color : #121212;
+    -fx-background-radius : 0.0em;
+    -fx-border-radius :2.0em;
+}
+
+.table-view .virtual-flow .scroll-bar:horizontal .increment-button ,
+.table-view .virtual-flow .scroll-bar:horizontal .decrement-button {
+    -fx-background-color : #121212;
+    -fx-background-radius : 0.0em;
+    -fx-padding :0.0 0.0 10.0 0.0;
+
+}
+
+.table-view .virtual-flow .scroll-bar:vertical .increment-button ,
+.table-view .virtual-flow .scroll-bar:vertical .decrement-button {
+    -fx-background-color : #121212;
+    -fx-background-radius : 0.0em;
+    -fx-padding :0.0 10.0 0.0 0.0;
+
+}
+
+.table-view .virtual-flow .scroll-bar .increment-arrow,
+.table-view .virtual-flow .scroll-bar .decrement-arrow{
+    -fx-shape : " ";
+    -fx-padding :0.15em 0.0;
+}
+
+.table-view .virtual-flow .scroll-bar:vertical .increment-arrow,
+.table-view .virtual-flow .scroll-bar:vertical .decrement-arrow{
+    -fx-shape : " ";
+    -fx-padding :0.0 0.15em;
+}
+
+.table-view .virtual-flow .scroll-bar:horizontal .thumb,
+.table-view .virtual-flow .scroll-bar:vertical .thumb {
+    -fx-background-color :derive(black,90.0%);
+    -fx-background-insets : 2.0, 0.0, 0.0;
+    -fx-background-radius : 2.0em;
+}
+
+.table-view .virtual-flow .scroll-bar:horizontal .thumb:hover,
+.table-view .virtual-flow .scroll-bar:vertical .thumb:hover {
+    -fx-background-color :derive(#4D4C4F,10.0%);
+    -fx-background-insets : 2.0, 0.0, 0.0;
+    -fx-background-radius : 2.0em;
+}
+
+
+

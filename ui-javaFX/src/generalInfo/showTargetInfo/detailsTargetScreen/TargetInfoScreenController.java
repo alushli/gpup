@@ -2,10 +2,11 @@ package generalInfo.showTargetInfo.detailsTargetScreen;
 
 import appScreen.AppController;
 import enums.StyleSheetsPath;
-import generalInfo.showGraphInfo.ShowGraphInfoController;
 import generalInfo.showTargetInfo.ShowTargetInfoController;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -17,7 +18,7 @@ import java.util.Set;
 
 public class TargetInfoScreenController extends mainControllers.Controllers{
     private ShowTargetInfoController mainController;
-    private BooleanProperty isLight;
+    private StringProperty skin;
 
     @FXML
     private StackPane fall_screen_SP;
@@ -66,20 +67,7 @@ public class TargetInfoScreenController extends mainControllers.Controllers{
 
     @FXML
     public void initialize() {
-        this.isLight = new SimpleBooleanProperty(true);
-        this.isLight.addListener((a,b,c)->{
-            if(this.isLight.getValue()){
-                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
-                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.GENERAL_INFO_DARK.toString());
-                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
-                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.GENERAL_INFO_LIGHT.toString());
-            }else{
-                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
-                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.GENERAL_INFO_LIGHT.toString());
-                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.MAIN_CSS_DARK.toString());
-                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.GENERAL_INFO_DARK.toString());
-            }
-        });
+        this.skin = new SimpleStringProperty("Light");
     }
 
     public void setSerialSet(Set<String> set){
@@ -90,8 +78,12 @@ public class TargetInfoScreenController extends mainControllers.Controllers{
         }
     }
 
-    public BooleanProperty isLightProperty() {
-        return isLight;
+    public void skinListener(){
+        this.mainController.getMainController().skinListener(this.skin, this.fall_screen_SP);
+    }
+
+    public StringProperty skinProperty() {
+        return skin;
     }
 
     public Label getError_message() {

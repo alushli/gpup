@@ -4,10 +4,10 @@ import actions.showCircles.ShowCirclesController;
 import actions.showPaths.ShowPathsController;
 import appScreen.AppController;
 import enums.FxmlPath;
-import javafx.fxml.FXML;
+import enums.StyleSheetsPath;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import templates.LoadFileError;
 
@@ -54,7 +54,8 @@ public class ActionsController extends mainControllers.Controllers {
             this.showPathsComponentController= fxmlLoader.getController();
             this.showPathsComponentController.setAppController(this.appController);
             this.showPathsComponentController.setMainController(this);
-            this.showPathsComponentController.isLightProperty().bind(this.appController.isLightProperty());
+            this.showPathsComponentController.skinProperty().bind(this.appController.skinProperty());
+            this.showPathsComponentController.skinListener();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -81,7 +82,8 @@ public class ActionsController extends mainControllers.Controllers {
             this.showCirclesComponentController= fxmlLoader.getController();
             this.showCirclesComponentController.setAppController(this.appController);
             this.showCirclesComponentController.setMainController(this);
-            this.showCirclesComponentController.isLightProperty().bind(this.appController.isLightProperty());
+            this.showCirclesComponentController.skinProperty().bind(this.appController.skinProperty());
+            this.showCirclesComponentController.skinListener();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -98,6 +100,33 @@ public class ActionsController extends mainControllers.Controllers {
             showCirclesComponentController.setTableScreen();
             showCirclesComponentController.setPageScreen();
         }
+    }
+
+    public void skinListener(StringProperty skin, StackPane stackPane){
+        skin.addListener((a, b, c)->{
+            if(skin.getValue().equals("Light")){
+                stackPane.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                stackPane.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_PRINCESS.toString());
+                stackPane.getStylesheets().remove(StyleSheetsPath.ACTIONS_DARK.toString());
+                stackPane.getStylesheets().remove(StyleSheetsPath.ACTIONS_PRINCESS.toString());
+                stackPane.getStylesheets().add(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                stackPane.getStylesheets().add(StyleSheetsPath.ACTIONS_LIGHT.toString());
+            }else if (skin.getValue().equals("Dark")){
+                stackPane.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                stackPane.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_PRINCESS.toString());
+                stackPane.getStylesheets().remove(StyleSheetsPath.ACTIONS_LIGHT.toString());
+                stackPane.getStylesheets().remove(StyleSheetsPath.ACTIONS_PRINCESS.toString());
+                stackPane.getStylesheets().add(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                stackPane.getStylesheets().add(StyleSheetsPath.ACTIONS_DARK.toString());
+            } else {
+                stackPane.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                stackPane.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                stackPane.getStylesheets().remove(StyleSheetsPath.ACTIONS_LIGHT.toString());
+                stackPane.getStylesheets().remove(StyleSheetsPath.ACTIONS_DARK.toString());
+                stackPane.getStylesheets().add(StyleSheetsPath.MAIN_CSS_PRINCESS.toString());
+                stackPane.getStylesheets().add(StyleSheetsPath.ACTIONS_PRINCESS.toString());
+            }
+        });
     }
 
     public Parent getShowPathsParent() { return this.showPathsParent; }

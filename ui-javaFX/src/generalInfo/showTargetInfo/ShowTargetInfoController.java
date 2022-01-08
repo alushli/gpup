@@ -7,23 +7,16 @@ import enums.StyleSheetsPath;
 import generalComponents.targetsTable.TargetsTableController;
 import generalInfo.GeneralInfoController;
 import generalInfo.showTargetInfo.detailsTargetScreen.TargetInfoScreenController;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import scema.generated.GPUPTarget;
 
-import java.awt.*;
 import java.net.URL;
-import java.util.List;
 import java.util.Set;
 
 public class ShowTargetInfoController extends mainControllers.Controllers{
@@ -31,7 +24,7 @@ public class ShowTargetInfoController extends mainControllers.Controllers{
     private IntegerProperty curSelectedCount;
     private TargetInfoScreenController targetInfoScreenController;
     private TargetsTableController targetsTableController;
-    private BooleanProperty isLight;
+    private StringProperty skin;
 
     @FXML
     private StackPane main_screen;
@@ -53,20 +46,7 @@ public class ShowTargetInfoController extends mainControllers.Controllers{
 
     @FXML
     public void initialize() {
-        this.isLight = new SimpleBooleanProperty(true);
-        this.isLight.addListener((a,b,c)->{
-            if(this.isLight.getValue()){
-                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
-                this.main_screen.getStylesheets().remove(StyleSheetsPath.GENERAL_INFO_DARK.toString());
-                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
-                this.main_screen.getStylesheets().add(StyleSheetsPath.GENERAL_INFO_LIGHT.toString());
-            }else{
-                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
-                this.main_screen.getStylesheets().remove(StyleSheetsPath.GENERAL_INFO_LIGHT.toString());
-                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_DARK.toString());
-                this.main_screen.getStylesheets().add(StyleSheetsPath.GENERAL_INFO_DARK.toString());
-            }
-        });
+        this.skin = new SimpleStringProperty("Light");
     }
 
     @FXML
@@ -74,9 +54,16 @@ public class ShowTargetInfoController extends mainControllers.Controllers{
         this.targetsTableController.deselectAll();
     }
 
+    public void skinListener(){
+        this.mainController.skinListener(this.skin, this.main_screen);
+    }
 
-    public BooleanProperty isLightProperty() {
-        return isLight;
+    public GeneralInfoController getMainController() {
+        return mainController;
+    }
+
+    public StringProperty skinProperty() {
+        return skin;
     }
 
     public StackPane getDataArea() { return data_area; }
@@ -103,6 +90,7 @@ public class ShowTargetInfoController extends mainControllers.Controllers{
             this.targetInfoScreenController = fxmlLoader.getController();
             this.targetInfoScreenController.setMainController(this);
             this.targetInfoScreenController.setAppController(this.appController);
+            this.targetInfoScreenController.skinListener();
             setPageLabels();
         } catch (Exception e){
         }
@@ -161,7 +149,7 @@ public class ShowTargetInfoController extends mainControllers.Controllers{
             this.targetsTableController.setAppController(this.appController);
             this.targetsTableController.getTable().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.925));
             this.targetsTableController.setMaxSelect(1);
-            this.targetsTableController.isLightProperty().bind(this.appController.isLightProperty());
+            this.targetsTableController.skinProperty().bind(this.appController.skinProperty());
         }catch (Exception e){
 
         }

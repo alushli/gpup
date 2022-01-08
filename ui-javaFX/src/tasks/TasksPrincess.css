@@ -1,0 +1,136 @@
+#sub_header_label{
+    -fx-font-size: 20px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #7086DD;
+}
+
+.explanation_label_screen{
+    -fx-font-size: 16px;
+}
+
+.check_box_screen .box{
+    -fx-font-size: 16px;
+    -fx-border-color: #7086DD;
+    -fx-background-color: #F5FAFF;
+}
+
+#what_if_label{
+    -fx-font-size: 18px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #7086DD;
+}
+
+#incremental_label{
+    -fx-font-size: 16px;
+}
+
+#next_btn{
+    -fx-background-color: #7086DD;
+    -fx-text-fill: #F5FAFF;
+}
+
+.tasks_btn_blue{
+    -fx-background-color: #7086DD;
+    -fx-text-fill: #F5FAFF;
+}
+
+#progress_bar .bar{
+    -fx-background-color: #7086DD;
+}
+
+#progress_bar .track{
+    -fx-background-color: rgba(94, 105, 152, 0.44);
+}
+
+.tasks_btn_gray{
+    -fx-background-color: #F5FAFF;
+    -fx-text-fill: #7086DD;
+    -fx-border-color: #7086DD;
+}
+
+.combo-box{
+    -fx-background-color: #F5FAFF;
+    -fx-border-color: #7086DD;
+}
+
+.spinner {
+    -fx-background-color: #F5FAFF;
+    -fx-border-color: #7086DD;
+}
+
+.spinner .increment-arrow-button,
+.spinner .decrement-arrow-button{
+    -fx-background-color: #F5FAFF;
+    -fx-border-color: #a1a1a1;
+}
+
+.path_label{
+    -fx-border-style: hidden hidden solid hidden;
+    -fx-border-width: 2px;
+    -fx-border-color: #7086DD;
+}
+
+.load_path_btn{
+    -fx-text-fill: #F5FAFF;
+    -fx-background-color: #7086DD;
+}
+
+#error_label{
+    -fx-text-fill: red;
+}
+
+.invalid_arguments{
+    -fx-border-color: red;
+    -fx-border-width: 2px;
+}
+
+.sub_header_status{
+    -fx-font-size: 18px;
+    -fx-font-weight: 700;
+}
+
+.target_box_btn{
+    -fx-text-fill: black;
+}
+
+.sub_header_popup{
+    -fx-font-size: 16px !important;
+    -fx-font-weight: 700;
+}
+
+.target_box_btn{
+    -fx-text-fill: white !important;
+}
+
+.frozen{
+    -fx-background-color: #87CEEB !important;
+}
+
+.waiting{
+    -fx-background-color: #D3D3D3 !important;
+    -fx-text-fill: black !important;
+}
+
+.process{
+    -fx-background-color: #8B008B !important;
+}
+
+.skipped{
+    -fx-background-color: #B0C4DE !important;
+}
+
+.failure{
+    -fx-background-color: #CD5C5C !important;
+}
+
+.success{
+    -fx-background-color: #32CD32 !important;
+}
+
+.warning {
+    -fx-background-color: #CD853F !important;
+}
+
+#explanation_label{
+    -fx-text-fill: red;
+}
