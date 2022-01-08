@@ -44,6 +44,10 @@ public class ShowPathsController extends mainControllers.Controllers{
         this.mainController.skinListener(this.skin, this.main_screen);
     }
 
+    public void skinListener(StringProperty skin, StackPane stackPane){
+        this.mainController.skinListener(skin, stackPane);
+    }
+
     @FXML
     void clickDeselectAll(ActionEvent event) {
         this.targetsTableController.deselectAll();
@@ -80,8 +84,8 @@ public class ShowPathsController extends mainControllers.Controllers{
             this.pathsScreenController = fxmlLoader.getController();
             this.pathsScreenController.setMainController(this);
             this.pathsScreenController.setAppController(this.appController);
-            this.pathsScreenController.skinProperty().bind(this.appController.skinProperty());
             this.pathsScreenController.skinListener();
+            this.pathsScreenController.skinProperty().bind(this.appController.skinProperty());
             this.pathsScreenController.isAnimationProperty().bind(this.appController.isAnimationProperty());
             setTargetsLabels();
             pathsScreenController.getFall_screen_SP().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.99));

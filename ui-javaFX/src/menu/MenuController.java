@@ -47,7 +47,7 @@ public class MenuController extends mainControllers.Controllers {
     @FXML
     public void initialize() {
         skin_combo_box.getItems().removeAll(skin_combo_box.getItems());
-        skin_combo_box.getItems().addAll("Light", "Dark");
+        skin_combo_box.getItems().addAll("Light", "Dark", "Princess");
         skin_combo_box.getSelectionModel().select("Light");
         this.skin = new SimpleStringProperty("Light");
         skinListener(this.skin, this.main_screen);
@@ -62,6 +62,7 @@ public class MenuController extends mainControllers.Controllers {
             this.subMenuComponentController= fxmlLoader.getController();
             this.subMenuComponentController.setAppController(this.appController);
             this.subMenuComponentController.setMainController(this);
+            this.subMenuComponentController.skinListener();
             this.subMenuComponentController.skinProperty().bind(this.appController.skinProperty());
         } catch (IOException e) {
             e.printStackTrace();

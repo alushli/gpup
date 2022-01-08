@@ -70,10 +70,19 @@ public class PathsScreenController extends mainControllers.Controllers{
         direction_CB.getSelectionModel().select(0);
         this.skin = new SimpleStringProperty("Light");
         this.isAnimation = new SimpleBooleanProperty(false);
+        this.skin.addListener((a,b,c)->{
+            if(skin.getValue().equals("Light")){
+                this.switch_img.setImage(this.switchLightImg);
+            }else if (skin.getValue().equals("Dark")){
+                this.switch_img.setImage(this.switchDarkImg);
+            } else{
+                this.switch_img.setImage(this.switchLightImg);
+            }
+        });
     }
 
     public void skinListener(){
-        this.mainController.getMainController().skinListener(this.skin, this.fall_screen_SP);
+        this.mainController.skinListener(this.skin, this.fall_screen_SP);
     }
 
     public StackPane getFall_screen_SP() {

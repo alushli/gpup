@@ -61,8 +61,8 @@ public class TargetController extends mainControllers.Controllers{
             targetInfoController.setAppController(this.appController);
             targetInfoController.setMainController(this);
             targetInfoController.setPopUp(this.targetRuntimeDTO);
-            targetInfoController.skinProperty().bind(this.appController.skinProperty());
             targetInfoController.skinListener();
+            targetInfoController.skinProperty().bind(this.appController.skinProperty());
             Scene secondScene = new Scene(popup, 400, 500);
             this.popupWindow = new Stage();
             this.popupWindow.setResizable(false);
@@ -76,6 +76,10 @@ public class TargetController extends mainControllers.Controllers{
             System.out.println("Set popup error");
         }
 
+    }
+
+    public void skinListener(StringProperty skin, StackPane stackPane){
+        this.mainController.setLightListener(skin, stackPane);
     }
 
     public TasksController getMainController() {

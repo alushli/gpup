@@ -80,8 +80,8 @@ public class ShowGraphInfoController extends mainControllers.Controllers{
             this.graphInfoScreenController = fxmlLoader.getController();
             this.graphInfoScreenController.setMainController(this);
             this.graphInfoScreenController.setAppController(this.appController);
-            this.graphInfoScreenController.skinProperty().bind(this.appController.skinProperty());
             this.graphInfoScreenController.skinListener();
+            this.graphInfoScreenController.skinProperty().bind(this.appController.skinProperty());
             if(this.appController.hasSerialSets())
                 this.graphInfoScreenController.setSerialSetTable();
             else
@@ -90,6 +90,10 @@ public class ShowGraphInfoController extends mainControllers.Controllers{
             setPageLabels();
         } catch (Exception e){
         }
+    }
+
+     public void skinListener(StringProperty skin, StackPane stackPane){
+        this.mainController.skinListener(skin, stackPane);
     }
 
     private void setPageLabels(){

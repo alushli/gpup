@@ -54,8 +54,8 @@ public class GeneralInfoController extends mainControllers.Controllers {
             this.showTargetInfoComponentController= fxmlLoader.getController();
             this.showTargetInfoComponentController.setAppController(this.appController);
             this.showTargetInfoComponentController.setMainController(this);
-            this.showTargetInfoComponentController.skinProperty().bind(this.appController.skinProperty());
             this.showTargetInfoComponentController.skinListener();
+            this.showTargetInfoComponentController.skinProperty().bind(this.appController.skinProperty());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -104,8 +104,8 @@ public class GeneralInfoController extends mainControllers.Controllers {
             this.showGraphInfoComponentController= fxmlLoader.getController();
             this.showGraphInfoComponentController.setAppController(this.appController);
             this.showGraphInfoComponentController.setMainController(this);
-            this.showGraphInfoComponentController.skinProperty().bind(this.appController.skinProperty());
             this.showGraphInfoComponentController.skinListener();
+            this.showGraphInfoComponentController.skinProperty().bind(this.appController.skinProperty());
         } catch (IOException e) {
             e.printStackTrace();
         }

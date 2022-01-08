@@ -97,7 +97,7 @@ public class AppController {
     }
 
     public void setSkin(String skin) {
-        this.skin.set(skin);
+        this.skin.setValue(skin);
     }
 
     public StringProperty skinProperty() {

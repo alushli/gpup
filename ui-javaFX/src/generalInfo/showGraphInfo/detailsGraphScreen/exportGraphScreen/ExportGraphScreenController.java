@@ -58,6 +58,10 @@ public class ExportGraphScreenController extends mainControllers.Controllers {
         });
     }
 
+    public void skinListener(){
+        this.mainController.skinListener(this.skin, this.main_screen);
+    }
+
     public StringProperty skinProperty() {
         return skin;
     }
@@ -68,10 +72,6 @@ public class ExportGraphScreenController extends mainControllers.Controllers {
         this.mainController.setFullPathExport(path.toString());
         this.mainController.exitPopup();
         this.mainController.exportGraph();
-    }
-
-    public void skinListener(){
-        this.mainController.getMainController().getMainController().skinListener(this.skin, this.main_screen);
     }
 
     @FXML
