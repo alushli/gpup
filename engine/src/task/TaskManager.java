@@ -38,8 +38,8 @@ public abstract class TaskManager {
     protected String folderPath;
     protected TaskRuntimeDTO taskRuntimeDTO;
     protected Boolean synchroObj;
-
-
+    protected boolean isPaused;
+    protected Boolean isPausedObj;
 
     /* the function save the simulation folder */
     public String saveSimulationFolder() throws TaskException {
@@ -65,7 +65,8 @@ public abstract class TaskManager {
         target.setRunStatus(TargetRunStatus.SKIPPED);
         Set<Target> requireForTargets = target.getRequiredForList();
         for (Target target1 : requireForTargets){
-            handleFailureRec(target1,consumersList,task,target);
+            if(EngineManager.graphStatic.getGraphMap().containsKey(target1))
+                 handleFailureRec(target1,consumersList,task,target);
         }
     }
 
@@ -89,9 +90,6 @@ public abstract class TaskManager {
         skipped.add(target);
         if(skipped.size() != size){
             synchronized (this.synchroObj){
-                System.out.println("*********");
-                System.out.println("moving target" + target.getName()+ " skip line 93  task manager");
-                System.out.println("*********");
                 taskRuntimeDTO.getTargetByName(target.getName()).setStatus(TargetRuntimeStatus.SKIPPED);
                 taskRuntimeDTO.upFinish();
                 taskRuntimeDTO.getTargetByName(target.getName()).setFinishStatus(TargetRunStatus.SKIPPED);
@@ -148,14 +146,22 @@ public abstract class TaskManager {
         synchronized (this.synchroObj){
             return this.taskRuntimeDTO;
         }
+    }
 
-//        Set<Target> list = new HashSet<>();
-//        list.add(new Target("A"));
-//        list.add(new Target("B"));
-//        list.add(new Target("C"));
-//        TaskRuntimeDTO taskRuntimeDTO = new TaskRuntimeDTO(list, this.synchroObj);
-//        taskRuntimeDTO.setCountFinished(5);
-//        taskRuntimeDTO.setCountTotal(20);
-//        return taskRuntimeDTO;
+    public void setIsPaused(boolean paused){
+        synchronized (this.isPausedObj){
+            this.isPaused = paused;
+            if(!paused){
+                this.isPausedObj.notifyAll();
+            }
+        }
+    }
+
+    public boolean isPaused() {
+        return isPaused;
+    }
+
+    public Boolean getPausedObj() {
+        return isPausedObj;
     }
 }

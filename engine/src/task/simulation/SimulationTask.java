@@ -21,6 +21,7 @@ public class SimulationTask extends Task implements Runnable{
 
     public  SimulationTask(Graph graph, int timePerTarget, double chancePerTarget, double chanceWarning, boolean isRandom,
                            Consumer<String> consumer, Target target, SimulationTaskManager manager) throws TaskException {
+
         this.consumersList = new ArrayList<>();
 
         this.processTime = timePerTarget;
@@ -38,10 +39,16 @@ public class SimulationTask extends Task implements Runnable{
 
     @Override
     public void run() {
+        synchronized (this.manager.getPausedObj()){
+            try{
+                while (this.manager.isPaused()){
+                    this.manager.getPausedObj().wait();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
         synchronized (this.manager.getTaskRuntimeDTO()){
-            System.out.println("*********");
-            System.out.println("moving target" + target.getName()+ " to proccess - line 43 sumulation task ");
-            System.out.println("*********");
             this.manager.getTaskRuntimeDTO().getTargetByName(target.getName()).setStatus(TargetRuntimeStatus.IN_PROCESS);
         }
         try{
@@ -77,9 +84,9 @@ public class SimulationTask extends Task implements Runnable{
             this.manager.handleFinish(target.getRunStatus(),target,consumersList,this);
         }catch (Exception e){
             System.out.println("Error in simulation task - run()");
+            e.printStackTrace();
         }
     }
-
 
 }
 

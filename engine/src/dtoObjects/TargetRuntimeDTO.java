@@ -20,6 +20,7 @@ public class TargetRuntimeDTO {
     private TargetRunStatus finishStatus;
     private TargetRuntimeStatus prevStatus;
     private Boolean synchroObj;
+    private Set<String> requiredFor;
 
 
     public TargetRuntimeDTO(Target target, Boolean synchroObj){
@@ -32,9 +33,19 @@ public class TargetRuntimeDTO {
         for (Target target1 : target.getDependsOnList()){
             this.dependsOn.add(target1.getName());
         }
+        this.requiredFor = new HashSet<>();
+
+        for (Target target1: target.getRequiredForList()){
+            this.requiredFor.add(target1.getName());
+        }
+
         this.prevStatus = null;
         this.synchroObj = synchroObj;
         this.finishStatus = TargetRunStatus.NONE;
+    }
+
+    public Set<String> getRequiredFor() {
+        return requiredFor;
     }
 
     public TargetRuntimeStatus getPrevStatus() {
@@ -99,4 +110,7 @@ public class TargetRuntimeDTO {
         this.skippedBecause.add(targetToAdd);
     }
 
+    public void setPosition(TargetPosition position){
+        this.position = position;
+    }
 }
