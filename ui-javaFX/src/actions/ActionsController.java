@@ -54,8 +54,8 @@ public class ActionsController extends mainControllers.Controllers {
             this.showPathsComponentController= fxmlLoader.getController();
             this.showPathsComponentController.setAppController(this.appController);
             this.showPathsComponentController.setMainController(this);
-            this.showPathsComponentController.skinProperty().bind(this.appController.skinProperty());
             this.showPathsComponentController.skinListener();
+            this.showPathsComponentController.skinProperty().bind(this.appController.skinProperty());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -82,8 +82,8 @@ public class ActionsController extends mainControllers.Controllers {
             this.showCirclesComponentController= fxmlLoader.getController();
             this.showCirclesComponentController.setAppController(this.appController);
             this.showCirclesComponentController.setMainController(this);
-            this.showCirclesComponentController.skinProperty().bind(this.appController.skinProperty());
             this.showCirclesComponentController.skinListener();
+            this.showCirclesComponentController.skinProperty().bind(this.appController.skinProperty());
         } catch (IOException e) {
             e.printStackTrace();
         }

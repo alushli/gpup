@@ -43,11 +43,6 @@
                               <Insets bottom="5.0" top="5.0" />
                            </HBox.margin>
                         </Button>
-                        <Button fx:id="cancel_btn" disable="true" maxHeight="1.7976931348623157E308" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#clickCancel" prefWidth="100.0" styleClass="tasks_btn_gray" text="Cancel">
-                           <HBox.margin>
-                              <Insets bottom="5.0" left="10.0" top="5.0" />
-                           </HBox.margin>
-                        </Button>
                      </children>
                   </HBox>
                   <GridPane GridPane.columnIndex="1" GridPane.rowIndex="2">

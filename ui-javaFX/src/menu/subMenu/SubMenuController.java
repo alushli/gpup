@@ -45,31 +45,17 @@ public class SubMenuController extends  mainControllers.Controllers{
         this.skin = new SimpleStringProperty("Light");
         this.skin.addListener((a,b,c)->{
             if(skin.getValue().equals("Light")){
-                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
-                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_PRINCESS.toString());
-                this.main_screen.getStylesheets().remove(StyleSheetsPath.MENU_DARK.toString());
-                this.main_screen.getStylesheets().remove(StyleSheetsPath.MENU_PRINCESS.toString());
-                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
-                this.main_screen.getStylesheets().add(StyleSheetsPath.MENU_LIGHT.toString());
                 this.back_img.setImage(this.backLightImg);
             }else if (skin.getValue().equals("Dark")){
-                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
-                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_PRINCESS.toString());
-                this.main_screen.getStylesheets().remove(StyleSheetsPath.MENU_LIGHT.toString());
-                this.main_screen.getStylesheets().remove(StyleSheetsPath.MENU_PRINCESS.toString());
-                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_DARK.toString());
-                this.main_screen.getStylesheets().add(StyleSheetsPath.MENU_DARK.toString());
                 this.back_img.setImage(this.backDarkImg);
             } else{
-                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
-                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
-                this.main_screen.getStylesheets().remove(StyleSheetsPath.MENU_LIGHT.toString());
-                this.main_screen.getStylesheets().remove(StyleSheetsPath.MENU_DARK.toString());
-                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_PRINCESS.toString());
-                this.main_screen.getStylesheets().add(StyleSheetsPath.MENU_PRINCESS.toString());
-                this.back_img.setImage(this.backDarkImg);
+                this.back_img.setImage(this.backLightImg);
             }
         });
+    }
+
+    public void skinListener(){
+        this.mainController.skinListener(this.skin, this.main_screen);
     }
 
     @FXML

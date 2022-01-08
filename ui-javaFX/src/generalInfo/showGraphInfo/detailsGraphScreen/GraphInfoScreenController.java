@@ -89,7 +89,11 @@ public class GraphInfoScreenController extends mainControllers.Controllers{
     }
 
     public void skinListener(){
-        this.mainController.getMainController().skinListener(this.skin, this.fall_screen_SP);
+        this.mainController.skinListener(this.skin, this.fall_screen_SP);
+    }
+
+    public void skinListener(StringProperty skin, StackPane stackPane){
+        this.mainController.skinListener(skin, stackPane);
     }
 
     public ShowGraphInfoController getMainController() {
@@ -107,8 +111,8 @@ public class GraphInfoScreenController extends mainControllers.Controllers{
             ExportGraphScreenController exportGraphScreenController = loader.getController();
             exportGraphScreenController.setAppController(this.appController);
             exportGraphScreenController.setMainController(this);
-            exportGraphScreenController.skinProperty().bind(this.appController.skinProperty());
             exportGraphScreenController.skinListener();
+            exportGraphScreenController.skinProperty().bind(this.appController.skinProperty());
             Scene secondScene = new Scene(popup, 520, 200);
             this.popupWindow = new Stage();
             this.popupWindow.setResizable(false);

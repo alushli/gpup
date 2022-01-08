@@ -159,8 +159,8 @@ public class RunTaskController extends mainControllers.Controllers{
           targetController.setMainController(this.mainController);
           targetController.setTargetRuntimeDTO(targetFXDTO);
           targetController.getTarget_btn().setText(targetFXDTO.getName());
-          targetController.skinProperty().bind(this.appController.skinProperty());
           targetController.skinListener();
+          targetController.skinProperty().bind(this.appController.skinProperty());
           if (targetBox instanceof StackPane) {
               StackPane stackPane = (StackPane) targetBox;
               if (stackPane.getChildren().get(0) instanceof Button) {
@@ -176,11 +176,6 @@ public class RunTaskController extends mainControllers.Controllers{
 
     public void skinListener(){
         this.mainController.setLightListener(this.skin, this.fall_screen_SP);
-    }
-
-    @FXML
-    void clickCancel(ActionEvent event) {
-        this.appController.getMenuComponentController().clickTasks(event);
     }
 
     @FXML

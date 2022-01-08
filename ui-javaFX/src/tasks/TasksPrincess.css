@@ -1,7 +1,7 @@
 #sub_header_label{
     -fx-font-size: 20px;
     -fx-font-weight: 700;
-    -fx-text-fill: #7086DD;
+    -fx-text-fill: #EE82EE;
 }
 
 .explanation_label_screen{
@@ -10,14 +10,14 @@
 
 .check_box_screen .box{
     -fx-font-size: 16px;
-    -fx-border-color: #7086DD;
-    -fx-background-color: #F5FAFF;
+    -fx-border-color: #EE82EE;
+    -fx-background-color: #DCDCDC;
 }
 
 #what_if_label{
     -fx-font-size: 18px;
     -fx-font-weight: 700;
-    -fx-text-fill: #7086DD;
+    -fx-text-fill: #EE82EE;
 }
 
 #incremental_label{
@@ -25,54 +25,54 @@
 }
 
 #next_btn{
-    -fx-background-color: #7086DD;
-    -fx-text-fill: #F5FAFF;
+    -fx-background-color: #EE82EE;
+    -fx-text-fill: black;
 }
 
 .tasks_btn_blue{
-    -fx-background-color: #7086DD;
-    -fx-text-fill: #F5FAFF;
+    -fx-background-color: #EE82EE;
+    -fx-text-fill: black;
 }
 
 #progress_bar .bar{
-    -fx-background-color: #7086DD;
+    -fx-background-color: #DAA520;
 }
 
 #progress_bar .track{
-    -fx-background-color: rgba(94, 105, 152, 0.44);
+    -fx-background-color: #ea6cea;
 }
 
 .tasks_btn_gray{
-    -fx-background-color: #F5FAFF;
-    -fx-text-fill: #7086DD;
-    -fx-border-color: #7086DD;
+    -fx-background-color: #DCDCDC;
+    -fx-text-fill: #EE82EE;
+    -fx-border-color: #EE82EE;
 }
 
 .combo-box{
-    -fx-background-color: #F5FAFF;
-    -fx-border-color: #7086DD;
+    -fx-background-color: #DCDCDC;
+    -fx-border-color: #EE82EE;
 }
 
 .spinner {
-    -fx-background-color: #F5FAFF;
-    -fx-border-color: #7086DD;
+    -fx-background-color: #DCDCDC;
+    -fx-border-color: #EE82EE;
 }
 
 .spinner .increment-arrow-button,
 .spinner .decrement-arrow-button{
-    -fx-background-color: #F5FAFF;
+    -fx-background-color: #DCDCDC;
     -fx-border-color: #a1a1a1;
 }
 
 .path_label{
     -fx-border-style: hidden hidden solid hidden;
     -fx-border-width: 2px;
-    -fx-border-color: #7086DD;
+    -fx-border-color: #EE82EE;
 }
 
 .load_path_btn{
-    -fx-text-fill: #F5FAFF;
-    -fx-background-color: #7086DD;
+    -fx-text-fill: black;
+    -fx-background-color: #EE82EE;
 }
 
 #error_label{

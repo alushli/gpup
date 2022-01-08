@@ -3,7 +3,7 @@
 }
 
 .list-view{
-    -fx-background-color: #4F545C !important;
+    -fx-background-color: #b7b6b6 !important;
 }
 
 .sub_header_label{
@@ -13,7 +13,7 @@
 .summery_label{
     -fx-font-weight: 700;
     -fx-font-size: 30;
-    -fx-text-fill: #7086DD;
+    -fx-text-fill: #EE82EE;
 }
 
 #error_label{
@@ -24,21 +24,21 @@
     -fx-background-color: transparent;
     -fx-padding: 2 10 2 10;
     -fx-border-style: hidden hidden solid hidden;
-    -fx-border-color: #7086DD;
+    -fx-border-color: #EE82EE;
 }
 
 #select_folder_btn{
-    -fx-background-color: #7086DD;
-    -fx-text-fill: #FFFFFF;
+    -fx-background-color: #EE82EE;
+    -fx-text-fill: black;
 }
 
 #export_btn{
-    -fx-background-color: #7086DD;
-    -fx-text-fill: #FFFFFF;
+    -fx-background-color: #EE82EE;
+    -fx-text-fill: black;
 }
 
 .target_name{
-    -fx-text-fill: #7086DD !important;
+    -fx-text-fill: #EE82EE !important;
 }
 
 .scroll_border{
