@@ -179,11 +179,6 @@ public class RunTaskController extends mainControllers.Controllers{
     }
 
     @FXML
-    void clickCancel(ActionEvent event) {
-        this.appController.getMenuComponentController().clickTasks(event);
-    }
-
-    @FXML
     void clickPause(ActionEvent event) {
         this.pause_btn.setDisable(true);
         this.resume_btn.setDisable(false);
