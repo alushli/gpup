@@ -96,6 +96,10 @@ public class ShowTargetInfoController extends mainControllers.Controllers{
         }
     }
 
+    public void skinListener(StringProperty skin, StackPane stackPane){
+        this.mainController.skinListener(skin, stackPane);
+    }
+
     private void setPageLabels(){
         this.curSelectedCount.bind(this.targetsTableController.selectedCounterProperty());
         this.curSelectedCount.addListener((a,b,c)->{

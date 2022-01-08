@@ -165,8 +165,8 @@ public class TasksController extends mainControllers.Controllers{
             this.selectTargetController.setMainController(this);
             this.selectTargetController.setAppController(this.appController);
             selectTargetController.getFall_screen_SP().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.99));
-            this.selectTargetController.skinProperty().bind(this.appController.skinProperty());
             this.selectTargetController.skinListener();
+            this.selectTargetController.skinProperty().bind(this.appController.skinProperty());
             if(!firstTime){
                 this.targetsTableController.setSelectedTargets(this.selectedTargets);
                this.selectTargetController.getWhat_if_CB().setSelected(this.isWhatIf);
@@ -195,8 +195,8 @@ public class TasksController extends mainControllers.Controllers{
             this.selectTaskScreenController.setAppController(this.appController);
             this.selectTaskScreenController.setMaxThreads();
             selectTaskScreenController.getFall_screen_SP().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.99));
-            this.selectTaskScreenController.skinProperty().bind(this.appController.skinProperty());
             this.selectTaskScreenController.skinListener();
+            this.selectTaskScreenController.skinProperty().bind(this.appController.skinProperty());
         } catch (Exception e){
             System.out.println("Error in setPageScreen() - showPathController");
         }
@@ -220,8 +220,8 @@ public class TasksController extends mainControllers.Controllers{
             this.runTaskController.setMainController(this);
             this.runTaskController.setAppController(this.appController);
             runTaskController.getFall_screen_SP().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.99));
-            this.runTaskController.skinProperty().bind(this.appController.skinProperty());
             this.runTaskController.skinListener();
+            this.runTaskController.skinProperty().bind(this.appController.skinProperty());
         } catch (Exception e){
             System.out.println("Error in setPageScreen() - showPathController");
         }

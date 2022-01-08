@@ -75,7 +75,7 @@ public class TargetInfoController extends mainControllers.Controllers{
     }
 
     public void skinListener(){
-        this.mainController.getMainController().setLightListener(this.skin, this.fall_screen_SP);
+        this.mainController.skinListener(this.skin, this.fall_screen_SP);
     }
 
     public StringProperty skinProperty() {
