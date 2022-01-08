@@ -49,7 +49,7 @@ public class SubMenuController extends  mainControllers.Controllers{
             }else if (skin.getValue().equals("Dark")){
                 this.back_img.setImage(this.backDarkImg);
             } else{
-                this.back_img.setImage(this.backDarkImg);
+                this.back_img.setImage(this.backLightImg);
             }
         });
     }

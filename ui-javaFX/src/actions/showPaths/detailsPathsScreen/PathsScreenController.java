@@ -76,7 +76,7 @@ public class PathsScreenController extends mainControllers.Controllers{
             }else if (skin.getValue().equals("Dark")){
                 this.switch_img.setImage(this.switchDarkImg);
             } else{
-                this.switch_img.setImage(this.switchDarkImg);
+                this.switch_img.setImage(this.switchLightImg);
             }
         });
     }
