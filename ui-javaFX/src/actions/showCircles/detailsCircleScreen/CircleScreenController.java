@@ -1,12 +1,13 @@
 package actions.showCircles.detailsCircleScreen;
 
 import actions.showCircles.ShowCirclesController;
-import actions.showPaths.ShowPathsController;
 import appScreen.AppController;
 import dtoObjects.TargetDTO;
 import enums.StyleSheetsPath;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -15,11 +16,10 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.StackPane;
 
 import java.util.LinkedHashSet;
-import java.util.List;
 
 public class CircleScreenController extends mainControllers.Controllers {
     private ShowCirclesController mainController;
-    private BooleanProperty isLight;
+    private StringProperty skin;
 
     @FXML
     private StackPane fall_screen_SP;
@@ -38,24 +38,15 @@ public class CircleScreenController extends mainControllers.Controllers {
 
     @FXML
     public void initialize() {
-        this.isLight = new SimpleBooleanProperty(true);
-        this.isLight.addListener((a,b,c)->{
-            if(this.isLight.getValue()){
-                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
-                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.ACTIONS_DARK.toString());
-                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
-                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.ACTIONS_LIGHT.toString());
-            }else{
-                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
-                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.ACTIONS_LIGHT.toString());
-                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.MAIN_CSS_DARK.toString());
-                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.ACTIONS_DARK.toString());
-            }
-        });
+        this.skin = new SimpleStringProperty("Light");
     }
 
-    public BooleanProperty isLightProperty() {
-        return isLight;
+    public void skinListener(){
+        this.mainController.getMainController().skinListener(this.skin, this.fall_screen_SP);
+    }
+
+    public StringProperty skinProperty() {
+        return skin;
     }
 
     @FXML

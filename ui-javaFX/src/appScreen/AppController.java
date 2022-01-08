@@ -12,18 +12,16 @@ import generalComponents.GeneralComponent;
 import javafx.animation.*;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import menu.MenuController;
-import target.Target;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
@@ -40,7 +38,7 @@ public class AppController {
     private boolean isLoadFile = false;
     private EngineManager engineManager;
     private GeneralComponent generalComponent;
-    private BooleanProperty isLight;
+    private StringProperty skin;
     private BooleanProperty isAnimation;
 
     @FXML
@@ -50,19 +48,30 @@ public class AppController {
         this.engineManager = new EngineManager();
         this.generalComponent = new GeneralComponent();
         this.generalComponent.setAppController(this);
-        this.isLight = new SimpleBooleanProperty(true);
+        this.skin = new SimpleStringProperty("Light");
         this.isAnimation = new SimpleBooleanProperty(false);
-        this.isLight.addListener((a,b,c)->{
-            if(this.isLight.getValue()){
+        this.skin.addListener((a, b, c)->{
+            if(skin.getValue().equals("Light")){
                 this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_PRINCESS.toString());
                 this.main_screen.getStylesheets().remove(StyleSheetsPath.APP_SCREEN_DARK.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.APP_SCREEN_PRINCESS.toString());
                 this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
-                this.main_screen.getStylesheets().add(StyleSheetsPath.APP_SCREEN_LIGHT.toString());
-            }else{
+                this.main_screen.getStylesheets().add(StyleSheetsPath.APP_SCREEN_PRINCESS.toString());
+            }else if (skin.getValue().equals("Dark")){
                 this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_PRINCESS.toString());
                 this.main_screen.getStylesheets().remove(StyleSheetsPath.APP_SCREEN_LIGHT.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.APP_SCREEN_PRINCESS.toString());
                 this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_DARK.toString());
                 this.main_screen.getStylesheets().add(StyleSheetsPath.APP_SCREEN_DARK.toString());
+            } else {
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.APP_SCREEN_LIGHT.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.APP_SCREEN_DARK.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_PRINCESS.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.APP_SCREEN_PRINCESS.toString());
             }
         });
     }
@@ -87,12 +96,12 @@ public class AppController {
         this.isAnimation.set(isAnimation);
     }
 
-    public void setIsLight(boolean isLight) {
-        this.isLight.set(isLight);
+    public void setSkin(String skin) {
+        this.skin.set(skin);
     }
 
-    public BooleanProperty isLightProperty() {
-        return isLight;
+    public StringProperty skinProperty() {
+        return skin;
     }
 
     public Stage getPrimaryStage() {
@@ -111,7 +120,7 @@ public class AppController {
             this.menuParent = fxmlLoader.load(url.openStream());
             this.menuComponentController = fxmlLoader.getController();
             this.menuComponentController.setAppController(this);
-            this.menuComponentController.isLightProperty().bind(this.isLightProperty());
+            this.menuComponentController.skinProperty().bind(this.skinProperty());
         } catch (IOException e) {
             e.printStackTrace();
         }

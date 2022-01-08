@@ -5,6 +5,8 @@ import enums.StyleSheetsPath;
 import exceptions.XmlException;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -18,7 +20,7 @@ import java.io.File;
 
 public class LoadFileController extends mainControllers.Controllers{
     private static String workFile = null;
-    private BooleanProperty isLight;
+    private StringProperty skin;
 
     @FXML
     private StackPane main_screen;
@@ -46,24 +48,35 @@ public class LoadFileController extends mainControllers.Controllers{
 
     @FXML
     public void initialize() {
-        this.isLight = new SimpleBooleanProperty(true);
-        this.isLight.addListener((a,b,c)->{
-            if(this.isLight.getValue()){
+        this.skin = new SimpleStringProperty("Light");
+        this.skin.addListener((a, b, c)->{
+            if(this.skin.getValue().equals("Light")){
                 this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_PRINCESS.toString());
                 this.main_screen.getStylesheets().remove(StyleSheetsPath.LOAD_FILE_DARK.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.LOAD_FILE_PRINCESS.toString());
                 this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
                 this.main_screen.getStylesheets().add(StyleSheetsPath.LOAD_FILE_LIGHT.toString());
-            }else{
+            }else if(this.skin.getValue().equals("Dark")){
                 this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_PRINCESS.toString());
                 this.main_screen.getStylesheets().remove(StyleSheetsPath.LOAD_FILE_LIGHT.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.LOAD_FILE_PRINCESS.toString());
                 this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_DARK.toString());
                 this.main_screen.getStylesheets().add(StyleSheetsPath.LOAD_FILE_DARK.toString());
+            }else{
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.LOAD_FILE_LIGHT.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.LOAD_FILE_DARK.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_PRINCESS.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.LOAD_FILE_PRINCESS.toString());
             }
         });
     }
 
-    public BooleanProperty isLightProperty() {
-        return isLight;
+    public StringProperty skinProperty() {
+        return skin;
     }
 
     @FXML

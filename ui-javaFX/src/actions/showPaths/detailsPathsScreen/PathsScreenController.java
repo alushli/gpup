@@ -5,9 +5,10 @@ import appScreen.AppController;
 import dtoObjects.TargetDTO;
 import enums.StyleSheetsPath;
 import javafx.animation.RotateTransition;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -19,12 +20,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PathsScreenController extends mainControllers.Controllers{
     private ShowPathsController mainController;
-    private BooleanProperty isLight;
+    private StringProperty skin;
     private BooleanProperty isAnimation;
     private Image switchDarkImg;
     private Image switchLightImg;
@@ -53,8 +53,8 @@ public class PathsScreenController extends mainControllers.Controllers{
     @FXML
     private StackPane fall_screen_SP;
 
-    public BooleanProperty isLightProperty() {
-        return isLight;
+    public StringProperty skinProperty() {
+        return skin;
     }
 
     public BooleanProperty isAnimationProperty() {
@@ -68,23 +68,12 @@ public class PathsScreenController extends mainControllers.Controllers{
         direction_CB.getItems().removeAll(direction_CB.getItems());
         direction_CB.getItems().addAll("Depends On", "Required For");
         direction_CB.getSelectionModel().select(0);
-        this.isLight = new SimpleBooleanProperty(true);
+        this.skin = new SimpleStringProperty("Light");
         this.isAnimation = new SimpleBooleanProperty(false);
-        this.isLight.addListener((a,b,c)->{
-            if(this.isLight.getValue()){
-                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
-                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.ACTIONS_DARK.toString());
-                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
-                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.ACTIONS_LIGHT.toString());
-                this.switch_img.setImage(this.switchLightImg);
-            }else{
-                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
-                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.ACTIONS_LIGHT.toString());
-                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.MAIN_CSS_DARK.toString());
-                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.ACTIONS_DARK.toString());
-                this.switch_img.setImage(this.switchDarkImg);
-            }
-        });
+    }
+
+    public void skinListener(){
+        this.mainController.getMainController().skinListener(this.skin, this.fall_screen_SP);
     }
 
     public StackPane getFall_screen_SP() {

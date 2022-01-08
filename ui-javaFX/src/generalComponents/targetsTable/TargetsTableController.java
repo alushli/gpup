@@ -1,7 +1,6 @@
 package generalComponents.targetsTable;
 
 
-import Enums.TargetPosition;
 import dtoObjects.TargetFXDTO;
 import enums.StyleSheetsPath;
 import generalComponents.GeneralComponent;
@@ -14,7 +13,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import tasks.TasksController;
 
-import javax.sound.midi.Soundbank;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
@@ -24,7 +22,7 @@ public class TargetsTableController extends GeneralComponent {
     private ArrayList<TargetFXDTO> curSelected;
     private IntegerProperty selectedCounter;
     private BooleanProperty isMaxSelected;
-    private BooleanProperty isLight;
+    private StringProperty skin;
     private boolean isWhatIfHappened = false;
     private TasksController tasksController;
 
@@ -119,21 +117,26 @@ public class TargetsTableController extends GeneralComponent {
         this.selectCol.setSortable(false);
         Collection<TargetFXDTO> targets = this.getAppController().getAllTargets();
         this.table.setItems(getTargets(targets));
-        this.isLight = new SimpleBooleanProperty(true);
-        this.isLight.addListener((a,b,c)->{
-            if(this.isLight.getValue()){
+        this.skin = new SimpleStringProperty("Light");
+        this.skin.addListener((a, b, c)->{
+            if(this.skin.getValue().equals("Light")){
                 this.main_screen.getStylesheets().remove(StyleSheetsPath.TARGETS_TABLE_DARK.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.TARGETS_TABLE_PRINCESS.toString());
                 this.main_screen.getStylesheets().add(StyleSheetsPath.TARGETS_TABLE_LIGHT.toString());
-            }else{
+            }else if (this.skin.getValue().equals("Dark")){
                 this.main_screen.getStylesheets().remove(StyleSheetsPath.TARGETS_TABLE_LIGHT.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.TARGETS_TABLE_PRINCESS.toString());
                 this.main_screen.getStylesheets().add(StyleSheetsPath.TARGETS_TABLE_DARK.toString());
+            } else {
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.TARGETS_TABLE_LIGHT.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.TARGETS_TABLE_DARK.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.TARGETS_TABLE_PRINCESS.toString());
             }
         });
     }
 
-
-    public BooleanProperty isLightProperty() {
-        return isLight;
+    public StringProperty skinProperty() {
+        return skin;
     }
 
     public void setSelectOnClick(Collection<TargetFXDTO> targets){

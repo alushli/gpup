@@ -1,11 +1,12 @@
 package generalComponents.serialSetTable;
 
 import dtoObjects.SerialSetFXDTO;
-import dtoObjects.TargetFXDTO;
 import enums.StyleSheetsPath;
 import generalComponents.GeneralComponent;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,10 +16,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 
 import java.util.Collection;
-import java.util.Set;
 
 public class SerialSetTableController extends GeneralComponent {
-    private BooleanProperty isLight;
+    private StringProperty skin;
 
     @FXML
     private StackPane main_screen;
@@ -39,8 +39,8 @@ public class SerialSetTableController extends GeneralComponent {
         return table;
     }
 
-    public BooleanProperty isLightProperty() {
-        return isLight;
+    public StringProperty skinProperty() {
+        return skin;
     }
 
     @FXML
@@ -48,14 +48,20 @@ public class SerialSetTableController extends GeneralComponent {
         this.nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         this.listCol.setCellValueFactory(new PropertyValueFactory<>("set"));
         this.table.setItems(getSerialSets(this.getAppController().getGraphSerialSet()));
-        this.isLight = new SimpleBooleanProperty(true);
-        this.isLight.addListener((a,b,c)->{
-            if(this.isLight.getValue()){
+        this.skin = new SimpleStringProperty("Light");
+        this.skin.addListener((a, b, c)->{
+            if(this.skin.getValue().equals("Light")){
                 this.main_screen.getStylesheets().remove(StyleSheetsPath.SERIAL_SET_TABLE_DARK.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.SERIAL_SET_TABLE_PRINCESS.toString());
                 this.main_screen.getStylesheets().add(StyleSheetsPath.SERIAL_SET_TABLE_LIGHT.toString());
-            }else{
+            }else if (this.skin.getValue().equals("Dark")){
                 this.main_screen.getStylesheets().remove(StyleSheetsPath.SERIAL_SET_TABLE_LIGHT.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.SERIAL_SET_TABLE_PRINCESS.toString());
                 this.main_screen.getStylesheets().add(StyleSheetsPath.SERIAL_SET_TABLE_DARK.toString());
+            } else{
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.SERIAL_SET_TABLE_LIGHT.toString());
+                this.main_screen.getStylesheets().remove(StyleSheetsPath.SERIAL_SET_TABLE_DARK.toString());
+                this.main_screen.getStylesheets().add(StyleSheetsPath.SERIAL_SET_TABLE_PRINCESS.toString());
             }
         });
     }

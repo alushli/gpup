@@ -3,14 +3,14 @@ package tasks.runTaskScreen;
 import Enums.TargetRunStatus;
 import Enums.TargetRuntimeStatus;
 import appScreen.AppController;
-import dtoObjects.TargetFXDTO;
 import dtoObjects.TargetRuntimeDTO;
 import enums.StyleSheetsPath;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -19,7 +19,7 @@ import javafx.scene.layout.VBox;
 
 public class TargetInfoController extends mainControllers.Controllers{
     private TargetController mainController;
-    private BooleanProperty isLight;
+    private StringProperty skin;
 
     @FXML
     private StackPane fall_screen_SP;
@@ -71,24 +71,15 @@ public class TargetInfoController extends mainControllers.Controllers{
 
     @FXML
     public void initialize() {
-        this.isLight = new SimpleBooleanProperty(true);
-        this.isLight.addListener((a, b, c) -> {
-            if (this.isLight.getValue()) {
-                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
-                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.TASK_DARK.toString());
-                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
-                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.TASK_LIGHT.toString());
-            } else {
-                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
-                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.TASK_LIGHT.toString());
-                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.MAIN_CSS_DARK.toString());
-                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.TASK_DARK.toString());
-            }
-        });
+        this.skin = new SimpleStringProperty("Light");
     }
 
-    public BooleanProperty isLightProperty() {
-        return isLight;
+    public void skinListener(){
+        this.mainController.getMainController().setLightListener(this.skin, this.fall_screen_SP);
+    }
+
+    public StringProperty skinProperty() {
+        return skin;
     }
 
     public void setPopUp(TargetRuntimeDTO targetRuntimeDTO){

@@ -2,13 +2,12 @@ package generalInfo.showGraphInfo.detailsGraphScreen;
 
 import appScreen.AppController;
 import enums.FxmlPath;
-import enums.StyleSheetsPath;
 import generalComponents.serialSetTable.SerialSetTableController;
 import generalInfo.GeneralInfoController;
 import generalInfo.showGraphInfo.ShowGraphInfoController;
 import generalInfo.showGraphInfo.detailsGraphScreen.exportGraphScreen.ExportGraphScreenController;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +15,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import java.net.URL;
@@ -25,7 +23,7 @@ public class GraphInfoScreenController extends mainControllers.Controllers{
     private ShowGraphInfoController mainController;
     private String fullPathExport;
     private Stage popupWindow;
-    private BooleanProperty isLight;
+    private StringProperty skin;
 
     @FXML
     private StackPane fall_screen_SP;
@@ -65,24 +63,11 @@ public class GraphInfoScreenController extends mainControllers.Controllers{
 
     @FXML
     public void initialize() {
-        this.isLight = new SimpleBooleanProperty(true);
-        this.isLight.addListener((a,b,c)->{
-            if(this.isLight.getValue()){
-                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
-                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.GENERAL_INFO_DARK.toString());
-                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
-                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.GENERAL_INFO_LIGHT.toString());
-            }else{
-                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
-                this.fall_screen_SP.getStylesheets().remove(StyleSheetsPath.GENERAL_INFO_LIGHT.toString());
-                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.MAIN_CSS_DARK.toString());
-                this.fall_screen_SP.getStylesheets().add(StyleSheetsPath.GENERAL_INFO_DARK.toString());
-            }
-        });
+        this.skin = new SimpleStringProperty("Light");
     }
 
-    public BooleanProperty isLightProperty() {
-        return isLight;
+    public StringProperty skinProperty() {
+        return skin;
     }
 
     public void setFullPathExport(String fullPathExport) {
@@ -103,6 +88,14 @@ public class GraphInfoScreenController extends mainControllers.Controllers{
         }
     }
 
+    public void skinListener(){
+        this.mainController.getMainController().skinListener(this.skin, this.fall_screen_SP);
+    }
+
+    public ShowGraphInfoController getMainController() {
+        return mainController;
+    }
+
     public void restartExportLabel(){
         this.export_label.setText("");
     }
@@ -114,7 +107,8 @@ public class GraphInfoScreenController extends mainControllers.Controllers{
             ExportGraphScreenController exportGraphScreenController = loader.getController();
             exportGraphScreenController.setAppController(this.appController);
             exportGraphScreenController.setMainController(this);
-            exportGraphScreenController.isLightProperty().bind(this.appController.isLightProperty());
+            exportGraphScreenController.skinProperty().bind(this.appController.skinProperty());
+            exportGraphScreenController.skinListener();
             Scene secondScene = new Scene(popup, 520, 200);
             this.popupWindow = new Stage();
             this.popupWindow.setResizable(false);
@@ -175,7 +169,7 @@ public class GraphInfoScreenController extends mainControllers.Controllers{
             generalInfoController.setArea(this.table_SP ,fxmlLoader.load(url.openStream()));
             SerialSetTableController serialSetTableController = fxmlLoader.getController();
             serialSetTableController.getTable().prefHeightProperty().bind(this.table_SP.heightProperty().multiply(0.895));
-            serialSetTableController.isLightProperty().bind(this.appController.isLightProperty());
+            serialSetTableController.skinProperty().bind(this.appController.skinProperty());
 
         } catch (Exception e){
             System.out.println("Error in setSerialSetTable() - GraphInfoScreenController");

@@ -2,45 +2,31 @@ package tasks.runTaskScreen;
 
 import Enums.SimulationEntryPoint;
 import appScreen.AppController;
-import dtoObjects.TargetFXDTO;
 import dtoObjects.TargetRuntimeDTO;
 import enums.FxmlPath;
-import javafx.animation.*;
 import javafx.application.Platform;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.CubicCurveTo;
-import javafx.scene.shape.HLineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
-import javafx.util.Duration;
 import tasks.TasksController;
 import tasks.UIAdapter;
 import tasks.simulation.SimulationTask;
 
-import javax.swing.text.Position;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
 import java.util.function.Consumer;
 
 public class RunTaskController extends mainControllers.Controllers{
     private TasksController mainController;
-    private BooleanProperty isLight;
+    private StringProperty skin;
     private Collection<String> targetsToRun;
     private StringProperty skippedTargets;
     private StringProperty failedTargets;
@@ -53,8 +39,6 @@ public class RunTaskController extends mainControllers.Controllers{
     private boolean isRandomSimulation;
     private SimulationEntryPoint entryPoint;
     private int maxParallel;
-
-    private int count = 0;
 
     @FXML
     private TextArea log_TA;
@@ -140,7 +124,7 @@ public class RunTaskController extends mainControllers.Controllers{
 
     @FXML
     public void initialize() {
-        this.isLight = new SimpleBooleanProperty(true);
+        this.skin = new SimpleStringProperty("Light");
         this.skippedTargets = new SimpleStringProperty();
         this.failedTargets = new SimpleStringProperty();
         this.warningTargets = new SimpleStringProperty();
@@ -152,8 +136,8 @@ public class RunTaskController extends mainControllers.Controllers{
 
     }
 
-    public BooleanProperty isLightProperty() {
-        return isLight;
+    public StringProperty skinProperty() {
+        return skin;
     }
 
     public StackPane getFall_screen_SP() {
@@ -172,10 +156,11 @@ public class RunTaskController extends mainControllers.Controllers{
           Node targetBox = fxmlLoader.load();
           TargetController targetController = fxmlLoader.getController();
           targetController.setAppController(this.appController);
+          targetController.setMainController(this.mainController);
           targetController.setTargetRuntimeDTO(targetFXDTO);
           targetController.getTarget_btn().setText(targetFXDTO.getName());
-          targetController.isLightProperty().bind(this.appController.isLightProperty());
-          this.mainController.setLightListener(targetController.isLightProperty());
+          targetController.skinProperty().bind(this.appController.skinProperty());
+          targetController.skinListener();
           if (targetBox instanceof StackPane) {
               StackPane stackPane = (StackPane) targetBox;
               if (stackPane.getChildren().get(0) instanceof Button) {
@@ -187,7 +172,10 @@ public class RunTaskController extends mainControllers.Controllers{
       }catch (Exception e){
           e.printStackTrace();
       }
+    }
 
+    public void skinListener(){
+        this.mainController.setLightListener(this.skin, this.fall_screen_SP);
     }
 
     @FXML

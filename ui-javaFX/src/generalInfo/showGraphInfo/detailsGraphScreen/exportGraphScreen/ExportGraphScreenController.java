@@ -2,21 +2,20 @@ package generalInfo.showGraphInfo.detailsGraphScreen.exportGraphScreen;
 
 import appScreen.AppController;
 import enums.StyleSheetsPath;
-import generalInfo.showGraphInfo.ShowGraphInfoController;
 import generalInfo.showGraphInfo.detailsGraphScreen.GraphInfoScreenController;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.DirectoryChooser;
 
 
-import javax.xml.soap.Text;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -24,7 +23,7 @@ import java.nio.file.Paths;
 public class ExportGraphScreenController extends mainControllers.Controllers {
     private GraphInfoScreenController mainController;
     private BooleanProperty canExport;
-    private BooleanProperty isLight;
+    private StringProperty skin;
 
     @FXML
     private StackPane main_screen;
@@ -40,7 +39,7 @@ public class ExportGraphScreenController extends mainControllers.Controllers {
 
     @FXML
     public void initialize() {
-        this.isLight = new SimpleBooleanProperty(true);
+        this.skin = new SimpleStringProperty("Light");
         this.canExport = new SimpleBooleanProperty();
         this.export_btn.disableProperty().bind(canExport.not());
         this.file_name_txt.textProperty().addListener((a,b,c)->{
@@ -57,23 +56,10 @@ public class ExportGraphScreenController extends mainControllers.Controllers {
                 this.canExport.set(false);
             }
         });
-        this.isLight.addListener((a,b,c)->{
-            if(this.isLight.getValue()){
-                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
-                this.main_screen.getStylesheets().remove(StyleSheetsPath.GENERAL_INFO_DARK.toString());
-                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
-                this.main_screen.getStylesheets().add(StyleSheetsPath.GENERAL_INFO_LIGHT.toString());
-            }else{
-                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
-                this.main_screen.getStylesheets().remove(StyleSheetsPath.GENERAL_INFO_LIGHT.toString());
-                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_DARK.toString());
-                this.main_screen.getStylesheets().add(StyleSheetsPath.GENERAL_INFO_DARK.toString());
-            }
-        });
     }
 
-    public BooleanProperty isLightProperty() {
-        return isLight;
+    public StringProperty skinProperty() {
+        return skin;
     }
 
     @FXML
@@ -82,6 +68,10 @@ public class ExportGraphScreenController extends mainControllers.Controllers {
         this.mainController.setFullPathExport(path.toString());
         this.mainController.exitPopup();
         this.mainController.exportGraph();
+    }
+
+    public void skinListener(){
+        this.mainController.getMainController().getMainController().skinListener(this.skin, this.main_screen);
     }
 
     @FXML

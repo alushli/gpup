@@ -4,6 +4,8 @@ import Enums.SimulationEntryPoint;
 import appScreen.AppController;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -13,8 +15,6 @@ import javafx.stage.DirectoryChooser;
 import tasks.TasksController;
 
 import java.io.File;
-import java.util.Collection;
-import java.util.HashSet;
 
 public class SelectTaskScreenController extends mainControllers.Controllers {
     private TasksController mainController;
@@ -24,7 +24,7 @@ public class SelectTaskScreenController extends mainControllers.Controllers {
     private BooleanProperty endWarningValid;
     private BooleanProperty srcFolderValid;
     private BooleanProperty compiledFolderValid;
-    private BooleanProperty isLight;
+    private StringProperty skin;
 
     @FXML
     private StackPane fall_screen_SP;
@@ -74,8 +74,8 @@ public class SelectTaskScreenController extends mainControllers.Controllers {
     @FXML
     private Button next_btn;
 
-    public BooleanProperty isLightProperty() {
-        return isLight;
+    public StringProperty skinProperty() {
+        return skin;
     }
 
     @FXML
@@ -134,7 +134,7 @@ public class SelectTaskScreenController extends mainControllers.Controllers {
 
     @FXML
     public void initialize() {
-        this.isLight = new SimpleBooleanProperty(true);
+        this.skin = new SimpleStringProperty("Light");
         this.isSimulation = new SimpleBooleanProperty(true);
         this.processTimeValid = new SimpleBooleanProperty(false);
         this.endSuccessValid = new SimpleBooleanProperty(false);
@@ -240,6 +240,10 @@ public class SelectTaskScreenController extends mainControllers.Controllers {
             textField.getStyleClass().removeAll("invalid_arguments");
             booleanProperty.set(true);
         }
+    }
+
+    public void skinListener(){
+        this.mainController.setLightListener(this.skin, this.fall_screen_SP);
     }
 
     @FXML

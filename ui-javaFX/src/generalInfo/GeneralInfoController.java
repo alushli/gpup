@@ -2,12 +2,12 @@ package generalInfo;
 
 import appScreen.AppController;
 import enums.FxmlPath;
+import enums.StyleSheetsPath;
 import generalInfo.showGraphInfo.ShowGraphInfoController;
 import generalInfo.showTargetInfo.ShowTargetInfoController;
-import javafx.fxml.FXML;
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import templates.LoadFileError;
 
@@ -54,10 +54,38 @@ public class GeneralInfoController extends mainControllers.Controllers {
             this.showTargetInfoComponentController= fxmlLoader.getController();
             this.showTargetInfoComponentController.setAppController(this.appController);
             this.showTargetInfoComponentController.setMainController(this);
-            this.showTargetInfoComponentController.isLightProperty().bind(this.appController.isLightProperty());
+            this.showTargetInfoComponentController.skinProperty().bind(this.appController.skinProperty());
+            this.showTargetInfoComponentController.skinListener();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void skinListener(StringProperty skin, StackPane stackPane){
+        skin.addListener((a, b, c)->{
+            if(skin.getValue().equals("Light")){
+                stackPane.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                stackPane.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_PRINCESS.toString());
+                stackPane.getStylesheets().remove(StyleSheetsPath.GENERAL_INFO_DARK.toString());
+                stackPane.getStylesheets().remove(StyleSheetsPath.GENERAL_INFO_PRINCESS.toString());
+                stackPane.getStylesheets().add(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                stackPane.getStylesheets().add(StyleSheetsPath.GENERAL_INFO_LIGHT.toString());
+            }else if (skin.getValue().equals("Dark")){
+                stackPane.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                stackPane.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_PRINCESS.toString());
+                stackPane.getStylesheets().remove(StyleSheetsPath.GENERAL_INFO_LIGHT.toString());
+                stackPane.getStylesheets().remove(StyleSheetsPath.GENERAL_INFO_PRINCESS.toString());
+                stackPane.getStylesheets().add(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                stackPane.getStylesheets().add(StyleSheetsPath.GENERAL_INFO_DARK.toString());
+            } else {
+                stackPane.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
+                stackPane.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
+                stackPane.getStylesheets().remove(StyleSheetsPath.GENERAL_INFO_LIGHT.toString());
+                stackPane.getStylesheets().remove(StyleSheetsPath.GENERAL_INFO_DARK.toString());
+                stackPane.getStylesheets().add(StyleSheetsPath.MAIN_CSS_PRINCESS.toString());
+                stackPane.getStylesheets().add(StyleSheetsPath.GENERAL_INFO_PRINCESS.toString());
+            }
+        });
     }
 
     public void setGraphInfoControllers() {
@@ -76,7 +104,8 @@ public class GeneralInfoController extends mainControllers.Controllers {
             this.showGraphInfoComponentController= fxmlLoader.getController();
             this.showGraphInfoComponentController.setAppController(this.appController);
             this.showGraphInfoComponentController.setMainController(this);
-            this.showGraphInfoComponentController.isLightProperty().bind(this.appController.isLightProperty());
+            this.showGraphInfoComponentController.skinProperty().bind(this.appController.skinProperty());
+            this.showGraphInfoComponentController.skinListener();
         } catch (IOException e) {
             e.printStackTrace();
         }

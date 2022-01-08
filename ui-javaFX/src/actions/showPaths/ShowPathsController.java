@@ -4,12 +4,8 @@ import actions.ActionsController;
 import actions.showPaths.detailsPathsScreen.PathsScreenController;
 import appScreen.AppController;
 import enums.FxmlPath;
-import enums.StyleSheetsPath;
 import generalComponents.targetsTable.TargetsTableController;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +18,7 @@ public class ShowPathsController extends mainControllers.Controllers{
     private TargetsTableController targetsTableController;
     private IntegerProperty curSelectedCount;
     private PathsScreenController pathsScreenController;
-    private BooleanProperty isLight;
+    private StringProperty skin;
 
     @FXML
     private StackPane main_screen;
@@ -41,20 +37,11 @@ public class ShowPathsController extends mainControllers.Controllers{
 
     @FXML
     public void initialize() {
-        this.isLight = new SimpleBooleanProperty(true);
-        this.isLight.addListener((a,b,c)->{
-            if(this.isLight.getValue()){
-                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_DARK.toString());
-                this.main_screen.getStylesheets().remove(StyleSheetsPath.ACTIONS_DARK.toString());
-                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
-                this.main_screen.getStylesheets().add(StyleSheetsPath.ACTIONS_LIGHT.toString());
-            }else{
-                this.main_screen.getStylesheets().remove(StyleSheetsPath.MAIN_CSS_LIGHT.toString());
-                this.main_screen.getStylesheets().remove(StyleSheetsPath.ACTIONS_LIGHT.toString());
-                this.main_screen.getStylesheets().add(StyleSheetsPath.MAIN_CSS_DARK.toString());
-                this.main_screen.getStylesheets().add(StyleSheetsPath.ACTIONS_DARK.toString());
-            }
-        });
+        this.skin = new SimpleStringProperty("Light");
+    }
+
+    public void skinListener(){
+        this.mainController.skinListener(this.skin, this.main_screen);
     }
 
     @FXML
@@ -62,8 +49,8 @@ public class ShowPathsController extends mainControllers.Controllers{
         this.targetsTableController.deselectAll();
     }
 
-    public BooleanProperty isLightProperty() {
-        return isLight;
+    public StringProperty skinProperty() {
+        return skin;
     }
 
     public StackPane getDataArea() { return data_area; }
@@ -79,6 +66,10 @@ public class ShowPathsController extends mainControllers.Controllers{
         this.mainController = mainControllers;
     }
 
+    public ActionsController getMainController() {
+        return mainController;
+    }
+
     public void setPageScreen(){
         try{
             this.curSelectedCount = new SimpleIntegerProperty();
@@ -89,7 +80,8 @@ public class ShowPathsController extends mainControllers.Controllers{
             this.pathsScreenController = fxmlLoader.getController();
             this.pathsScreenController.setMainController(this);
             this.pathsScreenController.setAppController(this.appController);
-            this.pathsScreenController.isLightProperty().bind(this.appController.isLightProperty());
+            this.pathsScreenController.skinProperty().bind(this.appController.skinProperty());
+            this.pathsScreenController.skinListener();
             this.pathsScreenController.isAnimationProperty().bind(this.appController.isAnimationProperty());
             setTargetsLabels();
             pathsScreenController.getFall_screen_SP().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.99));
@@ -129,7 +121,7 @@ public class ShowPathsController extends mainControllers.Controllers{
             this.targetsTableController.setAppController(this.appController);
             this.targetsTableController.getTable().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.925));
             this.targetsTableController.setMaxSelect(2);
-            this.targetsTableController.isLightProperty().bind(this.appController.isLightProperty());
+            this.targetsTableController.skinProperty().bind(this.appController.skinProperty());
         }catch (Exception e){
             System.out.println("Error in setTableScreen() - showPathController");
         }
