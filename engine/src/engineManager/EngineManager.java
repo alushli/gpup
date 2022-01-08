@@ -485,7 +485,6 @@ public class EngineManager implements EngineManagerInterface{
             this.simulationTaskManager.setIsPaused(paused);
         }
     }
-
 }
 
 
