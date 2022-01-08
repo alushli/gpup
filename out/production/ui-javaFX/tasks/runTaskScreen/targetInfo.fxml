@@ -40,14 +40,18 @@
             </HBox>
             <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <children>
-                  <Label maxHeight="1.7976931348623157E308" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" styleClass="sub_header_popup" text="Status:" HBox.hgrow="NEVER" />
+                  <Label maxHeight="1.7976931348623157E308" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" styleClass="sub_header_popup" text="Status:" HBox.hgrow="NEVER" />
                   <Label fx:id="target_status_label" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="NEVER" />
                </children>
             </HBox>
             <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
-                  <Label alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" styleClass="sub_header_popup" text="Serial set(s):" HBox.hgrow="NEVER" />
-                  <ListView fx:id="serial_set_LIST" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="NEVER" />
+                  <Label alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" styleClass="sub_header_popup" text="Serial set(s):" HBox.hgrow="NEVER" />
+                  <StackPane fx:id="serial_set_SP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="NEVER">
+                     <children>
+                        <ListView fx:id="serial_set_LIST" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                     </children>
+                  </StackPane>
                </children>
             </HBox>
             <Separator maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
@@ -57,13 +61,13 @@
                      <children>
                         <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" VBox.vgrow="NEVER">
                            <children>
-                              <Label maxHeight="1.7976931348623157E308" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" styleClass="sub_header_popup" text="Run Status: " />
+                              <Label maxHeight="1.7976931348623157E308" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" styleClass="sub_header_popup" text="Run Status: " />
                               <Label text="Frozen" />
                            </children>
                         </HBox>
                         <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" VBox.vgrow="SOMETIMES">
                            <children>
-                              <Label maxWidth="110.0" minWidth="110.0" prefWidth="110.0" styleClass="sub_header_popup" text="List of dependencies:" wrapText="true" />
+                              <Label maxWidth="120.0" minWidth="120.0" prefHeight="60.0" prefWidth="120.0" styleClass="sub_header_popup" text="List of dependencies:" wrapText="true" />
                               <ListView fx:id="frozen_dependencies_LIST" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
                            </children>
                         </HBox>
@@ -73,7 +77,7 @@
                      <children>
                         <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" VBox.vgrow="NEVER">
                            <children>
-                              <Label maxHeight="1.7976931348623157E308" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" styleClass="sub_header_popup" text="Run Status: " />
+                              <Label maxHeight="1.7976931348623157E308" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" styleClass="sub_header_popup" text="Run Status: " />
                               <Label text="Waiting" />
                            </children>
                         </HBox>
@@ -90,14 +94,14 @@
                      <children>
                         <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" VBox.vgrow="NEVER">
                            <children>
-                              <Label maxHeight="1.7976931348623157E308" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" styleClass="sub_header_popup" text="Run Status: " />
+                              <Label maxHeight="1.7976931348623157E308" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" styleClass="sub_header_popup" text="Run Status: " />
                               <Label text="Skipped" />
                            </children>
                         </HBox>
                         <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" VBox.vgrow="SOMETIMES">
                            <children>
-                              <Label maxWidth="110.0" minWidth="110.0" prefWidth="110.0" styleClass="sub_header_popup" text="List of failed dependencies:" wrapText="true" />
-                              <ListView fx:id="skipped_failed_dependencies_LIST2" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                              <Label maxWidth="120.0" minWidth="120.0" prefWidth="120.0" styleClass="sub_header_popup" text="List of failed dependencies:" wrapText="true" />
+                              <ListView fx:id="skipped_failed_dependencies_LIST" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
                            </children>
                         </HBox>
                      </children>
@@ -106,7 +110,7 @@
                      <children>
                         <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" VBox.vgrow="NEVER">
                            <children>
-                              <Label maxHeight="1.7976931348623157E308" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" styleClass="sub_header_popup" text="Run Status: " />
+                              <Label maxHeight="1.7976931348623157E308" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" styleClass="sub_header_popup" text="Run Status: " />
                               <Label text="In process" />
                            </children>
                         </HBox>
@@ -123,13 +127,13 @@
                      <children>
                         <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" VBox.vgrow="NEVER">
                            <children>
-                              <Label maxHeight="1.7976931348623157E308" maxWidth="110.0" minWidth="110.0" prefWidth="110.0" styleClass="sub_header_popup" text="Run Status: " />
+                              <Label maxHeight="1.7976931348623157E308" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" styleClass="sub_header_popup" text="Run Status: " />
                               <Label text="Finished" />
                            </children>
                         </HBox>
                         <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" VBox.vgrow="SOMETIMES">
                            <children>
-                              <Label maxWidth="110.0" minWidth="110.0" prefWidth="110.0" styleClass="sub_header_popup" text="Finish status:" wrapText="true" />
+                              <Label maxWidth="120.0" minWidth="120.0" prefWidth="120.0" styleClass="sub_header_popup" text="Finish status:" wrapText="true" />
                               <Label fx:id="finish_status_label" maxWidth="1.7976931348623157E308" HBox.hgrow="SOMETIMES" />
                            </children>
                         </HBox>

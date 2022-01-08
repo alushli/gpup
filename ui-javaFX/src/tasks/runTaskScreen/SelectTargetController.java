@@ -5,6 +5,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -14,12 +15,13 @@ import tasks.TasksController;
 public class SelectTargetController extends mainControllers.Controllers {
     private TasksController mainController;
     private BooleanProperty isLight;
+    private BooleanProperty oneTargetSelect;
+
+    @FXML
+    private Button next_btn;
 
     @FXML
     private StackPane fall_screen_SP;
-
-    @FXML
-    private Label count_selected_targets;
 
     @FXML
     private CheckBox what_if_CB;
@@ -34,7 +36,6 @@ public class SelectTargetController extends mainControllers.Controllers {
         else
             this.mainController.setWhatIfTableDirection("requiredFor");
     }
-
 
     @FXML
     void clickWhatIf(ActionEvent event) {
@@ -61,16 +62,19 @@ public class SelectTargetController extends mainControllers.Controllers {
         return isLight;
     }
 
+
+    public BooleanProperty oneTargetSelectProperty() {
+        return oneTargetSelect;
+    }
+
     @FXML
     public void initialize() {
         this.isLight = new SimpleBooleanProperty(true);
+        this.oneTargetSelect = new SimpleBooleanProperty(false);
         direction_CB.getItems().removeAll(direction_CB.getItems());
         direction_CB.getItems().addAll("Depends On", "Required For");
         direction_CB.getSelectionModel().select(0);
-    }
-
-    public Label getCount_selected_targets() {
-        return count_selected_targets;
+        this.next_btn.disableProperty().bind(this.oneTargetSelect.not());
     }
 
     @Override

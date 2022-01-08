@@ -84,6 +84,7 @@ public class SelectTaskScreenController extends mainControllers.Controllers {
         this.mainController.getTargetsTableController().setSelectActive();
         this.mainController.setPageScreen(false);
         this.mainController.setTableButtonEnable();
+        this.mainController.setIsOneTargetSelectFromTable(true);
     }
 
 

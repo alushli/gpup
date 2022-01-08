@@ -30,6 +30,9 @@ public class Target {
     public Map<String, Target> getAllHangingByTypeOfTargets(String typeOfDependency){
         Map<String, Target> map = new HashMap<>();
         getAllDepRec(map, typeOfDependency,this);
+        if(map.containsKey(this.getName())){
+            map.remove(this.getName());
+        }
         return map;
     }
 

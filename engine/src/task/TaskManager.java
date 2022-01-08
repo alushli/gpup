@@ -145,7 +145,10 @@ public abstract class TaskManager {
     }
 
     public TaskRuntimeDTO getTaskRuntimeDTO(){
-        return this.taskRuntimeDTO;
+        synchronized (this.synchroObj){
+            return this.taskRuntimeDTO;
+        }
+
 //        Set<Target> list = new HashSet<>();
 //        list.add(new Target("A"));
 //        list.add(new Target("B"));

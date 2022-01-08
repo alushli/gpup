@@ -4,7 +4,7 @@
     -fx-text-fill: #008AFF;
 }
 
-.explanation_label{
+.explanation_label_screen{
     -fx-font-size: 16px;
 }
 
@@ -86,7 +86,7 @@
 }
 
 .target_box_btn{
-
+    -fx-text-fill: white !important;
 }
 
 .header_label{
@@ -107,4 +107,41 @@
 .sub_header_popup{
     -fx-font-size: 16px !important;
     -fx-font-weight: 700;
+}
+
+.frozen{
+    -fx-background-color: #87CEEB !important;
+}
+
+.waiting{
+    -fx-background-color: #D3D3D3 !important;
+    -fx-text-fill: black !important;
+}
+
+.process{
+    -fx-background-color: #8B008B !important;
+}
+
+.skipped{
+    -fx-background-color: #B0C4DE !important;
+}
+
+.failure{
+    -fx-background-color: #CD5C5C !important;
+}
+
+.success{
+    -fx-background-color: #32CD32 !important;
+}
+
+.warning{
+    -fx-background-color: #CD853F !important;
+}
+
+#explanation_label{
+    -fx-text-fill: red;
+}
+
+.log_area{
+
 }

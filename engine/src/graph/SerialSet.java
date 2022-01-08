@@ -15,6 +15,16 @@ public class SerialSet {
     private HashSet<Target> finished;
     private Target inProccess;
 
+    public void init(){
+        this.waiting.clear();
+        this.isRun = false;
+        this.finished.clear();
+        this.inProccess = null;
+        for (Target target : allSet.values()){
+            frozen.add(target);
+        }
+    }
+
 
     /*Create serial set from string from the xml and graph*/
     public SerialSet(String set, Graph graph,Set<String> errors, String serialSetName ){
@@ -108,5 +118,6 @@ public class SerialSet {
         this.frozen.remove(target);
         this.waiting.add(target);
     }
+
 }
 

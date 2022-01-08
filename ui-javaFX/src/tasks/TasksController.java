@@ -8,6 +8,7 @@ import enums.StyleSheetsPath;
 import generalComponents.targetsTable.TargetsTableController;
 import generalInfo.GeneralInfoController;
 import generalInfo.showTargetInfo.detailsTargetScreen.TargetInfoScreenController;
+import javafx.animation.FadeTransition;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -19,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import tasks.runTaskScreen.RunTaskController;
 import tasks.runTaskScreen.SelectTargetController;
 import tasks.runTaskScreen.SelectTaskScreenController;
@@ -153,11 +155,11 @@ public class TasksController extends mainControllers.Controllers{
             FXMLLoader fxmlLoader = new FXMLLoader();
             URL url = getClass().getResource(FxmlPath.TASK_SELECT_TARGET.toString());
             fxmlLoader.setLocation(url);
+
             this.appController.setArea(this.page_SP ,fxmlLoader.load(url.openStream()));
             this.selectTargetController = fxmlLoader.getController();
             this.selectTargetController.setMainController(this);
             this.selectTargetController.setAppController(this.appController);
-            this.selectTargetController.getCount_selected_targets().textProperty().bind(this.getTargetsTableController().countSelectedTargetsAsStringProperty());
             selectTargetController.getFall_screen_SP().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.99));
             this.selectTargetController.isLightProperty().bind(this.appController.isLightProperty());
             setLightListener(this.selectTargetController.isLightProperty());
@@ -216,10 +218,13 @@ public class TasksController extends mainControllers.Controllers{
             runTaskController.getFall_screen_SP().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.99));
             this.runTaskController.isLightProperty().bind(this.appController.isLightProperty());
             setLightListener(this.runTaskController.isLightProperty());
-            //this.runTaskController.setFrozenTargets(this.targetsTableController.getCurSelected());
         } catch (Exception e){
             System.out.println("Error in setPageScreen() - showPathController");
         }
+    }
+
+    public void setIsOneTargetSelectFromTable(boolean select){
+        this.selectTargetController.oneTargetSelectProperty().set(select);
     }
 
     public void setTableScreen(){

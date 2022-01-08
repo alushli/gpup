@@ -4,6 +4,7 @@ import Enums.TargetRunStatus;
 import Enums.TargetRuntimeStatus;
 import Enums.TargetStatus;
 import Enums.TasksName;
+import dtoObjects.TargetRuntimeDTO;
 import dtoObjects.TaskRuntimeDTO;
 import dtoObjects.TaskSummeryDTO;
 import engineManager.EngineManager;
@@ -29,6 +30,9 @@ public class SimulationTaskManager extends TaskManager {
     public SimulationTaskManager(Graph graph, int timePerTarget, double chancePerTarget, double chanceWarning,
                                  boolean isRandom, boolean fromScratch, Consumer<String> consumer, int maxParallel, Boolean synchroObj) throws TaskException{
         this.synchroObj = synchroObj;
+
+        Collection<Target> targetToRemove = new HashSet<>();
+
         if(fromScratch && EngineManager.graphStatic != null){
             EngineManager.graphStatic = graph;
             for (SerialSet serialSet : EngineManager.graphStatic.getSerialSetMap().values()){
@@ -36,6 +40,7 @@ public class SimulationTaskManager extends TaskManager {
                     target.addSerialSet(serialSet);
                 }
             }
+
         }else if(EngineManager.graphStatic == null && !fromScratch ){
             consumer.accept("Simulation has not run yet on the current graph so it will run from scratch.");
             EngineManager.graphStatic = graph;
@@ -44,10 +49,9 @@ public class SimulationTaskManager extends TaskManager {
             EngineManager.graphStatic = graph;
         }
         else{
-            Collection<Target> targetToRemove = new HashSet<>();
             for (Target target : graph.getGraphMap().keySet()){
                 if(target.getRunStatus().equals(TargetRunStatus.NONE)){
-                    consumer.accept("Target "+ target.getName() + "didnt include at the last run - so it run from scratch on it.");
+                    consumer.accept("Target "+ target.getName() + "didnt include at the last run - so it run from scratch on it.\n");
                 }else if((target.getRunStatus().equals(TargetRunStatus.SUCCESS) ||(target.getRunStatus().equals(TargetRunStatus.WARNING)))){
                     targetToRemove.add(target);
                 }
@@ -57,7 +61,7 @@ public class SimulationTaskManager extends TaskManager {
             }
             EngineManager.graphStatic = graph;
             if(EngineManager.graphStatic.getGraphMap().size() == 0){
-                consumer.accept("The graph is empty, you can choose to run again from scratch.");
+                consumer.accept("The graph is empty, you can choose to run again from scratch.\n");
             }
         }
         this.summeryDTO = new TaskSummeryDTO();
@@ -77,7 +81,30 @@ public class SimulationTaskManager extends TaskManager {
             target.setRunStatus(TargetRunStatus.NONE);
         }
         this.folderPath =saveSimulationFolder();
-       this.taskRuntimeDTO = new TaskRuntimeDTO(graph.getGraphMap().keySet());
+       for (Target target : EngineManager.graphStatic.getGraphMap().keySet()){
+           for (SerialSet serialSet : target.getSerialSetMap().values()){
+               serialSet.init();
+           }
+       }
+
+        this.taskRuntimeDTO = new TaskRuntimeDTO(graph.getGraphMap().keySet());
+
+       if(!targetToRemove.isEmpty())
+            removePassTargetsFromSerialSet(this.taskRuntimeDTO, targetToRemove);
+
+    }
+
+    private void removePassTargetsFromSerialSet(TaskRuntimeDTO taskRuntimeDTO,  Collection<Target> targetToRemove){
+        for(TargetRuntimeDTO targetRuntimeDTO : taskRuntimeDTO.getMap().values()){
+            for(Target target:targetToRemove){
+                if(targetRuntimeDTO.getDependsOn().contains(target.getName()))
+                    targetRuntimeDTO.getDependsOn().remove(target.getName());
+            }
+        }
+    }
+
+    public void setTaskRunTime(TaskRuntimeDTO taskRuntimeDTO){
+        this.taskRuntimeDTO = taskRuntimeDTO;
     }
 
 
@@ -115,6 +142,7 @@ public class SimulationTaskManager extends TaskManager {
                 }
                 this.pool.shutdown();
                 this.pool = null;
+                consumer.accept("\nSimulation done!");
                 long endTime = System.currentTimeMillis();
                 summeryDTO.setHMS(Task.convertMillisToHMS(endTime-startTime));
             }catch (Exception e){
@@ -172,6 +200,9 @@ public class SimulationTaskManager extends TaskManager {
         Set<Target> targetsReq = target.getRequiredForList();
         for (Target target1 : targetsReq) {
             EngineManager.graphStatic.removeConnection(target1, target);
+            synchronized (this.synchroObj) {
+                this.taskRuntimeDTO.getTargetByName(target1.getName()).getDependsOn().remove(target.getName());
+            }
             if (EngineManager.graphStatic.isRunnable(target1) && !(target1.getStatus().equals(TargetRunStatus.SKIPPED))) {
                 task.writeToConsumers(consumerList, "Target " + target1.getName() + " turned WAITING.");
                 target1.setStatus(TargetStatus.WAITING);
@@ -179,7 +210,6 @@ public class SimulationTaskManager extends TaskManager {
                 synchronized (this.synchroObj){
                     taskRuntimeDTO.getTargetByName(target.getName()).setStatus(TargetRuntimeStatus.WAITING);
                 }
-
                 if(target1.isCanRunSerial()){
                     pool.execute(getSimulationTask(processTime,chanceSuccess,chanceWarning,isRandom,consumerList.get(0),target1));
                 }
