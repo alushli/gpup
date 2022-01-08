@@ -215,9 +215,14 @@ public class Graph {
 
     /* the function remove connection from target1 to target 2 in graph */
     public synchronized void removeConnection(Target target1, Target target2){
-        Set<Target> list = map.get(target1);
-        if(list !=  null)
-            list.remove(target2);
+        try{
+            Set<Target> list = map.get(target1);
+            if(list !=  null)
+                list.remove(target2);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     /* the function remove target from graph */

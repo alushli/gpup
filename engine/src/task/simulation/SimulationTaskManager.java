@@ -87,18 +87,51 @@ public class SimulationTaskManager extends TaskManager {
            }
        }
 
-        this.taskRuntimeDTO = new TaskRuntimeDTO(graph.getGraphMap().keySet());
+       this.taskRuntimeDTO = new TaskRuntimeDTO(graph.getGraphMap().keySet());
 
-       if(!targetToRemove.isEmpty())
-            removePassTargetsFromSerialSet(this.taskRuntimeDTO, targetToRemove);
+        if(!targetToRemove.isEmpty())
+            removePassTargetsFromDependsOn(this.taskRuntimeDTO, targetToRemove);
+
+        removeFromReqAndDep();
+
+       this.taskRuntimeDTO.updatePositions();
+       this.isPausedObj = new Boolean(false);
+       this.isPaused = false;
+
 
     }
 
-    private void removePassTargetsFromSerialSet(TaskRuntimeDTO taskRuntimeDTO,  Collection<Target> targetToRemove){
+
+    private void removeFromReqAndDep(){
+        Set<String> targetToRemove = new HashSet<>();
+        for (TargetRuntimeDTO targetRuntimeDTO : this.taskRuntimeDTO.getMap().values()){
+            for (String targetName : targetRuntimeDTO.getRequiredFor()){
+                if(EngineManager.graphStatic.getTargetByName(targetName) == null){
+                    targetToRemove.add(targetName);
+                }
+            }
+            for (String targetName : targetRuntimeDTO.getDependsOn()){
+                if(EngineManager.graphStatic.getTargetByName(targetName) == null){
+                    targetToRemove.add(targetName);
+                }
+            }
+        }
+
+        for (String target : targetToRemove){
+            for(TargetRuntimeDTO targetRuntimeDTO :this.taskRuntimeDTO.getMap().values()){
+                targetRuntimeDTO.getRequiredFor().remove(target);
+                targetRuntimeDTO.getDependsOn().remove(target);
+            }
+        }
+    }
+
+    private void removePassTargetsFromDependsOn(TaskRuntimeDTO taskRuntimeDTO,  Collection<Target> targetToRemove){
         for(TargetRuntimeDTO targetRuntimeDTO : taskRuntimeDTO.getMap().values()){
             for(Target target:targetToRemove){
-                if(targetRuntimeDTO.getDependsOn().contains(target.getName()))
+                if(targetRuntimeDTO.getDependsOn().contains(target.getName())) {
                     targetRuntimeDTO.getDependsOn().remove(target.getName());
+                    targetRuntimeDTO.getRequiredFor().remove((target.getName()));
+                }
             }
         }
     }
@@ -155,9 +188,6 @@ public class SimulationTaskManager extends TaskManager {
                                         Consumer<String> consumer) {
         for (Target target : runnableList) {
             synchronized (this.synchroObj){
-                System.out.println("*********");
-                System.out.println("moving target" + target.getName()+ " to waiting line 135 sumulation task manager");
-                System.out.println("*********");
                 this.taskRuntimeDTO.getTargetByName(target.getName()).setStatus(TargetRuntimeStatus.WAITING);
             }
             this.pool.execute(getSimulationTask(timePerTarget, chancePerTarget, chanceWarning, isRandom, consumer, target));
@@ -177,43 +207,39 @@ public class SimulationTaskManager extends TaskManager {
     public synchronized void handleSucceed(Target target, List<Consumer<String>> consumerList, Task task){
         synchronized (this.synchroObj){
             if(target.getRunStatus() == TargetRunStatus.WARNING){
-                System.out.println("*********");
-                System.out.println("moving target" + target.getName()+ " to warning line 144 sumulation task manager");
-                System.out.println("*********");
                 taskRuntimeDTO.getTargetByName(target.getName()).setStatus(TargetRuntimeStatus.FINISHED);
                 taskRuntimeDTO.upFinish();
                 taskRuntimeDTO.getTargetByName(target.getName()).setFinishStatus(TargetRunStatus.WARNING);
                 addToWarnings(target);
             }else {
-                System.out.println("*********");
-                System.out.println("moving target" + target.getName()+ " to success line 152 sumulation task manager");
-                System.out.println("*********");
                 taskRuntimeDTO.getTargetByName(target.getName()).setStatus(TargetRuntimeStatus.FINISHED);
                 taskRuntimeDTO.upFinish();
                 taskRuntimeDTO.getTargetByName(target.getName()).setFinishStatus(TargetRunStatus.SUCCESS);
                 addToSucceed(target);
             }
         }
-
         System.out.println("Up counter from:"+this.counter + "becuase success target:" + target.getName());
         upCounter();
         Set<Target> targetsReq = target.getRequiredForList();
         for (Target target1 : targetsReq) {
-            EngineManager.graphStatic.removeConnection(target1, target);
-            synchronized (this.synchroObj) {
-                this.taskRuntimeDTO.getTargetByName(target1.getName()).getDependsOn().remove(target.getName());
-            }
-            if (EngineManager.graphStatic.isRunnable(target1) && !(target1.getStatus().equals(TargetRunStatus.SKIPPED))) {
-                task.writeToConsumers(consumerList, "Target " + target1.getName() + " turned WAITING.");
-                target1.setStatus(TargetStatus.WAITING);
-                target1.moveToWaitingInAllSerials();
-                synchronized (this.synchroObj){
-                    taskRuntimeDTO.getTargetByName(target.getName()).setStatus(TargetRuntimeStatus.WAITING);
+            if(EngineManager.graphStatic.getGraphMap().containsKey(target1)){
+                EngineManager.graphStatic.removeConnection(target1, target);
+                synchronized (this.synchroObj) {
+                    this.taskRuntimeDTO.getTargetByName(target1.getName()).getDependsOn().remove(target.getName());
                 }
-                if(target1.isCanRunSerial()){
-                    pool.execute(getSimulationTask(processTime,chanceSuccess,chanceWarning,isRandom,consumerList.get(0),target1));
+                if (EngineManager.graphStatic.isRunnable(target1) && !(target1.getStatus().equals(TargetRunStatus.SKIPPED))) {
+                    task.writeToConsumers(consumerList, "Target " + target1.getName() + " turned WAITING.");
+                    target1.setStatus(TargetStatus.WAITING);
+                    target1.moveToWaitingInAllSerials();
+                    synchronized (this.synchroObj){
+                        taskRuntimeDTO.getTargetByName(target.getName()).setStatus(TargetRuntimeStatus.WAITING);
+                    }
+                    if(target1.isCanRunSerial()){
+                        pool.execute(getSimulationTask(processTime,chanceSuccess,chanceWarning,isRandom,consumerList.get(0),target1));
+                    }
                 }
             }
+
         }
         EngineManager.graphStatic.removeFromGraph(target);
         for (SerialSet serialSet : target.getSerialSetMap().values()){
@@ -231,11 +257,7 @@ public class SimulationTaskManager extends TaskManager {
     }
 
     public synchronized void addToPool(Task task){
-//        System.out.println(task.getTargetName());
         synchronized (this.synchroObj){
-            System.out.println("*********");
-            System.out.println("moving target" + task.getTargetName()+ " to waiting - fail - line 221 sumulation task manager");
-            System.out.println("*********");
             taskRuntimeDTO.getTargetByName(task.getTargetName()).setStatus(TargetRuntimeStatus.WAITING);
         }
           this.pool.execute(task);
@@ -243,9 +265,6 @@ public class SimulationTaskManager extends TaskManager {
 
     public synchronized void handleFail(Target failedTarget, List<Consumer<String>> consumersList, Task task){
             synchronized (this.synchroObj){
-                System.out.println("*********");
-                System.out.println("moving target" + failedTarget.getName()+ " to finish - fail - line 221 sumulation task manager");
-                System.out.println("*********");
             taskRuntimeDTO.getTargetByName(failedTarget.getName()).setStatus(TargetRuntimeStatus.FINISHED);
             taskRuntimeDTO.upFinish();
             taskRuntimeDTO.getTargetByName(failedTarget.getName()).setFinishStatus(TargetRunStatus.FAILURE);
@@ -256,9 +275,6 @@ public class SimulationTaskManager extends TaskManager {
             Target target = serialSet.handleFinish();
             if(target != null){
                 synchronized (this.synchroObj){
-                    System.out.println("*********");
-                    System.out.println("moving target" + failedTarget.getName()+ " WAITING - line 226 sumulation task manager");
-                    System.out.println("*********");
                     taskRuntimeDTO.getTargetByName(target.getName()).setStatus(TargetRuntimeStatus.WAITING);
                 }
                 addToPool(getSimulationTask(processTime,chanceSuccess,chanceWarning,isRandom,consumersList.get(0),target));
@@ -268,7 +284,9 @@ public class SimulationTaskManager extends TaskManager {
         System.out.println("Up counter from:"+this.counter + "becuase fail target:" + failedTarget.getName());
         upCounter();
         for (Target target : failedTarget.getRequiredForList()){
-            handleFailureRec(target, consumersList, task, failedTarget);
+            if(EngineManager.graphStatic.getGraphMap().containsKey(target)){
+                handleFailureRec(target, consumersList, task, failedTarget);
+            }
         }
     }
 

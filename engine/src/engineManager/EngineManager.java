@@ -475,6 +475,13 @@ public class EngineManager implements EngineManagerInterface{
     public void setTaskRuntimeDTO(TaskRuntimeDTO taskRuntimeDTO){
         this.simulationTaskManager.setTaskRunTime(taskRuntimeDTO);
     }
+
+    public void setPaused(boolean paused){
+        if(this.simulationTaskManager != null){
+            this.simulationTaskManager.setIsPaused(paused);
+        }
+    }
+
 }
 
 

@@ -1,0 +1,48 @@
+#what_next_label {
+    -fx-font-size: 24px;
+    -fx-font-weight: 700;
+}
+
+.successes_message{
+    -fx-text-fill: green;
+}
+
+.failed_message{
+    -fx-text-fill: red;
+}
+
+#file_path_label{
+    -fx-background-color: #FFFFFF;
+    -fx-padding: 2 10 2 10;
+    -fx-border-style: hidden hidden solid hidden;
+    -fx-border-color: #7086DD;
+    -fx-text-fill: black;
+}
+
+.what_next_main_buttons{
+    -fx-font-size: 18px;
+    -fx-background-color: #7086DD;
+    -fx-text-fill: #FFFFFF;
+}
+
+.what_next_buttons{
+    -fx-background-color: rgba(112, 134, 221, 0.63);
+    -fx-text-fill: #FFFFFF;
+}
+
+.what_next_buttons:hover{
+    -fx-background-color: #7086DD;
+}
+
+.load_file_btn{
+    -fx-background-color: #7086DD;
+    -fx-text-fill: #FFFFFF;
+}
+
+.load_file_btn:hover{
+    -fx-background-color: rgba(112, 134, 221, 0.63);
+}
+
+.load_btn{
+    -fx-padding: 10 5 10 5;
+}

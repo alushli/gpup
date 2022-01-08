@@ -187,12 +187,14 @@ public class RunTaskController extends mainControllers.Controllers{
     void clickPause(ActionEvent event) {
         this.pause_btn.setDisable(true);
         this.resume_btn.setDisable(false);
+        this.appController.getEngineManager().setPaused(true);
     }
 
     @FXML
     void clickResume(ActionEvent event) {
         this.resume_btn.setDisable(true);
         this.pause_btn.setDisable(false);
+        this.appController.getEngineManager().setPaused(false);
     }
 
     @FXML
