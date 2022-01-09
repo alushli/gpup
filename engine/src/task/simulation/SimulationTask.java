@@ -70,7 +70,8 @@ public class SimulationTask extends Task implements Runnable{
             writeToConsumers(consumersList, "Target "+ target.getName()+ " done sleep");
             target.setStatus(TargetStatus.FINISHED);
             if(isSuccess){
-                if(random.nextInt(9)<= Math.round(chanceWarning*10)){
+                long chanceWarningCalc = Math.round(this.chanceWarning*10);
+                if(random.nextInt(9)< chanceWarningCalc){
                     target.setRunStatus(TargetRunStatus.WARNING);
                 }else{
                     target.setRunStatus(TargetRunStatus.SUCCESS);

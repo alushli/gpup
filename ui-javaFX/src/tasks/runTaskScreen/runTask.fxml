@@ -35,10 +35,15 @@
                   <RowConstraints maxHeight="15.0" minHeight="15.0" prefHeight="30.0" vgrow="NEVER" />
               </rowConstraints>
                <children>
-                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.columnIndex="1">
                      <children>
                         <Label id="header_label" fx:id="task_name_label" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Simulation Task" HBox.hgrow="SOMETIMES" />
                         <Button fx:id="start_brn" maxHeight="1.7976931348623157E308" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#clickStart" prefWidth="100.0" styleClass="tasks_btn_blue" text="Start">
+                           <HBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="new_task_btn" disable="true" maxHeight="1.7976931348623157E308" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#clickNewTask" prefWidth="100.0" styleClass="tasks_btn_gray" text="New Task">
                            <HBox.margin>
                               <Insets bottom="5.0" top="5.0" />
                            </HBox.margin>

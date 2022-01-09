@@ -26,6 +26,9 @@ public class LoadFileController extends mainControllers.Controllers{
     private StackPane main_screen;
 
     @FXML
+    private Button load_btn;
+
+    @FXML
     private TextArea load_message_ta;
 
     @FXML
@@ -73,6 +76,13 @@ public class LoadFileController extends mainControllers.Controllers{
                 this.main_screen.getStylesheets().add(StyleSheetsPath.LOAD_FILE_PRINCESS.toString());
             }
         });
+    }
+
+    public void checkTaskRun(){
+        if(this.appController.getEngineManager().isTaskRun() == true)
+            this.load_btn.setDisable(true);
+        else
+            this.load_btn.setDisable(false);
     }
 
     public StringProperty skinProperty() {

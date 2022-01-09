@@ -127,6 +127,7 @@ public class MenuController extends mainControllers.Controllers {
         if(loadFileComponentController == null) {
             setLoadFileFxml();
         }
+        this.loadFileComponentController.checkTaskRun();
         appController.setArea(this.loadFileParent);
     }
 
