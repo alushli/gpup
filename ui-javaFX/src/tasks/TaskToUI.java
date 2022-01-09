@@ -37,6 +37,7 @@ public class TaskToUI implements Runnable {
             Set<TargetRuntimeDTO> warning = new HashSet<>();
             Set<TargetRuntimeDTO> success = new HashSet<>();
             int i = 0;
+            this.engineManager.setTaskRun(true);
             while (!isDone) {
                 boolean canRun = false;
                 if (this.tasksName.equals(TasksName.SIMULATION) && this.engineManager.getSimulationTaskManager() != null && this.engineManager.getSimulationTaskManager().getTaskRuntimeDTO() != null) {
@@ -55,8 +56,10 @@ public class TaskToUI implements Runnable {
                             i++;
                         }
                         updateUI(frozen, waiting, process, skipped, failed, success, warning);
-                        if (this.taskRuntimeDTO.getCountTotal() == this.taskRuntimeDTO.getCountFinished())
+                        if (this.taskRuntimeDTO.getCountTotal() == this.taskRuntimeDTO.getCountFinished()) {
                             isDone = true;
+                            this.engineManager.setTaskRun(false);
+                        }
                     }
                 }
                 Thread.sleep(100);
@@ -69,8 +72,6 @@ public class TaskToUI implements Runnable {
                     this.taskRuntimeDTO = this.engineManager.getCompilerTaskManager().getTaskRuntimeDTO();
                 updateUI(frozen, waiting, process, skipped, failed, success, warning);
                 this.engineManager.setTaskRuntimeDTO(null);
-                this.engineManager.setSimulationTaskManager(null);
-                this.engineManager.setCompilerTaskManager(null);
             }
         }
         catch(Exception e){

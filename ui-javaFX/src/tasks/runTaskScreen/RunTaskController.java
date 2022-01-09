@@ -83,6 +83,9 @@ public class RunTaskController extends mainControllers.Controllers{
     private Label count_skipped;
 
     @FXML
+    private Button new_task_btn;
+
+    @FXML
     private VBox failed_VB;
 
     @FXML
@@ -124,6 +127,7 @@ public class RunTaskController extends mainControllers.Controllers{
 
     @FXML
     public void initialize() {
+        this.new_task_btn.setDisable(true);
         this.skin = new SimpleStringProperty("Light");
         this.skippedTargets = new SimpleStringProperty();
         this.failedTargets = new SimpleStringProperty();
@@ -214,6 +218,13 @@ public class RunTaskController extends mainControllers.Controllers{
         }
     }
 
+    @FXML
+    void clickNewTask(ActionEvent event) {
+        this.appController.getEngineManager().setSimulationTaskManager(null);
+        this.appController.getEngineManager().setCompilerTaskManager(null);
+        this.appController.getMenuComponentController().clickTasks(event);
+    }
+
     private UIAdapter createUIAdapter() {
         UIAdapter uiAdapter = new UIAdapter(
             list -> {
@@ -232,7 +243,13 @@ public class RunTaskController extends mainControllers.Controllers{
                     addToSuccess(list);
             }, size ->{
                 this.finish_targets_count.setText(size);
-            }, size -> {
+                if(Integer.parseInt(this.all_targets_to_run_count.getText()) == Integer.parseInt(this.finish_targets_count.getText())) {
+                    this.new_task_btn.setDisable(false);
+                    this.pause_btn.setDisable(true);
+                    this.resume_btn.setDisable(true);
+                }
+
+        }, size -> {
                 this.all_targets_to_run_count.setText(size);
             }, progress -> {
             this.progress_bar.setProgress(progress);

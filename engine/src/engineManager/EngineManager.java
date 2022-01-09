@@ -48,6 +48,10 @@ public class EngineManager implements EngineManagerInterface{
         return isTaskRun;
     }
 
+    public void setTaskRun(boolean taskRun) {
+        isTaskRun = taskRun;
+    }
+
     public TaskManager getTaskManager() {
         return taskManager;
     }
@@ -222,9 +226,7 @@ public class EngineManager implements EngineManagerInterface{
         boolean fromScratch = entryPoint.equals(SimulationEntryPoint.FROM_SCRATCH);
         this.simulationTaskManager = new SimulationTaskManager(new Graph(targets,this.graph),processTime,chanceTargetSuccess,chanceTargetWarning,
                 isRandom,fromScratch,consumer,maxParallel, this.synchroObj);
-        this.isTaskRun = true;
         this.simulationTaskManager.handleRunSimulation(processTime, chanceTargetSuccess, chanceTargetWarning, isRandom, consumer);
-        this.isTaskRun = false;
     }
 
 
@@ -234,9 +236,7 @@ public class EngineManager implements EngineManagerInterface{
         boolean fromScratch = entryPoint.equals(SimulationEntryPoint.FROM_SCRATCH);
         this.compilerTaskManager = new CompilerTaskManager(new Graph(targets,this.graph), sourceFolder, productFolder,
                 fromScratch,consumer,maxParallel, this.synchroObj);
-        this.isTaskRun = true;
         this.compilerTaskManager.handleRunCompiler(sourceFolder, productFolder, consumer);
-        this.isTaskRun = false;
     }
 
 
