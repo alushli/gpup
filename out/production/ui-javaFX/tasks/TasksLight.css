@@ -147,5 +147,8 @@
 }
 
 .icon_button{
-    -fx-background-color: transparent;
+    -fx-background-color: #008AFF;
+    -fx-text-fill: #F5FAFF;
+    -fx-font-weight: 700;
+    -fx-font-size: 14px !important;
 }
