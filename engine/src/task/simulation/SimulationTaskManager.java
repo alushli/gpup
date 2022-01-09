@@ -16,7 +16,7 @@ import task.Task;
 import task.TaskManager;
 
 import java.util.*;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 import java.util.function.Consumer;
 
 public class SimulationTaskManager extends TaskManager {
@@ -70,7 +70,7 @@ public class SimulationTaskManager extends TaskManager {
         this.failed = new HashSet<>();
         this.succeed = new HashSet<>();
         this.warnings = new HashSet<>();
-        this.pool = Executors.newFixedThreadPool(maxParallel);
+        this.pool = new ThreadPoolExecutor(maxParallel, maxParallel,50, TimeUnit.MILLISECONDS,new LinkedBlockingQueue<Runnable>());
         this.processTime = timePerTarget;
         this.chanceSuccess = chancePerTarget;
         this.chanceWarning = chanceWarning;
@@ -255,6 +255,8 @@ public class SimulationTaskManager extends TaskManager {
         }
 
     }
+
+
 
     public synchronized void addToPool(Task task){
         synchronized (this.synchroObj){

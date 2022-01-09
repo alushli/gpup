@@ -17,6 +17,9 @@ import task.simulation.SimulationTask;
 
 import java.util.*;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 public class CompilerTaskManager extends TaskManager {
@@ -63,7 +66,7 @@ public class CompilerTaskManager extends TaskManager {
         this.skipped = new HashSet<>();
         this.failed = new HashSet<>();
         this.succeed = new HashSet<>();
-        this.pool = Executors.newFixedThreadPool(maxParallel);
+        this.pool = new ThreadPoolExecutor(maxParallel, maxParallel,50, TimeUnit.MILLISECONDS,new LinkedBlockingQueue<Runnable>());
         this.sourceFolder = sourceFolder;
         this.productFolder = productFolder;
         this.initSize = EngineManager.graphStatic.getGraphMap().size();
