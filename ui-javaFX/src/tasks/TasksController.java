@@ -270,5 +270,4 @@ public class TasksController extends mainControllers.Controllers{
         this.select_all_btn.setDisable(false);
     }
 
-
 }
