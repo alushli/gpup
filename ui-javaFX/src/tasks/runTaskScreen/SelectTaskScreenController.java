@@ -116,6 +116,7 @@ public class SelectTaskScreenController extends mainControllers.Controllers {
 
     @FXML
     void clickNext(ActionEvent event) {
+        this.mainController.setThreadsNum(this.thread_amount_CB.getValue());
         this.mainController.setRunTaskScreen();
         this.mainController.updateTaskName(this.task_CB.getValue());
         if(this.task_CB.getValue().equals("Simulation Task")){

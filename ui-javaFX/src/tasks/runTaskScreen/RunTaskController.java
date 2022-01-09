@@ -1,6 +1,7 @@
 package tasks.runTaskScreen;
 
 import Enums.SimulationEntryPoint;
+import Enums.TasksName;
 import appScreen.AppController;
 import dtoObjects.TargetRuntimeDTO;
 import enums.FxmlPath;
@@ -42,6 +43,15 @@ public class RunTaskController extends mainControllers.Controllers{
     private int maxParallel;
     private String sourceFolderCompiler;
     private String productFolderCompiler;
+
+    @FXML
+    private Button plus_btn;
+
+    @FXML
+    private Button minus_btn;
+
+    @FXML
+    private Label threads_num_label;
 
     @FXML
     private TextArea log_TA;
@@ -119,7 +129,10 @@ public class RunTaskController extends mainControllers.Controllers{
     private Button resume_btn;
 
     @FXML
-    private Button start_brn;
+    private Button start_btn;
+
+    @FXML
+    private VBox threads_VB;
 
     public void setTaskType(String taskType) {
         this.taskType = taskType;
@@ -128,6 +141,7 @@ public class RunTaskController extends mainControllers.Controllers{
     @FXML
     public void initialize() {
         this.new_task_btn.setDisable(true);
+        this.threads_VB.setVisible(false);
         this.skin = new SimpleStringProperty("Light");
         this.skippedTargets = new SimpleStringProperty();
         this.failedTargets = new SimpleStringProperty();
@@ -137,6 +151,10 @@ public class RunTaskController extends mainControllers.Controllers{
         this.count_failed.textProperty().bind(this.failedTargets);
         this.count_warning.textProperty().bind(this.warningTargets);
         this.count_success.textProperty().bind(this.successTargets);
+    }
+
+    public Label getThreads_num_label() {
+        return threads_num_label;
     }
 
     public StringProperty skinProperty() {
@@ -149,6 +167,22 @@ public class RunTaskController extends mainControllers.Controllers{
 
     public Label getTask_name_label() {
         return task_name_label;
+    }
+
+    @FXML
+    void ClickMinus(ActionEvent event) {
+        if(Integer.parseInt(this.threads_num_label.getText()) - 1 > 0){
+            int number = Integer.parseInt(this.threads_num_label.getText()) - 1;
+            this.threads_num_label.setText(String.valueOf(number));
+        }
+    }
+
+    @FXML
+    void clickPlus(ActionEvent event) {
+        if(Integer.parseInt(this.threads_num_label.getText()) + 1 <= this.appController.getEngineManager().getMaxThreadsForTask()){
+            int number = Integer.parseInt(this.threads_num_label.getText()) + 1;
+            this.threads_num_label.setText(String.valueOf(number));
+        }
     }
 
     private void createTargetBox(TargetRuntimeDTO targetFXDTO, FlowPane flowPane, String colorStatus) {
@@ -185,6 +219,7 @@ public class RunTaskController extends mainControllers.Controllers{
     void clickPause(ActionEvent event) {
         this.pause_btn.setDisable(true);
         this.resume_btn.setDisable(false);
+        this.threads_VB.setVisible(true);
         if(this.task_name_label.getText().equals("Simulation Task"))
             this.appController.getEngineManager().setPaused(true, "Simulation Task");
         else
@@ -195,16 +230,22 @@ public class RunTaskController extends mainControllers.Controllers{
     void clickResume(ActionEvent event) {
         this.resume_btn.setDisable(true);
         this.pause_btn.setDisable(false);
-        if(this.task_name_label.getText().equals("Simulation Task"))
+        this.threads_VB.setVisible(false);
+        if(this.task_name_label.getText().equals("Simulation Task")) {
             this.appController.getEngineManager().setPaused(false, "Simulation Task");
-        else
+            this.appController.getEngineManager().changeThreadsNum(Integer.parseInt(this.threads_num_label.getText()), TasksName.SIMULATION);
+        }
+        else {
             this.appController.getEngineManager().setPaused(false, "Compiler Task");
+            this.appController.getEngineManager().changeThreadsNum(Integer.parseInt(this.threads_num_label.getText()), TasksName.COMPILATION);
+        }
 
     }
 
     @FXML
     void clickStart(ActionEvent event) {
-        this.start_brn.setDisable(true);
+        this.start_btn.setDisable(true);
+        this.pause_btn.setDisable(false);
         if(taskType.equals("Simulation Task")) {
             Consumer<String> consumer = s-> updateLog(s);
             UIAdapter uiAdapter = createUIAdapter();

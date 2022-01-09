@@ -33,6 +33,7 @@ public class TasksController extends mainControllers.Controllers{
     private ArrayList<TargetFXDTO> selectedTargets;
     private StringProperty skin;
     private String whatIfDirection;
+    private int threadsNum;
 
     @FXML
     private Button select_all_btn;
@@ -62,6 +63,10 @@ public class TasksController extends mainControllers.Controllers{
     void clickDeselectAll(ActionEvent event) {
         this.targetsTableController.deselectAll();
         this.targetsTableController.setWhatIfHappened(false);
+    }
+
+    public void setThreadsNum(int threadsNum) {
+        this.threadsNum = threadsNum;
     }
 
     public ArrayList<TargetFXDTO> getSelectedTargets() {
@@ -131,6 +136,7 @@ public class TasksController extends mainControllers.Controllers{
     public void updateTaskName(String name){
         this.runTaskController.getTask_name_label().setText(name);
         this.runTaskController.setTaskType(name);
+        this.runTaskController.getThreads_num_label().setText(String.valueOf(this.threadsNum));
     }
 
 
@@ -263,6 +269,5 @@ public class TasksController extends mainControllers.Controllers{
         this.deselect_all_btn.setDisable(false);
         this.select_all_btn.setDisable(false);
     }
-
 
 }

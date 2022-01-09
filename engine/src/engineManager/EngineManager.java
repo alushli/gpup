@@ -239,6 +239,13 @@ public class EngineManager implements EngineManagerInterface{
         this.compilerTaskManager.handleRunCompiler(sourceFolder, productFolder, consumer);
     }
 
+    public void changeThreadsNum(int newCount, TasksName tasksName){
+        if(tasksName.equals(TasksName.SIMULATION) && this.simulationTaskManager != null)
+            this.simulationTaskManager.setMaxParallel(newCount);
+        else if(tasksName.equals(TasksName.COMPILATION) && this.compilerTaskManager != null)
+            this.compilerTaskManager.setMaxParallel(newCount);
+    }
+
 
     @Override
     /* the function return target circle */

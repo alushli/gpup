@@ -134,3 +134,10 @@
 #explanation_label{
     -fx-text-fill: red;
 }
+
+.icon_button{
+    -fx-background-color: #EE82EE;
+    -fx-text-fill: #DCDCDC;
+    -fx-font-weight: 700;
+    -fx-font-size: 14px !important;
+}
