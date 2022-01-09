@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.function.Consumer;
 
 public abstract class TaskManager {
@@ -33,7 +34,7 @@ public abstract class TaskManager {
     protected Set<Target> failed ;
     protected Set<Target> succeed ;
     protected Set<Target> warnings;
-    protected ExecutorService pool;
+    protected ThreadPoolExecutor pool;
     protected int counter;
     protected String folderPath;
     protected TaskRuntimeDTO taskRuntimeDTO;
@@ -53,6 +54,14 @@ public abstract class TaskManager {
             return folder.getAbsolutePath();
         else
             throw new TaskException("The path doesn't exist or has invalid characters, please change the xml and upload again.");
+    }
+
+    public synchronized void setMaxParallel(int max){
+        if(max != this.maxParallel) {
+            this.maxParallel = max;
+            this.pool.setCorePoolSize(max);
+            this.pool.setMaximumPoolSize(max);
+        }
     }
 
     /* the function save the simulation folder */
