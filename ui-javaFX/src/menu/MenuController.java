@@ -147,7 +147,7 @@ public class MenuController extends mainControllers.Controllers {
 
     @FXML
     public void clickTasks(ActionEvent event) {
-        if(this.appController.getEngineManager().getSimulationTaskManager() == null)
+        if(this.appController.getEngineManager().getSimulationTaskManager() == null && this.appController.getEngineManager().getCompilerTaskManager() == null)
             setTasksFxml();
         this.setLoadFileHandlingTask();
     }

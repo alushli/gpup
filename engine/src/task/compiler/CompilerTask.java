@@ -55,9 +55,6 @@ public class CompilerTask extends Task implements Runnable {
             long startTime = System.currentTimeMillis();
             this.path = createTargetFile(target.getName());
             writeToConsumers(consumersList, "Target "+ target.getName() + " start run.");
-            if(target.getGeneralInfo() != null){
-                writeToConsumers(consumersList, "General info of the target: " + target.getGeneralInfo());
-            }
             target.setStatus(TargetStatus.IN_PROCESS);
             int result;
             InputStream errorStream = null;
@@ -65,10 +62,10 @@ public class CompilerTask extends Task implements Runnable {
             if(target.getGeneralInfo() != null) {
                 String source = this.sourceFolder;
                 String path = target.getGeneralInfo().replace(".", File.separator);
-                writeToConsumers(consumersList, "File: " + path+ " going to perform compilation");
                 Path pathFile = Paths.get(source, "/", path);
+                writeToConsumers(consumersList, "File: " + pathFile.toString() + " going to perform compilation");
                 Path newFolder = Paths.get(this.productFolder);
-                String[] command = {"/bin/bash", "-c", "javac -d " + newFolder + " -cp " + source + " " + pathFile + ".java"};
+                String[] command = {"/bin/bash", "-c", "javac -d " + newFolder + " -cp " + newFolder + " " + pathFile + ".java"};
                 //String[] command = {"cmd.exe", "/c", "javac -d " + newFolder + " -cp " + source + " " + pathFile + ".java"};
                 String executionLine = "";
                 for(String str:command){
@@ -98,7 +95,7 @@ public class CompilerTask extends Task implements Runnable {
             writeToConsumers(consumersList, "Target: " + target.getName()+" done with status: "+ target.getRunStatus().toString());
             if(!error.equals(""))
                 writeToConsumers(consumersList, "Target failed with error message: " + error);
-            writeToConsumers(consumersList, "Process time for  "+ target.getName()+ " is: " + (endTime - startTime));
+            writeToConsumers(consumersList, "Process time for  "+ target.getName()+ " is: " + (endTime - startTime) +" ms");
             this.managerCompiler.handleFinish(target.getRunStatus(),target,consumersList,this);
         }catch (Exception e){
             System.out.println("Error in compiler task - run()");
