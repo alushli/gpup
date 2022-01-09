@@ -134,3 +134,7 @@
 #explanation_label{
     -fx-text-fill: red;
 }
+
+.icon_button{
+    -fx-background-color: transparent;
+}

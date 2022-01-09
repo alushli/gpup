@@ -145,3 +145,7 @@
 .log_area{
 
 }
+
+.icon_button{
+    -fx-background-color: transparent;
+}
