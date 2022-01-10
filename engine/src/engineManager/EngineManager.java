@@ -468,6 +468,9 @@ public class EngineManager implements EngineManagerInterface{
                 }
                 count = 0;
                 file.write("}\n");
+            } else if(target.getDependsOnList().isEmpty() && target.getRequiredForList().isEmpty()){
+                file.write(target.getName());
+                file.write(" -> {}");
             }
         }
         file.write("}");
