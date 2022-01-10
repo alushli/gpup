@@ -65,8 +65,8 @@ public class CompilerTask extends Task implements Runnable {
                 Path pathFile = Paths.get(source, "/", path);
                 writeToConsumers(consumersList, "File: " + pathFile.toString() + " going to perform compilation");
                 Path newFolder = Paths.get(this.productFolder);
-                String[] command = {"/bin/bash", "-c", "javac -d " + newFolder + " -cp " + newFolder + " " + pathFile + ".java"};
-                //String[] command = {"cmd.exe", "/c", "javac -d " + newFolder + " -cp " + source + " " + pathFile + ".java"};
+                //String[] command = {"/bin/bash", "-c", "javac -d " + newFolder + " -cp " + newFolder + " " + pathFile + ".java"};
+                String[] command = {"cmd.exe", "/c", "javac -d " + newFolder + " -cp " + source + " " + pathFile + ".java"};
                 String executionLine = "";
                 for(String str:command){
                     executionLine += str;
