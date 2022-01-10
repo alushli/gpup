@@ -56,9 +56,6 @@ public class GraphInfoScreenController extends mainControllers.Controllers{
     private Label serial_label;
 
     @FXML
-    private Label export_label;
-
-    @FXML
     private StackPane table_SP;
 
     @FXML
@@ -79,15 +76,6 @@ public class GraphInfoScreenController extends mainControllers.Controllers{
         setPopup();
     }
 
-    public void exportGraph(){
-        try {
-            this.appController.exportGraph(this.fullPathExport);
-            this.export_label.setText("The graph export successfully");
-        } catch (Exception e){
-            this.export_label.setText("The graph doesn't export. Please try again");
-        }
-    }
-
     public void skinListener(){
         this.mainController.skinListener(this.skin, this.fall_screen_SP);
     }
@@ -100,10 +88,6 @@ public class GraphInfoScreenController extends mainControllers.Controllers{
         return mainController;
     }
 
-    public void restartExportLabel(){
-        this.export_label.setText("");
-    }
-
     private void setPopup(){
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(FxmlPath.EXPORT_GRAPH_POPUP.toString()));
@@ -113,7 +97,7 @@ public class GraphInfoScreenController extends mainControllers.Controllers{
             exportGraphScreenController.setMainController(this);
             exportGraphScreenController.skinListener();
             exportGraphScreenController.skinProperty().bind(this.appController.skinProperty());
-            Scene secondScene = new Scene(popup, 520, 200);
+            Scene secondScene = new Scene(popup, 520, 500);
             this.popupWindow = new Stage();
             this.popupWindow.setResizable(false);
             this.popupWindow.setTitle("Export graph");
@@ -123,7 +107,6 @@ public class GraphInfoScreenController extends mainControllers.Controllers{
             this.popupWindow.setY(this.appController.getPrimaryStage().getY() + 100);
             this.popupWindow.show();
         }catch (Exception e){
-            this.export_label.setText("The graph doesn't export. Please try again");
         }
 
     }
@@ -197,4 +180,5 @@ public class GraphInfoScreenController extends mainControllers.Controllers{
         this.mainController = mainControllers;
     }
 
+    public AppController getAppController(){ return this.appController; }
 }

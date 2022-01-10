@@ -444,10 +444,10 @@ public class EngineManager implements EngineManagerInterface{
     }
 
     public void exportGraph(String path) throws IOException {
-        FileWriter graphFile = new FileWriter(path+".viz");
+        FileWriter graphFile = new FileWriter(path+".dot");
         writeToFile(graphFile);
         graphFile.close();
-        String[] command = {"cmd.exe" , "/c", "dot -Tpng " + path+".viz" + " -o " + path +".png"};
+        String[] command = {"cmd.exe" , "/c", "dot -Tpng " + path+".dot" + " -o " + path +".png"};
         ProcessBuilder processBuilder = new ProcessBuilder( command );
         processBuilder.start();
     }

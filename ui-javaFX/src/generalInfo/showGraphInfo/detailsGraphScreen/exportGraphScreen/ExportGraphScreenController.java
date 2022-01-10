@@ -12,7 +12,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 
 
@@ -38,7 +41,20 @@ public class ExportGraphScreenController extends mainControllers.Controllers {
     private Button export_btn;
 
     @FXML
+    private Label export_message;
+
+    @FXML
+    private VBox export_VB;
+
+    @FXML
+    private Label full_path_label;
+
+    @FXML
+    private ImageView graph_img;
+
+    @FXML
     public void initialize() {
+        this.export_VB.setVisible(false);
         this.skin = new SimpleStringProperty("Light");
         this.canExport = new SimpleBooleanProperty();
         this.export_btn.disableProperty().bind(canExport.not());
@@ -69,9 +85,15 @@ public class ExportGraphScreenController extends mainControllers.Controllers {
     @FXML
     void clickExport(ActionEvent event) {
         Path path = Paths.get(this.folder_path_label.getText(),this.file_name_txt.getText());
-        this.mainController.setFullPathExport(path.toString());
-        this.mainController.exitPopup();
-        this.mainController.exportGraph();
+        try {
+            this.mainController.getAppController().exportGraph(path.toString());
+            this.export_message.setText("The graph export successfully");
+            this.export_VB.setVisible(true);
+            this.full_path_label.setText(path.toString());
+            this.graph_img.setImage(new Image(path.toString()));
+        } catch (Exception e){
+            this.export_message.setText("The graph doesn't export. Please try again");
+        }
     }
 
     @FXML
