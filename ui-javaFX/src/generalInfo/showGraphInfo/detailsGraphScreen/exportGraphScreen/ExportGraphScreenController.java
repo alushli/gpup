@@ -88,7 +88,7 @@ public class ExportGraphScreenController extends mainControllers.Controllers {
 
     @FXML
     void clickExport(ActionEvent event) {
-        Path path = Paths.get(this.folder_path_label.getText(),this.file_name_txt.getText());
+        Path path = Paths.get(this.folder_path_label.getText(),this.file_name_txt.getText().replaceAll("\\s+",""));
         try {
             this.mainController.getAppController().exportGraph(path.toString());
             this.export_message.setText("The graph export successfully");
