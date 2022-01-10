@@ -4,8 +4,10 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.net.URL;
 
 public class Main extends Application {
@@ -23,6 +25,7 @@ public class Main extends Application {
         appController.setPrimaryStage(primaryStage);
         primaryStage.setScene(new Scene(rootContainer, 1300, 750));
         primaryStage.setTitle("GPUP");
+        primaryStage.getIcons().add(new Image("/resources/logo.png"));
         primaryStage.show();
     }
 }
