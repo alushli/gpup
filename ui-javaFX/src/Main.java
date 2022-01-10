@@ -25,7 +25,7 @@ public class Main extends Application {
         appController.setPrimaryStage(primaryStage);
         primaryStage.setScene(new Scene(rootContainer, 1300, 750));
         primaryStage.setTitle("GPUP");
-        primaryStage.getIcons().add(new Image("/resources/logo.png"));
+        primaryStage.getIcons().add(new Image("/resources/gpup_logo.png"));
         primaryStage.show();
     }
 }
