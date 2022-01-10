@@ -41,7 +41,7 @@
                   </VBox>
                   <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <Button id="select_folder_btn" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onAction="#clickSelect" text="select folder path" HBox.hgrow="NEVER" />
+                        <Button fx:id="select_folder_btn" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onAction="#clickSelect" text="select folder path" HBox.hgrow="NEVER" />
                         <Label fx:id="folder_path_label" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="356.0" styleClass="file_path_label" HBox.hgrow="NEVER">
                            <HBox.margin>
                               <Insets bottom="5.0" top="5.0" />

@@ -20,6 +20,7 @@ import javafx.stage.DirectoryChooser;
 
 
 import java.io.File;
+import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -39,6 +40,9 @@ public class ExportGraphScreenController extends mainControllers.Controllers {
 
     @FXML
     private Button export_btn;
+
+    @FXML
+    private Button select_folder_btn;
 
     @FXML
     private Label export_message;
@@ -88,9 +92,12 @@ public class ExportGraphScreenController extends mainControllers.Controllers {
         try {
             this.mainController.getAppController().exportGraph(path.toString());
             this.export_message.setText("The graph export successfully");
+            this.export_btn.disableProperty().unbind();
+            this.export_btn.setDisable(true);
+            this.select_folder_btn.setDisable(true);
             this.export_VB.setVisible(true);
-            this.full_path_label.setText(path.toString());
-            this.graph_img.setImage(new Image(path.toString()));
+            this.full_path_label.setText(path + ".png");
+            this.graph_img.setImage(new Image(Paths.get(path + ".png").toUri().toString()));
         } catch (Exception e){
             this.export_message.setText("The graph doesn't export. Please try again");
         }
