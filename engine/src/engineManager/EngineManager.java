@@ -10,6 +10,7 @@ import graph.SerialSet;
 import scema.generated.*;
 import Enums.SimulationEntryPoint;
 import target.Target;
+import task.Task;
 import task.TaskManager;
 import task.compiler.CompilerTaskManager;
 import task.simulation.SimulationTaskManager;
@@ -505,8 +506,12 @@ public class EngineManager implements EngineManagerInterface{
     public Boolean getSynchroObj() {
         return synchroObj;
     }
-    public void setTaskRuntimeDTO(TaskRuntimeDTO taskRuntimeDTO){
-        this.simulationTaskManager.setTaskRunTime(taskRuntimeDTO);
+
+    public void setTaskRuntimeDTO(TaskRuntimeDTO taskRuntimeDTO, TasksName tasksName){
+        if(tasksName.equals(TasksName.SIMULATION))
+            this.simulationTaskManager.setTaskRunTime(taskRuntimeDTO);
+        else if(tasksName.equals(TasksName.COMPILATION))
+            this.compilerTaskManager.setTaskRunTime(taskRuntimeDTO);
     }
 
     public void setPaused(boolean paused, String taskName) {

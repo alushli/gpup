@@ -71,7 +71,7 @@ public class TaskToUI implements Runnable {
                 else
                     this.taskRuntimeDTO = this.engineManager.getCompilerTaskManager().getTaskRuntimeDTO();
                 updateUI(frozen, waiting, process, skipped, failed, success, warning);
-                this.engineManager.setTaskRuntimeDTO(null);
+                this.engineManager.setTaskRuntimeDTO(null, this.tasksName);
             }
         }
         catch(Exception e){
