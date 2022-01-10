@@ -201,7 +201,6 @@ public class CompilerTaskManager extends TaskManager {
                 taskRuntimeDTO.getTargetByName(target.getName()).setFinishStatus(TargetRunStatus.SUCCESS);
                 addToSucceed(target);
         }
-        System.out.println("Up counter from:" + this.counter + "becuase success target:" + target.getName());
         upCounter();
         Set<Target> targetsReq = target.getRequiredForList();
         for (Target target1 : targetsReq) {
@@ -262,7 +261,6 @@ public class CompilerTaskManager extends TaskManager {
             }
 
         }
-        System.out.println("Up counter from:" + this.counter + "because fail target:" + failedTarget.getName());
         upCounter();
         for (Target target : failedTarget.getRequiredForList()) {
             if (EngineManager.graphStatic.getGraphMap().containsKey(target)) {

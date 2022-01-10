@@ -117,7 +117,6 @@ public abstract class TaskManager {
                 taskRuntimeDTO.upFinish();
                 taskRuntimeDTO.getTargetByName(target.getName()).setFinishStatus(TargetRunStatus.SKIPPED);
             }
-            System.out.println("up counter from:" + counter + " because target:"+ target.getName());
             upCounter();
         }
     }

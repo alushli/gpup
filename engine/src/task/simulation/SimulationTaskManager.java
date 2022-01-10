@@ -218,7 +218,6 @@ public class SimulationTaskManager extends TaskManager {
                 addToSucceed(target);
             }
         }
-        System.out.println("Up counter from:"+this.counter + "because success target:" + target.getName());
         upCounter();
         Set<Target> targetsReq = target.getRequiredForList();
         for (Target target1 : targetsReq) {
@@ -283,7 +282,6 @@ public class SimulationTaskManager extends TaskManager {
             }
 
         }
-        System.out.println("Up counter from:"+this.counter + "becuase fail target:" + failedTarget.getName());
         upCounter();
         for (Target target : failedTarget.getRequiredForList()){
             if(EngineManager.graphStatic.getGraphMap().containsKey(target)){
