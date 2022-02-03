@@ -1,0 +1,21 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="web_app:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/web_app_war_exploded</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="web_app" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="artifact" artifact-name="new_engine:jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web_app/web/WEB-INF/lib/okHttp/annotations-13.0.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web_app/web/WEB-INF/lib/okHttp/kotlin-stdlib-1.4.10.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web_app/web/WEB-INF/lib/okHttp/okhttp-4.9.1.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web_app/web/WEB-INF/lib/okHttp/okio-2.8.0.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web_app/web/WEB-INF/lib/gson-2.1.jar" />
+        </element>
+      </element>
+      <element id="javaee-facet-resources" facet="web_app/web/Web" />
+    </root>
+  </artifact>
+</component>

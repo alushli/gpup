@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="web_app:war">
+    <output-path>$PROJECT_DIR$/out/artifacts/web_app_war</output-path>
+    <root id="archive" name="web_app_war.war">
+      <element id="artifact" artifact-name="web_app:war exploded" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="lib">
+          <element id="file-copy" path="$PROJECT_DIR$/web_app/web/WEB-INF/lib/okHttp/annotations-13.0.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web_app/web/WEB-INF/lib/okHttp/kotlin-stdlib-1.4.10.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web_app/web/WEB-INF/lib/okHttp/okhttp-4.9.1.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web_app/web/WEB-INF/lib/okHttp/okio-2.8.0.jar" />
+          <element id="file-copy" path="$PROJECT_DIR$/web_app/web/WEB-INF/lib/gson-2.1.jar" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
