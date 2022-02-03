@@ -1,6 +1,7 @@
 package general;
 
 import UsersManager.UsersManager;
+import engineManager.EngineManager;
 import jakarta.servlet.ServletContext;
 
 public class ServletsUtils {
@@ -11,9 +12,8 @@ public class ServletsUtils {
     public static UsersManager getUserManager(ServletContext servletContext){
             synchronized (userManagerLock){
                 if(servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME) == null){
-                   // UsersManager usersManager = new UsersManager();
-                    //System.out.println("hi");
                     servletContext.setAttribute(USER_MANAGER_ATTRIBUTE_NAME, new UsersManager());
+                    servletContext.setAttribute("Engine", new EngineManager());
                 }
             }
             return (UsersManager)servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME);

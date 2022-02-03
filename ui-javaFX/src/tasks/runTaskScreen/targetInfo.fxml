@@ -33,7 +33,7 @@
          <children>
             <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" styleClass="header_label" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="header_label" text="Target" HBox.hgrow="NEVER" />
+                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="header_label" text="target" HBox.hgrow="NEVER" />
                   <Label fx:id="target_name_label" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="header_label" HBox.hgrow="SOMETIMES" />
                   <Button id="target_icon" fx:id="target_icon" disable="true" maxHeight="70.0" maxWidth="70.0" minHeight="70.0" minWidth="70.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="70.0" HBox.hgrow="NEVER" />
                </children>
