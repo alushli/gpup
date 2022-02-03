@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<StackPane id="stack_pane" fx:id="main_screen" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_screen_content" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.loadFile.LoadFileController">
+   <children>
+      <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_screen_content">
+         <content>
+            <GridPane styleClass="main_screen_content">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="NEVER" minWidth="20.0" prefWidth="20.0" />
+                <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" />
+                <ColumnConstraints hgrow="NEVER" minWidth="20.0" prefWidth="20.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="1.7976931348623157E308" />
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="100.0" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="40.0" prefHeight="40.0" vgrow="NEVER" />
+                <RowConstraints maxHeight="1.7976931348623157E308" valignment="CENTER" />
+              </rowConstraints>
+               <children>
+                  <Label id="header_label" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Load File" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_screen_content" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="NEVER" maxWidth="218.0" minWidth="100.0" prefWidth="100.0" />
+                      <ColumnConstraints maxWidth="1.7976931348623157E308" minWidth="400.0" prefWidth="400.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Button fx:id="load_btn" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onAction="#clickLoadFile" styleClass="load_file_btn" text="Load File" GridPane.halignment="LEFT" GridPane.rowSpan="2" />
+                        <Label id="file_path_label" fx:id="file_path_label" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.vgrow="NEVER" />
+                        <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="NEVER">
+                           <children>
+                              <Label fx:id="message_label" ellipsisString="" maxWidth="1.7976931348623157E308" minWidth="60.0" styleClass="load_message_label" text="Message:" HBox.hgrow="NEVER" />
+                              <TextArea fx:id="load_message_ta" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="SOMETIMES" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </GridPane>
+                  <GridPane fx:id="what_next_area" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_screen_content" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" valignment="CENTER" vgrow="NEVER" />
+                      <RowConstraints maxHeight="1.7976931348623157E308" valignment="CENTER" vgrow="NEVER" />
+                    </rowConstraints>
+                     <children>
+                        <Label id="what_next_label" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="What Next ?" />
+                        <HBox id="what_naxt_hbox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="20.0" GridPane.rowIndex="1" GridPane.vgrow="SOMETIMES">
+                           <children>
+                              <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="250.0" HBox.hgrow="SOMETIMES">
+                                 <children>
+                                    <Button fx:id="general_info_btn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clickGeneralInfo" styleClass="what_next_main_buttons" text="General Information">
+                                       <padding>
+                                          <Insets bottom="15.0" top="15.0" />
+                                       </padding>
+                                    </Button>
+                                    <Button fx:id="show_target_info_label" alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clickTargetInfo" styleClass="what_next_buttons" text="Show Target Information" visible="false">
+                                       <padding>
+                                          <Insets bottom="10.0" top="10.0" />
+                                       </padding>
+                                    </Button>
+                                    <Button fx:id="show_graph_info_label" alignment="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clickGraphInfo" styleClass="what_next_buttons" text="Show Graph Information" visible="false">
+                                       <padding>
+                                          <Insets bottom="10.0" top="10.0" />
+                                       </padding>
+                                    </Button>
+                                 </children>
+                              </VBox>
+                              <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="250.0" HBox.hgrow="SOMETIMES">
+                                 <children>
+                                    <Button fx:id="actions_btn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clickActions" styleClass="what_next_main_buttons" text="Actions" VBox.vgrow="SOMETIMES">
+                                       <padding>
+                                          <Insets bottom="15.0" top="15.0" />
+                                       </padding>
+                                    </Button>
+                                    <Button fx:id="find_path_label" alignment="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clickFindPath" styleClass="what_next_buttons" text="Find Path Between Targets" visible="false">
+                                       <padding>
+                                          <Insets bottom="10.0" top="10.0" />
+                                       </padding>
+                                    </Button>
+                                    <Button fx:id="find_circle_label" alignment="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clickFindCircle" styleClass="what_next_buttons" text="Find Target Circle" visible="false">
+                                       <padding>
+                                          <Insets bottom="10.0" top="10.0" />
+                                       </padding>
+                                    </Button>
+                                 </children>
+                              </VBox>
+                              <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="250.0" HBox.hgrow="SOMETIMES">
+                                 <children>
+                                    <Button fx:id="tasks_btn" maxWidth="1.7976931348623157E308" minWidth="200.0" mnemonicParsing="false" onAction="#clickTasks" styleClass="what_next_main_buttons" text="Run Tasks" VBox.vgrow="SOMETIMES">
+                                       <padding>
+                                          <Insets bottom="15.0" top="15.0" />
+                                       </padding>
+                                    </Button>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </GridPane>
+               </children>
+            </GridPane>
+         </content>
+      </ScrollPane>
+   </children>
+   <stylesheets>
+      <URL value="@LoadFile.css" />
+      <URL value="@../resources/mainCss.css" />
+   </stylesheets>
+</StackPane>

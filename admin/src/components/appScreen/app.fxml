@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+
+<BorderPane fx:id="main_screen" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" styleClass="main_screen_content" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.appScreen.AppController">
+   <center>
+      <StackPane fx:id="content_area" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="150.0" prefWidth="200.0" styleClass="main_screen_content" />
+   </center>
+   <left>
+      <StackPane id="left_area" fx:id="menu_area" alignment="TOP_LEFT" styleClass="main_screen_content" BorderPane.alignment="TOP_LEFT" />
+   </left>
+   <stylesheets>
+      <URL value="@AppScreen.css" />
+      <URL value="@../resources/mainCss.css" />
+   </stylesheets>
+</BorderPane>

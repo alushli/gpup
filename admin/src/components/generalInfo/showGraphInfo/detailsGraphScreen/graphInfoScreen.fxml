@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+<?import java.net.URL?>
+<StackPane fx:id="fall_screen_SP" maxHeight="1.7976931348623157E308" maxWidth="400.0" minWidth="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.generalInfo.showGraphInfo.detailsGraphScreen.GraphInfoScreenController">
+   <children>
+      <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+         <content>
+            <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_screen_content">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="10.0" />
+                  <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="330.0" />
+                  <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="10.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="NEVER" />
+                  <RowConstraints maxHeight="270.0" minHeight="270.0" prefHeight="270.0" vgrow="NEVER" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="270.0" prefHeight="270.0" vgrow="ALWAYS" />
+                  <RowConstraints minHeight="73.0" prefHeight="74.0" vgrow="NEVER" />
+                  <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="NEVER" />
+               </rowConstraints>
+               <children>
+                  <GridPane GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="NEVER" />
+                        <RowConstraints maxHeight="10.0" minHeight="10.0" prefHeight="10.0" vgrow="NEVER" />
+                        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" vgrow="ALWAYS" />
+                        <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" GridPane.vgrow="NEVER">
+                           <children>
+                              <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="summery_label" text="Graph Summary" HBox.hgrow="ALWAYS" />
+                           </children>
+                        </HBox>
+                        <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" GridPane.rowIndex="2">
+                           <children>
+                              <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0">
+                                 <children>
+                                    <Label styleClass="sub_header_label" text="Graph name:" />
+                                    <Label fx:id="graph_name_label" styleClass="sub_header_label" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="5.0" />
+                                 </padding>
+                              </HBox>
+                              <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0">
+                                 <children>
+                                    <Label styleClass="sub_header_label" text="Graph working directory:" />
+                                    <Label fx:id="graph_work_dir_label" styleClass="sub_header_label" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="5.0" />
+                                 </padding>
+                              </HBox>
+                              <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0">
+                                 <children>
+                                    <Label styleClass="sub_header_label" text="Number of targets:" />
+                                    <Label fx:id="target_num_label" styleClass="sub_header_label" />
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                                 <padding>
+                                    <Insets bottom="5.0" />
+                                 </padding>
+                              </HBox>
+                              <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0">
+                                 <children>
+                                    <Label text="Nubert of &quot;Root&quot; targets: " />
+                                    <Label fx:id="root_num_label" />
+                                 </children>
+                              </HBox>
+                              <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0">
+                                 <children>
+                                    <Label text="Nubert of &quot;Middle&quot; targets: " />
+                                    <Label fx:id="mid_num_label" />
+                                 </children>
+                              </HBox>
+                              <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0">
+                                 <children>
+                                    <Label text="Nubert of &quot;Leaf&quot; targets: " />
+                                    <Label fx:id="leaf_num_label" />
+                                 </children>
+                              </HBox>
+                              <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0">
+                                 <children>
+                                    <Label text="Nubert of &quot;Independents&quot; targets: " />
+                                    <Label fx:id="ind_num_label" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </GridPane>
+                  <GridPane GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.vgrow="SOMETIMES">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+                        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="30.0" prefHeight="30.0" vgrow="ALWAYS" />
+                     </rowConstraints>
+                     <children>
+                        <Label id="paths_message_label" fx:id="serial_label" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="sub_header_label" text="Serial Sets" />
+                        <StackPane fx:id="table_SP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.rowIndex="1" />
+                     </children>
+                     <GridPane.margin>
+                        <Insets top="20.0" />
+                     </GridPane.margin>
+                  </GridPane>
+                  <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <children>
+                        <Button id="export_btn" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clickExport" prefHeight="42.0" prefWidth="328.0" text="Export graph to png" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin></Button>
+                     </children>
+                  </VBox>
+               </children>
+            </GridPane>
+         </content>
+         <styleClass>
+            <String fx:value="main_screen_content" />
+            <String fx:value="scroll_border" />
+         </styleClass>
+      </ScrollPane>
+   </children>
+   <stylesheets>
+      <URL value="@../../../resources/mainCss.css" />
+      <URL value="@../../GeneralInfo.css" />
+   </stylesheets>
+   <styleClass>
+      <String fx:value="main_screen_content" />
+      <String fx:value="scroll_border" />
+   </styleClass>
+</StackPane>

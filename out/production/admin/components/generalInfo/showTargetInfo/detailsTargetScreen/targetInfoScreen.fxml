@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+<?import java.net.URL?>
+<StackPane fx:id="fall_screen_SP" maxHeight="1.7976931348623157E308" maxWidth="400.0" minWidth="400.0" prefWidth="400.0" styleClass="main_screen_content" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.generalInfo.showTargetInfo.detailsTargetScreen.TargetInfoScreenController">
+   <children>
+      <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_screen_content">
+         <content>
+            <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="603.0" prefWidth="348.0" styleClass="main_screen_content">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="10.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="340.0" />
+                  <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="10.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="NEVER" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" vgrow="ALWAYS" />
+                  <RowConstraints minHeight="20.0" prefHeight="20.0" vgrow="NEVER" />
+               </rowConstraints>
+               <children>
+                  <GridPane fx:id="target_info_grid" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_screen_content" visible="false" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="0.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="60.0" prefHeight="60.0" vgrow="NEVER" />
+                        <RowConstraints maxHeight="10.0" minHeight="10.0" prefHeight="10.0" vgrow="NEVER" />
+                        <RowConstraints maxHeight="1.7976931348623157E308" vgrow="ALWAYS" />
+                        <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" GridPane.vgrow="NEVER">
+                           <children>
+                              <Label maxHeight="1.7976931348623157E308" text="Target" HBox.hgrow="ALWAYS">
+                                 <styleClass>
+                                    <String fx:value="summery_label" />
+                                    <String fx:value="target_name" />
+                                 </styleClass></Label>
+                              <Label fx:id="target_name_label" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS">
+                                 <styleClass>
+                                    <String fx:value="target_name" />
+                                    <String fx:value="summery_label" />
+                                 </styleClass></Label>
+                           </children>
+                        </HBox>
+                        <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="20.0" GridPane.rowIndex="2">
+                           <children>
+                              <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0">
+                                 <children>
+                                    <Label text="Position:" />
+                                    <Label fx:id="position_label" />
+                                 </children>
+                              </HBox>
+                              <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0">
+                                 <children>
+                                    <Label text="List of directly depends on targets:" />
+                                    <ListView fx:id="direct_DO_list" minHeight="30.0" />
+                                 </children>
+                              </VBox>
+                              <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0">
+                                 <children>
+                                    <Label text="List of total depends on targets:" />
+                                    <ListView fx:id="total_DO_list" minHeight="30.0" />
+                                 </children>
+                              </VBox>
+                              <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0">
+                                 <children>
+                                    <Label text="List of directly required for targets:" />
+                                    <ListView fx:id="direct_RF_list" minHeight="30.0" />
+                                 </children>
+                              </VBox>
+                              <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0">
+                                 <children>
+                                    <Label text="List of total required for targets:" />
+                                    <ListView fx:id="total_RF_list" minHeight="30.0" />
+                                 </children>
+                              </VBox>
+                              <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0">
+                                 <children>
+                                    <Label text="Free text on the target" />
+                                    <TextArea fx:id="free_text_TA" editable="false" />
+                                 </children>
+                              </VBox>
+                              <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0">
+                                 <children>
+                                    <Label text="List of serial sets:" />
+                                    <ListView fx:id="serial_list" minHeight="30.0" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+                     </children>
+                  </GridPane>
+                  <Label id="error_label" fx:id="error_message" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Please select one target from the table to see his details" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+         </content>
+      </ScrollPane>
+   </children>
+   <stylesheets>
+      <URL value="@../../../resources/mainCss.css" />
+      <URL value="@../../GeneralInfo.css" />
+   </stylesheets>
+</StackPane>

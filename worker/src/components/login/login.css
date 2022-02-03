@@ -1,0 +1,47 @@
+.combo-box{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 14px;
+    -fx-cursor:hand;
+}
+
+.label{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 14px;
+}
+
+#login_label{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 40px;
+    -fx-font-weight: 700;
+    -fx-text-fill: black;
+}
+
+#welcome_label{
+    -fx-font-family:Tahoma;
+    -fx-font-size: 50px;
+    -fx-font-weight: 700;
+    -fx-text-fill: black;
+}
+
+.successes_message{
+    -fx-text-fill: green;
+}
+
+.failed_message{
+    -fx-text-fill: red;
+}
+
+#error_label{
+    -fx-font-size: 18;
+}
+
+.button{
+    -fx-font-size: 16px;
+    -fx-padding: 15 5 15 5;
+    -fx-background-color: #008AFF;
+    -fx-text-fill: #FFFFFF;
+}
+
+.main_screen_content{
+    -fx-background-color: #FFFFFF;
+}
