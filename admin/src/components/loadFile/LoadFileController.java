@@ -125,10 +125,10 @@ public class LoadFileController extends components.mainControllers.Controllers{
             File file = new File(absolutePath);
             RequestBody body =
                     new MultipartBody.Builder()
-                            .addFormDataPart("file", file.getName(), RequestBody.create(file, MediaType.parse("application/xml")))
+                            .addFormDataPart("file", file.getName(), RequestBody.create(file, MediaType.parse("text/plain")))
                             .build();
             Request request = new Request.Builder()
-                    .url(Constants.BASE_URL + RESOURCE)
+                    .url(Constants.FULL_SERVER_PATH + RESOURCE)
                     .post(body)
                     .build();
 
@@ -140,7 +140,7 @@ public class LoadFileController extends components.mainControllers.Controllers{
                 successLoad();
             } else {
                 if (response != null && response.code() == 401 ) {
-                    failedLoad("Something went wrong");
+                    failedLoad("");
                     file_path_label.setText(workFile);
                 }
                 else {
