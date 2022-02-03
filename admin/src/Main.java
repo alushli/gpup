@@ -3,11 +3,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import utils.FxmlPath;
-import worker.servlets.Login;
-
 import java.net.URL;
 
 public class Main extends Application {
@@ -22,6 +19,7 @@ public class Main extends Application {
         fxmlLoader.setLocation(url);
         Parent rootContainer = fxmlLoader.load(url.openStream());
         LoginController loginController = fxmlLoader.getController();
+        loginController.setPrimaryStage(primaryStage);
         primaryStage.setScene(new Scene(rootContainer, 650, 350));
         primaryStage.resizableProperty().set(false);
         primaryStage.setTitle("GPUP");
