@@ -247,7 +247,6 @@ public class EngineManager implements EngineManagerInterface{
             this.compilerTaskManager.setMaxParallel(newCount);
     }
 
-
     @Override
     /* the function return target circle */
     public LinkedHashSet<TargetDTO> getTargetCircle(String targetName) throws MenuOptionException {

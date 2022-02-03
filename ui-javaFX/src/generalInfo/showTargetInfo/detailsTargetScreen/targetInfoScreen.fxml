@@ -42,7 +42,7 @@
                      <children>
                         <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" GridPane.vgrow="NEVER">
                            <children>
-                              <Label maxHeight="1.7976931348623157E308" text="Target" HBox.hgrow="ALWAYS">
+                              <Label maxHeight="1.7976931348623157E308" text="target" HBox.hgrow="ALWAYS">
                                  <styleClass>
                                     <String fx:value="summery_label" />
                                     <String fx:value="target_name" />

@@ -74,7 +74,7 @@
                                           <Insets bottom="15.0" top="15.0" />
                                        </padding>
                                     </Button>
-                                    <Button fx:id="show_target_info_label" alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clickTargetInfo" styleClass="what_next_buttons" text="Show Target Information" visible="false">
+                                    <Button fx:id="show_target_info_label" alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clickTargetInfo" styleClass="what_next_buttons" text="Show target Information" visible="false">
                                        <padding>
                                           <Insets bottom="10.0" top="10.0" />
                                        </padding>
@@ -98,7 +98,7 @@
                                           <Insets bottom="10.0" top="10.0" />
                                        </padding>
                                     </Button>
-                                    <Button fx:id="find_circle_label" alignment="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clickFindCircle" styleClass="what_next_buttons" text="Find Target Circle" visible="false">
+                                    <Button fx:id="find_circle_label" alignment="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clickFindCircle" styleClass="what_next_buttons" text="Find target Circle" visible="false">
                                        <padding>
                                           <Insets bottom="10.0" top="10.0" />
                                        </padding>
