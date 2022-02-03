@@ -8,6 +8,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.FileChooser;
+import okhttp3.*;
+import utils.Constants;
+import utils.HttpClientUtil;
+
+import java.io.File;
 
 
 public class LoadFileController extends components.mainControllers.Controllers{
@@ -104,25 +110,48 @@ public class LoadFileController extends components.mainControllers.Controllers{
 
     @FXML
     void clickLoadFile(ActionEvent event) {
-//        try {
-//            setVisibleButtons();
-//            FileChooser fileChooser = new FileChooser();
-//            fileChooser.setTitle("Select xml file");
-//            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files", "*.xml"));
-//            File selectedFile = fileChooser.showOpenDialog(null);
-//            if (selectedFile == null) {
-//                failedLoad("Please choose an xml file");
-//                return;
-//            }
-//            String absolutePath = selectedFile.getAbsolutePath();
-//            this.appController.loadFile(absolutePath);
-//            workFile = absolutePath;
-//            file_path_label.setText(workFile);
-//            successLoad();
-//        } catch (XmlException e) {
-//            failedLoad(e.getMessage());
-//            file_path_label.setText(workFile);
-//        }
+        String RESOURCE = "/upload-file";
+        try {
+            setVisibleButtons();
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Select xml file");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files", "*.xml"));
+            File selectedFile = fileChooser.showOpenDialog(null);
+            if (selectedFile == null) {
+                failedLoad("Please choose an xml file");
+                return;
+            }
+            String absolutePath = selectedFile.getAbsolutePath();
+            File file = new File(absolutePath);
+            RequestBody body =
+                    new MultipartBody.Builder()
+                            .addFormDataPart("file", file.getName(), RequestBody.create(file, MediaType.parse("application/xml")))
+                            .build();
+            Request request = new Request.Builder()
+                    .url(Constants.BASE_URL + RESOURCE)
+                    .post(body)
+                    .build();
+
+            Call call = HttpClientUtil.HTTP_CLIENT.newCall(request);
+            Response response = call.execute();
+            if (response != null && response.code() == 200) {
+                workFile = absolutePath;
+                file_path_label.setText(workFile);
+                successLoad();
+            } else {
+                if (response != null && response.code() == 401 ) {
+                    failedLoad("Something went wrong");
+                    file_path_label.setText(workFile);
+                }
+                else {
+                    failedLoad("Something went wrong");
+                    file_path_label.setText(workFile);
+                }
+            }
+        } catch (Exception e) {
+            failedLoad(e.getMessage());
+            file_path_label.setText(workFile);
+        }
     }
 
     void successLoad(){

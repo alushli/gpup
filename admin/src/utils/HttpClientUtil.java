@@ -5,7 +5,7 @@ import okhttp3.*;
 import java.io.IOException;
 
 public class HttpClientUtil {
-    private final static OkHttpClient HTTP_CLIENT = new OkHttpClient();
+    public final static OkHttpClient HTTP_CLIENT = new OkHttpClient();
 
     public static void runAsync(String finalUrl, Callback callback) {
         Request request = new Request.Builder()
