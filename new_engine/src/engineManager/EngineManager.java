@@ -2,6 +2,7 @@ package engineManager;
 
 import XmlUtils.XmlUtils;
 import dtoObjects.TargetDTO;
+import dtoObjects.TargetsPathDTO;
 import newExceptions.XmlException;
 import graph.Graph;
 import scema.generated.*;
@@ -174,5 +175,22 @@ public class EngineManager {
         }
         return targetDTOS;
     }
+
+    /* the function return target circle */
+    public TargetsPathDTO getTargetCircle(String targetName, String graphName)  {
+        LinkedHashSet<Target> linkedHashSet;
+        if(!this.graphMap.containsKey(graphName)){
+            return null;
+        }else{
+            Graph graph = graphMap.get(graphName);
+            Target target = graph.getTargetByName(targetName.toUpperCase());
+            linkedHashSet = graph.findCircle(target);
+        }
+        return new TargetsPathDTO(linkedHashSet);
+    }
+
+
+
+
 
 }
