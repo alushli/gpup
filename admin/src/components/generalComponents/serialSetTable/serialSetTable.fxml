@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.StackPane?>
+<StackPane fx:id="main_screen" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="around_table" stylesheets="@SerialSetTable.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.generalComponents.serialSetTable.SerialSetTableController">
+   <children>
+      <TableView id="table-view" fx:id="table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+        <columns>
+          <TableColumn fx:id="nameCol" editable="false" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" styleClass="tableCol" text="Name" />
+          <TableColumn fx:id="listCol" editable="false" maxWidth="300.0" minWidth="300.0" prefWidth="300.0" sortable="false" styleClass="tableCol" text="List of included targets" />
+        </columns>
+      </TableView>
+   </children>
+</StackPane>

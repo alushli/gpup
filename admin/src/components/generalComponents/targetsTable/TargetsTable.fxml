@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.StackPane?>
+<StackPane fx:id="main_screen" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="around_table" stylesheets="@TargetsTable.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.generalComponents.targetsTable.TargetsTableController">
+   <children>
+      <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="around_table">
+         <content>
+            <TableView id="table-view" fx:id="table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+              <columns>
+                <TableColumn fx:id="selectCol" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" resizable="false" text="Select" />
+                <TableColumn fx:id="nameCol" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" text="Name" />
+                  <TableColumn fx:id="positionCol" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" resizable="false" text="Position" />
+                  <TableColumn fx:id="directDependsOnCol" maxWidth="140.0" minWidth="140.0" prefWidth="140.0" resizable="false" text="Direct Depends On" />
+                  <TableColumn fx:id="totalDependsOnCol" maxWidth="140.0" minWidth="140.0" prefWidth="140.0" resizable="false" text="Total Depends On" />
+                  <TableColumn fx:id="directRequiredForCol" maxWidth="140.0" minWidth="140.0" prefWidth="140.0" resizable="false" text="Direct Required For" />
+                  <TableColumn fx:id="totalRequiredForCol" maxWidth="140.0" minWidth="140.0" prefWidth="140.0" resizable="false" text="Total Required For" />
+                  <TableColumn fx:id="freeTextCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="-1.0" text="Free Text" />
+                  <TableColumn fx:id="serialSetsCol" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Serial Sets" />
+              </columns>
+            </TableView>
+         </content>
+      </ScrollPane>
+   </children>
+</StackPane>

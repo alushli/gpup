@@ -1,0 +1,38 @@
+#switch_btn{
+    -fx-background-color: transparent;
+}
+
+#find_btn{
+    -fx-font-size: 16px;
+    -fx-background-color: #008AFF;
+    -fx-text-fill: #FFFFFF;
+}
+
+#explanation_label{
+    -fx-text-fill: red;
+}
+
+.grid_ares{
+    -fx-border-color: transparent;
+    -fx-background-color: transparent;
+}
+
+.label{
+    -fx-font-size: 16px;
+}
+
+#direction_CB{
+    -fx-background-color: #F5FAFF;
+    -fx-border-color: #008AFF;
+}
+
+.target_label{
+    -fx-padding: 5 10 5 10;
+    -fx-border-color: #008AFF ;
+    -fx-border-style: hidden hidden solid hidden;
+    -fx-border-width: 2 ;
+}
+
+.from_to_label{
+    -fx-font-size: 12px;
+}

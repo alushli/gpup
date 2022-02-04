@@ -24,7 +24,7 @@ public class Login extends HttpServlet {
 
         if(userNameFromSession == null){//user is not l ogged in
             String userNameFromReqParams = req.getParameter(Constant.USERNAME);
-            if(userNameFromReqParams == null || userNameFromSession.isEmpty()){
+            if(userNameFromReqParams == null || userNameFromReqParams.isEmpty()){
                 resp.setStatus(HttpServletResponse.SC_CONFLICT);
             }else{
                 userNameFromReqParams = userNameFromReqParams.trim();
