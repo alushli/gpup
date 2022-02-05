@@ -31,20 +31,14 @@ public class FindPaths extends HttpServlet {
                 resp.setStatus(HttpServletResponse.SC_CONFLICT);
             }else{
                 EngineManager engineManager = (EngineManager) getServletContext().getAttribute("Engine");
-
                 if(engineManager == null){
                     resp.setStatus(HttpServletResponse.SC_CONFLICT);
                 }else{
-                    Graph graph = engineManager.getGraph(graphName);
-                    if(graph != null){
-                        Gson gson = new Gson();
-                        PrintWriter out = resp.getWriter();
-                        out.println(gson.toJson(new GeneralGraphInfoDTO(graph)));
-                        out.flush();
-                        resp.setStatus(HttpServletResponse.SC_OK);
-                    }else{
-                        resp.setStatus(HttpServletResponse.SC_CONFLICT);
-                    }
+                    Gson gson = new Gson();
+                    PrintWriter out = resp.getWriter();
+                    out.println(gson.toJson(engineManager.getTargetsPath(graphName,from,to,dependencyType)));
+                    out.flush();
+                    resp.setStatus(HttpServletResponse.SC_OK);
                 }
             }
         }

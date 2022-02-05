@@ -84,6 +84,10 @@ public class Graph {
         this.map.put(target, new HashSet<>(target.getDependsOnList()));
     }
 
+    public void addToGraphWithEmptyList(Target target){
+        this.map.put(target, new HashSet<>());
+    }
+
     public void addToGraphWithoutList(Target target){
         this.map.put(target, new HashSet<>());
     }

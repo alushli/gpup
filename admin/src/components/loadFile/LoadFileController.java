@@ -140,11 +140,11 @@ public class LoadFileController extends components.mainControllers.Controllers{
                 successLoad();
             } else {
                 if (response != null && response.code() == 401 ) {
-                    failedLoad("");
+                    failedLoad(response.body().string());
                     file_path_label.setText(workFile);
                 }
                 else {
-                    failedLoad("Something went wrong");
+                    failedLoad(response.body().string());
                     file_path_label.setText(workFile);
                 }
             }

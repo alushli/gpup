@@ -26,12 +26,11 @@ public class EngineManager {
     }
 
     /* the function load the graph */
-    public void load(InputStream in, Set<String> errors) {
+    public synchronized void load(InputStream in, Set<String> errors) {
         try{
-            List<Graph> graphsList = loadHelper(in,errors);
-            Graph graphOrigin = graphsList.get(0);
+            Graph graph = loadHelper(in,errors);
             if(errors.isEmpty()){
-                this.graphMap.put(graphOrigin.getGraphName(), graphOrigin);
+                    this.graphMap.put(graph.getGraphName(), graph);
             }
         }catch (XmlException e){
             return;
@@ -39,63 +38,25 @@ public class EngineManager {
 
     }
 
-    private List<Graph> loadHelper(InputStream filePath, Set<String> errors) throws XmlException {
-        List<Graph> graphsList = new ArrayList<>();
-        GPUPDescriptor root = (GPUPDescriptor) XmlUtils.readFromXml(filePath, new GPUPDescriptor());
-        if (root.getGPUPTargets() != null && root.getGPUPConfiguration() != null) {
-            List<Map<String, Target>> mapsList = getMapsOfTargets(root.getGPUPTargets(), errors);
-            int simulationPrice = -1, compilationPrice = -1;
-            if(root.getGPUPConfiguration().getGPUPPricing().getGPUPTask() != null){
-                for(GPUPConfiguration.GPUPPricing.GPUPTask gpupTask : root.getGPUPConfiguration().getGPUPPricing().getGPUPTask()){
-                    if(gpupTask.getName().equals("Simulation")){
-                        simulationPrice = gpupTask.getPricePerTarget();
-                    }else{
-                        compilationPrice = gpupTask.getPricePerTarget();
-                    }
-                }
-            }
-            if(this.graphMap.containsKey(root.getGPUPConfiguration().getGPUPGraphName())){
-                errors.add("Graph name already exist");
-            }
-            Graph graphOrigin = new Graph(root.getGPUPConfiguration().getGPUPGraphName(),simulationPrice,compilationPrice);
-            Graph graphIncremental = new Graph(root.getGPUPConfiguration().getGPUPGraphName(),simulationPrice,compilationPrice);
-            if (errors.isEmpty()) {
-                addToTargetList(mapsList.get(0), root, graphOrigin, true, errors);
-            }
-            if (!errors.isEmpty()) {
-                throw new XmlException(errors.toString());
-            }
-            graphsList.add(graphOrigin);
-            graphsList.add(graphIncremental);
-            return graphsList;
-        } else {
-            throw new XmlException("The file doesn't fit the schema.");
-        }
-    }
-
     /* the function return map of targets (0 - origin, 1- incremental) */
-    private List<Map<String, Target>> getMapsOfTargets(GPUPTargets targets, Set<String> errors) {
+    private Map<String, Target> getMapOfTargets(GPUPTargets targets, Set<String> errors) {
         GPUPTarget targetError = null;
-        List<Map<String, Target>> mapsList = new ArrayList<>();
-        mapsList.add(new HashMap<>());
-        mapsList.add(new HashMap<>());
+        Map<String, Target> map = new HashMap<>();
         for (GPUPTarget gpupTarget : targets.getGPUPTarget()) {
-            if (!mapsList.get(0).keySet().contains(gpupTarget.getName())) {
-                addToMap(gpupTarget, mapsList.get(0));
+            if (!map.keySet().contains(gpupTarget.getName())) {
+                addToMap(gpupTarget,map);
             } else{
                 targetError = gpupTarget;
             }
-
             if (targetError != null) {
-            String error = new String();
-
-            error += "Target:" + gpupTarget.getName();
-            error += " appears more than one";
-            errors.add(error);
+                String error = new String();
+                error += "Target:" + gpupTarget.getName();
+                error += " appears more than one";
+                errors.add(error);
         }
             targetError = null;
         }
-        return mapsList;
+        return map;
     }
 
     /* the function add the target to map */
@@ -110,9 +71,7 @@ public class EngineManager {
     /* the function add targets to target list */
     private void addToTargetList(Map<String, Target> map, GPUPDescriptor root, Graph graph, boolean isOrigin, Set<String> errors) {
         for(GPUPTarget gpupTarget : root.getGPUPTargets().getGPUPTarget()){
-            if(!isOrigin){
-                updateTargetLists(gpupTarget, map, errors);
-            }
+            updateTargetLists(gpupTarget, map, errors);
         }
         if(isOrigin){
             for (GPUPTarget gpupTarget : root.getGPUPTargets().getGPUPTarget()){
@@ -190,7 +149,75 @@ public class EngineManager {
     }
 
 
+    private Graph loadHelper(InputStream filePath, Set<String> errors)throws XmlException{
+        GPUPDescriptor root = (GPUPDescriptor) XmlUtils.readFromXml(filePath, new GPUPDescriptor());
+        Graph graphOrigin;
+        if (root.getGPUPTargets() != null && root.getGPUPConfiguration() != null){
+            Map<String, Target> map = getMapOfTargets(root.getGPUPTargets(), errors);
+            //pricing handle
+            int simulationPrice = -1, compilationPrice = -1;
+                if(root.getGPUPConfiguration().getGPUPPricing().getGPUPTask() != null){
+                for(GPUPConfiguration.GPUPPricing.GPUPTask gpupTask : root.getGPUPConfiguration().getGPUPPricing().getGPUPTask()){
+                    if(gpupTask.getName().equals("Simulation")){
+                        simulationPrice = gpupTask.getPricePerTarget();
+                    }else{
+                        compilationPrice = gpupTask.getPricePerTarget();
+                    }
+                }
+            }
+                if(this.graphMap.containsKey(root.getGPUPConfiguration().getGPUPGraphName())){
+                    errors.add("Graph name already exist");
+                }
+                graphOrigin = new Graph(root.getGPUPConfiguration().getGPUPGraphName(),simulationPrice,compilationPrice);
+            if(errors.isEmpty()){
+                addToTargetList(map, root,graphOrigin,true,errors);
+            }else{
+                throw new XmlException(errors.toString());
+            }
+        }else{
+            throw new XmlException("The file doesn't fit the schema.");
+        }
+        return graphOrigin;
+    }
+
+    /* the function return targets paths */
+    public List<TargetsPathDTO> getTargetsPath(String graphName,String src, String des, String typeOfConnection) {
+        Target targetOne, targetTwo;
+        List<List<Target>> targetList = null;
+        Graph graph;
+        if (this.graphMap.containsKey(graphName)) {
+            graph = this.graphMap.get(graphName);
+            targetOne = graph.getTargetByName(src);
+            targetTwo = graph.getTargetByName(des);
+            if (targetOne == null || targetTwo == null)
+                return null;
+            else {
+                if (typeOfConnection.equalsIgnoreCase("D"))
+                    targetList = graph.findAllPaths(targetOne, targetTwo);
+                else if (typeOfConnection.equalsIgnoreCase("R")) {
+                    targetList = graph.findAllPaths(targetTwo, targetOne);
+                    reverseLists(targetList);
+                }
+            }
+        }
+        return getTargetDTOPath(targetList);
+    }
+
+    private List<TargetsPathDTO> getTargetDTOPath(List<List<Target>> lists){
+        List<TargetsPathDTO> dtoList = new ArrayList<>();
+        if(lists != null){
+            for (List<Target> list: lists){
+                dtoList.add(new TargetsPathDTO(list));
+            }
+        }
+        return dtoList;
+
+    }
 
 
-
+    private void reverseLists(List<List<Target>> lists){
+        for (List<Target> list : lists){
+            Collections.reverse(list);
+        }
+    }
 }

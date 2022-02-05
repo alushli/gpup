@@ -15,4 +15,12 @@ public class TargetsPathDTO {
             this.targets.add(target.getName());
         }
     }
+
+    public TargetsPathDTO(List<Target> targets){
+        this.targets = new ArrayList<>();
+        for (Target target:targets){
+            this.targets.add(target.getName());
+        }
+    }
+
 }
