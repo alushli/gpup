@@ -1,7 +1,9 @@
 package engineManager;
 
 import XmlUtils.XmlUtils;
+import dtoObjects.GraphDTO;
 import dtoObjects.TargetDTO;
+import dtoObjects.TargetFXDTO;
 import dtoObjects.TargetsPathDTO;
 import newExceptions.XmlException;
 import graph.Graph;
@@ -219,5 +221,25 @@ public class EngineManager {
         for (List<Target> list : lists){
             Collections.reverse(list);
         }
+    }
+
+    public List<TargetDTO> getAllTargetsByGraph(String graphName){
+        Graph graph = null;
+        List<TargetDTO> targets = new ArrayList<>();
+        if(this.graphMap.containsKey(graphName)){
+            graph = this.graphMap.get(graphName);
+            for (Map.Entry<Target, Set<Target>> entry : graph.getGraphMap().entrySet()){
+                targets.add(new TargetDTO(entry.getKey()));
+            }
+        }
+        return targets;
+    }
+
+    public List<GraphDTO> getAllGraphs(){
+        List<GraphDTO> graphDTOS = new ArrayList<>();
+        for (String name : this.graphMap.keySet()){
+            graphDTOS.add(new GraphDTO(name, 0,0));
+        }
+        return graphDTOS;
     }
 }

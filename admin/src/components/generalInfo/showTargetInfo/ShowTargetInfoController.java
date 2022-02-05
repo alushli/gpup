@@ -44,7 +44,7 @@ public class ShowTargetInfoController extends components.mainControllers.Control
 
     @FXML
     void clickDeselectAll(ActionEvent event) {
-        //this.targetsTableController.deselectAll();
+        this.targetsTableController.deselectAll();
     }
 
     public GeneralInfoController getMainController() {
@@ -130,8 +130,8 @@ public class ShowTargetInfoController extends components.mainControllers.Control
             this.mainController.setArea(this.table_SP ,fxmlLoader.load(url.openStream()));
             this.targetsTableController = fxmlLoader.getController();
             this.targetsTableController.setAppController(this.appController);
-            //this.targetsTableController.getTable().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.925));
-            //this.targetsTableController.setMaxSelect(1);
+            this.targetsTableController.getTable().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.925));
+            this.targetsTableController.setMaxSelect(1);
         }catch (Exception e){
 
         }

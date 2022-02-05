@@ -3,11 +3,13 @@ package components.menu;
 import components.actions.ActionsController;
 import components.appScreen.AppController;
 import components.adminEnums.AppFxmlPath;
+import components.dashboard.DashboardController;
 import components.generalInfo.GeneralInfoController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.GridPane;
 import components.loadFile.LoadFileController;
@@ -22,7 +24,9 @@ public class MenuController extends components.mainControllers.Controllers {
     private static Parent generalInfoParent;
     private static ActionsController actionsComponentController = null;
     private static Parent actionsParent;
+    private static Parent dashboardParent;
     private static SubMenuController subMenuComponentController = null;
+    private static DashboardController dashboardController = null;
     private Parent subMenuParent;
 
     @FXML
@@ -30,6 +34,9 @@ public class MenuController extends components.mainControllers.Controllers {
 
     @FXML
     private CheckBox animation_cb;
+
+    @FXML
+    private Button dashboard_btn;
 
     public void setSubMenu(){
         try {
@@ -52,6 +59,29 @@ public class MenuController extends components.mainControllers.Controllers {
         this.subMenuComponentController.setActionButtons();
         if(actionsComponentController == null) {
             setActionsFxml();
+        }
+    }
+
+    @FXML
+    void clickDashboard(ActionEvent event) {
+        if(dashboardController == null) {
+            setDashboardFxml();
+        }
+        appController.setArea(this.dashboardParent);
+    }
+
+    void setDashboardFxml() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            URL url = getClass().getResource(AppFxmlPath.DASHBOARD_SCREEN.toString());
+            fxmlLoader.setLocation(url);
+            this.dashboardParent = fxmlLoader.load(url.openStream());
+            this.dashboardController= fxmlLoader.getController();
+            this.dashboardController.setAppController(this.appController);
+            this.dashboardController.setMainController(this);
+            this.dashboardController.setTableScreen();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

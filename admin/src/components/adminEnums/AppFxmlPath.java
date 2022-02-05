@@ -23,7 +23,9 @@ public enum AppFxmlPath {
     TASK_RUN_TASK("/components/tasks/runTaskScreen/runTask.fxml"),
     TARGET_BOX_TASK("/components/tasks/runTaskScreen/target.fxml"),
     TARGET_INFO_POPUP_TASK("/components/tasks/runTaskScreen/targetInfo.fxml"),
-    EXPORT_GRAPH_POPUP("/components/generalInfo/showGraphInfo/detailsGraphScreen/exportGraphScreen/exportGraphPopup.fxml");
+    EXPORT_GRAPH_POPUP("/components/generalInfo/showGraphInfo/detailsGraphScreen/exportGraphScreen/exportGraphPopup.fxml"),
+    DASHBOARD_SCREEN("/components/dashboard/dashboard.fxml"),
+    DASHBOARD_USERS_TABLE("/components/generalComponents/usersTable/usersTable.fxml");
 
     private String name;
 

@@ -63,7 +63,7 @@ public class LoginController {
             this.errorMessageLabel.getStyleClass().add("failed_message");
             return;
         }
-        String finalUrl = HttpUrl.parse(Constants.WORKER_LOGIN).newBuilder().
+        String finalUrl = HttpUrl.parse(Constants.ADMIN_LOGIN).newBuilder().
                 addQueryParameter("userName", userName)
                 .build().
                 toString();
