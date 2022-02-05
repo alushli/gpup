@@ -6,6 +6,7 @@ import jakarta.servlet.ServletContext;
 
 public class ServletsUtils {
     private static final String USER_MANAGER_ATTRIBUTE_NAME = "userManager";
+    private static final String ENGINE_MANAGER_ATTRIBUTE_NAME = "engine";
 
     private static final Object userManagerLock = new Object();
 
@@ -18,4 +19,5 @@ public class ServletsUtils {
             }
             return (UsersManager)servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME);
     }
+
 }

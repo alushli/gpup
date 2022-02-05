@@ -5,7 +5,13 @@ import okhttp3.*;
 import java.io.IOException;
 
 public class HttpClientUtil {
-    public final static OkHttpClient HTTP_CLIENT = new OkHttpClient();
+    private final static CookieManager cookieManager = new CookieManager();
+
+    public final static OkHttpClient HTTP_CLIENT =
+            new OkHttpClient.Builder()
+                    .cookieJar(cookieManager)
+                    .followRedirects(false)
+                    .build();
 
     public static void runAsync(String finalUrl, Callback callback) {
         Request request = new Request.Builder()

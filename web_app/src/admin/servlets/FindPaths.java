@@ -1,9 +1,7 @@
 package admin.servlets;
 
-
 import com.google.gson.Gson;
 import dtoObjects.GeneralGraphInfoDTO;
-import dtoObjects.TargetDTO;
 import engineManager.EngineManager;
 import general.SessionUtils;
 import graph.Graph;
@@ -15,11 +13,9 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
-
-@WebServlet(name = "generalInfo", urlPatterns = "/general-info")
-public class GeneralInfo extends HttpServlet {
+@WebServlet(name = "findPaths", urlPatterns = "/find-paths")
+public class FindPaths extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -28,25 +24,24 @@ public class GeneralInfo extends HttpServlet {
             resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }else{
             String graphName = req.getParameter("graphName");
-            if(graphName == null || graphName.isEmpty()){
+            String dependencyType = req.getParameter("dependencyType");
+            String from = req.getParameter("from");
+            String to = req.getParameter("to");
+            if(graphName == null || graphName.isEmpty() || to == null || from==null || dependencyType==null){
                 resp.setStatus(HttpServletResponse.SC_CONFLICT);
             }else{
                 EngineManager engineManager = (EngineManager) getServletContext().getAttribute("Engine");
                 if(engineManager == null){
                     resp.setStatus(HttpServletResponse.SC_CONFLICT);
                 }else{
-                    Graph graph = engineManager.getGraph(graphName);
-                    if(graph != null){
-                        Gson gson = new Gson();
-                        PrintWriter out = resp.getWriter();
-                        out.println(gson.toJson(new GeneralGraphInfoDTO(graph)));
-                        out.flush();
-                        resp.setStatus(HttpServletResponse.SC_OK);
-                    }else{
-                        resp.setStatus(HttpServletResponse.SC_CONFLICT);
-                    }
+                    Gson gson = new Gson();
+                    PrintWriter out = resp.getWriter();
+                    out.println(gson.toJson(engineManager.getTargetsPath(graphName,from,to,dependencyType)));
+                    out.flush();
+                    resp.setStatus(HttpServletResponse.SC_OK);
                 }
             }
         }
     }
-}
+    }
+

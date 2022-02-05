@@ -45,12 +45,12 @@
                <children>
                   <HBox prefHeight="25.0" prefWidth="200.0" spacing="20.0" VBox.vgrow="NEVER">
                      <children>
-                        <Label fx:id="user_label" maxHeight="1.7976931348623157E308" maxWidth="100.0" minWidth="100.0" prefHeight="25.0" prefWidth="100.0" text="User Name:" HBox.hgrow="NEVER">
+                        <Label fx:id="user_label" maxHeight="1.7976931348623157E308" maxWidth="100.0" minWidth="100.0" prefHeight="30.0" prefWidth="100.0" text="User Name:" HBox.hgrow="NEVER">
                            <padding>
                               <Insets left="10.0" />
                            </padding>
                         </Label>
-                        <TextField fx:id="userName" maxHeight="25.0" maxWidth="1.7976931348623157E308" minHeight="25.0" prefHeight="25.0" HBox.hgrow="NEVER">
+                        <TextField fx:id="userName" maxHeight="30.0" maxWidth="1.7976931348623157E308" minHeight="30.0" prefHeight="30.0" HBox.hgrow="NEVER">
                            <font>
                               <Font size="18.0" />
                            </font>
