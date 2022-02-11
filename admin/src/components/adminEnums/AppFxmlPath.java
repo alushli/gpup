@@ -7,7 +7,8 @@ public enum AppFxmlPath {
     SUB_MENU("/components/menu/subMenu/subMenu.fxml"),
     TASKS("/components/tasks/createNewTask.fxml"),
     TASKS_MAIN_SCREEN("/components/tasks/tasksAdmin.fxml"),
-    TASKS_MANAGEMENT("/components/tasks/tasksManagments.fxml"),
+    TASKS_MANAGEMENT("/components/tasks/taskManagement/tasksManagment.fxml"),
+    TASKS_MANAGEMENT_DETAILS("/components/tasks/taskManagement/tasksManagmentsDetails.fxml"),
     PRE_TASKS("/components/tasks/preTaskAdmin.fxml"),
     GENERAL_INFO("/components/generalInfo/generalInfo.fxml"),
     APP_SCREEN("/components/appScreen/app.fxml"),
@@ -30,7 +31,10 @@ public enum AppFxmlPath {
     DASHBOARD_SCREEN("/components/dashboard/dashboard.fxml"),
     DASHBOARD_USERS_TABLE("/components/generalComponents/usersTable/usersTable.fxml"),
     DASHBOARD_GRAPH_TABLE("/components/generalComponents/graphsTable/graphTable.fxml"),
-    TASKS_TABLE("/components/generalComponents/tasksTable/tasksTable.fxml");
+    TASKS_TABLE("/components/generalComponents/tasksTable/tasksTable.fxml"),
+    TASKS_TARGET_WAITING_TABLE("/components/generalComponents/taskTargetTable/waitingTargetsTable.fxml"),
+    TASKS_TARGET_PROCESS_TABLE("/components/generalComponents/taskTargetTable/processTargetsTable.fxml"),
+    TASKS_TARGET_DONE_TABLE("/components/generalComponents/taskTargetTable/doneTargetsTable.fxml");
 
     private String name;
 

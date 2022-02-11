@@ -2,6 +2,7 @@ package components.tasks;
 
 import components.adminEnums.AppFxmlPath;
 import components.appScreen.AppController;
+import components.tasks.taskManagement.TaskManagementController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;
@@ -12,7 +13,7 @@ import java.net.URL;
 public class TasksAdminController extends components.mainControllers.Controllers{
     private static PreTaskAdminController preTaskAdminController = null;
     private static Parent createNewTasksParent;
-    private static TaskManagmentController taskManagementController = null;
+    private static TaskManagementController taskManagementController = null;
     private static Parent taskManagementParent;
 
     public void setCreateNewTaskControllers() {
@@ -46,10 +47,9 @@ public class TasksAdminController extends components.mainControllers.Controllers
     }
 
     public void setTasksManagementControllers() {
-        if(taskManagementController == null) {
-            setTasksManagementFxml();
-        }
+        setTasksManagementFxml();
         this.setTasksManagementScreen();
+        this.taskManagementController.seTaskTableScreen();
     }
 
     public static Parent getTasksManagementParent() {
