@@ -61,6 +61,22 @@ public class SubMenuController extends  components.mainControllers.Controllers{
         });
     }
 
+    public void setTasksButtons(){
+        this.sub_header_label.setText("Tasks");
+        Button createTask = new Button("Create Task");
+        Button taskManagement = new Button("Task Management");
+        designBtn(createTask);
+        designBtn(taskManagement);
+        buttons_vbox.getChildren().add(createTask);
+        buttons_vbox.getChildren().add(taskManagement);
+        createTask.setOnAction(e -> {
+            this.mainController.getTaskController().setCreateNewTaskControllers();
+        });
+        taskManagement.setOnAction(e -> {
+            this.mainController.getTaskController().setTasksManagementControllers();
+        });
+    }
+
     public void setGeneralInfoButtons(){
         this.sub_header_label.setText("General Information");
         Button targetInfoBtn = new Button("Show target information");

@@ -97,6 +97,8 @@ public class ShowGraphInfoController extends mainControllers.Controllers{
 
     private void setPageLabels(){
         GraphDTO graphDTO = this.appController.getGraphInfo();
+
+
         this.graphInfoScreenController.getGraph_name_label().setText(graphDTO.getGraphName());
         this.graphInfoScreenController.getGraph_work_dir_label().setText(graphDTO.getWorkingDirectory());
         this.graphInfoScreenController.getTarget_num_label().setText(String.valueOf(graphDTO.getCountRoots() + graphDTO.getCountMiddles() + graphDTO.getCountLeaves() + graphDTO.getCountIndependents()));

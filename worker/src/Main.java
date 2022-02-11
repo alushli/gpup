@@ -22,6 +22,7 @@ public class Main extends Application {
         fxmlLoader.setLocation(url);
         Parent rootContainer = fxmlLoader.load(url.openStream());
         LoginController loginController = fxmlLoader.getController();
+        loginController.setPrimaryStage(primaryStage);
         primaryStage.setScene(new Scene(rootContainer, 650, 350));
         primaryStage.resizableProperty().set(false);
         primaryStage.setTitle("GPUP");

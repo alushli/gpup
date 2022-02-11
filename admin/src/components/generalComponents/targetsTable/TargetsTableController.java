@@ -1,8 +1,7 @@
 package components.generalComponents.targetsTable;
 
 import components.generalComponents.GeneralComponent;
-import dtoObjects.TargetDTO;
-import dtoObjects.TargetFXDTO;
+import components.tasks.CreateNewTasksController;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -18,6 +17,7 @@ import javafx.scene.layout.StackPane;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
 
 public class TargetsTableController extends GeneralComponent {
     private int maxSelect;
@@ -25,6 +25,7 @@ public class TargetsTableController extends GeneralComponent {
     private IntegerProperty selectedCounter;
     private BooleanProperty isMaxSelected;
     private boolean isWhatIfHappened = false;
+    private CreateNewTasksController createNewTasksController;
 
     @FXML
     private StackPane main_screen;
@@ -60,6 +61,9 @@ public class TargetsTableController extends GeneralComponent {
         return table;
     }
 
+    public void setTasksController(CreateNewTasksController createNewTasksController) {
+        this.createNewTasksController = createNewTasksController;
+    }
 
     public TargetsTableController(Collection<TargetFX> targets){
         table.setItems(getTargets(targets));
@@ -125,7 +129,17 @@ public class TargetsTableController extends GeneralComponent {
                     if(this.selectedCounter.getValue() == this.maxSelect){
                         this.isMaxSelected.set(true);
                     }
+                    if(this.createNewTasksController != null) {
+                        this.createNewTasksController.getSelectedTargets().add(targetFX);
+                        updateSelectedForTask();
+                        if (this.createNewTasksController.isWhatIf() && !this.isWhatIfHappened)
+                            setWhatIf(targetFX);
+                    }
                 }else{
+                    if(this.createNewTasksController != null) {
+                        this.createNewTasksController.getSelectedTargets().remove(targetFX);
+                        updateSelectedForTask();
+                    }
                     this.curSelected.remove(targetFX);
                     this.selectedCounter.setValue(this.curSelected.size());
                     if(this.selectedCounter.getValue() < this.maxSelect) {
@@ -136,6 +150,28 @@ public class TargetsTableController extends GeneralComponent {
             });
             selectCheckBox.disableProperty().bind(isMaxSelected.and(selectCheckBox.selectedProperty().not()) );
         }
+    }
+
+    private void setWhatIf(TargetFX targetFXDTO){
+        String direction = this.createNewTasksController.getWhatIfDirection();
+        Set<String> list;
+        if(direction.equals("dependsOn"))
+            list = targetFXDTO.getTotalDependsOnString();
+        else
+            list = targetFXDTO.getTotalRequiredForString();
+        for(TargetFX target: this.table.getItems()){
+            if(list.contains(target.getName())){
+                target.getSelect().setSelected(true);
+            }
+        }
+        this.isWhatIfHappened = true;
+    }
+
+    private void updateSelectedForTask(){
+        if(getCountSelectedTargets() >= 1)
+            this.createNewTasksController.setIsOneTargetSelectFromTable(true);
+        else
+            this.createNewTasksController.setIsOneTargetSelectFromTable(false);
     }
 
 

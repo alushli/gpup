@@ -5,6 +5,9 @@ import components.appScreen.AppController;
 import components.adminEnums.AppFxmlPath;
 import components.dashboard.DashboardController;
 import components.generalInfo.GeneralInfoController;
+import components.tasks.PreTaskAdminController;
+import components.tasks.TasksAdminController;
+import components.templates.LoadFileError;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,6 +31,8 @@ public class MenuController extends components.mainControllers.Controllers {
     private static SubMenuController subMenuComponentController = null;
     private static DashboardController dashboardController = null;
     private Parent subMenuParent;
+    private static TasksAdminController tasksComponentController = null;
+    private static Parent tasksParent;
 
     @FXML
     private GridPane main_screen;
@@ -53,6 +58,31 @@ public class MenuController extends components.mainControllers.Controllers {
         appController.setMenu(this.subMenuParent);
     }
 
+
+    @FXML
+    public void clickTasks(ActionEvent event) {
+        setSubMenu();
+        this.subMenuComponentController.setTasksButtons();
+        if(actionsComponentController == null) {
+            setTasksFxml();
+        }
+        //if(this.appController.getEngineManager().getSimulationTaskManager() == null && this.appController.getEngineManager().getCompilerTaskManager() == null)
+    }
+
+    void setTasksFxml() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            URL url = getClass().getResource(AppFxmlPath.TASKS_MAIN_SCREEN.toString());
+            fxmlLoader.setLocation(url);
+            this.tasksParent = fxmlLoader.load(url.openStream());
+            this.tasksComponentController= fxmlLoader.getController();
+            this.tasksComponentController.setAppController(this.appController);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     @FXML
     public void clickAction(ActionEvent event) {
         setSubMenu();
@@ -63,7 +93,7 @@ public class MenuController extends components.mainControllers.Controllers {
     }
 
     @FXML
-    void clickDashboard(ActionEvent event) {
+    public void clickDashboard(ActionEvent event) {
         if(dashboardController == null) {
             setDashboardFxml();
         }
@@ -79,7 +109,8 @@ public class MenuController extends components.mainControllers.Controllers {
             this.dashboardController= fxmlLoader.getController();
             this.dashboardController.setAppController(this.appController);
             this.dashboardController.setMainController(this);
-            this.dashboardController.setTableScreen();
+            this.dashboardController.setUsersTableScreen();
+            this.dashboardController.setGraphTableScreen();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -143,10 +174,6 @@ public class MenuController extends components.mainControllers.Controllers {
     }
 
     @FXML
-    public void clickTasks(ActionEvent event) {
-    }
-
-    @FXML
     void clickAnimation(ActionEvent event) {
         this.appController.setIsAnimation(this.animation_cb.isSelected());
     }
@@ -157,6 +184,8 @@ public class MenuController extends components.mainControllers.Controllers {
     }
 
     public ActionsController getActionController() {return this.actionsComponentController;}
+
+    public TasksAdminController getTaskController() {return this.tasksComponentController;}
 
     public GeneralInfoController getGeneralInfoController() {
         return this.generalInfoComponentController;

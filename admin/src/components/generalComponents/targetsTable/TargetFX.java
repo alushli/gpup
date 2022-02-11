@@ -23,6 +23,8 @@ public class TargetFX {
 
     private BooleanProperty isSelected;
 
+
+
     public String getName() {
         return name;
     }

@@ -1,20 +1,27 @@
 package engineManager;
 
 import XmlUtils.XmlUtils;
-import dtoObjects.GraphDTO;
-import dtoObjects.TargetDTO;
-import dtoObjects.TargetFXDTO;
-import dtoObjects.TargetsPathDTO;
+import dtoObjects.*;
+import newEnums.TasksName;
 import newExceptions.XmlException;
 import graph.Graph;
 import scema.generated.*;
 import target.Target;
+import task.CompilationTaskOperator;
+import task.SimulationTaskOperator;
+import task.TaskOperator;
 
 import java.io.InputStream;
 import java.util.*;
 
 public class EngineManager {
     private Map<String, Graph> graphMap = new HashMap<>();
+    private Map<String, TaskOperator> taskOperatorMap= new HashMap<>();
+
+
+    public synchronized void addTask(TaskOperator taskOperator){
+        this.taskOperatorMap.put(taskOperator.getName(), taskOperator);
+    }
 
     public synchronized void addGraph(Graph graph) {
         this.graphMap.put(graph.getGraphName(), graph);
@@ -235,11 +242,47 @@ public class EngineManager {
         return targets;
     }
 
-    public List<GraphDTO> getAllGraphs(){
+    public synchronized List<GraphDTO> getAllGraphs(){
         List<GraphDTO> graphDTOS = new ArrayList<>();
         for (String name : this.graphMap.keySet()){
             graphDTOS.add(new GraphDTO(name, 0,0));
         }
         return graphDTOS;
     }
+
+    public synchronized TargetDTO getTarget(String graphName, String targetName){
+        if(this.graphMap.containsKey(graphName)){
+            Graph graph = this.graphMap.get(graphName);
+            Target target = graph.getTargetByName(targetName);
+            if(target != null)
+                 return new TargetDTO(target);
+        }
+        return null;
+    }
+
+    public synchronized List<TaskDTO> getAllTasks(){
+        List<TaskDTO> taskDTOS = new ArrayList<>();
+        for (String name : this.taskOperatorMap.keySet()){
+            taskDTOS.add(new TaskDTO(this.taskOperatorMap.get(name)));
+        }
+        return taskDTOS;
+    }
+
+    public synchronized void duplicateList(String name, String admin){
+        TaskOperator taskOperator = this.taskOperatorMap.get(name);
+        if(taskOperator instanceof CompilationTaskOperator){
+            //copy constructor compilation
+            CompilationTaskOperator compilationTaskOperator = (CompilationTaskOperator)taskOperator;
+
+        }else{
+            //copy constructor simulation
+            SimulationTaskOperator simulationTaskOperator = (SimulationTaskOperator) taskOperator;
+
+        }
+    }
+
+    public synchronized boolean isTaskExist(String taskName){
+        return this.taskOperatorMap.containsKey(taskName);
+    }
+
 }

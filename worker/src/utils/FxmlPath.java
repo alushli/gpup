@@ -1,7 +1,7 @@
 package utils;
 
 public enum FxmlPath {
-    LOGIN("/components/login/login.fxml");
+    LOGIN("/components/login/workerLogin.fxml");
 
     private String name;
 

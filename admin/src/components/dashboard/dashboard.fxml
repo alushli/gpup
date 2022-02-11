@@ -11,14 +11,13 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-
 <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.dashboard.DashboardController">
    <children>
       <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
          <content>
             <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                <top>
-                  <Label fx:id="dashboardTitle" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Label" BorderPane.alignment="CENTER">
+                  <Label id="header_label" fx:id="dashboardTitle" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../resources/mainCss.css" text="Dashboard" BorderPane.alignment="CENTER">
                      <padding>
                         <Insets bottom="10.0" left="10.0" top="10.0" />
                      </padding>
@@ -51,15 +50,7 @@
                            </children>
                         </StackPane>
                         <StackPane fx:id="userTable" minHeight="148.0" minWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="NEVER" />
-                        <StackPane minHeight="148.0" minWidth="200.0" GridPane.columnIndex="3" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="NEVER">
-                           <children>
-                              <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-                                 <content>
-                                    <FlowPane fx:id="graphsContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
-                                 </content>
-                              </ScrollPane>
-                           </children>
-                        </StackPane>
+                        <StackPane fx:id="graphsContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="148.0" minWidth="200.0" GridPane.columnIndex="3" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="NEVER" />
                         <Label alignment="CENTER" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Users" GridPane.columnIndex="1">
                            <font>
                               <Font name="System Bold" size="14.0" />

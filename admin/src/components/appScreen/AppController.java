@@ -44,7 +44,24 @@ public class AppController {
     private String graphName;
     private boolean isLoaded;
     private TargetDTO[] targetDTOS;
+    private String selectedTask;
+    private boolean isSelectTask = false;
 
+    public boolean isSelectTask() {
+        return isSelectTask;
+    }
+
+    public void setSelectTask(boolean selectTask) {
+        isSelectTask = selectTask;
+    }
+
+    public String getSelectedTask() {
+        return selectedTask;
+    }
+
+    public void setSelectedTask(String selectedTask) {
+        this.selectedTask = selectedTask;
+    }
 
     public Collection<TargetFX> getAllTargets(){
         Collection<TargetFX> targetFXES = new ArrayList<>();
@@ -61,11 +78,7 @@ public class AppController {
         this.generalComponent = new GeneralComponent();
         this.generalComponent.setAppController(this);
         this.isAnimation = new SimpleBooleanProperty(false);
-        //need to change
-        this.graphName = "XOO Example Java Project";
         this.isLoaded = false;
-
-        setGraphName("XOO Example Java Project");
     }
 
     @FXML
@@ -175,6 +188,7 @@ public class AppController {
                             deserializeTargetFXCollection(response.body().string());
                             graphName = graphName1;
                             isLoaded = true;
+                            isLoadFile = true;
                         }catch (Exception e){
                             e.printStackTrace();
                         }
@@ -182,6 +196,10 @@ public class AppController {
                 }
             }
         });
+    }
+
+    public String getGraphName() {
+        return graphName;
     }
 
     private void deserializeTargetFXCollection(String jsonTargets){

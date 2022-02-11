@@ -16,6 +16,8 @@ public class TargetDTO {
     private Set<String> totalDependsOn;
     private String generalInfo;
 
+
+
     public Set<String> getTotalRequireFor() {
         return totalRequireFor;
     }

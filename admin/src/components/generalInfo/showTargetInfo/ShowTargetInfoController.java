@@ -1,10 +1,15 @@
 package components.generalInfo.showTargetInfo;
 
+import com.google.gson.Gson;
 import components.appScreen.AppController;
 import components.adminEnums.AppFxmlPath;
+import components.generalComponents.targetsTable.TargetFX;
 import components.generalComponents.targetsTable.TargetsTableController;
 import components.generalInfo.GeneralInfoController;
 import components.generalInfo.showTargetInfo.detailsTargetScreen.TargetInfoScreenController;
+import dtoObjects.GeneralGraphInfoDTO;
+import dtoObjects.TargetDTO;
+import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
@@ -14,7 +19,15 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.HttpUrl;
+import okhttp3.Response;
+import org.jetbrains.annotations.NotNull;
+import utils.Constants;
+import utils.HttpClientUtil;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Set;
 
@@ -80,16 +93,18 @@ public class ShowTargetInfoController extends components.mainControllers.Control
     }
 
     private void setPageLabels(){
-       // this.curSelectedCount.bind(this.targetsTableController.selectedCounterProperty());
+        this.curSelectedCount.bind(this.targetsTableController.selectedCounterProperty());
         this.curSelectedCount.addListener((a,b,c)->{
             if(curSelectedCount.getValue() == 0){
               this.targetInfoScreenController.getTarget_info_grid().setVisible(false);
               this.targetInfoScreenController.getError_message().setVisible(true);
-                resetTargetInfo();
+              resetTargetInfo();
             } else{
                 this.targetInfoScreenController.getError_message().setVisible(false);
                 this.targetInfoScreenController.getTarget_info_grid().setVisible(true);
-               // setTargetInfo(this.appController.getTargetInfo(this.targetsTableController.getCurSelected().get(0).getName()));
+                TargetFX targetFX = this.targetsTableController.getCurSelected().get(0);
+                setTargetInfo(targetFX);
+                //setTargetInfo(this.appController.getTargetInfo(this.targetsTableController.getCurSelected().get(0).getName()));
             }
         });
     }
@@ -102,19 +117,42 @@ public class ShowTargetInfoController extends components.mainControllers.Control
         this.targetInfoScreenController.getDirect_RF_list().getItems().clear();
         this.targetInfoScreenController.getTotal_DO_list().getItems().clear();
         this.targetInfoScreenController.getTotal_RF_list().getItems().clear();
-        this.targetInfoScreenController.getSerial_list().getItems().clear();
     }
 
-//    private void setTargetInfo(TargetDTO target){
-//        this.targetInfoScreenController.getTarget_name_label().setText(target.getName());
-//        this.targetInfoScreenController.getFree_text_TA().setText(target.getGeneralInfo());
-//        this.targetInfoScreenController.getPosition_label().setText(target.getPosition().toString());
-//        setTargetList(this.targetInfoScreenController.getDirect_DO_list(),target.getDependsOnList());
-//        setTargetList(this.targetInfoScreenController.getDirect_RF_list(),target.getRequiredForList());
-//        setTargetList(this.targetInfoScreenController.getTotal_DO_list(),this.appController.getWhatIfTargets(target.getName(),"dependsOn"));
-//        setTargetList(this.targetInfoScreenController.getTotal_RF_list(),this.appController.getWhatIfTargets(target.getName(),"requiredFor"));
-//        this.targetInfoScreenController.setSerialSet(this.appController.getTargetSerialSet(target.getName()));
-//    }
+    private void setTargetInfo(TargetFX target){
+        String graphName = this.appController.getGraphName();
+        String finalUrl = HttpUrl
+                .parse(Constants.TARGET_INFO)
+                .newBuilder()
+                .addQueryParameter("graphName", graphName)
+                .addQueryParameter("targetName", target.getName())
+                .build()
+                .toString();
+
+        HttpClientUtil.runAsync(finalUrl, new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                System.out.println("Fail in load target info");
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                Gson gson = new Gson();
+                TargetDTO targetDTO = gson.fromJson(response.body().string(), TargetDTO.class);
+                String name = targetDTO.getName();
+                Platform.runLater(()->{
+                    targetInfoScreenController.getTarget_name_label().setText(name);
+                    targetInfoScreenController.getFree_text_TA().setText(targetDTO.getGeneralInfo());
+                    targetInfoScreenController.getPosition_label().setText(targetDTO.getPosition());
+                    setTargetList(targetInfoScreenController.getDirect_DO_list(),targetDTO.getDependsOnList());
+                    setTargetList(targetInfoScreenController.getDirect_RF_list(),targetDTO.getRequiredForList());
+                    setTargetList(targetInfoScreenController.getTotal_DO_list(),targetDTO.getTotalDependsOn());
+                    setTargetList(targetInfoScreenController.getTotal_RF_list(),targetDTO.getRequiredForList());
+                });
+            }
+        });
+
+    }
 
     private void setTargetList(ListView<String> listView, Set<String> list){
         for(String target : list){
@@ -133,7 +171,7 @@ public class ShowTargetInfoController extends components.mainControllers.Control
             this.targetsTableController.getTable().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.925));
             this.targetsTableController.setMaxSelect(1);
         }catch (Exception e){
-
+            e.printStackTrace();
         }
     }
 }

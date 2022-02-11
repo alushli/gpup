@@ -7,4 +7,5 @@ public class Constants {
     private final static String FULL_SERVER_PATH = BASE_URL + CONTEXT_PATH;
 
     public final static String WORKER_LOGIN = FULL_SERVER_PATH + "/worker-login";
+    public final static String USERS_LIST = FULL_SERVER_PATH + "/get-all-users";
 }
