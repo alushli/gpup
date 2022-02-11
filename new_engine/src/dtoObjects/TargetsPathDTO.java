@@ -23,4 +23,7 @@ public class TargetsPathDTO {
         }
     }
 
+    public List<String> getTargets() {
+        return targets;
+    }
 }

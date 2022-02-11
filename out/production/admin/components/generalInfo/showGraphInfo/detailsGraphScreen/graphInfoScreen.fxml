@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 <?import java.lang.String?>
 <?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
 <StackPane fx:id="fall_screen_SP" maxHeight="1.7976931348623157E308" maxWidth="400.0" minWidth="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.generalInfo.showGraphInfo.detailsGraphScreen.GraphInfoScreenController">
    <children>
       <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
@@ -45,15 +52,6 @@
                                  <children>
                                     <Label styleClass="sub_header_label" text="Graph name:" />
                                     <Label fx:id="graph_name_label" styleClass="sub_header_label" />
-                                 </children>
-                                 <padding>
-                                    <Insets bottom="5.0" />
-                                 </padding>
-                              </HBox>
-                              <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0">
-                                 <children>
-                                    <Label styleClass="sub_header_label" text="Graph working directory:" />
-                                    <Label fx:id="graph_work_dir_label" styleClass="sub_header_label" />
                                  </children>
                                  <padding>
                                     <Insets bottom="5.0" />
@@ -107,22 +105,10 @@
                         <RowConstraints maxHeight="40.0" minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
                         <RowConstraints maxHeight="1.7976931348623157E308" minHeight="30.0" prefHeight="30.0" vgrow="ALWAYS" />
                      </rowConstraints>
-                     <children>
-                        <Label id="paths_message_label" fx:id="serial_label" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="sub_header_label" text="Serial Sets" />
-                        <StackPane fx:id="table_SP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.rowIndex="1" />
-                     </children>
                      <GridPane.margin>
                         <Insets top="20.0" />
                      </GridPane.margin>
                   </GridPane>
-                  <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                     <children>
-                        <Button id="export_btn" contentDisplay="TOP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#clickExport" prefHeight="42.0" prefWidth="328.0" text="Export graph to png" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
-                           <VBox.margin>
-                              <Insets top="5.0" />
-                           </VBox.margin></Button>
-                     </children>
-                  </VBox>
                </children>
             </GridPane>
          </content>

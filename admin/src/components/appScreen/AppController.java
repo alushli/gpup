@@ -1,9 +1,15 @@
 package components.appScreen;
 
+import com.google.gson.Gson;
 import components.adminEnums.AppFxmlPath;
+import components.generalComponents.targetsTable.TargetFX;
 import components.menu.MenuController;
 import components.generalComponents.GeneralComponent;
+import dtoObjects.TargetDTO;
+import dtoObjects.TargetFxCollection;
+import dtoObjects.TargetFXDTO;
 import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
@@ -13,8 +19,18 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.HttpUrl;
+import okhttp3.Response;
+import org.jetbrains.annotations.NotNull;
+import utils.Constants;
+import utils.HttpClientUtil;
+
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class AppController {
     @FXML private StackPane menu_area;
@@ -25,6 +41,35 @@ public class AppController {
     private boolean isLoadFile = false;
     private GeneralComponent generalComponent;
     private BooleanProperty isAnimation;
+    private String graphName;
+    private boolean isLoaded;
+    private TargetDTO[] targetDTOS;
+    private String selectedTask;
+    private boolean isSelectTask = false;
+
+    public boolean isSelectTask() {
+        return isSelectTask;
+    }
+
+    public void setSelectTask(boolean selectTask) {
+        isSelectTask = selectTask;
+    }
+
+    public String getSelectedTask() {
+        return selectedTask;
+    }
+
+    public void setSelectedTask(String selectedTask) {
+        this.selectedTask = selectedTask;
+    }
+
+    public Collection<TargetFX> getAllTargets(){
+        Collection<TargetFX> targetFXES = new ArrayList<>();
+        for (TargetDTO targetDTO : targetDTOS){
+            targetFXES.add(new TargetFX(targetDTO));
+        }
+        return targetFXES;
+    }
 
     @FXML
     private BorderPane main_screen;
@@ -33,6 +78,7 @@ public class AppController {
         this.generalComponent = new GeneralComponent();
         this.generalComponent.setAppController(this);
         this.isAnimation = new SimpleBooleanProperty(false);
+        this.isLoaded = false;
     }
 
     @FXML
@@ -111,4 +157,54 @@ public class AppController {
     public boolean getLoadFile(){
         return isLoadFile;
     }
+
+    //set graph name and update the targets collection
+    public void setGraphName(String graphName1){
+        this.isLoaded = false;
+        String finalUrl = HttpUrl
+                .parse(Constants.GRAPH_TARGETS)
+                .newBuilder()
+                .addQueryParameter("graphName", graphName1)
+                .build()
+                .toString();
+
+        HttpClientUtil.runAsync(finalUrl, new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Platform.runLater(() ->
+                        isLoaded = false
+                );
+            }
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                if (response.code() != 200) {
+                    String responseBody = response.body().string();
+                    Platform.runLater(() ->
+                           isLoaded = false
+                    );
+                } else {
+                    Platform.runLater(() -> {
+                        try{
+                            deserializeTargetFXCollection(response.body().string());
+                            graphName = graphName1;
+                            isLoaded = true;
+                            isLoadFile = true;
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    public String getGraphName() {
+        return graphName;
+    }
+
+    private void deserializeTargetFXCollection(String jsonTargets){
+        Gson gson = new Gson();
+        this.targetDTOS = gson.fromJson(jsonTargets, TargetDTO[].class);
+    }
+
 }

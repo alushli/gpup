@@ -8,5 +8,17 @@ public class Constants {
     private final static String CONTEXT_PATH = "/web_app_war_exploded";
     public final static String FULL_SERVER_PATH = BASE_URL + CONTEXT_PATH;
 
-    public final static String WORKER_LOGIN = FULL_SERVER_PATH + "/admin-login";
+    public final static String ADMIN_LOGIN = FULL_SERVER_PATH + "/admin-login";
+    public final static String GRAPH_TARGETS = FULL_SERVER_PATH + "/graph-targets";
+    public final static String USERS_LIST = FULL_SERVER_PATH + "/get-all-users";
+    public final static String GRAPH_LIST = FULL_SERVER_PATH + "/get-all-graphs";
+    public final static String GRAPH_INFO = FULL_SERVER_PATH + "/general-info";
+    public final static String TARGET_INFO = FULL_SERVER_PATH + "/target-info";
+    public final static String FIND_CIRCLE = FULL_SERVER_PATH + "/find-circle";
+    public final static String FIND_PATHS = FULL_SERVER_PATH + "/find-paths";
+    public final static String TASKS_LIST = FULL_SERVER_PATH + "/get-all-tasks";
+    public final static String CHECK_TASK_NAME = FULL_SERVER_PATH + "/check-task-name";
+    public final static String CREATE_NEW_TASK = FULL_SERVER_PATH + "/create-task";
+
+
 }

@@ -27,6 +27,7 @@
          <content>
             <VBox id="menu-buttons-vbox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                <children>
+                  <Button fx:id="dashboard_btn" alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" minHeight="40.0" mnemonicParsing="false" onAction="#clickDashboard" styleClass="menu-btn" text="Dashboard" />
                   <Button fx:id="load_file_btn" alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" minHeight="40.0" mnemonicParsing="false" onAction="#clickLoadFile" styleClass="menu-btn" text="Load File" />
                   <Button fx:id="general_info_btn" alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" minHeight="40.0" mnemonicParsing="false" onAction="#clickGeneralInfo" styleClass="menu-btn" text="General Information" />
                   <Button fx:id="actions_btn" alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" minHeight="40.0" mnemonicParsing="false" onAction="#clickAction" styleClass="menu-btn" text="Actions" />

@@ -4,6 +4,7 @@ import components.appScreen.AppController;
 import components.adminEnums.AppFxmlPath;
 import components.generalInfo.showGraphInfo.ShowGraphInfoController;
 import components.generalInfo.showTargetInfo.ShowTargetInfoController;
+import dtoObjects.GraphDTO;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;
@@ -99,5 +100,18 @@ public class GeneralInfoController extends components.mainControllers.Controller
     public Parent getShowTargetInfoParent() { return this.showTargetInfoParent; }
 
     public Parent getShowGraphInfoParent() { return this.showGraphInfoParent; }
+
+//    private void setPageLabels(){
+//        GraphDTO graphDTO = this.appController.getGraphInfo();
+//
+//
+//        this.graphInfoScreenController.getGraph_name_label().setText(graphDTO.getGraphName());
+//        this.graphInfoScreenController.getGraph_work_dir_label().setText(graphDTO.getWorkingDirectory());
+//        this.graphInfoScreenController.getTarget_num_label().setText(String.valueOf(graphDTO.getCountRoots() + graphDTO.getCountMiddles() + graphDTO.getCountLeaves() + graphDTO.getCountIndependents()));
+//        this.graphInfoScreenController.getRoot_num_label().setText(String.valueOf(graphDTO.getCountRoots()));
+//        this.graphInfoScreenController.getMid_num_label().setText(String.valueOf(graphDTO.getCountMiddles()));
+//        this.graphInfoScreenController.getLeaf_num_label().setText(String.valueOf(graphDTO.getCountLeaves()));
+//        this.graphInfoScreenController.getInd_num_label().setText(String.valueOf(graphDTO.getCountIndependents()));
+//    }
 
 }

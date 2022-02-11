@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../../resources/mainCss.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.generalComponents.tasksTable.TasksTableController">
+   <children>
+      <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+         <content>
+            <TableView fx:id="table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+              <columns>
+                <TableColumn fx:id="selectCol" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" resizable="false" text="Select" />
+                <TableColumn fx:id="nameCol" maxWidth="80.0" minWidth="80.0" text="Name" />
+                  <TableColumn fx:id="createdByCol" maxWidth="90.0" minWidth="90.0" prefWidth="90.0" text="Created By" />
+                  <TableColumn fx:id="graphNameCol" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Graph Name" />
+                  <TableColumn fx:id="numOfTargetsCol" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" resizable="false" text="Num Of Targets" />
+                  <TableColumn fx:id="rootsCol" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" resizable="false" text="Roots" />
+                  <TableColumn fx:id="middleCol" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" resizable="false" text="Middles" />
+                  <TableColumn fx:id="leafsCol" maxWidth="60.0" minWidth="60.0" prefWidth="60.0" resizable="false" text="Leafs" />
+                  <TableColumn fx:id="independentsCol" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" resizable="false" text="Independets" />
+                  <TableColumn fx:id="totalPriceCol" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" resizable="false" text="Total Price" />
+                  <TableColumn fx:id="numOfWorkersCol" maxWidth="130.0" minWidth="130.0" prefWidth="130.0" resizable="false" text="Num Of Workers" />
+              </columns>
+            </TableView>
+         </content>
+      </ScrollPane>
+   </children>
+</StackPane>

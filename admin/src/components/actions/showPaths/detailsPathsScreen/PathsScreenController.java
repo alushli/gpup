@@ -1,8 +1,11 @@
 package components.actions.showPaths.detailsPathsScreen;
 
+import com.google.gson.Gson;
 import components.actions.showPaths.ShowPathsController;
 import components.appScreen.AppController;
+import dtoObjects.TargetsPathDTO;
 import javafx.animation.RotateTransition;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
@@ -15,6 +18,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.HttpUrl;
+import okhttp3.Response;
+import org.jetbrains.annotations.NotNull;
+import utils.Constants;
+import utils.HttpClientUtil;
+
+import java.io.IOException;
 
 public class PathsScreenController extends components.mainControllers.Controllers{
     private ShowPathsController mainController;
@@ -78,8 +90,33 @@ public class PathsScreenController extends components.mainControllers.Controller
         if(this.target1_label.getText().equals("") || this.target2_label.getText().equals("")){
             this.paths_TA.setText("Please select two targets from the table.");
         } else {
-//            List<List<TargetDTO>> list = this.appController.getTargetsPaths(this.target1_label.getText(), this.target2_label.getText(), direction);
-//            setPathsTable(list);
+            String graphName = this.appController.getGraphName();
+            String finalUrl = HttpUrl
+                    .parse(Constants. FIND_PATHS)
+                    .newBuilder()
+                    .addQueryParameter("graphName", graphName)
+                    .addQueryParameter("dependencyType", direction)
+                    .addQueryParameter("from", this.target1_label.getText())
+                    .addQueryParameter("to",  this.target2_label.getText())
+                    .build()
+                    .toString();
+
+            HttpClientUtil.runAsync(finalUrl, new Callback() {
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    System.out.println("Failed on find circle.");
+                }
+
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    String json = response.body().string();
+                    Platform.runLater(()->{
+                        Gson gson = new Gson();
+                        TargetsPathDTO pathDTO[] = gson.fromJson(json,TargetsPathDTO[].class);
+                        setPathsTable(pathDTO);
+                    });
+                }
+            });
         }
     }
 
@@ -114,24 +151,24 @@ public class PathsScreenController extends components.mainControllers.Controller
         this.mainController = mainControllers;
     }
 
-//    void setPathsTable(List<List<TargetDTO>> list){
-//        int index = 1;
-//        if(list.isEmpty())
-//            this.paths_TA.setText("There is no path between the targets on the selected dependency.");
-//        else{
-//            for(List<TargetDTO> targetDTOList : list){
-//                this.paths_TA.appendText(index + ". ");
-//                int j =1;
-//                for (TargetDTO targetDTO : targetDTOList){
-//                    if(j == targetDTOList.size())
-//                        this.paths_TA.appendText(targetDTO.getName());
-//                    else
-//                        this.paths_TA.appendText(targetDTO.getName()+"->");
-//                    j++;
-//                }
-//                index++;
-//                this.paths_TA.appendText("\n");
-//            }
-//        }
-//    }
+    private void setPathsTable(TargetsPathDTO[] pathsTable){
+        if(pathsTable.length == 0){
+            this.paths_TA.setText("There is no path between the targets on the selected dependency.");
+        }else{
+            for (TargetsPathDTO pathDTO : pathsTable){
+                int i = 0;
+                for (String target : pathDTO.getTargets()){
+                    if(i==pathDTO.getTargets().size() - 1){
+                        this.paths_TA.appendText(target);
+                    }else{
+                        this.paths_TA.appendText(target+"->");
+                    }
+                    i++;
+                }
+                this.paths_TA.appendText("\n");
+            }
+        }
+
+    }
+    
 }

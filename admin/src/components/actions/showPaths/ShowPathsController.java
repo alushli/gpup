@@ -38,7 +38,7 @@ public class ShowPathsController extends components.mainControllers.Controllers{
 
     @FXML
     void clickDeselectAll(ActionEvent event) {
-        //this.targetsTableController.deselectAll();
+        this.targetsTableController.deselectAll();
     }
 
     public StackPane getDataArea() { return data_area; }
@@ -77,7 +77,7 @@ public class ShowPathsController extends components.mainControllers.Controllers{
     }
 
     private void setTargetsLabels(){
-        //this.curSelectedCount.bind(this.targetsTableController.selectedCounterProperty());
+        this.curSelectedCount.bind(this.targetsTableController.selectedCounterProperty());
         this.curSelectedCount.addListener((a,b,c)->{
             if(curSelectedCount.getValue() == 0){
                 this.pathsScreenController.getFind_btn().setDisable(true);
@@ -86,13 +86,13 @@ public class ShowPathsController extends components.mainControllers.Controllers{
                 this.pathsScreenController.getPaths_TA().setText("");
             } else if(curSelectedCount.getValue() == 1){
                 this.pathsScreenController.getFind_btn().setDisable(true);
-               // this.pathsScreenController.getTarget1_label().setText(this.targetsTableController.getCurSelected().get(0).getName());
+                this.pathsScreenController.getTarget1_label().setText(this.targetsTableController.getCurSelected().get(0).getName());
                 this.pathsScreenController.getTarget2_label().setText("");
                 this.pathsScreenController.getPaths_TA().setText("");
             } else{
                 this.pathsScreenController.getFind_btn().setDisable(false);
-               // this.pathsScreenController.getTarget1_label().setText(this.targetsTableController.getCurSelected().get(0).getName());
-               // this.pathsScreenController.getTarget2_label().setText(this.targetsTableController.getCurSelected().get(1).getName());
+                this.pathsScreenController.getTarget1_label().setText(this.targetsTableController.getCurSelected().get(0).getName());
+                this.pathsScreenController.getTarget2_label().setText(this.targetsTableController.getCurSelected().get(1).getName());
             }
         });
     }
@@ -105,10 +105,12 @@ public class ShowPathsController extends components.mainControllers.Controllers{
             this.mainController.setArea(this.table_SP ,fxmlLoader.load(url.openStream()));
             this.targetsTableController = fxmlLoader.getController();
             this.targetsTableController.setAppController(this.appController);
-           // this.targetsTableController.getTable().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.925));
-           // this.targetsTableController.setMaxSelect(2);
+            this.targetsTableController.getTable().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.925));
+            this.targetsTableController.setMaxSelect(2);
         }catch (Exception e){
             System.out.println("Error in setTableScreen() - showPathController");
         }
     }
+
+
 }

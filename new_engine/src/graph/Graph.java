@@ -28,6 +28,33 @@ public class Graph {
         }
     }
 
+    /*constructor of sub graph given a collection of targets.*/
+    public Graph(String[] subGr, Graph origin){
+        this.graphName = origin.graphName;
+        this.map = new HashMap<>();
+        for (String targetName: subGr){
+            Target target = origin.getTargetByName(targetName);
+            Set<Target> dependsOn = new HashSet<>();
+            for (Target target1 : target.getDependsOnList()){
+                if(isContains(subGr,target1.getName())){
+                    dependsOn.add(target1);
+                }
+            }
+            this.map.put(target, dependsOn);
+        }
+        this.pricePerTargetSimulation = origin.pricePerTargetSimulation;
+        this.getPricePerTargetCompilation = origin.getPricePerTargetCompilation;
+    }
+
+    private boolean isContains(String[] targets, String target){
+        for (String name : targets){
+            if(name.equals(target)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     /* the function create new graph */
     public Graph(String name, int pricePerTargetSimulation, int pricePerTargetCompilation){
         this.graphName = name.trim();
@@ -36,8 +63,12 @@ public class Graph {
         this.getPricePerTargetCompilation = pricePerTargetCompilation;
     }
 
-    public int getPricePerTarget() {
+    public int getPricePerTargetSimulation() {
         return pricePerTargetSimulation;
+    }
+
+    public int getPricePerTargetCompilation() {
+        return getPricePerTargetCompilation;
     }
 
     public void setPricePerTargetSimulation(int pricePerTargetSimulation) {
@@ -240,6 +271,16 @@ public class Graph {
         }
     }
 
+    public void removeConnectionIfExist(Target target1, Target target2){
+       Set<Target> targets= this.map.get(target1);
+       if(targets != null){
+           targets.remove(target2);
+       }
+    }
+
+    public boolean isContainTarget(Target target){
+        return this.map.containsKey(target);
+    }
 
     /* ******************************** for sort graph */
     public void printOrderMap(Map<Target, List<Target>> map){

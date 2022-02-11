@@ -16,6 +16,16 @@ public class TargetDTO {
     private Set<String> totalDependsOn;
     private String generalInfo;
 
+
+
+    public Set<String> getTotalRequireFor() {
+        return totalRequireFor;
+    }
+
+    public Set<String> getTotalDependsOn() {
+        return totalDependsOn;
+    }
+
     /* constructor */
     public TargetDTO(Target other){
         this.name = other.getName();

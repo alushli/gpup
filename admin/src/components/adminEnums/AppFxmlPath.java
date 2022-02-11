@@ -5,7 +5,10 @@ public enum AppFxmlPath {
     ACTIONS("/components/actions/actions.fxml"),
     MENU("/components/menu/menu.fxml"),
     SUB_MENU("/components/menu/subMenu/subMenu.fxml"),
-    TASKS("/components/tasks/tasks.fxml"),
+    TASKS("/components/tasks/createNewTask.fxml"),
+    TASKS_MAIN_SCREEN("/components/tasks/tasksAdmin.fxml"),
+    TASKS_MANAGEMENT("/components/tasks/tasksManagments.fxml"),
+    PRE_TASKS("/components/tasks/preTaskAdmin.fxml"),
     GENERAL_INFO("/components/generalInfo/generalInfo.fxml"),
     APP_SCREEN("/components/appScreen/app.fxml"),
     TARGET_PATHS("/components/actions/showPaths/showPaths.fxml"),
@@ -23,7 +26,11 @@ public enum AppFxmlPath {
     TASK_RUN_TASK("/components/tasks/runTaskScreen/runTask.fxml"),
     TARGET_BOX_TASK("/components/tasks/runTaskScreen/target.fxml"),
     TARGET_INFO_POPUP_TASK("/components/tasks/runTaskScreen/targetInfo.fxml"),
-    EXPORT_GRAPH_POPUP("/components/generalInfo/showGraphInfo/detailsGraphScreen/exportGraphScreen/exportGraphPopup.fxml");
+    EXPORT_GRAPH_POPUP("/components/generalInfo/showGraphInfo/detailsGraphScreen/exportGraphScreen/exportGraphPopup.fxml"),
+    DASHBOARD_SCREEN("/components/dashboard/dashboard.fxml"),
+    DASHBOARD_USERS_TABLE("/components/generalComponents/usersTable/usersTable.fxml"),
+    DASHBOARD_GRAPH_TABLE("/components/generalComponents/graphsTable/graphTable.fxml"),
+    TASKS_TABLE("/components/generalComponents/tasksTable/tasksTable.fxml");
 
     private String name;
 

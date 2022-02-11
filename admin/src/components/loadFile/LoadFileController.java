@@ -155,7 +155,7 @@ public class LoadFileController extends components.mainControllers.Controllers{
     }
 
     void successLoad(){
-        this.appController.setLoadFile(true);
+        //this.appController.setLoadFile(true);
         what_next_area.setDisable(false);
         load_message_ta.setText("The xml was uploaded successfully");
         load_message_ta.getStyleClass().remove("failed_message");

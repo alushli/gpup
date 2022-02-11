@@ -66,7 +66,7 @@ public class ShowCirclesController extends components.mainControllers.Controller
     }
 
     private void setTargetsLabel(){
-       // this.curSelectedCount.bind(this.targetsTableController.selectedCounterProperty());
+        this.curSelectedCount.bind(this.targetsTableController.selectedCounterProperty());
         this.curSelectedCount.addListener((a,b,c)->{
             if(curSelectedCount.getValue() == 0){
                 this.circleScreenController.getFind_btn().setDisable(true);
@@ -74,7 +74,7 @@ public class ShowCirclesController extends components.mainControllers.Controller
                 this.circleScreenController.getPaths_TA().setText("");
             } else {
                 this.circleScreenController.getFind_btn().setDisable(false);
-               // this.circleScreenController.getTarget_label().setText(this.targetsTableController.getCurSelected().get(0).getName());
+                this.circleScreenController.getTarget_label().setText(this.targetsTableController.getCurSelected().get(0).getName());
             }
         });
     }
@@ -87,8 +87,8 @@ public class ShowCirclesController extends components.mainControllers.Controller
             this.mainController.setArea(this.table_SP ,fxmlLoader.load(url.openStream()));
             this.targetsTableController = fxmlLoader.getController();
             this.targetsTableController.setAppController(this.appController);
-           // this.targetsTableController.getTable().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.925));
-           // this.targetsTableController.setMaxSelect(1);
+            this.targetsTableController.getTable().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.925));
+            this.targetsTableController.setMaxSelect(1);
         }catch (Exception e){
             System.out.println("Error in setTableScreen() - showCircleController");
         }
@@ -96,7 +96,7 @@ public class ShowCirclesController extends components.mainControllers.Controller
 
     @FXML
     void clickDeselectAll(ActionEvent event) {
-        //this.targetsTableController.deselectAll();
+        this.targetsTableController.deselectAll();
     }
 
     @Override

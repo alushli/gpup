@@ -2,9 +2,10 @@ package UsersManager;
 
 import User.Admin;
 import User.Worker;
+import dtoObjects.UserDTO;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.jws.soap.SOAPBinding;
+import java.util.*;
 
 public class UsersManager {
     private Map<String, Worker> workers;
@@ -43,6 +44,17 @@ public class UsersManager {
     }
     public boolean isWorkerExist(String name){
         return workers.containsKey(name);
+    }
+
+    public List<UserDTO> getAllUsers(){
+        List<UserDTO> users = new ArrayList<>();
+        for (String worker : workers.keySet()){
+            users.add(new UserDTO(worker, "Worker"));
+        }
+        for (String admin : admins.keySet()){
+            users.add(new UserDTO(admin, "Admin"));
+        }
+        return users;
     }
 
 }
