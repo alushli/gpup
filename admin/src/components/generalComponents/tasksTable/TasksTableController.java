@@ -25,6 +25,7 @@ public class TasksTableController extends components.mainControllers.Controllers
     private BooleanProperty autoUpdate = new SimpleBooleanProperty(true);
     private IntegerProperty totalTasks = new SimpleIntegerProperty(0);
     private String selected;
+    private TaskFX taskFXSelected;
     private BooleanProperty isSelected = new SimpleBooleanProperty(false);
 
     @FXML
@@ -70,6 +71,10 @@ public class TasksTableController extends components.mainControllers.Controllers
             listRefresher.cancel();
             timer.cancel();
         }
+    }
+
+    public BooleanProperty isSelectedProperty() {
+        return isSelected;
     }
 
     @FXML
@@ -119,15 +124,21 @@ public class TasksTableController extends components.mainControllers.Controllers
                 if(selectCheckBox.isSelected()){
                     this.selected = taskFX.getName();
                     this.isSelected.set(true);
+                    this.taskFXSelected = taskFX;
                     this.appController.setSelectedTask(taskFX.getName());
                 }else{
                     this.selected = null;
                     this.isSelected.set(false);
+                    this.taskFXSelected = null;
                     this.appController.setSelectTask(false);
                 }
             });
             selectCheckBox.disableProperty().bind(isSelected.and(selectCheckBox.selectedProperty().not()) );
         }
+    }
+
+    public TaskFX getTaskFXSelected() {
+        return taskFXSelected;
     }
 
     public void startListRefresher() {
