@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import components.loadFile.LoadFileController;
 import components.menu.subMenu.SubMenuController;
@@ -43,6 +44,9 @@ public class MenuController extends components.mainControllers.Controllers {
     @FXML
     private Button dashboard_btn;
 
+    @FXML
+    private Label name_label;
+
     public void setSubMenu(){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -58,6 +62,9 @@ public class MenuController extends components.mainControllers.Controllers {
         appController.setMenu(this.subMenuParent);
     }
 
+    public Label getName_label() {
+        return name_label;
+    }
 
     @FXML
     public void clickTasks(ActionEvent event) {

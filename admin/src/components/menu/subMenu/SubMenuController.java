@@ -42,7 +42,7 @@ public class SubMenuController extends  components.mainControllers.Controllers{
 
     @FXML
     void clickBack(ActionEvent event) {
-        this.appController.initialize();
+        this.appController.setMenu();
     }
 
     public void setActionButtons(){

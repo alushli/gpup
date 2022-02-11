@@ -29,6 +29,7 @@ public class TasksAdminController extends components.mainControllers.Controllers
 
     public void setPreTaskScreen(){
         this.appController.setArea(getCreateNewTasksParent());
+        this.preTaskAdminController.getNew_task_name_TA().setText("");
         this.preTaskAdminController.setTables();
     }
 

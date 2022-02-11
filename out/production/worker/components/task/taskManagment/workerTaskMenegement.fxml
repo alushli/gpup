@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane fx:id="main_screen" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_screen_content" stylesheets="@../../resources/mainCssWorker.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.task.taskManagment.WorkerTaskManagementController">
+   <children>
+      <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_screen_content">
+         <content>
+            <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main_screen_content">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="NEVER" minWidth="30.0" prefWidth="30.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="700.0" prefWidth="600.0" />
+                  <ColumnConstraints hgrow="NEVER" minWidth="30.0" prefWidth="30.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="1.7976931348623157E308" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="15.0" minHeight="15.0" prefHeight="15.0" vgrow="NEVER" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="25.0" prefHeight="25.0" vgrow="NEVER" />
+                  <RowConstraints maxHeight="15.0" minHeight="15.0" prefHeight="15.0" vgrow="ALWAYS" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="150.0" prefHeight="150.0" vgrow="ALWAYS" />
+                  <RowConstraints maxHeight="15.0" minHeight="15.0" prefHeight="15.0" vgrow="NEVER" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="120.0" prefHeight="120.0" vgrow="ALWAYS" />
+                  <RowConstraints maxHeight="15.0" minHeight="15.0" prefHeight="15.0" vgrow="NEVER" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="150.0" prefHeight="150.0" vgrow="ALWAYS" />
+                  <RowConstraints maxHeight="10.0" minHeight="10.0" prefHeight="10.0" vgrow="NEVER" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="0.0" prefHeight="0.0" valignment="CENTER" />
+               </rowConstraints>
+               <children>
+                  <Label id="header_label" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Tasks Managments" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
+                     <GridPane.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="9">
+                     <children>
+                        <Label maxWidth="1.7976931348623157E308" text="Log" />
+                        <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="SOMETIMES">
+                           <children>
+                              <TextArea fx:id="log_TA" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="log_area" />
+                           </children>
+                        </StackPane>
+                     </children>
+                  </VBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <children>
+                        <StackPane maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" HBox.hgrow="NEVER">
+                           <children>
+                              <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0">
+                                 <children>
+                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="50.0" text="Credit:" HBox.hgrow="NEVER" />
+                                    <Label fx:id="credit_label" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" wrapText="true" HBox.hgrow="NEVER" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </StackPane>
+                        <Separator orientation="VERTICAL" prefHeight="200.0">
+                           <HBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </HBox.margin>
+                        </Separator>
+                        <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0">
+                           <children>
+                              <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="112.0" text="Occupied Threads" />
+                              <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0">
+                                 <children>
+                                    <Label fx:id="threads_occupied_count" text="0" />
+                                    <Label text="/" />
+                                    <Label fx:id="threads_sum_count" text="0" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                     <children>
+                        <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Targets" underline="true" />
+                              <StackPane fx:id="targets_table_SP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
+                           </children>
+                        </VBox>
+                     </children>
+                     <GridPane.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </GridPane.margin>
+                  </HBox>
+                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                     <children>
+                        <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="My Task" underline="true" />
+                        <StackPane fx:id="task_table_SP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+                  <Separator prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+               </children>
+            </GridPane>
+         </content>
+      </ScrollPane>
+   </children>
+</StackPane>

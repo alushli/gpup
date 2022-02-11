@@ -101,6 +101,10 @@ public class PreTaskAdminController extends components.mainControllers.Controlle
         this.next_btn.disableProperty().bind(canNext.not());
     }
 
+    public TextField getNew_task_name_TA() {
+        return new_task_name_TA;
+    }
+
     public void setTables(){
         setGraphTableScreen();
         seTaskTableScreen();

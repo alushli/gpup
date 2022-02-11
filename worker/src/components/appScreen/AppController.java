@@ -1,6 +1,6 @@
 package components.appScreen;
 
-import components.menu.workerMenuController;
+import components.menu.WorkerMenuController;
 import components.workerEnums.AppFxmlPath;
 import components.generalComponents.workerGeneralComponent;
 import javafx.fxml.FXML;
@@ -15,11 +15,14 @@ import java.net.URL;
 public class AppController {
     @FXML private StackPane menu_area;
     private static Parent menuParent;
-    private static workerMenuController menuComponentController = null;
+    private static WorkerMenuController menuComponentController = null;
     private Stage primaryStage;
     @FXML private StackPane content_area;
     private boolean isLoadFile = false;
     private workerGeneralComponent generalComponent;
+    private String selectedTask;
+    private boolean isSelectTask = false;
+    private String userName;
 
     @FXML
     private BorderPane main_screen;
@@ -31,7 +34,10 @@ public class AppController {
 
     @FXML
     public void initialize() {
-        setMainMenu();
+    }
+
+    public void setMenu(){
+        this.setMainMenu();
     }
 
     public void setMainMenu(){
@@ -57,6 +63,7 @@ public class AppController {
             this.menuParent = fxmlLoader.load(url.openStream());
             this.menuComponentController = fxmlLoader.getController();
             this.menuComponentController.setAppController(this);
+            this.menuComponentController.getName_label().setText(this.userName);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -66,6 +73,15 @@ public class AppController {
         content_area.getChildren().removeAll();
         content_area.getChildren().setAll(data);
     }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
 
     public void setMenu(Parent data){
         menu_area.getChildren().removeAll();
@@ -77,9 +93,16 @@ public class AppController {
         area.getChildren().setAll(data);
     }
 
-    public workerMenuController getMenuComponentController() {
+    public WorkerMenuController getMenuComponentController() {
         return menuComponentController;
     }
 
+    public void setSelectedTask(String selectedTask) {
+        this.selectedTask = selectedTask;
+    }
+
+    public void setSelectTask(boolean selectTask) {
+        isSelectTask = selectTask;
+    }
 
 }

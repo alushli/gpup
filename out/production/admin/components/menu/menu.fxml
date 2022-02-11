@@ -19,11 +19,12 @@
   </columnConstraints>
   <rowConstraints>
     <RowConstraints valignment="CENTER" />
+      <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="CENTER" vgrow="NEVER" />
     <RowConstraints maxHeight="1.7976931348623157E308" vgrow="ALWAYS" />
       <RowConstraints valignment="BOTTOM" />
   </rowConstraints>
    <children>
-      <ScrollPane id="menu-scroll-pane" fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" prefHeight="300.0" styleClass="main_screen_content" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="NEVER">
+      <ScrollPane id="menu-scroll-pane" fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" prefHeight="300.0" styleClass="main_screen_content" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="NEVER">
          <content>
             <VBox id="menu-buttons-vbox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                <children>
@@ -44,7 +45,7 @@
             <Insets bottom="5.0" />
          </GridPane.margin>
       </Label>
-      <HBox maxHeight="60.0" maxWidth="220.0" minHeight="60.0" minWidth="220.0" prefHeight="60.0" prefWidth="220.0" styleClass="main_screen_content" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+      <HBox maxHeight="60.0" maxWidth="220.0" minHeight="60.0" minWidth="220.0" prefHeight="60.0" prefWidth="220.0" styleClass="main_screen_content" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
          <children>
             <CheckBox fx:id="animation_cb" mnemonicParsing="false" onAction="#clickAnimation" prefHeight="26.0" prefWidth="103.0" text="Animation" HBox.hgrow="SOMETIMES">
                <HBox.margin>
@@ -57,6 +58,15 @@
          </padding>
          <GridPane.margin>
             <Insets />
+         </GridPane.margin>
+      </HBox>
+      <HBox alignment="BOTTOM_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+         <children>
+            <Label minWidth="40.0" styleClass="nameLabel" text="Hello" HBox.hgrow="NEVER" />
+            <Label fx:id="name_label" maxWidth="1.7976931348623157E308" styleClass="nameLabel" HBox.hgrow="SOMETIMES" />
+         </children>
+         <GridPane.margin>
+            <Insets left="5.0" right="5.0" />
          </GridPane.margin>
       </HBox>
    </children>

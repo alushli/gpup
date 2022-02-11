@@ -39,14 +39,18 @@
                         <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="NEVER" />
                     </rowConstraints>
                      <children>
-                        <StackPane fx:id="tasksContainer" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.rowSpan="3" />
+                        <ScrollPane fitToHeight="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.rowSpan="3">
+                           <content>
+                              <StackPane fx:id="tasksContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                           </content>
+                        </ScrollPane>
                         <StackPane fx:id="userTable" minHeight="148.0" minWidth="150.0" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.rowSpan="3" GridPane.vgrow="NEVER" />
-                        <Label alignment="CENTER" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Users" GridPane.columnIndex="1">
+                        <Label alignment="CENTER" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Users" underline="true" GridPane.columnIndex="1">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Label>
-                        <Label text="Tasks" GridPane.columnIndex="3">
+                        <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Tasks" underline="true" GridPane.columnIndex="3">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
