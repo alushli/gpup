@@ -8,4 +8,6 @@ public class Constants {
 
     public final static String WORKER_LOGIN = FULL_SERVER_PATH + "/worker-login";
     public final static String USERS_LIST = FULL_SERVER_PATH + "/get-all-users";
+    public final static String TASKS_LIST = FULL_SERVER_PATH + "/get-all-tasks";
+
 }
