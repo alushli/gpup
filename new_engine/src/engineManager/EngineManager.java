@@ -1,5 +1,6 @@
 package engineManager;
 
+import User.Worker;
 import XmlUtils.XmlUtils;
 import dtoObjects.*;
 import newEnums.TasksName;
@@ -32,6 +33,10 @@ public class EngineManager {
             return graphMap.get(name);
         else
             return null;
+    }
+
+    public synchronized TaskOperator getTaskByName(String taskName){
+        return this.taskOperatorMap.get(taskName);
     }
 
     /* the function load the graph */
@@ -285,4 +290,45 @@ public class EngineManager {
         return this.taskOperatorMap.containsKey(taskName);
     }
 
+    public synchronized void subscribeUser(Worker worker, String taskName){
+        TaskOperator taskOperator=  this.taskOperatorMap.get(taskName);
+        if(taskOperator != null){
+            taskOperator.addWorker(worker);
+            worker.addToTasks(taskOperator);
+        }
+    }
+    public synchronized void unsubscribeUser(Worker worker, String taskName){
+        TaskOperator taskOperator=  this.taskOperatorMap.get(taskName);
+        if(taskOperator != null){
+            taskOperator.removeWorker(worker);
+            worker.removeTask(taskOperator);
+        }
+    }
+
+    public synchronized void pauseTask(Worker worker, String taskName){
+        TaskOperator taskOperator=  this.taskOperatorMap.get(taskName);
+        if(taskOperator != null){
+            worker.makePause(taskOperator);
+        }
+    }
+
+    public synchronized void resumeTask(Worker worker, String taskName){
+        TaskOperator taskOperator=  this.taskOperatorMap.get(taskName);
+        if(taskOperator != null){
+            worker.makeStart(taskOperator);
+        }
+    }
+
+    public synchronized void taskAction(String taskName, String action){
+        TaskOperator taskOperator = this.taskOperatorMap.get(taskName);
+        if(taskOperator != null){
+            if(action.equals("start") || action.equals("resume")){
+                taskOperator.setStart();
+            }else if(action.equals("pause")){
+                taskOperator.setPaused();
+            }else if(action.equals("cancel")){
+                taskOperator.setCancel();
+            }
+        }
+    }
 }

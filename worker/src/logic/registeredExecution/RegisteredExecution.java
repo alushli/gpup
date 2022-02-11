@@ -1,11 +1,12 @@
 package logic.registeredExecution;
 
+import dtoObjects.RegisterTaskDTO;
 import newEnums.TaskStatus;
 import newEnums.TasksName;
 
 public class RegisteredExecution {
     private String name;
-    private TasksName tasksName;
+    private TasksName taskName;
     private int pricePerTarget;
     private int targetIPerformed;
     private TaskStatus taskStatus;
@@ -13,19 +14,19 @@ public class RegisteredExecution {
     // for simulation:
     private int targetProcessingTime;
     private boolean isRandomTime;
-    private float successRate;
-    private float warningRate;
+    private double successRate;
+    private double warningRate;
 
     // for compilation:
     private String sourceFolder;
     private String productFolder;
 
-    public RegisteredExecution(String name, TasksName tasksName, int pricePerTarget, int targetIPerformed, int targetProcessingTime,
-                               boolean isRandomTime, float successRate, float warningRate, String sourceFolder, String productFolder, TaskStatus taskStatus) {
+    public RegisteredExecution(String name, TasksName tasksName, int pricePerTarget, int targetProcessingTime,
+                               boolean isRandomTime, double successRate, double warningRate, String sourceFolder, String productFolder, TaskStatus taskStatus) {
         this.name = name;
-        this.tasksName = tasksName;
+        this.taskName = tasksName;
         this.pricePerTarget = pricePerTarget;
-        this.targetIPerformed = targetIPerformed;
+        this.targetIPerformed = 0;
         this.targetProcessingTime = targetProcessingTime;
         this.isRandomTime = isRandomTime;
         this.successRate = successRate;
@@ -33,6 +34,21 @@ public class RegisteredExecution {
         this.sourceFolder = sourceFolder;
         this.productFolder = productFolder;
         this.taskStatus = taskStatus;
+    }
+
+    public RegisteredExecution(RegisterTaskDTO registerTaskDTO){
+        this.name = registerTaskDTO.getTaskName();
+        if(registerTaskDTO.getTaskType().equalsIgnoreCase("Simulation")){
+           this.taskName = TasksName.SIMULATION;
+           this.targetProcessingTime = registerTaskDTO.getTargetProcessingTime();
+           this.isRandomTime = registerTaskDTO.isRandomTime();
+           this.successRate = registerTaskDTO.getSuccessRate();
+           this.warningRate = registerTaskDTO.getWarningRate();
+        }else{
+            this.taskName = TasksName.COMPILATION;
+            this.productFolder = registerTaskDTO.getProductFolder();
+            this.sourceFolder = registerTaskDTO.getSourceFolder();
+        }
     }
 
     public int getTotalPriceFromThisExecution() {
@@ -44,7 +60,7 @@ public class RegisteredExecution {
     }
 
     public TasksName getTasksName() {
-        return tasksName;
+        return taskName;
     }
 
     public int getPricePerTarget() {
@@ -63,11 +79,11 @@ public class RegisteredExecution {
         return isRandomTime;
     }
 
-    public float getSuccessRate() {
+    public double getSuccessRate() {
         return successRate;
     }
 
-    public float getWarningRate() {
+    public double getWarningRate() {
         return warningRate;
     }
 
@@ -78,4 +94,6 @@ public class RegisteredExecution {
     public String getProductFolder() {
         return productFolder;
     }
+
+
 }

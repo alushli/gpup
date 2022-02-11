@@ -16,6 +16,10 @@ public class UsersManager {
         this.admins = new HashMap<>();
     }
 
+    public synchronized Worker getWorker(String name) {
+        return this.workers.get(name);
+    }
+
     public synchronized void addWorker(String name, int numOfThreads)throws Exception{
         if(workers.containsKey(name) && workers.get(name).getIsActive())
             throw new Exception("Worker already exist");

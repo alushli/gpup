@@ -5,6 +5,7 @@ public enum TargetRunStatus {
     WARNING ("warning"),
     FAILURE ("failure"),
     SKIPPED ("skipped"),
+    IN_PROCESS("in-process"),
     NONE ("none");
 
     private String name;

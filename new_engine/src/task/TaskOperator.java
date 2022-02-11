@@ -141,4 +141,15 @@ public class TaskOperator {
         this.taskStatus = TaskStatus.IN_PROCESS;
     }
 
+    public synchronized void setCancel(){
+        this.taskStatus = TaskStatus.CANCLE;
+    }
+
+    public synchronized void addWorker(Worker worker){
+        this.workerMap.put(worker.getName(), worker);
+    }
+    public synchronized void removeWorker(Worker worker){
+        this.workerMap.remove(worker.getName());
+    }
+
 }

@@ -4,6 +4,7 @@ public enum TaskStatus {
     DONE ("Done"),
     IN_PROCESS("In process"),
     PAUSED("Paused"),
+    CANCLE("Cancle"),
     FROZEN("Frozen");
 
     private String name;
