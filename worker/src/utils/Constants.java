@@ -15,4 +15,6 @@ public class Constants {
     public final static String TASK_SUBSCRIBE = FULL_SERVER_PATH + "/task-subscribe";
     public final static String TASK_UNSUBSCRIBE = FULL_SERVER_PATH + "/task-unsubscribe";
     public final static String PAUSE_TASK = FULL_SERVER_PATH + "/pause-task";
+    public final static String TASKS_LIST = FULL_SERVER_PATH + "/get-all-tasks";
+
 }

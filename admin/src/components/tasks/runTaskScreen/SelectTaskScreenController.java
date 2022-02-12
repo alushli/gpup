@@ -55,6 +55,9 @@ public class SelectTaskScreenController extends components.mainControllers.Contr
     private VBox compiler_content;
 
     @FXML
+    private Label save_error_label;
+
+    @FXML
     private Label source_compiler_label;
 
     @FXML
@@ -99,10 +102,12 @@ public class SelectTaskScreenController extends components.mainControllers.Contr
         this.srcFolderValid.set(true);
     }
 
+    public Label getSave_error_label() {
+        return save_error_label;
+    }
+
     @FXML
     void clickNext(ActionEvent event) {
-        //this.mainController.setRunTaskScreen();
-        //this.mainController.updateTaskName(this.task_CB.getValue());
         if(this.task_CB.getValue().equals("Simulation Task")){
             boolean isRandom = this.random_simulation.getValue().equals("Yes") ? true : false;
             this.mainController.updateSimulationTaskProperties(Integer.parseInt(this.processing_time_simulation.getText()), Double.parseDouble(this.end_success_simulation.getText()), Double.parseDouble(this.end_warnings_after_success_simulation.getText()),isRandom, SimulationEntryPointAdmin.FROM_SCRATCH);

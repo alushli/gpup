@@ -9,6 +9,10 @@
     -fx-font-size: 14px;
 }
 
+.nameLabel{
+    -fx-font-weight: 700;
+}
+
 .check-box{
     -fx-cursor:hand;
 }

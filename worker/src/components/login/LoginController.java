@@ -100,6 +100,8 @@ public class LoginController {
             fxmlLoader.setLocation(url);
             Parent rootContainer = fxmlLoader.load(url.openStream());
             AppController appController = fxmlLoader.getController();
+            appController.setUserName(this.userName.getText());
+            appController.setMenu();
             appController.setPrimaryStage(primaryStage);
             Stage appWindow;
             Scene secondScene = new Scene(rootContainer, 1300, 750);

@@ -46,7 +46,7 @@ public class AppController {
     private TargetDTO[] targetDTOS;
     private String selectedTask;
     private boolean isSelectTask = false;
-
+    private String userName;
     public boolean isSelectTask() {
         return isSelectTask;
     }
@@ -81,9 +81,17 @@ public class AppController {
         this.isLoaded = false;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     @FXML
     public void initialize() {
-        setMainMenu();
+
     }
 
     public void setMainMenu(){
@@ -109,6 +117,10 @@ public class AppController {
         this.primaryStage = primaryStage;
     }
 
+    public void setMenu(){
+        this.setMainMenu();
+    }
+
     private void setMenuFxml(){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -117,6 +129,7 @@ public class AppController {
             this.menuParent = fxmlLoader.load(url.openStream());
             this.menuComponentController = fxmlLoader.getController();
             this.menuComponentController.setAppController(this);
+            this.menuComponentController.getName_label().setText(this.userName);
         } catch (IOException e) {
             e.printStackTrace();
         }
