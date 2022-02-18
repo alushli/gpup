@@ -99,6 +99,7 @@ public class GraphTableController extends components.mainControllers.Controllers
                     this.selected = graphFx.getName();
                     this.isSelected.set(true);
                     this.appController.setGraphName(graphFx.getName());
+                    this.appController.setGraphFxSelected(graphFx);
                 }else{
                     this.selected = null;
                     this.isSelected.set(false);

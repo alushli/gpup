@@ -34,9 +34,7 @@ public class CreateNewTasksController extends components.mainControllers.Control
     private SelectTargetController selectTargetController;
     private SelectTaskScreenController selectTaskScreenController;
     private RunTaskController runTaskController;
-    private boolean isWhatIf = false;
     private ArrayList<TargetFX> selectedTargets;
-    private String whatIfDirection;
     private int threadsNum;
     private String graphName;
     private String taskName;
@@ -99,17 +97,9 @@ public class CreateNewTasksController extends components.mainControllers.Control
         return details_grid;
     }
 
-    public void setWhatIf(boolean whatIf) {
-        isWhatIf = whatIf;
-    }
-
-    public boolean isWhatIf() {
-        return isWhatIf;
-    }
 
     @FXML
     public void initialize() {
-        this.whatIfDirection = "dependsOn";
         this.selectedTargets = new ArrayList<>();
     }
 
@@ -253,18 +243,11 @@ public class CreateNewTasksController extends components.mainControllers.Control
             this.selectTaskScreenController = fxmlLoader.getController();
             this.selectTaskScreenController.setMainController(this);
             this.selectTaskScreenController.setAppController(this.appController);
+            this.selectTaskScreenController.updateTasksType();
             selectTaskScreenController.getFall_screen_SP().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.99));
         } catch (Exception e){
             System.out.println("Error in setPageScreen() - showPathController");
         }
-    }
-
-    public void setWhatIfTableDirection(String direction){
-        this.whatIfDirection = direction;
-    }
-
-    public String getWhatIfDirection() {
-        return whatIfDirection;
     }
 
     public void setRunTaskScreen(){

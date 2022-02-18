@@ -209,6 +209,15 @@ public class SelectTaskScreenController extends components.mainControllers.Contr
         random_simulation.getSelectionModel().select(0);
     }
 
+    public void updateTasksType(){
+        if(!this.appController.getGraphFxSelected().isCanCompilation() && !this.appController.getGraphFxSelected().isCanSimulation())
+            task_CB.getItems().removeAll(task_CB.getItems());
+        else if(!this.appController.getGraphFxSelected().isCanCompilation() && this.appController.getGraphFxSelected().isCanSimulation())
+            task_CB.getItems().remove("Java Compiler Task");
+        else if(this.appController.getGraphFxSelected().isCanCompilation() && !this.appController.getGraphFxSelected().isCanSimulation())
+            task_CB.getItems().remove("Simulation Task");
+    }
+
     private void setInvalidArguments(TextField textField, boolean set, BooleanProperty booleanProperty){
         if(set){
             this.error_label.setVisible(true);
