@@ -2,7 +2,9 @@ package UsersManager;
 
 import User.Admin;
 import User.Worker;
+import dtoObjects.TargetToRunWorker;
 import dtoObjects.UserDTO;
+import dtoObjects.WorkerTaskDTO;
 
 import javax.jws.soap.SOAPBinding;
 import java.util.*;
@@ -61,4 +63,24 @@ public class UsersManager {
         return users;
     }
 
+    public synchronized List<WorkerTaskDTO> getAllWorkerTasks(String workerName){
+        Worker worker = getWorker(workerName);
+        List<WorkerTaskDTO> tasks = new ArrayList<>();
+        if(worker != null){
+            tasks = worker.getAllTasks();
+        }
+        return tasks;
+    }
+
+    public List<TargetToRunWorker> getTargetToRun(String workerName, int amount){
+        Worker worker;
+        synchronized (this){
+            worker = this.workers.get(workerName);
+        }
+        List<TargetToRunWorker> targets = new ArrayList<>();
+        if(worker!= null){
+            targets = worker.getTargetsToRun(amount);
+        }
+        return targets;
+    }
 }

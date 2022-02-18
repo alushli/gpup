@@ -11,6 +11,10 @@ public class LogsManager {
         this.targetName = targetName;
     }
 
+    public List<String> getLogs() {
+        return logs;
+    }
+
     public void addToLogs(String log){
         logs.add(log);
     }

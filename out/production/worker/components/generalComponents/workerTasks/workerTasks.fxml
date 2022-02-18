@@ -12,13 +12,13 @@
             <TableView id="table-view" fx:id="table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                <columns>
                   <TableColumn fx:id="nameCol" maxWidth="1.7976931348623157E308" minWidth="70.0" prefWidth="-1.0" text="Name" />
+                  <TableColumn fx:id="statusCol" prefWidth="100.0" text="Task Status" />
                   <TableColumn fx:id="workersCol" maxWidth="1.7976931348623157E308" minWidth="80.0" prefWidth="-1.0" text="Workers" />
                   <TableColumn fx:id="targetsCol" maxWidth="1.7976931348623157E308" minWidth="80.0" prefWidth="-1.0" resizable="false" text="Targets" />
                   <TableColumn fx:id="doneTargetsCol" maxWidth="1.7976931348623157E308" minWidth="110.0" prefWidth="-1.0" resizable="false" text="Done Targets" />
                   <TableColumn fx:id="targetByMeCol" maxWidth="1.7976931348623157E308" minWidth="120.0" prefWidth="-1.0" resizable="false" text="Targets By Me" />
                   <TableColumn fx:id="creditCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="-1.0" text="Credit" />
-                  <TableColumn fx:id="activeCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="-1.0" resizable="false" text="Active" />
-                  <TableColumn fx:id="unsubscribeCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="-1.0" resizable="false" text="Unsubscribe" />
+                  <TableColumn fx:id="activeCol" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="-1.0" resizable="false" text="Pause" />
                </columns>
             </TableView>
          </content>

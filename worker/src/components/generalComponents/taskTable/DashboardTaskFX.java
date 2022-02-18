@@ -4,7 +4,7 @@ import dtoObjects.GeneralGraphInfoDTO;
 import dtoObjects.TaskDTO;
 import javafx.scene.control.CheckBox;
 
-public class WorkerTaskFX {
+public class DashboardTaskFX {
     private String name;
     private String admin;
     private GeneralGraphInfoDTO generalGraphInfoDTO;
@@ -19,7 +19,7 @@ public class WorkerTaskFX {
     private int countRoots;
     private int countMiddles;
 
-    public WorkerTaskFX(TaskDTO taskDTO){
+    public DashboardTaskFX(TaskDTO taskDTO){
         this.name = taskDTO.getName();
         this.admin = taskDTO.getAdmin();
         this.generalGraphInfoDTO = taskDTO.getGeneralGraphInfoDTO();

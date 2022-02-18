@@ -28,6 +28,7 @@ public class ActionsController extends components.mainControllers.Controllers {
             setShowPathsFxml();
         }
         this.setLoadFileHandlingFindPaths();
+
     }
 
     public void setLoadFileHandlingFindPaths(){

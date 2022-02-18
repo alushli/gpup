@@ -62,6 +62,10 @@ public class MenuController extends components.mainControllers.Controllers {
         appController.setMenu(this.subMenuParent);
     }
 
+    public static SubMenuController getSubMenuComponentController() {
+        return subMenuComponentController;
+    }
+
     public Label getName_label() {
         return name_label;
     }

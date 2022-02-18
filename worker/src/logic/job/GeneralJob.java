@@ -1,13 +1,14 @@
 package logic.job;
 
+import com.google.gson.Gson;
+import dtoObjects.TargetUpdate;
 import logic.taskManager.RunTimeTargetDetails;
 import logic.taskManager.TargetsDetails;
 import logic.utils.LogsManager;
 import newEnums.TargetRunStatus;
-import okhttp3.Call;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import okhttp3.*;
+import utils.Constants;
+import utils.HttpClientUtil;
 
 public abstract class GeneralJob implements Runnable {
     protected String targetName;
@@ -22,37 +23,42 @@ public abstract class GeneralJob implements Runnable {
         this.runTimeTargetDetails = runTimeTargetDetails;
         this.targetName = targetName;
         this.generalInfo = generalInfo;
-        this.logsManager = new LogsManager(targetName);
+        this.logsManager = runTimeTargetDetails.getLogsManager();
         this.executionName = executionName;
     }
 
     @Override
     public void run() {
         specificJob();
-
-        //this.runTimeTargetsDetails.updateTargetStatusToFinishRT(this.targetName, this.executionName, this.runResult);
-
+        this.runTimeTargetDetails.setRunStatus(this.runResult.toString());
         updateServerOnRunResult();
     }
     public void updateServerOnRunResult() {
-//        RunningResultDetails runningResultDetails = new RunningResultDetails(this.targetName, this.executionName, this.logsManager.getLogs(), this.runResult);
-//
-//        String runningResultDetailsJson = GsonConfig.gson.toJson(runningResultDetails);
-//        String body = "runningResultDetails=" + runningResultDetailsJson;
-//        Request request = new Request.Builder().url(HttpConfig.BASE_URL + "/target-finished")
-//                .post(RequestBody.create(body.getBytes()))
-//                .build();
-//
-//        Call call = HttpConfig.HTTP_CLIENT.newCall(request);
-//
-//        try {
-//            final Response response = call.execute();
-//            if (response.code() != 200) {
-//                throw new Exception(response.message());
-//            }
-//        } catch (Exception e) {
-//            System.out.println("error! message: " + e.getMessage());
-//        }
+        Gson gson = new Gson();
+        TargetUpdate targetUpdate = new TargetUpdate(targetName, executionName, runResult.toString(), runTimeTargetDetails.getLogsManager().getLogs());
+        String body = "target=" + gson.toJson(targetUpdate);
+
+        String finalUrl = HttpUrl.parse(Constants.UPDATE_TARGET).newBuilder()
+                .build().
+                toString();
+
+        Request request = new Request.Builder().url(finalUrl)
+                .post(RequestBody.create(body.getBytes()))
+                .build();
+
+        Call call = HttpClientUtil.HTTP_CLIENT.newCall(request);
+
+        try{
+            Response response = call.execute();
+            if(response.code() == 200){
+                System.out.println("Target update!");
+            }else{
+                System.out.println("Target did not update!");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     public abstract void specificJob();

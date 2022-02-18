@@ -14,10 +14,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.Closeable;
-import java.util.Collection;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class WorkerTasksTableController extends components.workerMainControllers.workerControllers implements Closeable {
     private Timer timer;
@@ -25,40 +22,44 @@ public class WorkerTasksTableController extends components.workerMainControllers
     private BooleanProperty autoUpdate = new SimpleBooleanProperty(true);
     private IntegerProperty totalTasks = new SimpleIntegerProperty(0);
     private String selected;
-    private WorkerTaskFX workerTaskFXSelected;
+    private DashboardTaskFX dashboardTaskFXSelected;
+    private Set<String> allSelected = new HashSet<>();
 
     @FXML
-    private TableView<WorkerTaskFX> table;
+    private TableView<DashboardTaskFX> table;
 
     @FXML
-    private TableColumn<WorkerTaskFX, String> nameCol;
+    private TableColumn<DashboardTaskFX, String> nameCol;
 
     @FXML
-    private TableColumn<WorkerTaskFX, String> createdByCol;
+    private TableColumn<DashboardTaskFX, String> createdByCol;
 
     @FXML
-    private TableColumn<WorkerTaskFX, String> graphNameCol;
+    private TableColumn<DashboardTaskFX, String> graphNameCol;
 
     @FXML
-    private TableColumn<WorkerTaskFX, Integer> numOfTargetsCol;
+    private TableColumn<DashboardTaskFX, Integer> numOfTargetsCol;
 
     @FXML
-    private TableColumn<WorkerTaskFX, Integer> rootsCol;
+    private TableColumn<DashboardTaskFX, Integer> rootsCol;
 
     @FXML
-    private TableColumn<WorkerTaskFX, Integer> middleCol;
+    private TableColumn<DashboardTaskFX, Integer> middleCol;
 
     @FXML
-    private TableColumn<WorkerTaskFX, Integer> leafsCol;
+    private TableColumn<DashboardTaskFX, Integer> leafsCol;
 
     @FXML
-    private TableColumn<WorkerTaskFX, Integer> independentsCol;
+    private TableColumn<DashboardTaskFX, Integer> independentsCol;
 
     @FXML
-    private TableColumn<WorkerTaskFX, Integer> totalPriceCol;
+    private TableColumn<DashboardTaskFX, Integer> totalPriceCol;
 
     @FXML
-    private TableColumn<WorkerTaskFX, Integer>numOfWorkersCol;
+    private TableColumn<DashboardTaskFX, Integer>numOfWorkersCol;
+
+    @FXML
+    private TableColumn<DashboardTaskFX, CheckBox> subscribeCol;
 
     @Override
     public void close() {
@@ -82,52 +83,55 @@ public class WorkerTasksTableController extends components.workerMainControllers
         this.independentsCol.setCellValueFactory(new PropertyValueFactory<>("countIndependents"));
         this.totalPriceCol.setCellValueFactory(new PropertyValueFactory<>("totalPrice"));
         this.numOfWorkersCol.setCellValueFactory(new PropertyValueFactory<>("numOfWorkers"));
+        this.subscribeCol.setCellValueFactory(new PropertyValueFactory<>("select"));
+    }
+
+    public void setAutoUpdate(boolean autoUpdate) {
+        this.autoUpdate.set(autoUpdate);
     }
 
     public BooleanProperty autoUpdatesProperty() {
         return autoUpdate;
     }
 
-    public TableView<WorkerTaskFX> getTable() {
+    public TableView<DashboardTaskFX> getTable() {
         return table;
     }
 
-    private void updateTaskList(List<WorkerTaskFX> workerTaskFXES) {
+    private void updateTaskList(List<DashboardTaskFX> dashboardTaskFXES) {
         Platform.runLater(() -> {
-            ObservableList<WorkerTaskFX> items = table.getItems();
+            ObservableList<DashboardTaskFX> items = table.getItems();
             items.clear();
-            items.addAll(workerTaskFXES);
+            items.addAll(dashboardTaskFXES);
             setSelectOnClick(table.getItems());
-            if(this.selected != null){
-                for (WorkerTaskFX workerTaskFX : table.getItems()){
-                    if(workerTaskFX.getName().equals(selected)){
-                        workerTaskFX.getSelect().setSelected(true);
+            if(this.allSelected != null){
+                for (DashboardTaskFX dashboardTaskFX : table.getItems()){
+                    if(allSelected.contains(dashboardTaskFX.getName())){
+                        dashboardTaskFX.getSelect().setSelected(true);
                     }
                 }
             }
-            totalTasks.set(workerTaskFXES.size());
+            totalTasks.set(dashboardTaskFXES.size());
         });
     }
 
-    private void setSelectOnClick(Collection<WorkerTaskFX> tasks){
-        for (WorkerTaskFX workerTaskFX : tasks){
-            CheckBox selectCheckBox = workerTaskFX.getSelect();
+    private void setSelectOnClick(Collection<DashboardTaskFX> tasks){
+        for (DashboardTaskFX dashboardTaskFX : tasks){
+            CheckBox selectCheckBox = dashboardTaskFX.getSelect();
             selectCheckBox.selectedProperty().addListener((a,b,c)->{
                 if(selectCheckBox.isSelected()){
-                    this.selected = workerTaskFX.getName();
-                    this.workerTaskFXSelected = workerTaskFX;
-                    this.appController.setSelectedTask(workerTaskFX.getName());
+                    this.appController.getWorkerEngine().subscribeTask(dashboardTaskFX.getName());
+                    allSelected.add(dashboardTaskFX.getName());
                 }else{
-                    this.selected = null;
-                    this.workerTaskFXSelected = null;
-                    this.appController.setSelectTask(false);
+                    this.appController.getWorkerEngine().unsubscribeTask(dashboardTaskFX.getName());
+                    allSelected.remove(dashboardTaskFX.getName());
                 }
             });
         }
     }
 
-    public WorkerTaskFX getTaskFXSelected() {
-        return workerTaskFXSelected;
+    public DashboardTaskFX getTaskFXSelected() {
+        return dashboardTaskFXSelected;
     }
 
     public void startListRefresher() {
@@ -137,7 +141,6 @@ public class WorkerTasksTableController extends components.workerMainControllers
         timer = new Timer();
         timer.schedule(listRefresher, 1000, 1000);
     }
-
 
     @Override
     public void setAppController(AppController mainControllers) {

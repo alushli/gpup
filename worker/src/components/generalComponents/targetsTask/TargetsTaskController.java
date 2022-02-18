@@ -1,9 +1,12 @@
 package components.generalComponents.targetsTask;
 
 import components.appScreen.AppController;
+import components.generalComponents.workerTasks.WorkerTasksFX;
 import components.task.taskManagment.WorkerTaskManagementController;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -58,4 +61,14 @@ public class TargetsTaskController extends components.workerMainControllers.work
     public void setAppController(AppController mainControllers) {
         this.appController = mainControllers;
     }
+
+    public void updateTable(Collection<TargetsTaskFX> tasks){
+        Platform.runLater(() -> {
+            ObservableList<TargetsTaskFX> items = table.getItems();
+            items.clear();
+            items.addAll(tasks);
+        });
+    }
+
+
 }

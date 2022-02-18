@@ -5,6 +5,7 @@ import components.dashboard.DashboardController;
 import components.task.taskManagment.WorkerTaskManagementController;
 import components.workerEnums.AppFxmlPath;
 import components.workerMainControllers.workerControllers;
+import javafx.beans.property.BooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,9 +36,15 @@ public class WorkerMenuController extends workerControllers {
     private Label name_label;
 
     @FXML
-        public void clickDashboard(ActionEvent event) {
+    public void clickDashboard(ActionEvent event) {
+        if(workerTaskManagementController != null){
+                this.workerTaskManagementController.setAutoUpdate(false);
+        }
         if (dashboardController == null) {
             setDashboardFxml();
+        }
+        if (this.dashboardController.getWorkerTasksTableController() != null) {
+            this.dashboardController.getWorkerTasksTableController().setAutoUpdate(true);
         }
         appController.setArea(this.dashboardParent);
     }
@@ -64,8 +71,17 @@ public class WorkerMenuController extends workerControllers {
 
     @FXML
     void clickTaskManagments(ActionEvent event) {
-        setTaskManagementFxml();
+        if(dashboardController != null){
+            if(this.dashboardController.getWorkerTasksTableController() != null){
+                this.dashboardController.getWorkerTasksTableController().setAutoUpdate(false);
+            }
+        }
+        if(this.workerTaskManagementController == null) {
+            setTaskManagementFxml();
+        }
+        this.workerTaskManagementController.setAutoUpdate(true);
         appController.setArea(this.workerTaskManagement);
+        this.workerTaskManagementController.startListRefresher();
     }
 
     void setTaskManagementFxml() {

@@ -8,6 +8,7 @@ public class TaskDTO {
     private GeneralGraphInfoDTO generalGraphInfoDTO;
     private int totalPrice;
     private int numOfWorkers;
+    private String status;
 
     public TaskDTO(TaskOperator taskOperator){
         this.name = taskOperator.getName();
@@ -15,6 +16,7 @@ public class TaskDTO {
         this.generalGraphInfoDTO = new GeneralGraphInfoDTO(taskOperator.getOrigin());
         this.totalPrice = taskOperator.getPricePerTarget() * this.generalGraphInfoDTO.getCountTargets();
         this.numOfWorkers = taskOperator.getWorkerMap().size();
+        this.status = taskOperator.getTaskStatus().toString();
     }
 
     public TaskDTO(String name, String admin, GeneralGraphInfoDTO generalGraphInfoDTO, int totalPrice, int numOfWorkers) {
@@ -43,5 +45,9 @@ public class TaskDTO {
 
     public int getNumOfWorkers() {
         return numOfWorkers;
+    }
+
+    public String getStatus() {
+        return status;
     }
 }

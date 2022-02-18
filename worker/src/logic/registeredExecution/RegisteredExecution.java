@@ -4,12 +4,20 @@ import dtoObjects.RegisterTaskDTO;
 import newEnums.TaskStatus;
 import newEnums.TasksName;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class RegisteredExecution {
     private String name;
     private TasksName taskName;
     private int pricePerTarget;
     private int targetIPerformed;
     private TaskStatus taskStatus;
+    private int workers;
+    private int doneTargets;
+    private int totalTargets;
 
     // for simulation:
     private int targetProcessingTime;
@@ -49,6 +57,8 @@ public class RegisteredExecution {
             this.productFolder = registerTaskDTO.getProductFolder();
             this.sourceFolder = registerTaskDTO.getSourceFolder();
         }
+        this.pricePerTarget = registerTaskDTO.getPricePerTarget();
+        this.totalTargets = registerTaskDTO.getTotalTargets();
     }
 
     public int getTotalPriceFromThisExecution() {
@@ -93,6 +103,52 @@ public class RegisteredExecution {
 
     public String getProductFolder() {
         return productFolder;
+    }
+
+    public void setTaskStatus(String status){
+        if(status.equals("Done")){
+            this.taskStatus = TaskStatus.DONE;
+        }else if(status.equals("In process")){
+            this.taskStatus = TaskStatus.IN_PROCESS;
+        }else if(status.equals("Paused")) {
+            this.taskStatus = TaskStatus.PAUSED;
+        }else if(status.equals("Cancle")){
+            this.taskStatus = TaskStatus.CANCLE;
+        }else if(status.equals("Frozen")){
+            this.taskStatus = TaskStatus.FROZEN;
+        }
+    }
+
+    public int getWorkers() {
+        return workers;
+    }
+
+    public void setWorkers(int workers) {
+        this.workers = workers;
+    }
+
+    public int getDoneTargets() {
+        return doneTargets;
+    }
+
+    public void setDoneTargets(int doneTargets) {
+        this.doneTargets = doneTargets;
+    }
+
+    public int getTotalTargets() {
+        return totalTargets;
+    }
+
+    public void setTotalTargets(int totalTargets) {
+        this.totalTargets = totalTargets;
+    }
+
+    public TaskStatus getTaskStatus() {
+        return taskStatus;
+    }
+
+    public void addToDoneTargetsByMe(){
+        this.targetIPerformed++;
     }
 
 

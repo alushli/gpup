@@ -1,4 +1,4 @@
-package components.generalComponents.taskTable;
+package components.generalComponents.tasksTable;
 
 import com.google.gson.Gson;
 import dtoObjects.TaskDTO;
@@ -16,12 +16,12 @@ import java.util.List;
 import java.util.TimerTask;
 import java.util.function.Consumer;
 
-public class WorkerTaskTableRefresher extends TimerTask {
-    private Consumer<List<DashboardTaskFX>> usersListConsumer;
+public class DoneTaskTableRefresher extends TimerTask {
+    private Consumer<List<TaskFX>> usersListConsumer;
     private int requestNumber;
     private BooleanProperty shouldUpdate;
 
-    public WorkerTaskTableRefresher(BooleanProperty shouldUpdate, Consumer<List<DashboardTaskFX>> usersListConsumer) {
+    public DoneTaskTableRefresher(BooleanProperty shouldUpdate, Consumer<List<TaskFX>> usersListConsumer) {
         this.shouldUpdate = shouldUpdate;
         this.usersListConsumer = usersListConsumer;
         requestNumber = 0;
@@ -35,7 +35,7 @@ public class WorkerTaskTableRefresher extends TimerTask {
         }
 
         final int finalRequestNumber = ++requestNumber;
-        HttpClientUtil.runAsync(Constants.TASKS_LIST, new Callback() {
+        HttpClientUtil.runAsync(Constants.TASKS_LIST_DONE, new Callback() {
 
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -47,13 +47,12 @@ public class WorkerTaskTableRefresher extends TimerTask {
                 String jsonArrayOfGraphs = response.body().string();
                 Gson gson = new Gson();
                 TaskDTO[] taskDTOS = gson.fromJson(jsonArrayOfGraphs, TaskDTO[].class);
-                List<DashboardTaskFX> dashboardTaskFxes = new ArrayList<>();
+                List<TaskFX> taskFxs = new ArrayList<>();
                 for (TaskDTO taskDTO:taskDTOS){
-                    dashboardTaskFxes.add(new DashboardTaskFX(taskDTO));
+                    taskFxs.add(new TaskFX(taskDTO));
                 }
-                usersListConsumer.accept(dashboardTaskFxes);
+                usersListConsumer.accept(taskFxs);
             }
         });
     }
-
 }

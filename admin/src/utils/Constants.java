@@ -17,8 +17,12 @@ public class Constants {
     public final static String FIND_CIRCLE = FULL_SERVER_PATH + "/find-circle";
     public final static String FIND_PATHS = FULL_SERVER_PATH + "/find-paths";
     public final static String TASKS_LIST = FULL_SERVER_PATH + "/get-all-tasks";
+    public final static String TASKS_LIST_DONE = FULL_SERVER_PATH + "/get-all-done-tasks";
     public final static String CHECK_TASK_NAME = FULL_SERVER_PATH + "/check-task-name";
     public final static String CREATE_NEW_TASK = FULL_SERVER_PATH + "/create-task";
+    public final static String CREATE_COPY_TASK = FULL_SERVER_PATH + "/create-task-copy";
+    public final static String GET_TASK_INFO = FULL_SERVER_PATH + "/get-task-runtime";
+    public final static String TASK_ACTION = FULL_SERVER_PATH + "/task-action";
 
 
 }

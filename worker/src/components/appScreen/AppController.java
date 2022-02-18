@@ -3,12 +3,15 @@ package components.appScreen;
 import components.menu.WorkerMenuController;
 import components.workerEnums.AppFxmlPath;
 import components.generalComponents.workerGeneralComponent;
+import javafx.beans.property.BooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import logic.workerEngine.WorkerEngine;
+
 import java.io.IOException;
 import java.net.URL;
 
@@ -23,6 +26,13 @@ public class AppController {
     private String selectedTask;
     private boolean isSelectTask = false;
     private String userName;
+    private Integer threadsAmount;
+    private WorkerEngine workerEngine;
+
+
+    public WorkerEngine getWorkerEngine() {
+        return workerEngine;
+    }
 
     @FXML
     private BorderPane main_screen;
@@ -30,6 +40,10 @@ public class AppController {
     public AppController(){
         this.generalComponent = new workerGeneralComponent();
         this.generalComponent.setAppController(this);
+    }
+
+    public void setWorkerEngine(WorkerEngine workerEngine) {
+        this.workerEngine = workerEngine;
     }
 
     @FXML
@@ -82,6 +96,9 @@ public class AppController {
         this.userName = userName;
     }
 
+    public void setThreadsAmount(Integer threadsAmount) {
+        this.threadsAmount = threadsAmount;
+    }
 
     public void setMenu(Parent data){
         menu_area.getChildren().removeAll();

@@ -88,7 +88,7 @@
                                     <ComboBox fx:id="howToRunCB" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="150.0" HBox.hgrow="NEVER" />
                                  </children>
                               </HBox>
-                              <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="100.0" mnemonicParsing="false" onAction="#clickCreate" text="Create" VBox.vgrow="NEVER" />
+                              <Button fx:id="create_btn" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="100.0" mnemonicParsing="false" onAction="#clickCreate" text="Create" VBox.vgrow="NEVER" />
                               <Label fx:id="create_message" />
                            </children>
                         </VBox>

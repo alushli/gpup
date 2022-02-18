@@ -9,6 +9,7 @@ public class RegisterTaskDTO {
     private String taskType;
     private int pricePerTarget;
     private String taskStatus;
+    private int totalTargets;
 
     // for simulation:
     private int targetProcessingTime;
@@ -31,15 +32,16 @@ public class RegisterTaskDTO {
             this.isRandomTime = simulationTaskOperator.isRandom();
             this.successRate = simulationTaskOperator.getChanceSuccess();
             this.warningRate = simulationTaskOperator.getChanceWarning();
-            taskName = "Simulation";
+            taskType = "Simulation";
         }else{
             CompilationTaskOperator compilationTaskOperator = (CompilationTaskOperator)taskOperator;
             this.sourceFolder = compilationTaskOperator.getSourceFolder();
             this.productFolder = compilationTaskOperator.getProductFolder();
-            taskName = "Compilation";
+            taskType = "Compilation";
         }
         this.pricePerTarget = taskOperator.getPricePerTarget();
         this.taskStatus = taskOperator.getTaskStatus().toString();
+        this.totalTargets = taskOperator.getAllWithStatus().size();
     }
 
     public String getTaskName() {
@@ -90,6 +92,10 @@ public class RegisterTaskDTO {
         this.taskType = taskType;
     }
 
+    public int getTotalTargets() {
+        return totalTargets;
+    }
+
     public void setPricePerTarget(int pricePerTarget) {
         this.pricePerTarget = pricePerTarget;
     }
@@ -121,4 +127,6 @@ public class RegisterTaskDTO {
     public void setProductFolder(String productFolder) {
         this.productFolder = productFolder;
     }
+
+
 }

@@ -1,6 +1,9 @@
 package components.generalComponents.tasksTable;
 
 import components.appScreen.AppController;
+import components.generalComponents.targetsTable.TargetFX;
+import components.tasks.CreateNewTasksController;
+import components.tasks.PreTaskAdminController;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
@@ -27,6 +30,7 @@ public class TasksTableController extends components.mainControllers.Controllers
     private String selected;
     private TaskFX taskFXSelected;
     private BooleanProperty isSelected = new SimpleBooleanProperty(false);
+    private PreTaskAdminController preTaskAdminController;
 
     @FXML
     private TableView<TaskFX> table;
@@ -117,6 +121,10 @@ public class TasksTableController extends components.mainControllers.Controllers
         });
     }
 
+    public void setPreTaskAdminController(PreTaskAdminController preTaskAdminController) {
+        this.preTaskAdminController = preTaskAdminController;
+    }
+
     private void setSelectOnClick(Collection<TaskFX> tasks){
         for (TaskFX taskFX : tasks){
             CheckBox selectCheckBox = taskFX.getSelect();
@@ -126,7 +134,15 @@ public class TasksTableController extends components.mainControllers.Controllers
                     this.isSelected.set(true);
                     this.taskFXSelected = taskFX;
                     this.appController.setSelectedTask(taskFX.getName());
+                    if(this.preTaskAdminController != null) {
+                        this.preTaskAdminController.setSelectedTask(taskFX);
+                        updateSelectedForTask();
+                    }
                 }else{
+                    if(this.preTaskAdminController != null) {
+                        updateSelectedForTask();
+                        this.preTaskAdminController.setSelectedTask(null);
+                    }
                     this.selected = null;
                     this.isSelected.set(false);
                     this.taskFXSelected = null;
@@ -136,6 +152,24 @@ public class TasksTableController extends components.mainControllers.Controllers
             selectCheckBox.disableProperty().bind(isSelected.and(selectCheckBox.selectedProperty().not()) );
         }
     }
+
+    private void updateSelectedForTask(){
+        if(getCountSelectedTargets() >= 1)
+            this.preTaskAdminController.setIsOneTargetSelectFromTable(true);
+        else
+            this.preTaskAdminController.setIsOneTargetSelectFromTable(false);
+    }
+
+    private int getCountSelectedTargets(){
+        int count =0;
+        for(TaskFX taskFX: this.table.getItems()){
+            if(taskFX.getSelect().isSelected()){
+                count++;
+            }
+        }
+        return count;
+    }
+
 
     public TaskFX getTaskFXSelected() {
         return taskFXSelected;
@@ -149,6 +183,13 @@ public class TasksTableController extends components.mainControllers.Controllers
         timer.schedule(listRefresher, 1000, 1000);
     }
 
+    public void startDoneOrCancelTasksRefresher(){
+        listRefresher = new DoneTaskTableRefresher(
+                autoUpdate,
+                this::updateTaskList);
+        timer = new Timer();
+        timer.schedule(listRefresher, 1000, 1000);
+    }
 
     @Override
     public void setAppController(AppController mainControllers) {
