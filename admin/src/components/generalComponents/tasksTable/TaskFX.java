@@ -18,11 +18,13 @@ public class TaskFX {
     private int countIndependents;
     private int countRoots;
     private int countMiddles;
+    private String status;
 
     public TaskFX(TaskDTO taskDTO){
         this.name = taskDTO.getName();
         this.admin = taskDTO.getAdmin();
         this.generalGraphInfoDTO = taskDTO.getGeneralGraphInfoDTO();
+        this.status = taskDTO.getStatus();
 
         this.graphName = generalGraphInfoDTO.getName();
         this.countTargets = generalGraphInfoDTO.getCountTargets();
@@ -90,5 +92,13 @@ public class TaskFX {
 
     public int getCountMiddles() {
         return countMiddles;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status){
+        this.status = status;
     }
 }

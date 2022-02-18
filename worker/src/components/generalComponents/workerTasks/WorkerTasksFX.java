@@ -1,6 +1,8 @@
 package components.generalComponents.workerTasks;
 
+import dtoObjects.WorkerTaskDTO;
 import javafx.scene.control.CheckBox;
+import logic.registeredExecution.RegisteredExecution;
 
 public class WorkerTasksFX {
     private String name;
@@ -10,7 +12,23 @@ public class WorkerTasksFX {
     private Integer byMe;
     private Integer credit;
     private CheckBox activeSelect;
-    private CheckBox unsubscribeSelect;
+    private String status;
+    private int totalTargets;
+
+    public WorkerTasksFX(RegisteredExecution registeredExecution){
+        this.name = registeredExecution.getName();
+        this.workers = registeredExecution.getWorkers();
+        this.doneTargets = registeredExecution.getDoneTargets();
+        this.byMe = registeredExecution.getTargetIPerformed();
+        this.credit = byMe * registeredExecution.getPricePerTarget();
+        this.activeSelect = new CheckBox();
+        this.status = registeredExecution.getTaskStatus().toString();
+        this.totalTargets = registeredExecution.getTotalTargets();
+    }
+
+    public int getTotalTargets() {
+        return totalTargets;
+    }
 
     public String getName() {
         return name;
@@ -40,9 +58,6 @@ public class WorkerTasksFX {
         return activeSelect;
     }
 
-    public CheckBox getUnsubscribeSelect() {
-        return unsubscribeSelect;
-    }
 
     public WorkerTasksFX(String name, Integer workers, Integer targets,
                          Integer doneTargets, Integer byMe, Integer credit)  {
@@ -53,7 +68,6 @@ public class WorkerTasksFX {
         this.byMe = byMe;
         this.credit = credit;
         this.activeSelect = new CheckBox();
-        this.unsubscribeSelect = new CheckBox();
     }
 
     public WorkerTasksFX(WorkerTasksFX other){
@@ -65,7 +79,19 @@ public class WorkerTasksFX {
         this.credit = other.credit;
         this.activeSelect = new CheckBox();
         this.activeSelect.setSelected(true);
-        this.unsubscribeSelect = new CheckBox();
-        this.unsubscribeSelect.setSelected(true);
     }
+
+    public Integer getTargets() {
+        return targets;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+
 }

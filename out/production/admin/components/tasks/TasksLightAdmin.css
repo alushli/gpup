@@ -34,6 +34,11 @@
     -fx-text-fill: #F5FAFF;
 }
 
+.tasks_btn_red{
+    -fx-background-color: red;
+    -fx-text-fill: #F5FAFF;
+}
+
 #progress_bar .bar{
     -fx-background-color: #008AFF;
 }

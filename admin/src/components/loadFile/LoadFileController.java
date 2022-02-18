@@ -31,21 +31,6 @@ public class LoadFileController extends components.mainControllers.Controllers{
     @FXML
     private Label file_path_label;
 
-    @FXML
-    private GridPane what_next_area;
-
-    @FXML
-    private Button show_target_info_label;
-
-    @FXML
-    private Button show_graph_info_label;
-
-    @FXML
-    private Button find_path_label;
-
-    @FXML
-    private Button find_circle_label;
-
     public void checkTaskRun(){
 //        if(this.appController.getEngineManager().isTaskRun() == true)
 //            this.load_btn.setDisable(true);
@@ -53,66 +38,12 @@ public class LoadFileController extends components.mainControllers.Controllers{
 //            this.load_btn.setDisable(false);
     }
 
-    @FXML
-    void clickActions(ActionEvent event) {
-        setVisibleButtons();
-        this.find_path_label.setVisible(true);
-        this.find_circle_label.setVisible(true);
-        this.appController.getMenuComponentController().clickAction(event);
-    }
 
-    @FXML
-    void clickGeneralInfo(ActionEvent event) {
-        setVisibleButtons();
-        this.show_graph_info_label.setVisible(true);
-        this.show_target_info_label.setVisible(true);
-        this.appController.getMenuComponentController().clickGeneralInfo(event);
-    }
-
-    @FXML
-    void clickTasks(ActionEvent event) {
-        setVisibleButtons();
-        this.appController.setMainMenu();
-        this.appController.getMenuComponentController().clickTasks(event);
-
-    }
-
-    private void setVisibleButtons(){
-        this.show_graph_info_label.setVisible(false);
-        this.show_target_info_label.setVisible(false);
-        this.find_path_label.setVisible(false);
-        this.find_circle_label.setVisible(false);
-    }
-
-    @FXML
-    void clickFindCircle(ActionEvent event) {
-        this.appController.getMenuComponentController().getActionController().setShowCirclesControllers();
-        setVisibleButtons();
-    }
-
-    @FXML
-    void clickFindPath(ActionEvent event) {
-        this.appController.getMenuComponentController().getActionController().setShowPathsControllers();
-        setVisibleButtons();
-    }
-
-    @FXML
-    void clickTargetInfo(ActionEvent event) {
-        this.appController.getMenuComponentController().getGeneralInfoController().setTargetInfoControllers();
-        setVisibleButtons();
-    }
-
-    @FXML
-    void clickGraphInfo(ActionEvent event) {
-        this.appController.getMenuComponentController().getGeneralInfoController().setGraphInfoControllers();
-        setVisibleButtons();
-    }
 
     @FXML
     void clickLoadFile(ActionEvent event) {
         String RESOURCE = "/upload-file";
         try {
-            setVisibleButtons();
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Select xml file");
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("xml files", "*.xml"));
@@ -156,7 +87,6 @@ public class LoadFileController extends components.mainControllers.Controllers{
 
     void successLoad(){
         //this.appController.setLoadFile(true);
-        what_next_area.setDisable(false);
         load_message_ta.setText("The xml was uploaded successfully");
         load_message_ta.getStyleClass().remove("failed_message");
         load_message_ta.getStyleClass().add("successes_message");

@@ -71,5 +71,7 @@ public class DashboardController extends components.workerMainControllers.worker
         }
     }
 
-
+    public WorkerTasksTableController getWorkerTasksTableController() {
+        return workerTasksTableController;
+    }
 }

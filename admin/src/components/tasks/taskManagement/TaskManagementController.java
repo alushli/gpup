@@ -44,6 +44,55 @@ public class TaskManagementController extends components.mainControllers.Control
         if(this.tasksTableController.getTaskFXSelected() != null){
             this.taskManagementDetailsController.setScreenStaticDetails(this.tasksTableController.getTaskFXSelected().getGraphName() ,this.tasksTableController.getTaskFXSelected().getName());
             this.taskManagementDetailsController.setTables();
+            this.taskManagementDetailsController.setTaskName(this.tasksTableController.getTaskFXSelected().getName());
+            String curAdmin = this.appController.getUserName();
+            String creator = this.tasksTableController.getTaskFXSelected().getAdmin();
+            if(!curAdmin.equals(creator)){
+                this.taskManagementDetailsController.setAllButtonsDisable();
+            }else{
+                this.taskManagementDetailsController.taskStatusProperty().addListener((a,b,c)->{
+                    if(taskManagementDetailsController.getTaskStatus().equalsIgnoreCase("frozen")){
+                        taskManagementDetailsController.getPause_btn().setDisable(true);
+                        taskManagementDetailsController.getStart_btn().setDisable(false);
+                        taskManagementDetailsController.getResume_btn().setDisable(true);
+                    }else if(taskManagementDetailsController.getTaskStatus().equalsIgnoreCase("in process")){
+                        taskManagementDetailsController.getPause_btn().setDisable(false);
+                        taskManagementDetailsController.getStart_btn().setDisable(true);
+                        taskManagementDetailsController.getResume_btn().setDisable(true);
+                    }else if(taskManagementDetailsController.getTaskStatus().equalsIgnoreCase("pause")){
+                        taskManagementDetailsController.getPause_btn().setDisable(true);
+                        taskManagementDetailsController.getStart_btn().setDisable(true);
+                        taskManagementDetailsController.getResume_btn().setDisable(false);
+                    }else if(taskManagementDetailsController.getTaskStatus().equalsIgnoreCase("done")){
+                        taskManagementDetailsController.getPause_btn().setDisable(true);
+                        taskManagementDetailsController.getStart_btn().setDisable(true);
+                        taskManagementDetailsController.getResume_btn().setDisable(true);
+                    }
+                });
+                setButtons();
+            }
+
+            this.taskManagementDetailsController.startListRefresher();
+        }
+    }
+
+    private void setButtons(){
+        if(this.tasksTableController.getTaskFXSelected().getStatus().equalsIgnoreCase("frozen")){
+            taskManagementDetailsController.getPause_btn().setDisable(true);
+            taskManagementDetailsController.getStart_btn().setDisable(false);
+            taskManagementDetailsController.getResume_btn().setDisable(true);
+        }else if(this.tasksTableController.getTaskFXSelected().getStatus().equalsIgnoreCase("done")){
+            this.taskManagementDetailsController.setAllButtonsDisable();
+        }else if(this.tasksTableController.getTaskFXSelected().getStatus().equalsIgnoreCase("in process")){
+            taskManagementDetailsController.getPause_btn().setDisable(false);
+            taskManagementDetailsController.getStart_btn().setDisable(true);
+            taskManagementDetailsController.getResume_btn().setDisable(true);
+        }else if(this.tasksTableController.getTaskFXSelected().getStatus().equalsIgnoreCase("paused") || this.tasksTableController.getTaskFXSelected().getStatus().equalsIgnoreCase("pause")){
+            taskManagementDetailsController.getPause_btn().setDisable(true);
+            taskManagementDetailsController.getStart_btn().setDisable(true);
+            taskManagementDetailsController.getResume_btn().setDisable(false);
+        }else{
+            this.taskManagementDetailsController.setAllButtonsDisable();
         }
     }
 
@@ -60,6 +109,7 @@ public class TaskManagementController extends components.mainControllers.Control
             this.taskManagementDetailsController= fxmlLoader.getController();
             this.taskManagementDetailsController.setAppController(this.appController);
             this.taskManagementDetailsController.setMainController(this);
+            this.taskManagementDetailsController.setTaskTableController(this.tasksTableController);
         } catch (IOException e) {
             e.printStackTrace();
         }

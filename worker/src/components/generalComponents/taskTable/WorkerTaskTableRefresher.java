@@ -17,11 +17,11 @@ import java.util.TimerTask;
 import java.util.function.Consumer;
 
 public class WorkerTaskTableRefresher extends TimerTask {
-    private Consumer<List<WorkerTaskFX>> usersListConsumer;
+    private Consumer<List<DashboardTaskFX>> usersListConsumer;
     private int requestNumber;
     private BooleanProperty shouldUpdate;
 
-    public WorkerTaskTableRefresher(BooleanProperty shouldUpdate, Consumer<List<WorkerTaskFX>> usersListConsumer) {
+    public WorkerTaskTableRefresher(BooleanProperty shouldUpdate, Consumer<List<DashboardTaskFX>> usersListConsumer) {
         this.shouldUpdate = shouldUpdate;
         this.usersListConsumer = usersListConsumer;
         requestNumber = 0;
@@ -47,11 +47,11 @@ public class WorkerTaskTableRefresher extends TimerTask {
                 String jsonArrayOfGraphs = response.body().string();
                 Gson gson = new Gson();
                 TaskDTO[] taskDTOS = gson.fromJson(jsonArrayOfGraphs, TaskDTO[].class);
-                List<WorkerTaskFX> workerTaskFxes = new ArrayList<>();
+                List<DashboardTaskFX> dashboardTaskFxes = new ArrayList<>();
                 for (TaskDTO taskDTO:taskDTOS){
-                    workerTaskFxes.add(new WorkerTaskFX(taskDTO));
+                    dashboardTaskFxes.add(new DashboardTaskFX(taskDTO));
                 }
-                usersListConsumer.accept(workerTaskFxes);
+                usersListConsumer.accept(dashboardTaskFxes);
             }
         });
     }

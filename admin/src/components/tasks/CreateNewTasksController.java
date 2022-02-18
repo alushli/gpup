@@ -190,7 +190,9 @@ public class CreateNewTasksController extends components.mainControllers.Control
             try{
                 Response response = call.execute();
                 if(response.code() != 200){
-                    System.out.println("something went wrong...");
+                    this.selectTaskScreenController.getSave_error_label().setText("something went wrong...");
+                }else{
+                    this.appController.getMenuComponentController().getTaskController().setTasksManagementControllers();
                 }
             }catch (Exception e){
                 e.printStackTrace();

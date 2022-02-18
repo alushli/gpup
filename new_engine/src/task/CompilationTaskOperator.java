@@ -33,6 +33,7 @@ public class CompilationTaskOperator extends TaskOperator{
         }
         this.productFolder = productFolder;
         this.sourceFolder = sourceFolder;
+        this.taskStatus = TaskStatus.FROZEN;
     }
 
     public String getSourceFolder() {
@@ -49,11 +50,11 @@ public class CompilationTaskOperator extends TaskOperator{
         this.workGraph = new Graph(origin);
         this.admin = admin;
         this.workerMap = new HashMap<>();
-        if(compilationTaskDetails.getTaskType() == "compilation"){
-            this.pricePerTarget = origin.getPricePerTargetCompilation() * origin.getGraphMap().size();
+        if(compilationTaskDetails.getTaskType().equalsIgnoreCase("compilation")){
+            this.pricePerTarget = origin.getPricePerTargetCompilation();
             this.tasksName = TasksName.COMPILATION;
         }else{
-            this.pricePerTarget = origin.getPricePerTargetSimulation() * origin.getGraphMap().size();
+            this.pricePerTarget = origin.getPricePerTargetSimulation();
             this.tasksName = TasksName.SIMULATION;
         }
         this.success = new HashMap<>();
@@ -64,12 +65,51 @@ public class CompilationTaskOperator extends TaskOperator{
         this.targetStatusMap = new HashMap<>();
         for (Target target : origin.getGraphMap().keySet()){
             targetStatusMap.put(target.getName(), TargetAllStatuses.FROZEN);
+            frozen.put(target.getName(), target);
         }
         this.productFolder = compilationTaskDetails.getProductFolder();
         this.sourceFolder = compilationTaskDetails.getSourceFolder();
         taskStatus = TaskStatus.FROZEN;
         this.numOfTargetForFinish = workGraph.getGraphMap().size();
+        try{
+            this.path =  createFolder(tasksName, "c:\\gpup-working-dir");
+        }catch (Exception e){
+            System.out.println("Error in open folder!!!");
+        }
     }
 
-
+    //copy constructor
+    public CompilationTaskOperator(CompilationTaskOperator other, String admin, boolean fromScratch){
+        other.upCopy();
+        this.name = other.name + String.valueOf(other.getNumOfCopyTasks());
+        if(fromScratch){
+            this.origin = new Graph(other.origin);
+            this.workGraph = new Graph(origin);
+        }else{
+            this.origin = new Graph(other.getAllSkipAndFail(), other.origin);
+            this.workGraph = new Graph(origin);
+        }
+        this.tasksName = other.tasksName;
+        this.admin = admin;
+        this.workerMap = new HashMap<>();
+        this.pricePerTarget = other.pricePerTarget;
+        this.success = new HashMap<>();
+        this.failed = new HashMap<>();
+        this.waiting = new HashMap<>();
+        this.skipped = new HashMap<>();
+        this.frozen = new HashMap<>();
+        this.targetStatusMap = new HashMap<>();
+        for (Target target : origin.getGraphMap().keySet()){
+            targetStatusMap.put(target.getName(), TargetAllStatuses.FROZEN);
+        }
+        this.productFolder = other.getProductFolder();
+        this.sourceFolder = other.getSourceFolder();
+        taskStatus = TaskStatus.FROZEN;
+        this.numOfTargetForFinish = workGraph.getGraphMap().size();
+        try{
+            this.path =  createFolder(tasksName, "c:\\gpup-working-dir");
+        }catch (Exception e){
+            System.out.println("Error in open folder!!!");
+        }
+    }
 }

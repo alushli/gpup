@@ -7,7 +7,7 @@ import java.io.IOException;
 public class HttpClientUtil {
 //    private final static OkHttpClient HTTP_CLIENT = new OkHttpClient();
     private final static CookieManager cookieManager = new CookieManager();
-    private final static OkHttpClient HTTP_CLIENT =
+    public final static OkHttpClient HTTP_CLIENT =
             new OkHttpClient.Builder()
                     .cookieJar(cookieManager)
                     .followRedirects(false)

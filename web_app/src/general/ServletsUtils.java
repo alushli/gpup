@@ -15,6 +15,8 @@ public class ServletsUtils {
                 if(servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME) == null){
                     servletContext.setAttribute(USER_MANAGER_ATTRIBUTE_NAME, new UsersManager());
                     servletContext.setAttribute("Engine", new EngineManager());
+                    EngineManager engineManager =(EngineManager) servletContext.getAttribute("Engine");
+                    engineManager.createGpupFolder();
                 }
             }
             return (UsersManager)servletContext.getAttribute(USER_MANAGER_ATTRIBUTE_NAME);

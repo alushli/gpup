@@ -21,6 +21,8 @@ public class NewSimulationTaskDetails {
         this.chanceWarning = chanceWarning;
     }
 
+
+
     public String getTaskName() {
         return taskName;
     }

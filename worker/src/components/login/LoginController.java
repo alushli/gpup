@@ -14,6 +14,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import logic.workerEngine.WorkerEngine;
 import okhttp3.HttpUrl;
 import okhttp3.Response;
 import utils.Constants;
@@ -101,6 +102,8 @@ public class LoginController {
             Parent rootContainer = fxmlLoader.load(url.openStream());
             AppController appController = fxmlLoader.getController();
             appController.setUserName(this.userName.getText());
+            appController.setThreadsAmount(amountOfThreads.getValue());
+            appController.setWorkerEngine(new WorkerEngine(this.userName.getText(),amountOfThreads.getValue()));
             appController.setMenu();
             appController.setPrimaryStage(primaryStage);
             Stage appWindow;

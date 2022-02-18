@@ -1,4 +1,4 @@
-package components.generalComponents.taskTargetTable;
+package dtoObjects;
 
 public class TargetRunFX {
     private String name;
@@ -28,7 +28,7 @@ public class TargetRunFX {
     }
 
     public TargetRunFX(String name, String position, String worker,
-                    String runStatus, String finishStatus)  {
+                       String runStatus, String finishStatus)  {
         this.name = name;
         this.position = position;
         this.worker = worker;

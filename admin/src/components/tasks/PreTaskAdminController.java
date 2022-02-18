@@ -4,7 +4,9 @@ import components.actions.ActionsController;
 import components.adminEnums.AppFxmlPath;
 import components.appScreen.AppController;
 import components.generalComponents.graphsTable.GraphTableController;
+import components.generalComponents.tasksTable.TaskFX;
 import components.generalComponents.tasksTable.TasksTableController;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
@@ -16,8 +18,11 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.HttpUrl;
 import okhttp3.Response;
+import org.jetbrains.annotations.NotNull;
 import utils.Constants;
 import utils.HttpClientUtil;
 
@@ -29,12 +34,14 @@ public class PreTaskAdminController extends components.mainControllers.Controlle
     private BooleanProperty isNew;
     private BooleanProperty canNext;
     private BooleanProperty isTextField;
+    private BooleanProperty existTaskSelected;
     private static CreateNewTasksController tasksComponentController = null;
     private static Parent tasksParent;
     private GraphTableController graphTableController;
     private Parent graphTableParent;
     private TasksTableController tasksTableController;
     private Parent tasksTableParent;
+    private TaskFX selectedTask;
 
     @FXML
     private StackPane fall_screen_SP;
@@ -73,8 +80,12 @@ public class PreTaskAdminController extends components.mainControllers.Controlle
     private ComboBox<String> howToRunCB;
 
     @FXML
+    private Button create_btn;
+
+    @FXML
     public void initialize() {
         isNew = new SimpleBooleanProperty(true);
+        existTaskSelected = new SimpleBooleanProperty(false);
         isTextField = new SimpleBooleanProperty(false);
         canNext = new SimpleBooleanProperty(false);
         select_CB.getItems().addAll("New Task", "Exist Task");
@@ -97,8 +108,8 @@ public class PreTaskAdminController extends components.mainControllers.Controlle
                 this.isTextField.set(true);
             }
         });
-
         this.next_btn.disableProperty().bind(canNext.not());
+        this.create_btn.disableProperty().bind(existTaskSelected.not());
     }
 
     public TextField getNew_task_name_TA() {
@@ -139,7 +150,8 @@ public class PreTaskAdminController extends components.mainControllers.Controlle
             this.appController.setArea(this.task_table_SP ,tasksTableParent);
             this.tasksTableController.getTable().prefHeightProperty().bind(this.task_table_SP.heightProperty().multiply(0.925));
             this.tasksTableController.getTable().prefWidthProperty().bind(this.task_table_SP.widthProperty().multiply(0.925));
-            this.tasksTableController.startListRefresher();
+            this.tasksTableController.startDoneOrCancelTasksRefresher();
+            this.tasksTableController.setPreTaskAdminController(this);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -175,10 +187,41 @@ public class PreTaskAdminController extends components.mainControllers.Controlle
         }
     }
 
+    public void setIsOneTargetSelectFromTable(boolean select){
+        this.existTaskSelected.set(select);
+    }
 
+    public void setSelectedTask(TaskFX selectedTask) {
+        this.selectedTask = selectedTask;
+    }
 
     @FXML
     void clickCreate(ActionEvent event) {
+        String finalUrl = HttpUrl.parse(Constants.CREATE_COPY_TASK).newBuilder().
+                addQueryParameter("taskName", this.selectedTask.getName()).addQueryParameter("runType", this.howToRunCB.getValue())
+                .build().
+                toString();
+
+        HttpClientUtil.runAsync(finalUrl, new Callback() {
+
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Platform.runLater(()-> {
+                    create_message.setText("Something went wrong. Try again.");
+                });
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                Platform.runLater(()->{
+                    if(response.code()==200){
+                        appController.getMenuComponentController().getTaskController().setTasksManagementControllers();
+                    }else{
+                        create_message.setText("Something went wrong. Try again.");
+                    }
+                });
+            }
+        });
     }
 
     void setNewTasksFxml() {

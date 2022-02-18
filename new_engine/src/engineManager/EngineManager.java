@@ -1,7 +1,10 @@
 package engineManager;
 
+import User.Worker;
 import XmlUtils.XmlUtils;
 import dtoObjects.*;
+import newEnums.TargetAllStatuses;
+import newEnums.TaskStatus;
 import newEnums.TasksName;
 import newExceptions.XmlException;
 import graph.Graph;
@@ -11,7 +14,11 @@ import task.CompilationTaskOperator;
 import task.SimulationTaskOperator;
 import task.TaskOperator;
 
+import java.io.File;
 import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class EngineManager {
@@ -32,6 +39,10 @@ public class EngineManager {
             return graphMap.get(name);
         else
             return null;
+    }
+
+    public synchronized TaskOperator getTaskByName(String taskName){
+        return this.taskOperatorMap.get(taskName);
     }
 
     /* the function load the graph */
@@ -268,21 +279,108 @@ public class EngineManager {
         return taskDTOS;
     }
 
-    public synchronized void duplicateList(String name, String admin){
-        TaskOperator taskOperator = this.taskOperatorMap.get(name);
-        if(taskOperator instanceof CompilationTaskOperator){
-            //copy constructor compilation
-            CompilationTaskOperator compilationTaskOperator = (CompilationTaskOperator)taskOperator;
-
-        }else{
-            //copy constructor simulation
-            SimulationTaskOperator simulationTaskOperator = (SimulationTaskOperator) taskOperator;
-
+    public synchronized List<TaskDTO> getAllDoneOrCancelTasks(){
+        List<TaskDTO> taskDTOS = new ArrayList<>();
+        for (String name : this.taskOperatorMap.keySet()){
+            if(this.taskOperatorMap.get(name).getTaskStatus().equals(TaskStatus.DONE)){
+                taskDTOS.add(new TaskDTO(this.taskOperatorMap.get(name)));
+            }
         }
+        return taskDTOS;
     }
 
     public synchronized boolean isTaskExist(String taskName){
         return this.taskOperatorMap.containsKey(taskName);
     }
 
+    public synchronized void subscribeUser(Worker worker, String taskName){
+        TaskOperator taskOperator=  this.taskOperatorMap.get(taskName);
+        if(taskOperator != null){
+            taskOperator.addWorker(worker);
+            worker.addToTasks(taskOperator);
+        }
+    }
+    public synchronized void unsubscribeUser(Worker worker, String taskName){
+        TaskOperator taskOperator=  this.taskOperatorMap.get(taskName);
+        if(taskOperator != null){
+            taskOperator.removeWorker(worker);
+            worker.removeTask(taskOperator);
+        }
+    }
+
+    public synchronized void pauseTask(Worker worker, String taskName){
+        TaskOperator taskOperator=  this.taskOperatorMap.get(taskName);
+        if(taskOperator != null){
+            worker.makePause(taskOperator);
+        }
+    }
+
+    public synchronized void resumeTask(Worker worker, String taskName){
+        TaskOperator taskOperator=  this.taskOperatorMap.get(taskName);
+        if(taskOperator != null){
+            worker.makeStart(taskOperator);
+        }
+    }
+
+    public synchronized void taskAction(String taskName, String action){
+        TaskOperator taskOperator = this.taskOperatorMap.get(taskName);
+        if(taskOperator != null){
+            if(action.equals("start")){
+                taskOperator.setStart();
+            }else if(action.equals("pause")){
+                taskOperator.setPaused();
+            }else if(action.equals("cancel")){
+                taskOperator.setCancel();
+            }else if(action.equals("resume")){
+                taskOperator.setResume();
+            }
+        }
+    }
+
+    public synchronized TaskRuntimeForAdmin getTaskForAdmin(String taskName){
+        if(this.taskOperatorMap.containsKey(taskName)){
+            return new TaskRuntimeForAdmin(this.taskOperatorMap.get(taskName));
+        }
+        else{
+            return null;
+        }
+    }
+
+    public void updateTarget(TargetUpdate targetUpdate, String worker){
+        TaskOperator taskOperator;
+        synchronized (this){
+            taskOperator = this.taskOperatorMap.get(targetUpdate.getTaskName());
+        }
+        if(taskOperator != null){
+            String targetStatus = targetUpdate.getStatus();
+            if(targetStatus.equalsIgnoreCase("warning")){
+                taskOperator.handleTargetFinish(targetUpdate.getTargetName(), TargetAllStatuses.WARNING);
+            }else if(targetStatus.equalsIgnoreCase("success")){
+                taskOperator.handleTargetFinish(targetUpdate.getTargetName(), TargetAllStatuses.SUCCESS);
+            }else{
+                taskOperator.handleTargetFinish(targetUpdate.getTargetName(), TargetAllStatuses.FAILED);
+            }
+            taskOperator.updateTargetWorker(targetUpdate.getTargetName(), worker);
+        }
+        taskOperator.createAndWriteToFile(targetUpdate.getLogs(), targetUpdate.getTargetName());
+    }
+
+    public void createGpupFolder() {
+        Path path = Paths.get("c:\\gpup-working-dir");
+        File folder = new File(path.toUri());
+        folder.mkdir();
+    }
+
+    public synchronized void duplicateList(String name, String admin, boolean fromScratch){
+        TaskOperator taskOperator = this.taskOperatorMap.get(name);
+        if(taskOperator instanceof CompilationTaskOperator){
+            CompilationTaskOperator compilationTaskOperator = (CompilationTaskOperator)taskOperator;
+            CompilationTaskOperator newCompilationTaskOperator = new CompilationTaskOperator(compilationTaskOperator, admin, fromScratch);
+            this.taskOperatorMap.put(newCompilationTaskOperator.getName(), newCompilationTaskOperator);
+        }else{
+            SimulationTaskOperator simulationTaskOperator = (SimulationTaskOperator) taskOperator;
+            SimulationTaskOperator simulationTaskOperator1 = new SimulationTaskOperator(simulationTaskOperator, admin, fromScratch);
+            this.taskOperatorMap.put(simulationTaskOperator1.getName(), simulationTaskOperator1);
+        }
+    }
 }
