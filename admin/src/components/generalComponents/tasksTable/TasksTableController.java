@@ -31,6 +31,7 @@ public class TasksTableController extends components.mainControllers.Controllers
     private TaskFX taskFXSelected;
     private BooleanProperty isSelected = new SimpleBooleanProperty(false);
     private PreTaskAdminController preTaskAdminController;
+    private BooleanProperty canSelect;
 
     @FXML
     private TableView<TaskFX> table;
@@ -81,8 +82,13 @@ public class TasksTableController extends components.mainControllers.Controllers
         return isSelected;
     }
 
+    public void setCanSelect(boolean canSelect) {
+        this.canSelect.set(canSelect);
+    }
+
     @FXML
     public void initialize(){
+        this.canSelect = new SimpleBooleanProperty(true);
         this.nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         this.createdByCol.setCellValueFactory(new PropertyValueFactory<>("admin"));
         this.graphNameCol.setCellValueFactory(new PropertyValueFactory<>("graphName"));
@@ -128,28 +134,33 @@ public class TasksTableController extends components.mainControllers.Controllers
     private void setSelectOnClick(Collection<TaskFX> tasks){
         for (TaskFX taskFX : tasks){
             CheckBox selectCheckBox = taskFX.getSelect();
-            selectCheckBox.selectedProperty().addListener((a,b,c)->{
-                if(selectCheckBox.isSelected()){
-                    this.selected = taskFX.getName();
-                    this.isSelected.set(true);
-                    this.taskFXSelected = taskFX;
-                    this.appController.setSelectedTask(taskFX.getName());
-                    if(this.preTaskAdminController != null) {
-                        this.preTaskAdminController.setSelectedTask(taskFX);
-                        updateSelectedForTask();
+            if(this.canSelect.getValue() == false){
+                selectCheckBox.disableProperty().set(true);
+            }else{
+                selectCheckBox.selectedProperty().addListener((a,b,c)->{
+                    if(selectCheckBox.isSelected()){
+                        this.selected = taskFX.getName();
+                        this.isSelected.set(true);
+                        this.taskFXSelected = taskFX;
+                        this.appController.setSelectedTask(taskFX.getName());
+                        if(this.preTaskAdminController != null) {
+                            this.preTaskAdminController.setSelectedTask(taskFX);
+                            updateSelectedForTask();
+                        }
+                    }else{
+                        if(this.preTaskAdminController != null) {
+                            updateSelectedForTask();
+                            this.preTaskAdminController.setSelectedTask(null);
+                        }
+                        this.selected = null;
+                        this.isSelected.set(false);
+                        this.taskFXSelected = null;
+                        this.appController.setSelectTask(false);
                     }
-                }else{
-                    if(this.preTaskAdminController != null) {
-                        updateSelectedForTask();
-                        this.preTaskAdminController.setSelectedTask(null);
-                    }
-                    this.selected = null;
-                    this.isSelected.set(false);
-                    this.taskFXSelected = null;
-                    this.appController.setSelectTask(false);
-                }
-            });
-            selectCheckBox.disableProperty().bind(isSelected.and(selectCheckBox.selectedProperty().not()) );
+                });
+                selectCheckBox.disableProperty().bind(isSelected.and(selectCheckBox.selectedProperty().not()) );
+            }
+
         }
     }
 

@@ -68,7 +68,6 @@ public class CreateNewTasksController extends components.mainControllers.Control
     @FXML
     void clickDeselectAll(ActionEvent event) {
         this.targetsTableController.deselectAll();
-        this.targetsTableController.setWhatIfHappened(false);
     }
 
     public void setGraphName(String graphName) {
@@ -231,7 +230,6 @@ public class CreateNewTasksController extends components.mainControllers.Control
             selectTargetController.getFall_screen_SP().prefHeightProperty().bind(this.data_area.heightProperty().multiply(0.99));
             if(!firstTime){
                 this.targetsTableController.setSelectedTargets(this.selectedTargets);
-               this.selectTargetController.getWhat_if_CB().setSelected(this.isWhatIf);
             }
         } catch (Exception e){
             System.out.println("Error in setPageScreen() - showPathController");

@@ -24,7 +24,6 @@ public class TargetsTableController extends GeneralComponent {
     private ArrayList<TargetFX> curSelected;
     private IntegerProperty selectedCounter;
     private BooleanProperty isMaxSelected;
-    private boolean isWhatIfHappened = false;
     private CreateNewTasksController createNewTasksController;
 
     @FXML
@@ -132,8 +131,6 @@ public class TargetsTableController extends GeneralComponent {
                     if(this.createNewTasksController != null) {
                         this.createNewTasksController.getSelectedTargets().add(targetFX);
                         updateSelectedForTask();
-                        if (this.createNewTasksController.isWhatIf() && !this.isWhatIfHappened)
-                            setWhatIf(targetFX);
                     }
                 }else{
                     if(this.createNewTasksController != null) {
@@ -150,21 +147,6 @@ public class TargetsTableController extends GeneralComponent {
             });
             selectCheckBox.disableProperty().bind(isMaxSelected.and(selectCheckBox.selectedProperty().not()) );
         }
-    }
-
-    private void setWhatIf(TargetFX targetFXDTO){
-        String direction = this.createNewTasksController.getWhatIfDirection();
-        Set<String> list;
-        if(direction.equals("dependsOn"))
-            list = targetFXDTO.getTotalDependsOnString();
-        else
-            list = targetFXDTO.getTotalRequiredForString();
-        for(TargetFX target: this.table.getItems()){
-            if(list.contains(target.getName())){
-                target.getSelect().setSelected(true);
-            }
-        }
-        this.isWhatIfHappened = true;
     }
 
     private void updateSelectedForTask(){
@@ -193,21 +175,6 @@ public class TargetsTableController extends GeneralComponent {
         return count;
     }
 
-//    private void setWhatIf(TargetFXDTO targetFXDTO){
-//        String direction = this.tasksController.getWhatIfDirection();
-//        Set<String> list;
-//        if(direction.equals("dependsOn"))
-//            list = targetFXDTO.getTotalDependsOnString();
-//        else
-//            list = targetFXDTO.getTotalRequiredForString();
-//        for(TargetFXDTO target: this.table.getItems()){
-//            if(list.contains(target.getName())){
-//                target.getSelect().setSelected(true);
-//            }
-//        }
-//        this.isWhatIfHappened = true;
-//    }
-
     public void SelectAll(){
         for(TargetFX targetFX: this.table.getItems()){
             if(!targetFX.getSelect().isSelected()){
@@ -224,10 +191,6 @@ public class TargetsTableController extends GeneralComponent {
     public void setSelectedTargets(ArrayList<TargetFX> arrayList){
         for(TargetFX targetFXDTO: arrayList)
             targetFXDTO.getSelect().setSelected(true);
-    }
-
-    public void setWhatIfHappened(boolean whatIfHappened) {
-        isWhatIfHappened = whatIfHappened;
     }
 
     public int getCountTargets(){
