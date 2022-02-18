@@ -2,6 +2,7 @@ package components.appScreen;
 
 import com.google.gson.Gson;
 import components.adminEnums.AppFxmlPath;
+import components.generalComponents.graphsTable.GraphFx;
 import components.generalComponents.targetsTable.TargetFX;
 import components.menu.MenuController;
 import components.generalComponents.GeneralComponent;
@@ -42,6 +43,7 @@ public class AppController {
     private GeneralComponent generalComponent;
     private BooleanProperty isAnimation;
     private String graphName;
+    private GraphFx graphFxSelected;
     private boolean isLoaded;
     private TargetDTO[] targetDTOS;
     private String selectedTask;
@@ -55,6 +57,14 @@ public class AppController {
 
     public void setSelectTask(boolean selectTask) {
         isSelectTask = selectTask;
+    }
+
+    public void setGraphFxSelected(GraphFx graphFxSelected) {
+        this.graphFxSelected = graphFxSelected;
+    }
+
+    public GraphFx getGraphFxSelected() {
+        return graphFxSelected;
     }
 
     public String getSelectedTask() {
