@@ -256,7 +256,19 @@ public class EngineManager {
     public synchronized List<GraphDTO> getAllGraphs(){
         List<GraphDTO> graphDTOS = new ArrayList<>();
         for (String name : this.graphMap.keySet()){
-            graphDTOS.add(new GraphDTO(name, 0,0));
+            boolean canSimulation;
+            boolean canCompilation;
+            if(this.graphMap.get(name).getPricePerTargetCompilation() == -1){
+                canCompilation = false;
+            }else{
+                canCompilation = true;
+            }
+            if(this.graphMap.get(name).getPricePerTargetSimulation() == -1){
+                canSimulation = false;
+            }else{
+                canSimulation = true;
+            }
+            graphDTOS.add(new GraphDTO(name, 0,0, canCompilation, canSimulation));
         }
         return graphDTOS;
     }
