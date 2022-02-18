@@ -51,7 +51,7 @@ public abstract class GeneralJob implements Runnable {
         try{
             Response response = call.execute();
             if(response.code() == 200){
-                System.out.println("Target update!");
+                //System.out.println("Target update!");
             }else{
                 System.out.println("Target did not update!");
             }
