@@ -19,8 +19,10 @@ public class TasksAdminController extends components.mainControllers.Controllers
     public void setCreateNewTaskControllers() {
         if(preTaskAdminController == null) {
             setCreateNewTaskFxml();
+            this.setPreTaskScreen();
         }
-        this.setPreTaskScreen();
+        this.appController.setArea(getCreateNewTasksParent());
+        this.preTaskAdminController.getNew_task_name_TA().setText("");
     }
 
     public static Parent getCreateNewTasksParent() {
@@ -28,8 +30,6 @@ public class TasksAdminController extends components.mainControllers.Controllers
     }
 
     public void setPreTaskScreen(){
-        this.appController.setArea(getCreateNewTasksParent());
-        this.preTaskAdminController.getNew_task_name_TA().setText("");
         this.preTaskAdminController.setTables();
     }
 
