@@ -112,5 +112,4 @@ public class CompilationTaskOperator extends TaskOperator{
             System.out.println("Error in open folder!!!");
         }
     }
-
 }
