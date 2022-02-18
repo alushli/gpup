@@ -3,6 +3,7 @@ package components.dashboard;
 import components.adminEnums.AppFxmlPath;
 import components.appScreen.AppController;
 import components.generalComponents.graphsTable.GraphTableController;
+import components.generalComponents.tasksTable.TasksTableController;
 import components.generalComponents.usersTable.UserTableController;
 import components.menu.MenuController;
 import javafx.fxml.FXML;
@@ -18,14 +19,16 @@ public class DashboardController extends components.mainControllers.Controllers{
     private MenuController mainController;
     private UserTableController userTableController;
     private GraphTableController graphTableController;
+    private TasksTableController tasksTableController;
     private Parent userTableParent;
     private Parent graphTableParent;
+    private Parent tasksTableParent;
 
     @FXML
     private Label dashboardTitle;
 
     @FXML
-    private FlowPane tasksContainer;
+    private StackPane tasksContainer;
 
     @FXML
     private StackPane userTable;
@@ -70,6 +73,23 @@ public class DashboardController extends components.mainControllers.Controllers{
             this.graphTableController.getTable().prefHeightProperty().bind(this.graphsContainer.heightProperty().multiply(0.925));
             this.graphTableController.getTable().prefWidthProperty().bind(this.graphsContainer.widthProperty().multiply(0.8));
             this.graphTableController.startListRefresher();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void TaskTableScreen(){
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            URL url = getClass().getResource(AppFxmlPath.TASKS_TABLE.toString());
+            fxmlLoader.setLocation(url);
+            tasksTableParent= fxmlLoader.load(url.openStream());
+            this.tasksTableController = fxmlLoader.getController();
+            this.tasksTableController.setAppController(this.appController);
+            this.appController.setArea(this.tasksContainer ,tasksTableParent);
+            this.tasksTableController.getTable().prefHeightProperty().bind(this.userTable.heightProperty().multiply(0.925));
+            this.tasksTableController.startListRefresher();
+            this.tasksTableController.setCanSelect(false);
         }catch (Exception e){
             e.printStackTrace();
         }

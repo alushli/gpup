@@ -4,14 +4,10 @@
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -47,26 +43,6 @@
                      <children>
                         <Label id="sub_header_label" text="Select target for task" />
                         <Label maxHeight="200.0" prefHeight="185.0" prefWidth="378.0" styleClass="explanation_label_screen" text="You can select all the targets, some of them or select using the what-if technique: selection of a specific target + marking direction  (including transient). " wrapText="true" VBox.vgrow="SOMETIMES" />
-                     </children>
-                  </VBox>
-                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="20.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                     <GridPane.margin>
-                        <Insets top="15.0" />
-                     </GridPane.margin>
-                     <children>
-                        <Separator prefWidth="200.0">
-                           <VBox.margin>
-                              <Insets bottom="5.0" />
-                           </VBox.margin>
-                        </Separator>
-                        <HBox>
-                           <children>
-                              <CheckBox id="what_if_cb" fx:id="what_if_CB" mnemonicParsing="false" onAction="#clickWhatIf" styleClass="check_box_screen" />
-                              <Label id="what_if_label" maxWidth="1.7976931348623157E308" text="WHAT IF" />
-                           </children>
-                        </HBox>
-                        <ComboBox id="direction_cb" fx:id="direction_CB" maxWidth="1.7976931348623157E308" onAction="#clickDirection" />
-                        <Label styleClass="explanation_label_screen" text="Select a specific target from the table and the system will automatically select all the targets affected by him in the selected direction" wrapText="true" />
                      </children>
                   </VBox>
                </children>

@@ -122,6 +122,7 @@ public class MenuController extends components.mainControllers.Controllers {
             this.dashboardController.setMainController(this);
             this.dashboardController.setUsersTableScreen();
             this.dashboardController.setGraphTableScreen();
+            this.dashboardController.TaskTableScreen();
         } catch (IOException e) {
             e.printStackTrace();
         }

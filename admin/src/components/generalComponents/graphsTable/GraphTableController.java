@@ -50,12 +50,6 @@ public class GraphTableController extends components.mainControllers.Controllers
     @FXML
     private TableColumn<GraphFx, String> nameCol;
 
-    @FXML
-    private TableColumn<GraphFx, Integer> activeTasksCol;
-
-    @FXML
-    private TableColumn<GraphFx, Integer> totalTasksCol;
-
     @Override
     public void close() {
         table.getItems().clear();
@@ -69,8 +63,6 @@ public class GraphTableController extends components.mainControllers.Controllers
     @FXML
     public void initialize(){
         this.nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-        this.activeTasksCol.setCellValueFactory(new PropertyValueFactory<>("activeTasks"));
-        this.totalTasksCol.setCellValueFactory(new PropertyValueFactory<>("totalTasks"));
         this.selectCol.setCellValueFactory(new PropertyValueFactory<>("select"));
     }
 

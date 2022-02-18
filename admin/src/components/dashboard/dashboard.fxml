@@ -5,7 +5,6 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
@@ -40,15 +39,7 @@
                         <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="NEVER" />
                     </rowConstraints>
                      <children>
-                        <StackPane prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="3">
-                           <children>
-                              <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-                                 <content>
-                                    <FlowPane fx:id="tasksContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
-                                 </content>
-                              </ScrollPane>
-                           </children>
-                        </StackPane>
+                        <StackPane fx:id="tasksContainer" prefHeight="150.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="3" />
                         <StackPane fx:id="userTable" minHeight="148.0" minWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="NEVER" />
                         <StackPane fx:id="graphsContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="148.0" minWidth="200.0" GridPane.columnIndex="3" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="NEVER" />
                         <Label alignment="CENTER" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Users" GridPane.columnIndex="1">

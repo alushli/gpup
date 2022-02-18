@@ -4,15 +4,12 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.StackPane?>
 
-
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="components.generalComponents.graphsTable.GraphTableController">
    <children>
       <TableView fx:id="table" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
         <columns>
           <TableColumn fx:id="selectCol" prefWidth="75.0" />
           <TableColumn fx:id="nameCol" prefWidth="165.0" resizable="false" text="Name" />
-            <TableColumn fx:id="activeTasksCol" prefWidth="165.0" resizable="false" text="Active Tasks" />
-            <TableColumn fx:id="totalTasksCol" prefWidth="166.0" resizable="false" text="Total Tasks" />
         </columns>
       </TableView>
    </children>
