@@ -239,7 +239,10 @@ public class Graph {
 
     /* the function return if given target is runnable */
     public boolean isRunnable(Target target){
-        return map.get(target).size()==0;
+        if(map.containsKey(target)){
+            return map.get(target).size()==0;
+        }
+        return false;
     }
 
     /* the function remove connection from target1 to target 2 in graph */
