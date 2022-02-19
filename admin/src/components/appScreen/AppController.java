@@ -3,6 +3,7 @@ package components.appScreen;
 import com.google.gson.Gson;
 import components.adminEnums.AppFxmlPath;
 import components.generalComponents.graphsTable.GraphFx;
+import components.generalComponents.graphsTable.GraphTableController;
 import components.generalComponents.targetsTable.TargetFX;
 import components.menu.MenuController;
 import components.generalComponents.GeneralComponent;
@@ -49,7 +50,24 @@ public class AppController {
     private String selectedTask;
     private boolean isSelectTask = false;
     private String userName;
+    private GraphTableController graphTableController = null;
+    private Parent graphTableParent = null;
 
+    public Parent getGraphTableParent() {
+        return graphTableParent;
+    }
+
+    public void setGraphTableParent(Parent graphTableParent) {
+        this.graphTableParent = graphTableParent;
+    }
+
+    public void setGraphTableController(GraphTableController graphTableController) {
+        this.graphTableController = graphTableController;
+    }
+
+    public GraphTableController getGraphTableController() {
+        return graphTableController;
+    }
 
     public boolean isSelectTask() {
         return isSelectTask;

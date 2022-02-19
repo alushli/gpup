@@ -108,6 +108,7 @@ public class MenuController extends components.mainControllers.Controllers {
         if(dashboardController == null) {
             setDashboardFxml();
         }
+        this.dashboardController.setGraphTableScreen();
         appController.setArea(this.dashboardParent);
     }
 
@@ -121,7 +122,6 @@ public class MenuController extends components.mainControllers.Controllers {
             this.dashboardController.setAppController(this.appController);
             this.dashboardController.setMainController(this);
             this.dashboardController.setUsersTableScreen();
-            this.dashboardController.setGraphTableScreen();
             this.dashboardController.TaskTableScreen();
         } catch (IOException e) {
             e.printStackTrace();

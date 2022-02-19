@@ -117,22 +117,29 @@ public class PreTaskAdminController extends components.mainControllers.Controlle
     }
 
     public void setTables(){
-        setGraphTableScreen();
         seTaskTableScreen();
     }
 
     public void setGraphTableScreen(){
         try{
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            URL url = getClass().getResource(AppFxmlPath.DASHBOARD_GRAPH_TABLE.toString());
-            fxmlLoader.setLocation(url);
-            graphTableParent= fxmlLoader.load(url.openStream());
-            this.graphTableController = fxmlLoader.getController();
-            this.graphTableController.setAppController(this.appController);
-            this.appController.setArea(this.graph_table_SP ,graphTableParent);
+            if(appController.getGraphTableController() == null)
+            {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                URL url = getClass().getResource(AppFxmlPath.DASHBOARD_GRAPH_TABLE.toString());
+                fxmlLoader.setLocation(url);
+                graphTableParent= fxmlLoader.load(url.openStream());
+                appController.setGraphTableParent(this.graphTableParent);
+                this.graphTableController = fxmlLoader.getController();
+                appController.setGraphTableController(this.graphTableController);
+                this.graphTableController.startListRefresher();
+                this.graphTableController.setAppController(this.appController);
+            } else {
+                this.graphTableController = appController.getGraphTableController();
+                this.graphTableParent= appController.getGraphTableParent();
+            }
+            this.appController.setArea(this.graph_table_SP ,appController.getGraphTableParent());
             this.graphTableController.getTable().prefHeightProperty().bind(this.graph_table_SP.heightProperty().multiply(0.925));
             this.graphTableController.getTable().prefWidthProperty().bind(this.graph_table_SP.widthProperty().multiply(0.8));
-            this.graphTableController.startListRefresher();
             this.canNext.bind(this.isTextField.and(this.graphTableController.isSelectedProperty()));
         }catch (Exception e){
             e.printStackTrace();
