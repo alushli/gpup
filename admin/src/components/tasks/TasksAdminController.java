@@ -21,6 +21,7 @@ public class TasksAdminController extends components.mainControllers.Controllers
             setCreateNewTaskFxml();
             this.setPreTaskScreen();
         }
+        this.preTaskAdminController.setGraphTableScreen();
         this.appController.setArea(getCreateNewTasksParent());
         this.preTaskAdminController.getNew_task_name_TA().setText("");
     }
