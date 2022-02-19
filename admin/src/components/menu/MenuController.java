@@ -74,7 +74,7 @@ public class MenuController extends components.mainControllers.Controllers {
     public void clickTasks(ActionEvent event) {
         setSubMenu();
         this.subMenuComponentController.setTasksButtons();
-        if(actionsComponentController == null) {
+        if(tasksComponentController == null) {
             setTasksFxml();
         }
         //if(this.appController.getEngineManager().getSimulationTaskManager() == null && this.appController.getEngineManager().getCompilerTaskManager() == null)

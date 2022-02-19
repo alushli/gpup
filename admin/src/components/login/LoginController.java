@@ -78,8 +78,14 @@ public class LoginController {
             this.errorMessageLabel.getStyleClass().add("failed_message");
             if (response != null && response.code() == 401 )
                 this.errorMessageProperty.set("User already exists in the system");
-            else
-                this.errorMessageProperty.set("Something went wrong");
+            else{
+                if(response != null){
+                    this.errorMessageProperty.set("Something went wrong" + response.code());
+                }else{
+                    this.errorMessageProperty.set("Something went wrong" + " response null!");
+                }
+            }
+
         }
     }
 
